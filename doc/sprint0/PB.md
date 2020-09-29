@@ -80,7 +80,7 @@ User Story
 
 As a user, I want to be able to highlight some of my interests, so that people can get a better understanding of me
 
-Acceptance Critiera
+Acceptance Criteria
 
 When I am on a profile, I should be able to see a lists of interests, if any. If it is my own profile I should be able to
 edit this.
@@ -195,7 +195,32 @@ User Story
 
 As a user, I want to be able to see the average rating for a debate so that I can see how accurate the analysis or statement is.
 
-Acceptance Critiera
+Acceptance Criteria
 
 When looking at debates I should see a number next to it
 
+
+### Open Court
+
+EPIC
+
+As a user, I want to be able to share, create, and view posts from other social medias into the open court section of the application
+
+User Story:
+As a user, I want to be able to create posts so that I can share it to other users 
+
+Acceptance Criteria:
+Given that I'm in the open court, when I fill out a text field and click post then my message should be visible to other users
+
+User Story:
+As a user, I want to be able to access comment sections and read or post my own comment on open court posts so that I can let others know what I think about the post
+
+Acceptance Criteria:
+Given that I'm in the comment section of a post, when I fill out a comment and press post, then the comment section should be updated with my comment in it for all user to see
+
+
+User Story:
+As a user, I want to be able to agree or disagree with posts so that I can show what I think about a post in a quick way
+
+Acceptance Criteria:
+Given that I'm looking at a post, when I click agree, then the number of agreed users in the post should increment and decrement if I click agree
