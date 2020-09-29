@@ -104,7 +104,7 @@ When viewing other peoples profiles, I should be able to see their status.
 
 ## Trivia
 
-## EPIC
+### Epic
 
 As a user, I want to test my sports knowledge and compare it with my friends through trivia contests so that
 I can grow my ACS score and to learn
@@ -155,7 +155,7 @@ When on a profile, there should be a button to see their past and current picks 
 
 ## Analyze and Debate
 
-## Epic
+### Epic
 
 As a user, I want to be able to debate with others, to generate discussion and to improve my ACS score
 
@@ -193,7 +193,7 @@ When looking at debates I should see a number next to it
 
 ## Open Court
 
-## Epic
+### Epic
 
 As a user, I want to be able to share, create, and view posts from other social medias into the open court section of the application
 
