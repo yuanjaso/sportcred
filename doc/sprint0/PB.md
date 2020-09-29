@@ -4,8 +4,8 @@ Acceptance criteria
 
 Given [how things begin], When [action taken] Then [outcome of action]
 
+## LOGIN
 
-## LOGIN #### 
 User Story
 
 As a user I want to be able to register or login so that my ACS score can be saved and I can interact with others.
@@ -14,8 +14,7 @@ Acceptance Criteria
 
 Given a login page, When I enter in my username and password then I want to be placed to the dashboard where I can see my ACS score.
 
-
-### The Zone #### 
+### The Zone
 
 User Story
 
@@ -23,7 +22,7 @@ As a user, I want to have a dashboard so that I can access all other parts of Sp
 
 Acceptance Criteria
 
-On the dashboard, When I click any of the options I should be taken to a new interface for that option. 
+On the dashboard, When I click any of the options I should be taken to a new interface for that option.
 
 User Story
 
@@ -33,12 +32,11 @@ Acceptance Criteria
 
 When on any given interface, When I click the button to take me back to the dashboard.. it should take me back to the dashboard and not log me out
 
-
-### ACS #####
+### ACS
 
 User Story
 
-As a analyst or enthusiast, I want to have a score representing my knowledge/reliability to be tracked (call it ACS)  so that 
+As a analyst or enthusiast, I want to have a score representing my knowledge/reliability to be tracked (call it ACS) so that
 I can see how I am improving and to show others my credibility.
 
 User Story
@@ -57,15 +55,13 @@ Acceptance Critiera
 
 When I interact with any other user, if I click a button labeled "view profile" I should be taken to their profile where I can see their ACS score/history
 
-
-### Profile ####
+### Profile
 
 EPIC
 
 User Story
 
 As a user, I want to have a profile page so that others can view my interests and ACS score to get an idea of who I am.
-
 
 User Story
 
@@ -75,7 +71,6 @@ Acceptance Criteria
 
 When I am on my own profile, I should be able to click a button that lets me select a new profile picture.
 
-
 User Story
 
 As a user, I want to be able to highlight some of my interests, so that people can get a better understanding of me
@@ -84,7 +79,6 @@ Acceptance Criteria
 
 When I am on a profile, I should be able to see a lists of interests, if any. If it is my own profile I should be able to
 edit this.
-
 
 User Story
 
@@ -96,7 +90,6 @@ When on someone elses profile I should be able to add or remove them.
 
 When on my own profile I should be able to view all my friends.
 
-
 User Story
 
 As a user, I want to be able to post a status so that others can know whats on my mind
@@ -107,15 +100,14 @@ When on my own profile. There should be a text box for me to fill out and to sub
 
 When viewing other peoples profiles, I should be able to see their status.
 
-
-### Trivia ###
+### Trivia
 
 EPIC
 
 As a user, I want to test my sports knowledge and compare it with my friends through trivia contests so that
 I can grow my ACS score and to learn
 
-User Story 
+User Story
 
 As a user, I want to be able to participate in a session of trivia to improve my ACS score
 
@@ -129,7 +121,7 @@ When answering questons, there should be a time limit. If I do not answer in tim
 
 User Story
 
-As an average sports fan, I want to be able to invite friends into trivia battles, so we can see who knows more 
+As an average sports fan, I want to be able to invite friends into trivia battles, so we can see who knows more
 
 Acceptance Criteria
 
@@ -137,8 +129,7 @@ When on the trivia section, If I select a friend to invite, I should be placed i
 
 When answering questions, I should get a higher score if I answer questions faster
 
-
-### Picks and Predictions ###
+### Picks and Predictions
 
 User Story
 
@@ -160,8 +151,7 @@ Acceptance Critiera
 
 When on a profile, there should be a button to see their past and current picks and predictions.
 
-
-### Analyze and Debate ###
+### Analyze and Debate
 
 Epic
 
@@ -199,7 +189,6 @@ Acceptance Criteria
 
 When looking at debates I should see a number next to it
 
-
 ### Open Court
 
 EPIC
@@ -207,7 +196,7 @@ EPIC
 As a user, I want to be able to share, create, and view posts from other social medias into the open court section of the application
 
 User Story:
-As a user, I want to be able to create posts so that I can share it to other users 
+As a user, I want to be able to create posts so that I can share it to other users
 
 Acceptance Criteria:
 Given that I'm in the open court, when I fill out a text field and click post then my message should be visible to other users
@@ -217,7 +206,6 @@ As a user, I want to be able to access comment sections and read or post my own 
 
 Acceptance Criteria:
 Given that I'm in the comment section of a post, when I fill out a comment and press post, then the comment section should be updated with my comment in it for all user to see
-
 
 User Story:
 As a user, I want to be able to agree or disagree with posts so that I can show what I think about a post in a quick way
