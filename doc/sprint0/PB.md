@@ -18,6 +18,8 @@ As a user I want to be able to register or login so that my ACS score can be sav
 
 Given a login page, When I enter in my username and password then I want to be placed to the dashboard where I can see my ACS score.
 
+**Priority** Highest | **Estimate** 1
+
 ## The Zone
 
 ### User Story
@@ -28,6 +30,8 @@ As a user, I want to have a dashboard so that I can access all other parts of Sp
 
 On the dashboard, When I click any of the options I should be taken to a new interface for that option.
 
+**Priority** Highest | **Estimate** 2
+
 ### User Story
 
 As a user thats logged in, I want to access the dashboard from any interface so that I can easily access any different interface easily.
@@ -36,9 +40,11 @@ As a user thats logged in, I want to access the dashboard from any interface so 
 
 When on any given interface, When I click the button to take me back to the dashboard.. it should take me back to the dashboard and not log me out
 
+**Priority** Highest | **Estimate** 1
+
 ## ACS
 
-### User Story
+### Epic
 
 As a analyst or enthusiast, I want to have a score representing my knowledge/reliability to be tracked (call it ACS) so that
 I can see how I am improving and to show others my credibility.
@@ -51,6 +57,8 @@ As a analyst or an enthusiast, I would like to be able to view my own ACS histor
 
 When on my profile page, If I click on my ACS history I should see a record of every change of my ACS. It should say my new ACS on each line and it should say the delta and the reason for the change.
 
+**Priority** High | **Estimate** 5
+
 ### User Story
 
 As a user, I want to be able to view the profile of any other user so that I can check their ACS score/history and check their credibility
@@ -59,9 +67,11 @@ As a user, I want to be able to view the profile of any other user so that I can
 
 When I interact with any other user, if I click a button labeled "view profile" I should be taken to their profile where I can see their ACS score/history
 
+**Priority** High | **Estimate** 3
+
 ## Profile
 
-### User Story
+### Epic
 
 As a user, I want to have a profile page so that others can view my interests and ACS score to get an idea of who I am.
 
@@ -73,6 +83,8 @@ As a user, I want to be able to set a profile picture for myself, so that people
 
 When I am on my own profile, I should be able to click a button that lets me select a new profile picture.
 
+**Priority** High | **Estimate** 1
+
 ### User Story
 
 As a user, I want to be able to highlight some of my interests, so that people can get a better understanding of me
@@ -81,6 +93,8 @@ As a user, I want to be able to highlight some of my interests, so that people c
 
 When I am on a profile, I should be able to see a lists of interests, if any. If it is my own profile I should be able to
 edit this.
+
+**Priority** High | **Estimate** 1
 
 ### User Story
 
@@ -92,6 +106,8 @@ When on someone elses profile I should be able to add or remove them.
 
 When on my own profile I should be able to view all my friends.
 
+**Priority** High | **Estimate** 2
+
 ### User Story
 
 As a user, I want to be able to post a status so that others can know whats on my mind
@@ -101,6 +117,8 @@ As a user, I want to be able to post a status so that others can know whats on m
 When on my own profile. There should be a text box for me to fill out and to submit for others to see.
 
 When viewing other peoples profiles, I should be able to see their status.
+
+**Priority** High | **Estimate** 1
 
 ## Trivia
 
@@ -121,6 +139,8 @@ When answering questions, I want to select from 4-5 answers
 
 When answering questions, there should be a time limit. If I do not answer in time my ACS should drop
 
+**Priority** Low | **Estimate** 3
+
 ### User Story
 
 As an average sports fan, I want to be able to invite friends into trivia battles, so we can see who knows more
@@ -130,6 +150,8 @@ As an average sports fan, I want to be able to invite friends into trivia battle
 When on the trivia section, If I select a friend to invite, I should be placed into a trivia battle.
 
 When answering questions, I should get a higher score if I answer questions faster
+
+**Priority** Low | **Estimate** 5
 
 ## Picks and Predictions
 
@@ -145,6 +167,8 @@ When choosing what to pick, I want to be able to make predictions on match outco
 
 When an outcome is finalized, my ACS score should automatically raise if I am correct.
 
+**Priority** Lowest | **Estimate** 8
+
 ### User Story
 
 As a analyst, I want others to be able to see my picks and prediction history so that I can show off my credibility
@@ -152,6 +176,8 @@ As a analyst, I want others to be able to see my picks and prediction history so
 ### Acceptance Criteria
 
 When on a profile, there should be a button to see their past and current picks and predictions.
+
+**Priority** Lowest | **Estimate** 8
 
 ## Analyze and Debate
 
@@ -167,6 +193,8 @@ As an analyst I want to have debates with people who have a similar ACS score as
 
 There should be a room for different ratings, you should only be allowed to debate in that room if you have a high enough ACS score
 
+**Priority** Low | **Estimate** 8
+
 ### User Story
 
 As a average sports fan or a new sports fan, I want to be able to view other debates so that I can learn what the experts are saying
@@ -174,6 +202,8 @@ As a average sports fan or a new sports fan, I want to be able to view other deb
 ### Acceptance Criteria
 
 All debates should be public with only the participants being able to edit
+
+**Priority** Low | **Estimate** 3
 
 ### User Story
 
@@ -183,6 +213,8 @@ As a user, I want to be able to provide a rating for a debate representing how m
 
 When looking at a debate, I should see a slider to give a rating out of 10 how much I agree with the debate
 
+**Priority** Low | **Estimate** 3
+
 ### User Story
 
 As a user, I want to be able to see the average rating for a debate so that I can see how accurate the analysis or statement is.
@@ -190,6 +222,8 @@ As a user, I want to be able to see the average rating for a debate so that I ca
 ### Acceptance Criteria
 
 When looking at debates I should see a number next to it
+
+**Priority** Low | **Estimate** 3
 
 ## Open Court
 
@@ -203,14 +237,20 @@ As a user, I want to be able to create posts so that I can share it to other use
 ### Acceptance Criteria:
 Given that I'm in the open court, when I fill out a text field and click post then my message should be visible to other users
 
+**Priority** Low | **Estimate** 3
+
 ### User Story:
 As a user, I want to be able to access comment sections and read or post my own comment on open court posts so that I can let others know what I think about the post
 
 ### Acceptance Criteria:
 Given that I'm in the comment section of a post, when I fill out a comment and press post, then the comment section should be updated with my comment in it for all user to see
 
+**Priority** Low | **Estimate** 3
+
 ### User Story:
 As a user, I want to be able to agree or disagree with posts so that I can show what I think about a post in a quick way
 
 ### Acceptance Criteria:
 Given that I'm looking at a post, when I click agree, then the number of agreed users in the post should increment and decrement if I click agree
+
+**Priority** Low | **Estimate** 1
