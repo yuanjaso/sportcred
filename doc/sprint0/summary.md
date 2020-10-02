@@ -50,4 +50,7 @@ By December 7, 2020, our team will finish creating a website that allows users t
 - Users can check their ACS history
 
 ## Key Principles
-- Functionality over features
+- Working functionality over many features because we want to have stable functionality over many features that may not work so well.
+- Minimalistic design because we want to keep things as simple as possible without sacrificing user requirements.
+- User oriented because the app depends on user activity.
+
