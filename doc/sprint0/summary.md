@@ -32,7 +32,13 @@ By December 7, 2020, our team will finish creating a website that allows users t
 - Users can rate a comment or post based on a scale from agree to disagree
 - Debate outcome should affect ACS score
 ### Picks and Predictions
+- Users can pick players who they think will win certain awards
+- Users can pick the winners of a list of games
+- Accuracy of picks and predictions will directly impact the ACS score
 ### Checking ACS History
+- Users can check all the recorded changes in their ACS score
+- Users can see a trend of their ACS score
+- Users can check other people's ACS history for comparison
 
 ## Key Usage Scenarios
 - Provide a social media platform where people can post things and comment and interact with others but centered around sports
