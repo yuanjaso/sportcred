@@ -12,7 +12,16 @@ import { ZoneModule } from './zone/zone.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, LoginModule, ProfileModule, PicksModule, TriviaModule, ZoneModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    LoginModule,
+    ProfileModule,
+    PicksModule,
+    TriviaModule,
+    ZoneModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
