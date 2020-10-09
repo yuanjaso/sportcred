@@ -1,1 +1,35 @@
-<p>login works!</p>
+<div class="title-box">
+  <div class="mid">
+    <div class="title">Sportscred</div>
+    <div class="slogan">Whats your ACS?</div>
+  </div>
+</div>
+<div class="login-box">
+  <form class="sub-box" [formGroup]="form" (ngSubmit)="signin()">
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        placeholder="Username"
+        formControlName="username"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        type="password"
+        matInput
+        placeholder="Password"
+        formControlName="password"
+      />
+    </mat-form-field>
+
+    <!-- <p *ngIf="error" class="error">
+        {{ error }}
+      </p> -->
+
+    <div class="button">
+      <button type="submit" mat-stroked-button>Login</button>
+    </div>
+  </form>
+</div>

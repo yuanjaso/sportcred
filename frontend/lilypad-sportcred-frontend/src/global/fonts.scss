@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css?family=Nanum+Myeongjo|Roboto:300&display=swap");
+@import url("https://fonts.googleapis.com/css?family=GFS+Didot&display=swap");
+
+@import url("https://fonts.googleapis.com/css?family=Lato:100,300,400&display=swap");
+@import "./colors.scss";
+$colour: black;
+$negative-colour: white;
+
+html {
+  font-size: 16px;
+} //base rem
+
+.black-font {
+  color: $negative-colour;
+}
+.white-font {
+  color: $negative-colour;
+}
+.font {
+  &-primary {
+    font-weight: 100;
+
+    //font-family: 'GFS Didot', serif;
+    @extend .font;
+    font-size: 4rem;
+  }
+  &-secondary {
+    @extend .font;
+
+    font-size: 2.5rem;
+    &-bold {
+      @extend .font-secondary;
+      font-weight: 400;
+    }
+  }
+  &-tertiary {
+    @extend .font;
+
+    font-size: 1.25rem;
+    &-bold {
+      @extend .font-tertiary;
+      font-weight: 400;
+    }
+  }
+  &-links {
+    //font-family: 'GFS Didot', serif;
+    @extend .font;
+    font-size: 1.5rem;
+  }
+  &-footer {
+    //font-family: 'GFS Didot', serif;
+    font-style: italic;
+    @extend .font;
+    font-size: 1rem;
+  }
+}

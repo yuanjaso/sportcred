@@ -1,0 +1,45 @@
+@import "../../global/fonts.scss";
+:host {
+  display: flex;
+  height: 100vh;
+}
+.title-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 2;
+  //background-color: $black;
+  background: linear-gradient(90deg, $black 17%, $darkgrey 56%, $grey 100%);
+
+  .mid {
+    width: 23rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 5rem;
+    .title {
+      @extend .font-primary;
+      @extend .white-font;
+      align-self: baseline;
+    }
+    .slogan {
+      @extend .white-font;
+      @extend .font-tertiary;
+    }
+  }
+}
+.login-box {
+  display: flex;
+  flex-grow: 1;
+  background-color: white;
+  padding: 3rem;
+  justify-content: center;
+  align-items: center;
+  .sub-box {
+    //border: 3px solid $darkgreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
