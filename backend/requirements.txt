@@ -1,0 +1,7 @@
+Django
+django-classbasedsettings
+django-simple-captcha
+djangorestframework
+channels
+django-filter
+djangorestframework-filters
