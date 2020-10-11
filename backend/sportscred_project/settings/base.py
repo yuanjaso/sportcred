@@ -95,7 +95,7 @@ class BaseSettings(DjangoDefaults):
         "django.contrib.messages",
         "django.contrib.staticfiles",
         "rest_framework",
-        # "channels",
+        "channels",
         "rest_framework.authtoken",
         "django.contrib.sites",
         "django_filters",
