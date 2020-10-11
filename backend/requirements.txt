@@ -1,7 +1,5 @@
-Django
-django-classbasedsettings
-django-simple-captcha
-djangorestframework
-channels
-django-filter
-djangorestframework-filters
+Django == 2.2.16
+django-classbasedsettings == 1.5.0
+djangorestframework == 3.9.0
+channels == 2.1.7
+django-filter == 2.1.0
