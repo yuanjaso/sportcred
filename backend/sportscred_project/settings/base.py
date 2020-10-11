@@ -112,7 +112,6 @@ class BaseSettings(DjangoDefaults):
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
-        "corsheaders.middleware.CorsPostCsrfMiddleware",
     )
 
     ROOT_URLCONF = PROJECT_NAME + ".urls"
