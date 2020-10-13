@@ -7,33 +7,33 @@ from django.contrib.auth.models import User
 
 
 class SportsCredUser(User):
-    status = models.CharField(max_length=30, blank=False)
+    status = models.CharField(max_length=100, blank=False)
     isActivated = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
     creation_time = models.DateTimeField(auto_now_add=True)
-    profilePicture = models.ImageField(max_lengt=30)
-    posts = models.ManyToManyField(Post, through="Posts")
+    profilePicture = models.ImageField(
+        max_length=30
+    )  # Add upload argument (Make a folder named after each user)
     agrees = models.ManyToManyField(DebatePost, through="Agrees")
     likes = models.ManyToManyField(SocialPost, through="Likes")
-    submit = models.ManyToManyField(QuestionnaireResponse, through="Submit")
     highlights = models.ManyToManyField(Sports, through="Highlights")
     follows = models.ManyToManyField(SportsCredUser, through="Follows")
-    acsScore = models.OneToManyField()
 
     class Meta:
         indexes = [models.Index(fields=["username"])]
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=30, blank=True)
-    subtitle = models.CharField(max_length=30, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True)
+    subtitle = models.CharField(max_length=100, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class Follows(models.Model):
+class ACS(models.Model):
     pass
 
 
-class Posts(Post):
+class Follows(models.Model):
     pass
 
 
@@ -41,7 +41,7 @@ class DebatePost(Post):
     pass
 
 
-class Agrees(Post):
+class Agrees(models.Model):
     pass
 
 
@@ -49,15 +49,11 @@ class SocialPost(Post):
     pass
 
 
-class Likes(Post):
+class Likes(models.Model):
     pass
 
 
 class QuestionnaireResponse(models.Model):
-    pass
-
-
-class Submit(models.Model):
     pass
 
 
@@ -67,3 +63,5 @@ class Sports(models.Model):
 
 class Highlights(models.Model):
     pass
+
+class 
