@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { all_routes } from '../../global/routing-statics';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { authState } from '../auth/store/reducers';
+import { getLoginToken } from '../auth/store/actions';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
