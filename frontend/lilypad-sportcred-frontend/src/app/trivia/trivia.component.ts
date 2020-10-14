@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getTriviaQuestions } from './store/actions';
-import { TriviaState } from './store/reducer';
+import { AppState } from '../store/reducer';
+import { getTriviaQuestions, setTriviaQuestions } from './store/actions';
 
 @Component({
   selector: 'app-trivia',
@@ -9,16 +9,16 @@ import { TriviaState } from './store/reducer';
   styles: [``],
 })
 export class TriviaComponent implements OnInit {
-  constructor(private store: Store) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(getTriviaQuestions());
-    // this.store.dispatch(
-    //   setTriviaQuestions({
-    //     triviaQuestions: [
-    //       { answers: ['', 234, null], question: 'asdf', correctAnswer: 'asdf' },
-    //     ],
-    //   })
-    // );
+    this.store.dispatch(
+      setTriviaQuestions({
+        triviaQuestions: [
+          { answers: ['', 234, null], question: 'asdf', correctAnswer: 'asdf' },
+        ],
+      })
+    );
   }
 }
