@@ -23,6 +23,7 @@
     "@angular/router": "~10.1.0",
     "@ngrx/effects": "^10.0.1",
     "@ngrx/store": "^10.0.1",
+    "@ngrx/store-devtools": "^10.0.1",
     "redux": "^4.0.5",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",
