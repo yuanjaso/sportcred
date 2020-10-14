@@ -17,20 +17,20 @@ import { ZoneModule } from './zone/zone.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([]),
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     LoginModule,
     ProfileModule,
     PicksModule,
     TriviaModule,
     ZoneModule,
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
