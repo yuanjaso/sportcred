@@ -10,10 +10,10 @@ import { TriviaComponent } from './trivia.component';
 @NgModule({
   declarations: [TriviaComponent],
   imports: [
-    CommonModule,
-    TriviaRoutingModule,
     StoreModule.forFeature(triviaFeatureKey, triviaReducer),
     EffectsModule.forFeature([TriviaEffects]),
+    CommonModule,
+    TriviaRoutingModule,
   ],
 })
 export class TriviaModule {}
