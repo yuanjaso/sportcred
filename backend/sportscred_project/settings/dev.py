@@ -14,6 +14,6 @@ class DevSettings(BaseSettings):
         return {
             "default": {
                 "ENGINE": "django.db.backends.sqlite3",
-                "NAME": "/tmp/django",
+                "NAME": "tmp/django.sqlite",
             }
         }
