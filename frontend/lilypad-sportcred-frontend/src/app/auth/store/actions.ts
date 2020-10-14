@@ -1,10 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { authInfo } from '../models';
+
 export const getLoginToken = createAction(
-  '[Auth] getLoginToken',
-  props<{ authInfo }>()
+  '[Auth] Get Login Token',
+  props<authInfo>()
 );
 export const setLoginToken = createAction(
-  '[Auth] setLoginToken',
-  props<{ token: String }>()
+  '[Auth] Set Login Token',
+  props<{ token: string }>()
 );

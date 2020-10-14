@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-import * as actions from './actions';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import * as actions from './actions';
+
 @Injectable()
-export class MovieEffects {
+export class AuthEffects {
   loadMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.getLoginToken.type),
