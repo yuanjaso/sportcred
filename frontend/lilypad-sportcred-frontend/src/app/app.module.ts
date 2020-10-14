@@ -17,11 +17,11 @@ import { ZoneModule } from './zone/zone.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([]),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([]),
     LoginModule,
     ProfileModule,
     PicksModule,

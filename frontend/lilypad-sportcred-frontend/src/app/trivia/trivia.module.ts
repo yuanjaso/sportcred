@@ -5,9 +5,10 @@ import { StoreModule } from '@ngrx/store';
 import { TriviaEffects } from './store/effects';
 import { triviaFeatureKey, triviaReducer } from './store/reducer';
 import { TriviaRoutingModule } from './trivia-routing.module';
+import { TriviaComponent } from './trivia.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [TriviaComponent],
   imports: [
     CommonModule,
     TriviaRoutingModule,
