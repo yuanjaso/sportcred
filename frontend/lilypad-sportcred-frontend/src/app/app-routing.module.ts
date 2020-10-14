@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { all_routes } from '../global/routing-statics';
 import { AuthGuardService } from './auth/auth-guard.service';
 const routes: Routes = [
@@ -19,6 +19,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./zone/zone-routing.module').then((m) => m.ZoneRoutingModule),
     canActivate: [AuthGuardService],
+  },
+  {
+    path: all_routes.trivia.url,
+    loadChildren: () =>
+      import('./trivia/trivia-routing.module').then(
+        (m) => m.TriviaRoutingModule
+      ),
+    // canActivate: [AuthGuardService],
   },
   { path: '**', redirectTo: all_routes.zone.url },
 ];

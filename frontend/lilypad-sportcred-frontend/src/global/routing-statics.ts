@@ -14,9 +14,14 @@ const zone: pageConfig = {
   url: 'zone',
   title: 'Sportscred - Zone',
 };
+const trivia: pageConfig = {
+  url: 'trivia',
+  title: 'Sportscred - Trivia',
+};
 
 export const all_routes = {
   login,
   register,
   zone,
+  trivia
 };
