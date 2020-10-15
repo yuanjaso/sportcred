@@ -8,9 +8,10 @@ import { AuthEffects } from '../auth/store/effects';
 import { authFeatureKey, authReducer } from '../auth/store/reducers';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
+import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, RegisterDialogComponent],
   imports: [
     // TODO have a global http client wrapper
     HttpClientModule,

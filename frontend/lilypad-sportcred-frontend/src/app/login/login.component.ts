@@ -3,9 +3,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { all_routes } from '../../global/routing-statics';
-import { getLoginToken, setLoginToken } from '../auth/store/actions';
+import { getLoginToken } from '../auth/store/actions';
 import { AppState } from '../store/reducer';
-
+import { MatDialog } from '@angular/material/dialog';
+import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,20 +14,28 @@ import { AppState } from '../store/reducer';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup = new FormGroup({
-    username: new FormControl(''),
+    email: new FormControl(''),
     password: new FormControl(''),
   });
-  constructor(private titleService: Title, private store: Store<AppState>) {
+  ngOnInit(): void {}
+  constructor(
+    private titleService: Title,
+    private store: Store<AppState>,
+    public dialog: MatDialog
+  ) {
     this.titleService.setTitle(all_routes.login.title);
   }
   signin() {
     if (!this.form.valid) return;
-    let username = this.form.controls.username.value;
+    let email = this.form.controls.email.value;
     let password = this.form.controls.password.value;
-    console.log(username, password);
+    this.store.dispatch(getLoginToken({ email, password }));
   }
-  ngOnInit(): void {
-    this.store.dispatch(getLoginToken({ password: 'blah', username: 'blah' }));
-    this.store.dispatch(setLoginToken({ token: 'it works!' }));
+  register() {
+    const dialogRef = this.dialog.open(RegisterDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 }

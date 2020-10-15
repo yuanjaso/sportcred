@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const modules = [
   MatCardModule,
@@ -13,6 +14,7 @@ const modules = [
   ReactiveFormsModule,
   MatInputModule,
   MatButtonModule,
+  MatDialogModule,
 ];
 @NgModule({
   declarations: [],

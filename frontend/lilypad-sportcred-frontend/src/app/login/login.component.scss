@@ -5,26 +5,30 @@
 }
 .title-box {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  flex-grow: 2;
-  //background-color: $black;
-  background: linear-gradient(90deg, $black 17%, $darkgrey 56%, $grey 100%);
-
+  flex-grow: 5;
+  background: linear-gradient(30deg, $black 10%, $black 50%);
+  img,
+  .offsetter {
+    width: 10rem;
+    align-self: flex-start;
+    padding: 1rem;
+  }
   .mid {
-    width: 23rem;
+    @extend .font-secondary;
+    @extend .white-font;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
     flex-direction: column;
-    height: 5rem;
-    .title {
-      @extend .font-primary;
-      @extend .white-font;
-      align-self: baseline;
-    }
+    max-width: calc(100% - 2rem);
+    width: 20rem;
     .slogan {
-      @extend .white-font;
+      @extend .font-primary;
+      height: fit-content;
+      padding-bottom: 1rem;
+    }
+    .paragraph {
       @extend .font-tertiary;
     }
   }
@@ -36,10 +40,45 @@
   padding: 3rem;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+
   .sub-box {
+    .desc {
+      @extend .font-secondary;
+      padding-bottom: 1.5rem;
+      width: 100%;
+      .createaccount {
+        @extend .font-tertiary;
+        padding-top: 0.5rem;
+        align-self: flex-start;
+        display: flex;
+        .link {
+          @extend .font-links;
+        }
+      }
+    }
     //border: 3px solid $darkgreen;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .button {
+    width: 100%;
+    & button {
+      width: 100%;
+      background-color: $grey;
+    }
+  }
+}
+@media only screen and (max-width: 600px) {
+  :host {
+    flex-direction: column;
+  }
+  .title-box {
+    flex-grow: 0;
+    .mid,
+    .offsetter {
+      display: none;
+    }
   }
 }

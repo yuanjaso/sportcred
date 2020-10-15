@@ -1,15 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Nanum+Myeongjo|Roboto:300&display=swap");
-@import url("https://fonts.googleapis.com/css?family=GFS+Didot&display=swap");
-
-@import url("https://fonts.googleapis.com/css?family=Lato:100,300,400&display=swap");
 @import "./colors.scss";
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+
 $colour: black;
 $negative-colour: white;
 
 html {
   font-size: 16px;
 } //base rem
-
+* {
+  font-family: "Staatliches", cursive;
+}
 .black-font {
   color: $negative-colour;
 }
@@ -20,14 +20,14 @@ html {
   &-primary {
     font-weight: 100;
 
-    //font-family: 'GFS Didot', serif;
     @extend .font;
     font-size: 4rem;
+    line-height: 4rem;
   }
   &-secondary {
     @extend .font;
-
-    font-size: 2.5rem;
+    font-size: 2rem;
+    line-height: 2rem;
     &-bold {
       @extend .font-secondary;
       font-weight: 400;
@@ -35,22 +35,24 @@ html {
   }
   &-tertiary {
     @extend .font;
+    font-size: 1rem;
+    line-height: 1rem;
 
-    font-size: 1.25rem;
     &-bold {
       @extend .font-tertiary;
       font-weight: 400;
     }
   }
   &-links {
-    //font-family: 'GFS Didot', serif;
     @extend .font;
-    font-size: 1.5rem;
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
   }
   &-footer {
-    //font-family: 'GFS Didot', serif;
     font-style: italic;
     @extend .font;
     font-size: 1rem;
+    line-height: 1rem;
   }
 }

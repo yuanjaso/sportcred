@@ -26,7 +26,7 @@ const routes: Routes = [
       import('./trivia/trivia-routing.module').then(
         (m) => m.TriviaRoutingModule
       ),
-    // canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   { path: '**', redirectTo: all_routes.zone.url },
 ];
