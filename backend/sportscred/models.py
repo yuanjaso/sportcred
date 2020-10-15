@@ -47,27 +47,13 @@ class Agrees(models.Model):
 class DebatePost(Post):
     @property
     def agreementAverage(self):
-        agreement = Agrees.objects.filter(post=self).values_list("agreement")
-        if agreement:
-            sum = 0
-            for item in agreement:
-                sum += item[1]
-            return sum / len(agreement)
-        else:
-            return 0
+        return Agrees.objects.filter(post=self).aggregate(Models.Avg("agreement"))
 
 
 class SocialPost(Post):
     @property
     def sum_likes(self):
-        likes = Likes.objects.filter(post=self).values_list("liked_or_dislike")
-        if likes:
-            sum = 0
-            for item in likes:
-                sum += item[1]
-            return sum
-        else:
-            return 0
+        return Likes.objects.filter(post=self).aggregate(Models.Sum("liked_or_dislike"))
 
 
 class Likes(models.Model):
