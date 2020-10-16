@@ -84,7 +84,6 @@ class Question(models.Model):
         "Answer", on_delete=models.CASCADE, related_name="correct_answer"
     )
     related_to_sports = models.ManyToManyField("Sports", through="QuestionRelatingTo")
-    answers = models.ForeignKey("Answer", on_delete=models.CASCADE)
 
 
 # For trivia
