@@ -4,8 +4,9 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../global/material/material.module';
-import { AuthEffects } from '../auth/store/effects';
-import { authFeatureKey, authReducer } from '../auth/store/reducers';
+import { LoginEffects } from './store/effects';
+import { loginFeatureKey, loginReducer } from './store/reducers';
+
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
@@ -13,10 +14,9 @@ import { RegisterDialogComponent } from './register-dialog/register-dialog.compo
 @NgModule({
   declarations: [LoginComponent, RegisterDialogComponent],
   imports: [
-    // TODO have a global http client wrapper
     HttpClientModule,
-    StoreModule.forFeature(authFeatureKey, authReducer),
-    EffectsModule.forFeature([AuthEffects]),
+    StoreModule.forFeature(loginFeatureKey, loginReducer),
+    EffectsModule.forFeature([LoginEffects]),
     CommonModule,
     LoginRoutingModule,
     MaterialModule,

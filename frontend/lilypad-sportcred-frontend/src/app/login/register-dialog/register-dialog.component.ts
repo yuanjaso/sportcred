@@ -6,7 +6,7 @@ import {
   Validators,
   ValidatorFn,
 } from '@angular/forms';
-import { tryRegister } from '../../auth/store/actions';
+import { tryRegister, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
 import { Subscription } from 'rxjs';
@@ -49,7 +49,7 @@ export class RegisterDialogComponent implements OnInit, OnDestroy {
   register() {
     // if inputs not valid based on validators
     console.log(this.form);
-    if (this.form.status === 'INVALID') return;
+    //if (this.form.status === 'INVALID') return;
 
     let username = this.form.controls.username.value;
     let email = this.form.controls.email.value;

@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginModule } from './login/login.module';
+import { AuthModule } from './auth/auth.modules';
 import { PicksModule } from './picks/picks.module';
 import { ProfileModule } from './profile/profile.module';
 import { appReducers } from './store/reducer';
@@ -28,6 +29,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
       logOnly: environment.production,
     }),
     LoginModule,
+    AuthModule,
     ProfileModule,
     PicksModule,
     TriviaModule,
