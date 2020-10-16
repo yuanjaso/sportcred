@@ -1,11 +1,11 @@
-import { API } from './restapi';
+import { API } from "./restapi";
 
 const apiRequirements: API[] = [
   {
-    description: '',
+    description: "",
     request: {
-      requestURL: '/api/.../',
-      requestMethod: 'GET',
+      requestURL: "/api/v1/.../",
+      requestMethod: "GET",
       body: {},
       queryParams: {},
     },
