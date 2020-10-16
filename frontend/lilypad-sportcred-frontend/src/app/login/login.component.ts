@@ -7,6 +7,7 @@ import { getLoginToken } from '../auth/store/actions';
 import { AppState } from '../store/reducer';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

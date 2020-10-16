@@ -13,6 +13,6 @@ export class AuthService {
   }
   tryRegister(info: registrationInfo) {
     console.log(info);
-    return this.http.get('/register');
+    return this.http.post('/register', {});
   }
 }
