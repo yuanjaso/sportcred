@@ -13,7 +13,8 @@ import { ProfileModule } from './profile/profile.module';
 import { appReducers } from './store/reducer';
 import { TriviaModule } from './trivia/trivia.module';
 import { ZoneModule } from './zone/zone.module';
-
+import { TokenInterceptor } from '../app/http/interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -32,7 +33,9 @@ import { ZoneModule } from './zone/zone.module';
     TriviaModule,
     ZoneModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

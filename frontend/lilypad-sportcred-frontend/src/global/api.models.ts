@@ -1,1 +1,3 @@
-export const testAPi = 'https://localhost:8080/test';
+import { environment } from '../environments/environment';
+
+export const testAPi = environment.backendUrl + 'test';
