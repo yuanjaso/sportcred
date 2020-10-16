@@ -22,7 +22,7 @@ class SportsCredUser(models.Model):
     agree = models.ManyToManyField("DebatePost", through="Agrees")
 
     like = models.ManyToManyField("SocialPost", through="Likes")
-    highlights = models.ManyToManyField("Sports")
+    highlights = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("SportsCredUser")
 
 
@@ -49,6 +49,8 @@ class Agrees(models.Model):
 
 
 class DebatePost(Post):
+    related_to_debate_posts = models.ManyToManyField("Sport")
+
     @property
     def agreementAverage(self):
         return Agrees.objects.filter(post=self).aggregate(Models.Avg("agreement"))
@@ -74,7 +76,7 @@ class Likes(models.Model):
 class ACS(models.Model):
     score = models.FloatField(max_length=10)
     user = models.ForeignKey("SportsCredUser", on_delete=models.CASCADE)
-    sports = models.ForeignKey("Sports", on_delete=models.CASCADE)
+    sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
 
 # For trivia
@@ -83,14 +85,13 @@ class Question(models.Model):
     correct_answer = models.ForeignKey(
         "Answer", on_delete=models.CASCADE, related_name="correct_answer"
     )
-    related_to_sports = models.ManyToManyField("Sports", through="QuestionRelatingTo")
+    related_to_sports = models.ManyToManyField("Sport")
 
 
 # For trivia
 class QuestionRelatingTo(models.Model):
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
-    sports = models.ForeignKey("Sports", on_delete=models.CASCADE)
-    debate_post = models.ForeignKey("DebatePost", on_delete=models.CASCADE)
+    sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
 
 # For trivia
@@ -100,11 +101,8 @@ class Answer(models.Model):
     # TODO: Think we should store the trivia responses in the database can be done in later sprint
 
 
-class Sports(models.Model):
+class Sport(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
-    related_to_debate_posts = models.ManyToManyField(
-        "DebatePost", through="QuestionRelatingTo"
-    )
 
 
 class QuestionaireQuestion(models.Model):
@@ -141,12 +139,7 @@ class Prediction(models.Model):
     # TODO: Change this enumerator and CharField
     deadline = models.DateTimeField(auto_now_add=False, blank=True)
     depends_on = models.ManyToManyField("Prediction")
-    relates_to = models.ManyToManyField("Sports")
-
-
-class RelatingTo(models.Model):
-    predictions = models.ForeignKey("Prediction", on_delete=models.CASCADE)
-    sports = models.ForeignKey("Sports", on_delete=models.CASCADE)
+    relates_to = models.ManyToManyField("Sport")
 
 
 class Player(models.Model):
@@ -163,4 +156,4 @@ class PlaysOn(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100, blank=False)
-    plays_sports = models.ForeignKey("Sports", on_delete=models.CASCADE)
+    plays_sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
