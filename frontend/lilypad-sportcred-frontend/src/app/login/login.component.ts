@@ -33,9 +33,8 @@ export class LoginComponent implements OnInit {
   }
   register() {
     const dialogRef = this.dialog.open(RegisterDialogComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log('The dialog was closed');
+    // });
   }
 }
