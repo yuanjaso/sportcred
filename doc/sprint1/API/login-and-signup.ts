@@ -20,14 +20,14 @@ const apiRequirements: API[] = [
   {
     description: "trying to register basic info",
     request: {
-      requestURL: "/api/v1/register_basic/",
+      requestURL: "/api/v1/register/",
       requestMethod: "POST",
       body: {
         username: "mans",
         email: "sadf@gmail.com",
         password: "69420",
       },
-      queryParams: {},
+      queryParams: { type: "basic" },
     },
     response: {
       statusCode: 200,
@@ -37,7 +37,7 @@ const apiRequirements: API[] = [
   {
     description: "trying to submit initial questionaire",
     request: {
-      requestURL: "/api/v1/register_questionaire/",
+      requestURL: "/api/v1/register/",
       requestMethod: "POST",
       body: {
         questionaire: [
@@ -45,7 +45,7 @@ const apiRequirements: API[] = [
           { id: 122, answer: 1 },
         ],
       },
-      queryParams: {},
+      queryParams: { type: "questionaire" },
     },
     response: {
       statusCode: 200,
@@ -55,7 +55,7 @@ const apiRequirements: API[] = [
   {
     description: "getting some questions",
     request: {
-      requestURL: "/api/v1/get_questionaires/",
+      requestURL: "/api/v1/questionaire/",
       requestMethod: "GET",
       body: {},
       queryParams: {},
