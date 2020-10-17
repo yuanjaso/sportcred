@@ -18,23 +18,31 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: "trying to register",
+    description: "trying to register basic info",
     request: {
-      requestURL: "/api/v1/register/",
+      requestURL: "/api/v1/register_basic/",
       requestMethod: "POST",
       body: {
         username: "mans",
         email: "sadf@gmail.com",
         password: "69420",
-        questionaires: [
-          {
-            id: 23,
-            answer: "this is answer",
-          },
-          {
-            id: 223,
-            answer: "this is answer 2",
-          },
+      },
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      response: { success: true },
+    },
+  },
+  {
+    description: "trying to submit initial questionaire",
+    request: {
+      requestURL: "/api/v1/register_questionaire/",
+      requestMethod: "POST",
+      body: {
+        questionaire: [
+          { id: 12, answer: "asdf" },
+          { id: 122, answer: 1 },
         ],
       },
       queryParams: {},
