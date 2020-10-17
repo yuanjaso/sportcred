@@ -22,7 +22,7 @@ export class RegisterDialogComponent implements OnInit {
 
   //questions we get from the backend
   questionaire: question[] = undefined;
-  questionairLength: number = 0;
+  questionairLength: number = -1;
 
   //the user's response to the questions and general info
   questionaireResponse: answer[] = [];
@@ -34,31 +34,34 @@ export class RegisterDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(getQuestionaire());
-    //todo loading icons
     this.store
       .select(selectQuestionaire)
       //.pipe(first((inp) => inp !== undefined))
       .subscribe((questionaire) => {
         //get questionaire from store
-        this.questionaire = questionaire;
-        //mock
-        this.questionaire = [
-          {
-            id: 12,
-            question_content: 'How much do you like Hats?',
-            is_qualitative: false,
-            min_int: 1,
-            max_int: 10,
-          },
-          {
-            id: 122,
-            question_content: 'What is your opinion on ... ... ...',
-            is_qualitative: true,
-            min_int: 1,
-            max_int: 3,
-          },
-        ];
-        this.questionairLength = this.questionaire.length;
+
+        //todo remove artificial timeout
+        setTimeout(() => {
+          this.questionaire = questionaire;
+          //mock
+          this.questionaire = [
+            {
+              id: 12,
+              question_content: 'How much do you like Hats?',
+              is_qualitative: false,
+              min_int: 1,
+              max_int: 10,
+            },
+            {
+              id: 122,
+              question_content: 'What is your opinion on ... ... ...',
+              is_qualitative: true,
+              min_int: 1,
+              max_int: 3,
+            },
+          ];
+          this.questionairLength = this.questionaire.length;
+        }, 20000);
       });
   }
 
@@ -86,7 +89,7 @@ export class RegisterDialogComponent implements OnInit {
   }
   proceedSlide() {
     if (!this.swiper || !this.swiper.directiveRef) return;
-    if (this.swiper.index >= this.questionairLength) {
+    if (this.swiper.index == this.questionairLength) {
       //if we are at last slide, try to register
       //NOTE this conditional takes into account the 1 more slide hack
       this.register();

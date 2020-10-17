@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const modules = [
   MatCardModule,
@@ -17,6 +18,7 @@ const modules = [
   MatButtonModule,
   MatDialogModule,
   MatSliderModule,
+  MatProgressSpinnerModule,
 ];
 @NgModule({
   declarations: [],

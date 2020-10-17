@@ -7,13 +7,20 @@
         ></app-first-page-registration>
       </div>
     </div>
-    <div *ngFor="let question of questionaire; let i = index">
-      <div class="seperator">
-        <app-questionaire-pages
-          [question]="question"
-          [outOf]="getOutOf(i)"
-          (answer)="getAnswer($event)"
-        ></app-questionaire-pages>
+    <ng-container *ngIf="questionaire !== undefined">
+      <div *ngFor="let question of questionaire; let i = index">
+        <div class="seperator">
+          <app-questionaire-pages
+            [question]="question"
+            [outOf]="getOutOf(i)"
+            (answer)="getAnswer($event)"
+          ></app-questionaire-pages>
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="questionaire === undefined">
+      <div class="spinner">
+        <mat-spinner></mat-spinner>
       </div>
     </div>
     <div>

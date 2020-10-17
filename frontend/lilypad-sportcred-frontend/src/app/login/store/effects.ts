@@ -22,9 +22,9 @@ export class LoginEffects {
               type: '',
             };
           }),
-          //todo catch this error
           catchError(() => {
-            this.loginService.$registrationStatus.next(false);
+            //inform the dialog that email is already taken
+            this.loginService.$registrationStatus.next(true);
             return EMPTY;
           })
         );
@@ -40,7 +40,6 @@ export class LoginEffects {
           map(() => ({
             type: '',
           })),
-          //todo catch this error
           catchError(() => EMPTY)
         );
       })

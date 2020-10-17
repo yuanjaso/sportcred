@@ -35,7 +35,6 @@ export class FirstPageRegistrationComponent implements OnInit {
     ]),
     cpassword: new FormControl('', [this.retypeConfirm()]),
   });
-  //todo check if email already exists
 
   //passwordChange emits when password is edited, we need this
   // to update confirm password validity cocurrently
@@ -54,7 +53,6 @@ export class FirstPageRegistrationComponent implements OnInit {
     );
     this.subscription.add(
       this.loginService.$registrationStatus.subscribe((status) => {
-        console.log(status);
         //status is true if account is successfully added
         if (status) {
           this.success.emit(true);
