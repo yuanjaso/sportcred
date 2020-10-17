@@ -16,11 +16,8 @@ export interface generalRegistrationInfo {
   email: string;
   password: string;
 }
-export interface fullRegistrationInfo {
-  username: string;
-  email: string;
-  password: string;
-  questionaires: answer[];
+export interface questionaireRegistrationInfo {
+  answers: answer[];
 }
 export interface loginInfo {
   email: string;

@@ -24,6 +24,9 @@
         placeholder="lebronlover@gmail.com"
         formControlName="email"
       />
+      <mat-error *ngIf="form.controls.email.hasError('taken')">
+        Email is <strong>taken</strong>
+      </mat-error>
       <mat-error *ngIf="form.controls.email.hasError('email')">
         Email is <strong>Invalid</strong>
       </mat-error>
@@ -66,6 +69,12 @@
   </div>
   <div style="flex-grow: 9"></div>
   <div class="button">
-    <button type="submit" mat-stroked-button>Register</button>
+    <button
+      type="submit"
+      [disabled]="this.form.status === 'INVALID'"
+      mat-stroked-button
+    >
+      Register
+    </button>
   </div>
 </form>

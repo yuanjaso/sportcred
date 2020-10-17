@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { tryRegister, getQuestionaire } from '../store/actions';
+import { tryRegisterQuestionaire, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
 import { generalRegistrationInfo, question, answer } from '../models';
@@ -25,7 +25,6 @@ export class RegisterDialogComponent implements OnInit {
   questionairLength: number = 0;
 
   //the user's response to the questions and general info
-  generalInfoResponse: generalRegistrationInfo = undefined;
   questionaireResponse: answer[] = [];
 
   constructor(
@@ -62,8 +61,9 @@ export class RegisterDialogComponent implements OnInit {
         this.questionairLength = this.questionaire.length;
       });
   }
-  getFirstPageInfo(info: generalRegistrationInfo) {
-    this.generalInfoResponse = info;
+
+  //called when the first page basic registration is successful
+  onFinishBasicRegistration(info: generalRegistrationInfo) {
     this.proceedSlide();
   }
   getAnswer(e) {
@@ -74,9 +74,8 @@ export class RegisterDialogComponent implements OnInit {
     //info in generalInfoResponse and questionaireResponse should be validated
 
     this.store.dispatch(
-      tryRegister({
-        ...this.generalInfoResponse,
-        questionaires: this.questionaireResponse,
+      tryRegisterQuestionaire({
+        answers: this.questionaireResponse,
       })
     );
     this.onNoClick();
