@@ -4,7 +4,7 @@ const apiRequirements: API[] = [
   {
     description: 'Get posts from another Social Media',
     request: {
-      requestURL: '/api/v1/open-court/',
+      requestURL: '/api/v1/open-court/media',
       requestMethod: 'GET',
       body: {},
       queryParams: {},
@@ -35,7 +35,7 @@ const apiRequirements: API[] = [
   {
     description: 'Get posts from other sportcred users',
     request: {
-      requestURL: '/api/v1/open-court/',
+      requestURL: '/api/v1/open-court/sportcred',
       requestMethod: 'GET',
       body: {},
       queryParams: {},

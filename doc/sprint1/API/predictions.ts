@@ -4,6 +4,42 @@ const apiRequirements: API[] = [
   // Based on https://piazza.com/class/keswqh47g2bm?cid=233
   // and NBA playoff bracket info on wikipedia
   {
+    description: 'Get set of all players for picks',
+    request: {
+      requestURL: '/api/v1/predictions/player-set',
+      requestMethod: 'GET',
+      body: {},
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      response: {
+        playerSet: [
+          { playerId: 1, playerName: 'Giannis Antetokounmpo' },
+          { playerId: 2, playerName: 'Anthony Davis' },
+        ]
+      },
+    },
+  },
+  {
+    description: 'Get set of all teams for picks',
+    request: {
+      requestURL: '/api/v1/predictions/team-set',
+      requestMethod: 'GET',
+      body: {},
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      response: {
+        teamSet: [
+          { teamId: 1, teamName: 'Toronto Raptors', conference: 'EAST' },
+          { teamId: 2, teamName: 'Boston Celtics', conference: 'EAST' },
+        ]
+      },
+    },
+  },
+  {
     description: 'Get Pre-season Predictions',
     request: {
       requestURL: '/api/v1/predictions/pre-season',
@@ -18,90 +54,46 @@ const apiRequirements: API[] = [
           {
             categoryType: 'MVP',
             categoryName: 'Most Valuable Player',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'DPOY',
             categoryName: 'Defensive Player of the Year',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'ROTY',
             categoryName: 'Rookie of the Year',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'MIP',
             categoryName: 'Most Improved Player',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'SMA',
             categoryName: 'Sixth Man Award',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'COTY',
             categoryName: 'Coach of the Year',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'ANFT',
             categoryName: 'All-NBA First Team',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'ANDFT',
             categoryName: 'All-NBA Defensive First Team',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'ANRFT',
             categoryName: 'All-NBA Rookie First Team',
-            playerSet: [
-              { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-              { playerId: 2, playerName: 'Anthony Davis' },
-            ],
           },
           {
             categoryType: 'ECS',
             categoryName: 'Eastern Conference Seeding',
-            teamSet: [
-              { teamId: 1, teamName: 'Toronto Raptors' },
-              { teamId: 2, teamName: 'Boston Celtics' },
-            ],
           },
           {
             categoryType: 'WCS',
             categoryName: 'Western Conference Seeding',
-            teamSet: [
-              { teamId: 3, teamName: 'Los Angeles Lakers' },
-              { teamId: 4, teamName: 'Houston Rockets' },
-            ],
           },
         ],
       },
@@ -138,34 +130,32 @@ const apiRequirements: API[] = [
     response: {
       statusCode: 200,
       response: {
-        homeTeam: [
-          {
+        matches: [
+          { 
             matchId: 1,
-            teamId: 1,
-            teamName: 'Toronto Raptors',
             conference: 'EAST',
+            homeTeam: {
+              teamId: 1,
+              teamName: 'Toronto Raptors'
+            },
+            awayTeam: {
+              teamId: 2, 
+              teamName: 'Boston Celtics'
+            }
           },
           {
             matchId: 2,
-            teamId: 3,
-            teamName: 'Los Angeles Lakers',
             conference: 'WEST',
-          },
-        ],
-        awayTeam: [
-          {
-            matchId: 1,
-            teamId: 2,
-            teamName: 'Boston Celtics',
-            conference: 'EAST',
-          },
-          {
-            matchId: 2,
-            teamId: 4,
-            teamName: 'Houston Rockets',
-            conference: 'WEST',
-          },
-        ],
+            homeTeam: {
+              teamId: 3,
+              teamName: 'Los Angeles Lakers'
+            },
+            awayTeam: {
+              teamId: 4, 
+              teamName: 'Houston Rockets'
+            }
+          }
+        ]
       },
     },
   },

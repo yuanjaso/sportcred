@@ -9,7 +9,6 @@ const apiRequirements: API[] = [
       body: {
         debateId: 1,
         userId: 2,
-        userName: 'nba4ever',
         comment: 'This is my analysis...',
       },
       queryParams: { roomId: 1 },
