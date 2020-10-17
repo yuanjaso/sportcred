@@ -14,13 +14,11 @@ class Profile(models.Model):
         primary_key=True,
     )
     status = models.CharField(max_length=100, blank=True)
-    is_activated = models.BooleanField(default=False)
-    creation_time = models.DateTimeField(auto_now_add=True)
+
     profile_picture = models.ImageField(
         upload_to="user_id/files"
     )  # Add upload argument (Make a folder named after each user)
     agree = models.ManyToManyField("DebatePost", through="Agrees")
-
     like = models.ManyToManyField("SocialPost", through="Likes")
     highlights = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
