@@ -68,7 +68,7 @@ class UserViewSet(viewsets.ViewSet):
         return Response(response)
 
     @action(detail=False, methods=["post"])
-    def auth(self, request):
+    def login(self, request):
         """
         This method creates and sets a cookie for authentication and session management
         """

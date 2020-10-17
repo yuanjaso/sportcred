@@ -11,8 +11,7 @@ class AnonCreateAndUpdateOwnerOnly(BasePermission):
 
     def has_permission(self, request, view):
         return (
-            # TODO: get_data was added here temporarily for development, PLEASE REMOVE AFTER
-            view.action in ["create", "auth", "get_data"]
+            view.action in ["create", "login"]
             or request.user
             and request.user.is_authenticated
         )

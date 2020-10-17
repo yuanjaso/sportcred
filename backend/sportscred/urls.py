@@ -5,7 +5,7 @@ from . import views as mine
 from rest_framework.authtoken import views
 
 router = routers.DefaultRouter()
-router.register(r"users", mine.UserViewSet, basename="user")
+router.register(r"api/v1/users", mine.UserViewSet, basename="user")
 
 
 # Wire up our API using automatic URL routing.
