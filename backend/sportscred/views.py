@@ -56,6 +56,8 @@ class UserViewSet(viewsets.ViewSet):
                 {"details": "Username or email already exists"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        profile = Profile.objects.create(user=u)
+        profile.save()
         token = Token.objects.create(user=u)
         response = {
             "token": token.key,
@@ -78,6 +80,11 @@ class UserViewSet(viewsets.ViewSet):
             token = Token.objects.get(user=user)
             return Response({"token": token.key, "user_id": user.pk})
         else:
+            user = User.objects.get(email__icontains=request.data["username"])
+            if user:
+                # get or create a token
+                token = Token.objects.get(user=user)
+                return Response({"token": token.key, "user_id": user.pk})
             return Response(
                 {"details": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
             )
