@@ -4,12 +4,22 @@
   height: 100vh;
 }
 .title-box {
+  video {
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    max-height: 100vh;
+  }
+
+  //toggle this background to enable/disable video
+  background: linear-gradient(30deg, $black 10%, $black 50%);
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   flex-grow: 5;
-  background: linear-gradient(30deg, $black 10%, $black 50%);
   img,
   .offsetter {
     width: 10rem;
@@ -61,13 +71,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  .button {
-    width: 100%;
-    & button {
-      width: 100%;
-      background-color: $grey;
-    }
   }
 }
 @media only screen and (max-width: 600px) {

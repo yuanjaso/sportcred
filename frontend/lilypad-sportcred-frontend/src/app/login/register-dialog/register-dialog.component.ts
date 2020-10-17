@@ -1,38 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ValidatorFn,
-} from '@angular/forms';
 import { tryRegister, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
-import { Subscription } from 'rxjs';
+import { generalRegistrationInfo, question, answer } from '../models';
+import { selectQuestionaire } from '../store/selectors';
+import { first } from 'rxjs/operators';
+import { SwiperComponent, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-register-dialog',
   templateUrl: './register-dialog.component.html',
   styleUrls: ['./register-dialog.component.scss'],
 })
-export class RegisterDialogComponent implements OnInit, OnDestroy {
-  form: FormGroup = new FormGroup({
-    username: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(10),
-    ]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
-    ]),
-    cpassword: new FormControl('', [this.retypeConfirm()]),
-  });
-  //passwordChange emits when password is edited, we need this
-  // to update confirm password validity cocurrently
-  passwordChange: Subscription;
+export class RegisterDialogComponent implements OnInit {
+  @ViewChild(SwiperComponent, { static: false }) swiper?: SwiperComponent;
+  swiperConfig = {
+    allowTouchMove: false,
+  };
+  swiperIndex = 0;
+
+  //questions we get from the backend
+  questionaire: question[] = undefined;
+  questionairLength: number = 0;
+
+  //the user's response to the questions and general info
+  generalInfoResponse: generalRegistrationInfo = undefined;
+  questionaireResponse: answer[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<RegisterDialogComponent>,
@@ -40,40 +34,66 @@ export class RegisterDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.passwordChange = this.form.controls.password.valueChanges.subscribe(
-      () => {
-        this.form.controls.cpassword.updateValueAndValidity();
-      }
-    );
+    this.store.dispatch(getQuestionaire());
+    //todo loading icons
+    this.store
+      .select(selectQuestionaire)
+      //.pipe(first((inp) => inp !== undefined))
+      .subscribe((questionaire) => {
+        //get questionaire from store
+        this.questionaire = questionaire;
+        //mock
+        this.questionaire = [
+          {
+            id: 12,
+            question_content: 'How much do you like Hats?',
+            is_qualitative: false,
+            min_int: 1,
+            max_int: 10,
+          },
+          {
+            id: 122,
+            question_content: 'What is your opinion on ... ... ...',
+            is_qualitative: true,
+            min_int: 1,
+            max_int: 3,
+          },
+        ];
+        this.questionairLength = this.questionaire.length;
+      });
+  }
+  getFirstPageInfo(info: generalRegistrationInfo) {
+    this.generalInfoResponse = info;
+    this.proceedSlide();
+  }
+  getAnswer(e) {
+    this.questionaireResponse.push(e);
+    this.proceedSlide();
   }
   register() {
-    // if inputs not valid based on validators
-    console.log(this.form);
-    //if (this.form.status === 'INVALID') return;
+    //info in generalInfoResponse and questionaireResponse should be validated
 
-    let username = this.form.controls.username.value;
-    let email = this.form.controls.email.value;
-    let password = this.form.controls.password.value;
-
-    this.store.dispatch(tryRegister({ username, email, password }));
+    this.store.dispatch(
+      tryRegister({
+        ...this.generalInfoResponse,
+        questionaires: this.questionaireResponse,
+      })
+    );
+    this.onNoClick();
   }
 
-  // CUSTOM VALIDATOR : makes sure cpassword is the same as password
-  retypeConfirm(): ValidatorFn {
-    return (control: FormControl) => {
-      if (!control || !control.parent) {
-        return null;
-      }
-      return control.parent.get('password').value === control.value
-        ? null
-        : { mismatch: true };
-    };
+  getOutOf(i: number) {
+    return `${i + 1}/${this.questionairLength}`;
   }
-
-  // clean up logic
-  // unsubscribe from all
-  ngOnDestroy(): void {
-    this.passwordChange.unsubscribe();
+  proceedSlide() {
+    if (!this.swiper || !this.swiper.directiveRef) return;
+    if (this.swiper.index >= this.questionairLength) {
+      //if we are at last slide, try to register
+      //NOTE this conditional takes into account the 1 more slide hack
+      this.register();
+    } else {
+      this.swiper.directiveRef.nextSlide();
+    }
   }
   onNoClick(): void {
     this.dialogRef.close();

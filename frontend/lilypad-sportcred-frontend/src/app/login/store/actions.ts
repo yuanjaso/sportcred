@@ -3,7 +3,7 @@ import * as models from '../models';
 
 export const tryRegister = createAction(
   '[Login] Try Register',
-  props<models.registrationInfo>()
+  props<models.fullRegistrationInfo>()
 );
 export const getQuestionaire = createAction('[Login] Get Questionaire');
 export const setQuestionaire = createAction(

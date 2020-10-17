@@ -1,71 +1,24 @@
-<form class="sub-box" [formGroup]="form" (ngSubmit)="register()">
-  <div class="desc">Register</div>
-  <div class="fields">
-    <mat-form-field appearance="outline">
-      <mat-label>User Name</mat-label>
-      <input matInput placeholder="goat" formControlName="username" />
-      <mat-error
-        *ngIf="
-          (form.controls.username.hasError('minlength') ||
-            form.controls.username.hasError('maxlength')) &&
-          !form.controls.username.hasError('required')
-        "
-      >
-        Length of user name limited to min of 3 and max of 10
-      </mat-error>
-      <mat-error *ngIf="form.controls.username.hasError('required')">
-        User name is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        placeholder="lebronlover@gmail.com"
-        formControlName="email"
-      />
-      <mat-error *ngIf="form.controls.email.hasError('email')">
-        Email is <strong>Invalid</strong>
-      </mat-error>
-      <mat-error *ngIf="form.controls.email.hasError('required')">
-        Email is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input
-        matInput
-        type="password"
-        placeholder="hunter2"
-        formControlName="password"
-      />
-      <mat-error
-        *ngIf="
-          form.controls.password.hasError('pattern') &&
-          !form.controls.password.hasError('required')
-        "
-      >
-        Minimum eight characters, at least one letter and one number
-      </mat-error>
-      <mat-error *ngIf="form.controls.password.hasError('required')">
-        Password is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Confirm Password</mat-label>
-      <input
-        matInput
-        type="password"
-        placeholder="hunter2"
-        formControlName="cpassword"
-      />
-      <mat-error *ngIf="form.controls.cpassword.hasError('mismatch')">
-        Password is <strong>mismatched</strong>
-      </mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="button">
-    <button type="submit" mat-stroked-button>Register</button>
-  </div>
-</form>
+<div class="host login-component">
+  <swiper [config]="swiperConfig" [(index)]="swiperIndex">
+    <div>
+      <div class="seperator">
+        <app-first-page-registration
+          (emitRegInfo)="getFirstPageInfo($event)"
+        ></app-first-page-registration>
+      </div>
+    </div>
+    <div *ngFor="let question of questionaire; let i = index">
+      <div class="seperator">
+        <app-questionaire-pages
+          [question]="question"
+          [outOf]="getOutOf(i)"
+          (answer)="getAnswer($event)"
+        ></app-questionaire-pages>
+      </div>
+    </div>
+    <div>
+      this is a useles last swipe, it is to fix a bug with resizing resulting in
+      swiper jump back
+    </div>
+  </swiper>
+</div>

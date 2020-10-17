@@ -4,21 +4,21 @@ import { EMPTY } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { LoginService } from '../login.service';
 import * as actions from './actions';
-import { registrationInfo } from '../models';
+import { fullRegistrationInfo } from '../models';
 
 @Injectable()
 export class LoginEffects {
   tryRegister$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.tryRegister),
-      mergeMap((info: registrationInfo) =>
-        this.loginService.tryRegister(info).pipe(
+      mergeMap((info: fullRegistrationInfo) => {
+        return this.loginService.tryRegister(info).pipe(
           map(() => ({
             type: '',
           })),
           catchError(() => EMPTY)
-        )
-      )
+        );
+      })
     )
   );
   getQuestionaire$ = createEffect(() =>

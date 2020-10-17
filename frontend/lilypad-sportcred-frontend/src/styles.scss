@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+//@import "./global/custom-material.scss";
+@import "./global/fonts.scss";
 
 html,
 body {
@@ -7,5 +9,16 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/*COMPONENT SPECIFIC STYLING*/
+.login-component {
+  .button {
+    width: 100%;
+    & button {
+      width: 100%;
+      background-color: $grey;
+      @extend .white-font;
+    }
+  }
 }

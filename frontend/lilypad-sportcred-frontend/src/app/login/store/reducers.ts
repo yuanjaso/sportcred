@@ -5,9 +5,10 @@ export interface LoginState {
   registration_questionaire: question[];
 }
 export const initialState: LoginState = {
-  registration_questionaire: [],
+  registration_questionaire: undefined,
 };
 
+// note that token and authorization things are in the auth store
 const reducer = createReducer<LoginState>(
   initialState,
   on(actions.setQuestionaire, (state, { questionaire }) => ({

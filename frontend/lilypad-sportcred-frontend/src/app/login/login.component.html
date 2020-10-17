@@ -1,4 +1,7 @@
-<div class="title-box">
+<div class="title-box login-component">
+  <video autoplay muted loop id="myVideo">
+    <source src="../../assets/welcome-vid.mp4" type="video/mp4" />
+  </video>
   <img src="../../assets/icon.png" alt="icon" />
   <div class="mid">
     <div class="slogan">Whats your A.C.S?</div>
@@ -14,7 +17,7 @@
   </div>
   <div class="offsetter">&nbsp;</div>
 </div>
-<div class="login-box">
+<div class="login-box login-component">
   <form class="sub-box" [formGroup]="form" (ngSubmit)="signin()">
     <div class="desc">
       Sign In

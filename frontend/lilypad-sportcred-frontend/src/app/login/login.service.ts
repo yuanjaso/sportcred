@@ -11,9 +11,16 @@ export class LoginService {
     console.log(info);
     return this.http.get('/login');
   }
-  tryRegister(info: models.registrationInfo) {
-    console.log(info);
-    return this.http.post('/register', {});
+  tryRegister(info: models.fullRegistrationInfo) {
+    let body = {
+      ...info,
+      questionaires: info.questionaires.map((pair) => ({
+        id: pair.question.id,
+        answer: pair.answer,
+      })),
+    };
+    console.log(body);
+    return this.http.post('/register', body);
   }
   getQuestionaire() {
     return this.http.get(apis.getQuestionaireApi);

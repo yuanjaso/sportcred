@@ -1,0 +1,12 @@
+@import "../../../../global/fonts.scss";
+:host > form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.question-index {
+  @extend .font-tertiary;
+}
+.question {
+  @extend .font-secondary;
+}
