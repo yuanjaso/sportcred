@@ -1,13 +1,13 @@
-import { API } from "./restapi";
+import { API } from './restapi';
 
 const apiRequirements: API[] = [
   {
-    description: "Update status",
+    description: 'Update status',
     request: {
-      requestURL: "/api/v1/profile/status/",
-      requestMethod: "PUT",
+      requestURL: '/api/v1/profile/status/',
+      requestMethod: 'PUT',
       body: {
-        status: "Hi guys, I like sportcred!",
+        status: 'Hi guys, I like sportcred!',
       },
       queryParams: {},
     },
@@ -17,29 +17,29 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: "Upload Profile Picture",
+    description: 'Upload Profile Picture',
     request: {
-      requestURL: "/api/v1/profile/picture/",
-      requestMethod: "PUT",
+      requestURL: '/api/v1/profile/picture/',
+      requestMethod: 'PUT',
       body: {
-        picture: "placeholder",
+        picture: 'placeholder',
       },
       queryParams: {},
     },
     response: {
       statusCode: 200,
       response: {
-        pictureURL: "somethingsomething.png",
+        pictureURL: 'somethingsomething.png',
       },
     },
   },
   {
-    description: "Update About Section",
+    description: 'Update About Section',
     request: {
-      requestURL: "/api/v1/profile/about/",
-      requestMethod: "PUT",
+      requestURL: '/api/v1/profile/about/',
+      requestMethod: 'PUT',
       body: {
-        about: "placeholder",
+        about: 'placeholder',
       },
       queryParams: {},
     },
@@ -49,10 +49,10 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: "Get the profile of a user",
+    description: 'Get the profile of a user',
     request: {
-      requestURL: "/api/v1/profile/",
-      requestMethod: "GET",
+      requestURL: '/api/v1/profile/',
+      requestMethod: 'GET',
       body: null,
       queryParams: {
         userId: 4,
@@ -61,10 +61,10 @@ const apiRequirements: API[] = [
     response: {
       statusCode: 200,
       response: {
-        status: "Sportcred is the best !!!!!",
+        status: 'Sportcred is the best !!!!!',
         acs: 599,
         acsHistory: [900, -1, 34, 23, 43, -23],
-        profilePicture: "placeholderpicture.png",
+        profilePicture: 'placeholderpicture.png',
         // TODO figure out what is part of about
         about: null,
       },

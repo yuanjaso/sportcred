@@ -4,7 +4,7 @@ interface KeyValue {
 
 interface Request {
   requestURL: string;
-  requestMethod: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
+  requestMethod: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
   queryParams: KeyValue;
   body: KeyValue;
 }

@@ -1,16 +1,16 @@
-import { API } from "./restapi";
+import { API } from './restapi';
 
 const apiRequirements: API[] = [
   {
     description: 'Post debate',
     request: {
-      requestURL: '/api/debate/',
+      requestURL: '/api/v1/debate/',
       requestMethod: 'POST',
       body: {
         debateId: 1,
         userId: 2,
         userName: 'nba4ever',
-        comment: 'This is my analysis...'
+        comment: 'This is my analysis...',
       },
       queryParams: { roomId: 1 },
     },
@@ -22,7 +22,7 @@ const apiRequirements: API[] = [
   {
     description: 'GET Debate room info',
     request: {
-      requestURL: '/api/debate/',
+      requestURL: '/api/v1/debate/',
       requestMethod: 'GET',
       body: {},
       // The rooms are based on ACS tiers
@@ -33,23 +33,23 @@ const apiRequirements: API[] = [
       response: {
         debateTier: '[Only tiers of this or higher can debate]',
         debates: [
-          { 
-            debateId: 1, 
-            description: 'debate 1', 
-            likes: 1, 
+          {
+            debateId: 1,
+            description: 'debate 1',
+            likes: 1,
             dislikes: 2,
             comments: [
-              { 
-                commentId: 1, 
-                userId: 1, 
-                userName: 'NBAFan123', 
-                comment: 'I agree because...', 
+              {
+                commentId: 1,
+                userId: 1,
+                userName: 'NBAFan123',
+                comment: 'I agree because...',
                 likes: 1,
-                dislikes: 1
-              }
-            ]
-          }
-        ]
+                dislikes: 1,
+              },
+            ],
+          },
+        ],
       },
     },
   },
