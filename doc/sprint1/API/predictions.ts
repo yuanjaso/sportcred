@@ -1,4 +1,4 @@
-import { API } from './restapi';
+import { API } from "./restapi";
 
 const apiRequirements: API[] = [
   // Based on https://piazza.com/class/keswqh47g2bm?cid=233

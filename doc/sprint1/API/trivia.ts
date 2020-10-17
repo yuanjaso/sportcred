@@ -1,11 +1,11 @@
-import { API } from './restapi';
+import { API } from "./restapi";
 
 const apiRequirements: API[] = [
   {
-    description: 'Get questions for a game of a single player trivia',
+    description: "Get questions for a game of a single player trivia",
     request: {
-      requestURL: '/api/trivia/singleplayer/',
-      requestMethod: 'GET',
+      requestURL: "/api/v1/trivia/singleplayer/",
+      requestMethod: "GET",
       body: null,
       queryParams: {
         // 10 questions per trivia game
@@ -19,25 +19,25 @@ const apiRequirements: API[] = [
           {
             questionId: 1,
             question:
-              'Who is the only other player other than Jamal Murray to score 50 on less than 24 field goal attempts?',
-            answer: 'Bob Cousy',
+              "Who is the only other player other than Jamal Murray to score 50 on less than 24 field goal attempts?",
+            answer: "Bob Cousy",
             options: [
-              'Bob Cousy',
-              'Michael Jordan',
-              'Lebron James',
-              'Kareem Abdul Jabbar',
+              "Bob Cousy",
+              "Michael Jordan",
+              "Lebron James",
+              "Kareem Abdul Jabbar",
             ],
           },
           {
             questionId: 34,
             question:
-              'Who are the two players to have 25 point halves in a single playoff series?',
-            answer: 'Jamal Murray/Allen Iverson',
+              "Who are the two players to have 25 point halves in a single playoff series?",
+            answer: "Jamal Murray/Allen Iverson",
             options: [
-              'Jamal Murray/Allen Iverson',
-              'James Harden/Russel Westbrook',
-              'Michael Jordan/Kobe Bryant',
-              'Steph Curry/Lebron James',
+              "Jamal Murray/Allen Iverson",
+              "James Harden/Russel Westbrook",
+              "Michael Jordan/Kobe Bryant",
+              "Steph Curry/Lebron James",
             ],
           },
         ],
@@ -46,14 +46,14 @@ const apiRequirements: API[] = [
   },
   {
     description:
-      'Update the ACS score based on the trivia answers for single player mode',
+      "Update the ACS score based on the trivia answers for single player mode",
     request: {
-      requestURL: '/api/trivia/singleplayer/',
-      requestMethod: 'POST',
+      requestURL: "/api/v1/trivia/singleplayer/",
+      requestMethod: "POST",
       body: {
         answers: [
-          { questionId: 1, answer: 'Michael Jordan' },
-          { questionId: 34, answer: 'Jamal Murray/Allen Iverson' },
+          { questionId: 1, answer: "Michael Jordan" },
+          { questionId: 34, answer: "Jamal Murray/Allen Iverson" },
         ],
       },
       queryParams: null,
@@ -64,10 +64,10 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: 'Send invite to another player for Head to Head trivia',
+    description: "Send invite to another player for Head to Head trivia",
     request: {
-      requestURL: '/api/trivia/headtohead/invite/',
-      requestMethod: 'POST',
+      requestURL: "/api/v1/trivia/headtohead/invite/",
+      requestMethod: "POST",
       body: {},
       queryParams: { userId: 4 },
     },
@@ -79,10 +79,10 @@ const apiRequirements: API[] = [
   },
   // ! receiving the trivia invite will be through a websocket notification
   {
-    description: 'Get trivia questions for a head to head trivia game',
+    description: "Get trivia questions for a head to head trivia game",
     request: {
-      requestURL: '/api/trivia/headtohead/',
-      requestMethod: 'GET',
+      requestURL: "/api/v1/trivia/headtohead/",
+      requestMethod: "GET",
       body: {},
       queryParams: { triviaMatchId: 455, limit: 11 },
     },
@@ -94,25 +94,25 @@ const apiRequirements: API[] = [
           {
             questionId: 1,
             question:
-              'Who is the only other player other than Jamal Murray to score 50 on less than 24 field goal attempts?',
-            answer: 'Bob Cousy',
+              "Who is the only other player other than Jamal Murray to score 50 on less than 24 field goal attempts?",
+            answer: "Bob Cousy",
             options: [
-              'Bob Cousy',
-              'Michael Jordan',
-              'Lebron James',
-              'Kareem Abdul Jabbar',
+              "Bob Cousy",
+              "Michael Jordan",
+              "Lebron James",
+              "Kareem Abdul Jabbar",
             ],
           },
           {
             questionId: 34,
             question:
-              'Who are the two players to have 25 point halves in a single playoff series?',
-            answer: 'Jamal Murray/Allen Iverson',
+              "Who are the two players to have 25 point halves in a single playoff series?",
+            answer: "Jamal Murray/Allen Iverson",
             options: [
-              'Jamal Murray/Allen Iverson',
-              'James Harden/Russel Westbrook',
-              'Michael Jordan/Kobe Bryant',
-              'Steph Curry/Lebron James',
+              "Jamal Murray/Allen Iverson",
+              "James Harden/Russel Westbrook",
+              "Michael Jordan/Kobe Bryant",
+              "Steph Curry/Lebron James",
             ],
           },
         ],
@@ -120,14 +120,14 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: 'Update trivia answers',
+    description: "Update trivia answers",
     request: {
-      requestURL: '/api/trivia/headtohead/',
-      requestMethod: 'POST',
+      requestURL: "/api/v1/trivia/headtohead/",
+      requestMethod: "POST",
       body: {
         answers: [
-          { questionId: 1, answer: 'Michael Jordan' },
-          { questionId: 34, answer: 'Jamal Murray/Allen Iverson' },
+          { questionId: 1, answer: "Michael Jordan" },
+          { questionId: 34, answer: "Jamal Murray/Allen Iverson" },
         ],
       },
       queryParams: { triviaMatchId: 455 },
