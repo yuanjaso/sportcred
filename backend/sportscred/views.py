@@ -1,4 +1,3 @@
-
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import CharField, F, Q
@@ -9,8 +8,9 @@ from rest_framework.decorators import action
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
-# from .permissions import *  # we literally need everything
+from .permissions import AnonCreateAndUpdateOwnerOnly
 from .serializers import *  # we literally need everything
+from sportscred.models import Profile
 
 
 class IndexPage(TemplateView):
@@ -26,6 +26,8 @@ class UserViewSet(viewsets.ViewSet):
     the `format=None` keyword argument for each action.
     """
 
+    permission_classes = [AnonCreateAndUpdateOwnerOnly]
+
     # GET
     def list(self, request):
         # https://stackoverflow.com/questions/44048156/django-filter-use-paginations
@@ -40,22 +42,27 @@ class UserViewSet(viewsets.ViewSet):
     # POST
     def create(self, request):
         try:
+            users = User.objects.filter(email__iexact=request.data["email"])
+            if users:
+                raise Exception
             u = User.objects.create_user(
-                username=request.data["username"], password=request.data["password"]
+                username=request.data["username"],
+                password=request.data["password"],
+                email=request.data["email"],
             )
-        except:
+        except Exception as e:
+            print(e)
             return Response(
-                {"details": "Username already exists"},
+                {"details": "Username or email already exists"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        serializer = UserSerializer(u)
-        room = Room(title="Personal Room", creator=u, system_user=u)
-        room.save()
-        membership = Membership(user=u, room=room, state="A", role="A")
-        membership.save()
-
         token = Token.objects.create(user=u)
-        response = {"token": token.key, "user_id": u.pk}
+        response = {
+            "token": token.key,
+            "user_id": u.pk,
+            "username": u.username,
+            "email": u.email,
+        }
         return Response(response)
 
     @action(detail=False, methods=["post"])
