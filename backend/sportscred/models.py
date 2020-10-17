@@ -7,7 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # using default user class
 
 
-class SportsCredUser(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -23,7 +23,7 @@ class SportsCredUser(models.Model):
 
     like = models.ManyToManyField("SocialPost", through="Likes")
     highlights = models.ManyToManyField("Sport")
-    followers = models.ManyToManyField("SportsCredUser")
+    followers = models.ManyToManyField("Profile")
 
 
 class Post(models.Model):
@@ -32,14 +32,14 @@ class Post(models.Model):
     parent_post = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.CASCADE, default=None
     )
-    user = models.ForeignKey("SportsCredUser", on_delete=models.CASCADE)
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     attached_files = models.FileField(
         upload_to="user_id/files"
     )  # Add upload argument (Make a folder named after each user)
 
 
 class Agrees(models.Model):
-    agreer = models.ForeignKey("SportsCredUser", on_delete=models.CASCADE)
+    agreer = models.ForeignKey("Profile", on_delete=models.CASCADE)
     post = models.ForeignKey("DebatePost", on_delete=models.CASCADE)
     agreement = models.IntegerField(
         validators=[MaxValueValidator(10), MinValueValidator(1)],
@@ -63,7 +63,7 @@ class SocialPost(Post):
 
 
 class Likes(models.Model):
-    liker = models.ForeignKey("SportsCredUser", on_delete=models.CASCADE)
+    liker = models.ForeignKey("Profile", on_delete=models.CASCADE)
     post = models.ForeignKey("SocialPost", on_delete=models.CASCADE)
     # Got this from
     # https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
@@ -75,7 +75,7 @@ class Likes(models.Model):
 
 class ACS(models.Model):
     score = models.FloatField(max_length=10)
-    user = models.ForeignKey("SportsCredUser", on_delete=models.CASCADE)
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
 
@@ -120,7 +120,7 @@ class QuestionaireQuestion(models.Model):
 
 
 class QuestionaireResponse(models.Model):
-    user = models.ForeignKey("SportsCredUser", on_delete=models.CASCADE)
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     qualitative_response = models.CharField(max_length=300, blank=True)
     quantitative_response = models.IntegerField(blank=True)
     question = models.ForeignKey("QuestionaireQuestion", on_delete=models.CASCADE)
@@ -129,7 +129,7 @@ class QuestionaireResponse(models.Model):
 class PredictChoice(models.Model):
     # TODO:
     # Need to make sure this pulls from the database later and isnt a random string
-    predicter = models.ForeignKey("SportsCredUser", on_delete=models.CASCADE)
+    predicter = models.ForeignKey("Profile", on_delete=models.CASCADE)
     content = models.CharField(max_length=100, blank=True)
 
 
