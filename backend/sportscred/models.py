@@ -195,13 +195,13 @@ class PlaysOn(models.Model):
     player = models.ForeignKey("Player", on_delete=models.CASCADE)
     team = models.ForeignKey("Team", on_delete=models.CASCADE)
     start_date = models.DateTimeField(auto_now_add=True)
-    end_date = models.DateTimeField(auto_now_add=False, blank=True)
+    end_date = models.DateTimeField(auto_now_add=False, blank=True, null=True)
 
 
 class Team(models.Model):
     full_name = models.CharField(max_length=100, blank=False)
     short_name = models.CharField(max_length=100, blank=False)
-    plays_sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
+    plays_sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
     class Meta:
         constraints = [
