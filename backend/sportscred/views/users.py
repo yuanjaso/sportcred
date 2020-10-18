@@ -8,9 +8,9 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
-from .filters import UserFilter
-from .permissions import AnonCreateAndUpdateOwnerOnly
-from .serializers import *  # we literally need everything
+from ..filters import UserFilter
+from ..permissions import AnonCreateAndUpdateOwnerOnly
+from ..serializers import *  # we literally need everything
 from sportscred.models import Profile
 
 
