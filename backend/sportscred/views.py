@@ -1,13 +1,14 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.db.models import CharField, F, Q
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
+from .filters import UserFilter
 from .permissions import AnonCreateAndUpdateOwnerOnly
 from .serializers import *  # we literally need everything
 from sportscred.models import Profile
@@ -80,9 +81,16 @@ class UserViewSet(viewsets.ViewSet):
             token = Token.objects.get(user=user)
             return Response({"token": token.key, "user_id": user.pk})
         else:
-            user = User.objects.get(email__icontains=request.data["username"])
+            try:
+                user = User.objects.get(email__icontains=request.data["username"])
+            except:
+                return Response(
+                    {"details": "Invalid credentials"},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+            username = user.username
+            user = authenticate(username=username, password=request.data["password"])
             if user:
-                # get or create a token
                 token = Token.objects.get(user=user)
                 return Response({"token": token.key, "user_id": user.pk})
             return Response(
