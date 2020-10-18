@@ -4,7 +4,7 @@
 3. Maggie Dang
 4. Michael Do
 5. Ohmasinh negi
-6. Qing Yu Lan
+6. Qing Yu (Rick) Lan
 
 <b> <ins> Release Goal: </ins> </b><br>
 <b> Release Goal: </b> As a user, I am able to change my ACS score through the following methods:
