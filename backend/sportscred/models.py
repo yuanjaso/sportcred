@@ -78,23 +78,17 @@ class ACS(models.Model):
 
 
 # For trivia
-class Question(models.Model):
+class TriviaQuestion(models.Model):
     content = models.CharField(max_length=100, blank=False, null=False)
     correct_answer = models.ForeignKey(
-        "Answer", on_delete=models.CASCADE, related_name="correct_answer"
+        "TriviaAnswer", on_delete=models.CASCADE, related_name="correct_answer"
     )
-    related_to_sports = models.ManyToManyField("Sport")
+    related_to_sport = models.ManyToManyField("Sport")
 
 
 # For trivia
-class QuestionRelatingTo(models.Model):
-    question = models.ForeignKey("Question", on_delete=models.CASCADE)
-    sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
-
-
-# For trivia
-class Answer(models.Model):
-    parent_question = models.ForeignKey("Question", on_delete=models.CASCADE)
+class TriviaAnswer(models.Model):
+    parent_question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
     content = models.CharField(max_length=100, blank=False, null=False)
     # TODO: Think we should store the trivia responses in the database can be done in later sprint
 
@@ -104,8 +98,24 @@ class Sport(models.Model):
 
 
 class QuestionaireQuestion(models.Model):
+    QUANTITATIVE = "QN"
+    QUALITATIVE = "QL"
+    SPORT = "S"
+    TEAM = "T"
+    PLAYER = "P"
+    CUSTOM = "C"  # Pulls from a QuestionaireAnswer
+    QUESTION_TYPE = [
+        (QUANTITATIVE, "Quantitative"),
+        (QUALITATIVE, "Qualitative"),
+        (SPORT, "Sport"),
+        (TEAM, "Team"),
+        (PLAYER, "P"),
+        (CUSTOM, "Custom"),
+    ]
     question_content = models.CharField(max_length=300, blank=False)
-    is_quanitative = models.BooleanField(blank=False)
+    question_type = models.CharField(
+        max_length=2, choices=QUESTION_TYPE, default=QUANTITATIVE
+    )
     max_int = models.IntegerField()
     min_int = models.IntegerField()
 
@@ -117,11 +127,24 @@ class QuestionaireQuestion(models.Model):
         ]
 
 
-class QuestionaireResponse(models.Model):
+class QuestionaireAnswer(models.Model):
+    # This represents a custom enumeration of values for a specific QuestionanaireQuestion
+    question = models.ForeignKey("QuestionaireQuestion", on_delete=models.CASCADE)
+    custom_answer = models.CharField(max_length=300, blank=False)
+
+
+class QuestionaireUserResponse(models.Model):
+    # was not able to get proper constraints for this
+    # will need to do the check at the viewset level
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    question = models.ForeignKey("QuestionaireQuestion", on_delete=models.CASCADE)
     qualitative_response = models.CharField(max_length=300, blank=True)
     quantitative_response = models.IntegerField(blank=True)
-    question = models.ForeignKey("QuestionaireQuestion", on_delete=models.CASCADE)
+    sport = models.ForeignKey("Sport", on_delete=models.CASCADE, blank=True)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE, blank=True)
+    custom_answer = models.ForeignKey(
+        "QuestionaireAnswer", on_delete=models.CASCADE, blank=True
+    )
 
 
 class PredictChoice(models.Model):
