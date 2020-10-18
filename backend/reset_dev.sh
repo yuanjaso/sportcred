@@ -8,7 +8,6 @@
     mkdir -p tmp
 
     python3 manage.py migrate --run-syncdb
-    python3 manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('poop', 'admin@example.com', '.')"
-    python3 manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_user('bbb', 'test@example.com', '.')"
+    python3 manage.py import_questionnaire database_files/questionnaire.yaml 
 
 

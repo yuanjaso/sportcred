@@ -116,8 +116,8 @@ class QuestionaireQuestion(models.Model):
     question_type = models.CharField(
         max_length=2, choices=QUESTION_TYPE, default=QUANTITATIVE
     )
-    max_int = models.IntegerField()
-    min_int = models.IntegerField()
+    max_int = models.IntegerField(blank=True, null=True)
+    min_int = models.IntegerField(blank=True, null=True)
 
     class Meta:
         constraints = [
