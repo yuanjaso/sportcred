@@ -25,7 +25,6 @@ class Profile(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=100, blank=False, null=False)
     content = models.CharField(max_length=100, blank=False, null=False)
     parent_post = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.CASCADE, default=None
@@ -45,8 +44,12 @@ class Agrees(models.Model):
         null=False,
     )
 
+    class Meta:
+        unique_together = ["agreer", "post"]
+
 
 class DebatePost(Post):
+    title = models.CharField(max_length=300, unique=True)
     related_to_debate_posts = models.ManyToManyField("Sport")
 
     @property
@@ -70,11 +73,17 @@ class Likes(models.Model):
         default=0, validators=[MaxValueValidator(1), MinValueValidator(-1)]
     )
 
+    class Meta:
+        unique_together = ["liker", "post"]
+
 
 class ACS(models.Model):
     score = models.FloatField(max_length=10)
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["user", "sports", "score"]
 
 
 # For trivia
@@ -94,7 +103,7 @@ class TriviaAnswer(models.Model):
 
 
 class Sport(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
+    name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
 
 class QuestionaireQuestion(models.Model):
@@ -112,7 +121,7 @@ class QuestionaireQuestion(models.Model):
         (PLAYER, "P"),
         (CUSTOM, "Custom"),
     ]
-    question_content = models.CharField(max_length=300, blank=False)
+    question_content = models.CharField(max_length=300, blank=False, unique=True)
     question_type = models.CharField(
         max_length=2, choices=QUESTION_TYPE, default=QUANTITATIVE
     )
@@ -132,6 +141,9 @@ class QuestionaireAnswer(models.Model):
     question = models.ForeignKey("QuestionaireQuestion", on_delete=models.CASCADE)
     custom_answer = models.CharField(max_length=300, blank=False)
 
+    class Meta:
+        unique_together = ["question", "custom_answer"]
+
 
 class QuestionaireUserResponse(models.Model):
     # was not able to get proper constraints for this
@@ -146,12 +158,19 @@ class QuestionaireUserResponse(models.Model):
         "QuestionaireAnswer", on_delete=models.CASCADE, blank=True
     )
 
+    class Meta:
+        unique_together = ["user", "question"]
+
 
 class PredictChoice(models.Model):
     # TODO:
     # Need to make sure this pulls from the database later and isnt a random string
     predicter = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    predicting_for = models.ForeignKey("Prediction", on_delete=models.CASCADE)
     content = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        unique_together = ["predicter", "predicting_for"]
 
 
 class Prediction(models.Model):
@@ -162,9 +181,13 @@ class Prediction(models.Model):
     depends_on = models.ManyToManyField("Prediction")
     relates_to = models.ManyToManyField("Sport")
 
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["title"], name="unique_name")]
+
 
 class Player(models.Model):
-    name = models.CharField(max_length=100, blank=False)
+    first_name = models.CharField(max_length=100, blank=False)
+    last_name = models.CharField(max_length=100, blank=False)
     plays_on = models.ManyToManyField("Team", through="PlaysOn")
 
 
@@ -176,5 +199,11 @@ class PlaysOn(models.Model):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=100, blank=False)
+    full_name = models.CharField(max_length=100, blank=False)
+    short_name = models.CharField(max_length=100, blank=False)
     plays_sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["full_name"], name="unique_name")
+        ]
