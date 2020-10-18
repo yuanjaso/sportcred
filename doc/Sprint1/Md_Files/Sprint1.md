@@ -11,10 +11,10 @@ The sprint goal for sprint 1 is to complete login, profile, endpoints, status, n
 Furthermore, if we have time, we want to start on the ACS scoring system.
 
 <b>User Stories To Be Completed:</b>
-| User Story     | Estimate     | Assigned to  | Epic         |
-| :------------- | :----------: | -----------: | -----------: |
-| LIL-7 (Profile Picture)         |   | And Again    |              |
-|   | Put Pipes In | Like this \| |              |
+| User Story                | Estimate     | Assigned to   | Corresponding Epic |
+| :-----------------------: | :----------: | :-----------: | :----------------: |
+| LIL-7 (Profile Picture)   | 1            | Zhe Fan Li    | Profile            |
+|                           |              |               |                    |
 
 <b>Task Breakdown:</b>
 
