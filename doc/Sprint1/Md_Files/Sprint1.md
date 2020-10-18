@@ -11,10 +11,16 @@ The sprint goal for sprint 1 is to complete login, profile, endpoints, status, n
 Furthermore, if we have time, we want to start on the ACS scoring system.
 
 <b>User Stories To Be Completed:</b>
-| User Story                | Estimate     | Assigned to   | Corresponding Epic |
-| :-----------------------: | :----------: | :-----------: | :----------------: |
-| LIL-7 (Profile Picture)   | 1            | Zhe Fan Li    | Profile            |
-|                           |              |               |                    |
+| User Story                                                   | Estimate     | Assigned to   | Corresponding Epic |
+| :------------------------------:                             | :----------: | :-----------: | :----------------: |
+| LIL-7 (Profile Picture)                                      | 1            | Zhe Fan Li    | Profile            |
+| LIL-8 (Highlights)                                           | 1            | Jason Yuan    | Profile            |
+| LIL-9 (Add and remove friends)                               | 2            | Jason Yuan    | Profile            |
+| LIL-10 (Post Status)                                         | 1            | Jason Yuan    | Profile            |
+| LIL-11 (Create Dashboard)                                    | 2            | Maggie Dang   | The Zone           |
+| LIL-12 (Home Button)                                         | 1            | Maggie Dang   | The Zone           |
+| LIL-14 (Allow users to view other users' ACS history)        | 3            | Michael Do    | ACS                |
+| LIL-40 (Demographics report)                                 | 3            | Jason Yuan    | Profile            |
 
 <b>Task Breakdown:</b>
 
