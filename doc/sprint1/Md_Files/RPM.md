@@ -6,7 +6,7 @@
 5. Ohmasinh negi
 6. Qing Yu Lan
 
-<b> <u> Release Goal: </u> </b><br>
+<b> <ins> Release Goal: </ins> </b><br>
 <b> Release Goal: </b> As a user, I am able to change my ACS score through the following methods:
 1. Picks and predications
 2. Trivia (Against other users or against the AI)
