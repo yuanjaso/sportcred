@@ -11,8 +11,12 @@ The sprint goal for sprint 1 is to complete login, profile, endpoints, status, n
 Furthermore, if we have time, we want to start on the ACS scoring system.
 
 <b>User Stories To Be Completed:</b>
+| User Story     | Estimate     | Assigned to  | Epic         |
+| :------------- | :----------: | -----------: | -----------: |
+|  Cell Contents | More Stuff   | And Again    |              |
+| You Can Also   | Put Pipes In | Like this \| |              |
 
 <b>Task Breakdown:</b>
 
 <b>Team Capacity:</b><br>
-The team capacity for sprint 1 is 30.
+The team capacity for sprint 1 is 30. (MAY NEED TO EDIT!!!)
