@@ -37,7 +37,7 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 | LIL-36 (Set up test suit)                                                             | Qing Yu Lan   |
 | LIL-37 (Create the view) (Subtask of LIL-15)                                          | Zhe Fan Li    |
 | LIL-38 (Create the endpoints) (Subtask of LIL-15)                                     | Michael Do    |
-| LIL-41 (Create view) (Subtask of LIL-40)                                              | N/A |
+| LIL-41 (Create view) (Subtask of LIL-40)                                              | Jason Yuan    |
 | LIL-42 (Authorization) (Subtask of LIL-40)                                            | Michael Do    |
 | LIL-43 (Setup the ORM in backend)                                                     | Qing Yu Lan   |
 | LIL-44 (Help with setting up the ORM in backend) (Subtask of LIL-43)                  | Ohmasinh Negi |
