@@ -3,7 +3,7 @@
 2. Zhe Fan (Jefferson) Li
 3. Maggie Dang
 4. Michael Do
-5. Ohmasinh negi
+5. Ohmasinh Negi
 6. Qing Yu Lan
 
 <b>Sprint Goal:</b><br>
@@ -23,20 +23,22 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 | LIL-40 (Demographics report)                                 | 3            | Jason Yuan    | Profile            | (Note: On Jira, it says user story, but has no user story)
 
 <b>Task Breakdown:</b>
-| Tasks                                                        | Assigned to   |
-| :------------------------------:                             | :-----------: |
-| LIL-7 (Profile Picture)                                      | Zhe Fan Li    |
-| LIL-8 (Highlights)                                           | Jason Yuan    |
-| LIL-9 (Add and remove friends)                               | Jason Yuan    |
-| LIL-10 (Post Status)                                         | Jason Yuan    |
-| LIL-11 (Create Dashboard)                                    | Maggie Dang   |
-| LIL-12 (Home Button)                                         | Maggie Dang   |
-| LIL-14 (Allow users to view other users' ACS history)        | Michael Do    |
+| Tasks                                                                                 | Assigned to   |
+| :------------------------------:                                                      | :-----------: |
+| LIL-28 (Design Database)                                                              | Michael Do    |
+| LIL-29 (Design CRC Cards/UML Diagram)                                                 | Michael Do    |
+| LIL-30 (Design Rest API)                                                              | Maggie Dang   |
+| LIL-31 (Design and discuss/improve wireframe)                                         | Jason Yuan    |
+| LIL-32 (Design Backend CRC Cards) (Subtask of LIL-29)                                 | Michael Do    |
+| LIL-33 (Design Frontend CRC Cards) (Subtask of LIL-29)                                | Jason Yuan    |
+| LIL-43 (Setup the ORM in backend)                                                     | Qing Yu Lan   |
+| LIL-44 (Help with setting uo the ORM in backend) (Subtask of LIL-43)                  | Ohmasinh Negi |
+
 
 <b>Team Capacity:</b><br>
 The team capacity for sprint 1 is 30. (MAY NEED TO EDIT!!!)
 
 <b>Spikes:</b><br>
-We don't have any spikes for sprint 1. (MAY NEED TO EDIT!!! DOUBLE CHECK WITH TEAM!!!)
-https://www.visual-paradigm.com/scrum/what-is-scrum-spike/
+We don't have any spikes for sprint 1. (MAY NEED TO EDIT!!! DOUBLE CHECK WITH TEAM!!!) </br>
+https://www.visual-paradigm.com/scrum/what-is-scrum-spike/ </br>
 https://medium.com/@anca_51481/how-spikes-help-to-improve-your-agile-product-delivery-a0f104305911
