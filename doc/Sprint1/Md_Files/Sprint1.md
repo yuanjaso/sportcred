@@ -7,8 +7,8 @@
 6. Qing Yu (Rick) Lan
 
 <b>Sprint Goal:</b><br>
-The sprint goal for sprint 1 is to complete all the basic features that allow the user to use the platform and to see information about themself.<br>
-This includes the login, including questionaire, profile, status, name and highlight pages, setting up the endpoints, the dashboard, and the home button.<br>
+The sprint goal is to complete all the basic features that allow the user to use the platform and to see information about themself.<br>
+This includes the login, including questionnaire, profile, status, name and highlight pages, setting up the endpoints, the dashboard, and the home button.<br>
 Furthermore, if we have time, we want to start on the ACS scoring system.
 
 <b>User Stories To Be Completed:</b>
