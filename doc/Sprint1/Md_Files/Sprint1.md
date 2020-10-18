@@ -13,8 +13,8 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 <b>User Stories To Be Completed:</b>
 | User Story     | Estimate     | Assigned to  | Epic         |
 | :------------- | :----------: | -----------: | -----------: |
-|  Cell Contents | More Stuff   | And Again    |              |
-| You Can Also   | Put Pipes In | Like this \| |              |
+| LIL-7 (Profile Picture)         |   | And Again    |              |
+|   | Put Pipes In | Like this \| |              |
 
 <b>Task Breakdown:</b>
 
