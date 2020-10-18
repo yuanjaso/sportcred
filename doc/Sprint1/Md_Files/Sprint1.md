@@ -7,7 +7,7 @@
 6. Qing Yu Lan
 
 <b>Sprint Goal:</b><br>
-The sprint goal for sprint 1 is to complete login, profile, endpoints, status, name, highlights, dashboard, and the home button.<br>
+The sprint goal for sprint 1 is to complete the login, profile, status, name and highlight pages, set up the endpoints, the dashboard, and the home button.<br>
 Furthermore, if we have time, we want to start on the ACS scoring system.
 
 <b>User Stories To Be Completed:</b>
@@ -23,7 +23,7 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 | LIL-40 (Demographics report)                                 | 3            | Jason Yuan    | Profile            | (Note: On Jira, it says user story, but has no user story)
 
 <b>Task Breakdown:</b>
-| User Story                                                   | Assigned to   |
+| Tasks                                                        | Assigned to   |
 | :------------------------------:                             | :-----------: |
 | LIL-7 (Profile Picture)                                      | Zhe Fan Li    |
 | LIL-8 (Highlights)                                           | Jason Yuan    |
@@ -37,4 +37,6 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 The team capacity for sprint 1 is 30. (MAY NEED TO EDIT!!!)
 
 <b>Spikes:</b><br>
-
+We don't have any spikes for sprint 1. (MAY NEED TO EDIT!!! DOUBLE CHECK WITH TEAM!!!)
+https://www.visual-paradigm.com/scrum/what-is-scrum-spike/
+https://medium.com/@anca_51481/how-spikes-help-to-improve-your-agile-product-delivery-a0f104305911
