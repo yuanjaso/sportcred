@@ -20,9 +20,21 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 | LIL-11 (Create Dashboard)                                    | 2            | Maggie Dang   | The Zone           |
 | LIL-12 (Home Button)                                         | 1            | Maggie Dang   | The Zone           |
 | LIL-14 (Allow users to view other users' ACS history)        | 3            | Michael Do    | ACS                |
-| LIL-40 (Demographics report)                                 | 3            | Jason Yuan    | Profile            |
+| LIL-40 (Demographics report)                                 | 3            | Jason Yuan    | Profile            | (Note: On Jira, it says user story, but has no user story)
 
 <b>Task Breakdown:</b>
+| User Story                                                   | Assigned to   |
+| :------------------------------:                             | :-----------: |
+| LIL-7 (Profile Picture)                                      | Zhe Fan Li    |
+| LIL-8 (Highlights)                                           | Jason Yuan    |
+| LIL-9 (Add and remove friends)                               | Jason Yuan    |
+| LIL-10 (Post Status)                                         | Jason Yuan    |
+| LIL-11 (Create Dashboard)                                    | Maggie Dang   |
+| LIL-12 (Home Button)                                         | Maggie Dang   |
+| LIL-14 (Allow users to view other users' ACS history)        | Michael Do    |
 
 <b>Team Capacity:</b><br>
 The team capacity for sprint 1 is 30. (MAY NEED TO EDIT!!!)
+
+<b>Spikes:</b><br>
+
