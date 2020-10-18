@@ -6,9 +6,7 @@
 5. Ohmasinh negi
 6. Qing Yu Lan
 
-<b>Release Goal:</b>
-- picks and predictions but no automation
-- humans input 
-- everything else in current backlog 
+<b>Release Goal:</b><br>
 
-<b>Scope of the Project:</b>
+
+<b>Scope of the Project:</b><br>
