@@ -4,13 +4,12 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
-from ..serializers import *  # we literally need everything
+from ..serializers import UserSerializer
 from sportscred.models import Profile
 from .utils import filter_paginate_request
 
