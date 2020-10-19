@@ -118,7 +118,7 @@ class QuestionaireQuestion(models.Model):
         (QUALITATIVE, "Qualitative"),
         (SPORT, "Sport"),
         (TEAM, "Team"),
-        (PLAYER, "P"),
+        (PLAYER, "Player"),
         (CUSTOM, "Custom"),
     ]
     question_content = models.CharField(max_length=300, blank=False, unique=True)
