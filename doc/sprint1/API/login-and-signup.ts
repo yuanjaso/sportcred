@@ -37,7 +37,7 @@ const apiRequirements: API[] = [
   {
     description: "trying to submit initial questionaire",
     request: {
-      requestURL: "/api/v1/register/",
+      requestURL: "/api/v1/questionnaire/",
       requestMethod: "POST",
       body: {
         questionaire: [
