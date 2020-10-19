@@ -1,14 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+import os
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.models.User
 # using default user class
 
 
 def hash_directory(instance, filename):
-    return f"user/pictures/{instance.hash_value[0:2]}/{instance.hash_value[2:4]}/{instance.hash_value}"
+    x, file_extension = os.path.splitext(filename)
+    return (
+        f"user/pictures/{instance.hash_value[0:2]}/{instance.hash_value[2:4]}/{instance.hash_value}"
+        + file_extension
+    )
 
 
 class Profile(models.Model):

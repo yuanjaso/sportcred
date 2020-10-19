@@ -47,11 +47,10 @@ class ProfileViewSet(viewsets.ViewSet):
                 hash_object.update(chunk)
             hash_value = hash_object.hexdigest()
             try:
-                instance = profile.profilepicture.hash_value
+                path = profile.profilepicture.file.path
                 profile.profilepicture.delete()
-                os.remove(
-                    f"media/user/pictures/{instance[0:2]}/{instance[2:4]}/{instance}"
-                )
+                if os.path.exists(path):
+                    os.remove(path)
             except:
                 print("No picture in database")
 
@@ -100,7 +99,7 @@ class ProfileViewSet(viewsets.ViewSet):
         """
         try:
             profile = User.objects.get(username=request.data["username"]).profile
-            print(ProfileSerializer(profile).data)
+
             return Response(ProfileSerializer(profile).data)
         except Exception as e:
             print(e)

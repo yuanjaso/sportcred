@@ -57,7 +57,7 @@ def test_update_picture_deleteold():
 
 def test_get_profile():
     files = {
-        "profile_picture": ("test2_img.png", open("test2_img.png", "rb"), "image/png")
+        "profile_picture": ("test_img.png", open("test_img.png", "rb"), "image/png")
     }
     data = {
         "name": "michael2",
