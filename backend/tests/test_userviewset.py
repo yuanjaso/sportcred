@@ -1,32 +1,4 @@
-import requests
-
-URL = "http://127.0.0.1:8000/api/v1/"
-
-
-def create_user(username, password, email):
-    url = URL + "users/"
-    res = requests.post(
-        url,
-        data={"username": username, "password": password, "email": email},
-        verify=False,
-    )
-    return res
-
-
-def auth_user(username, password):
-    url = URL + "users/login/"
-    res = requests.post(
-        url,
-        data={"username": username, "password": password},
-        verify=False,
-    )
-    return res
-
-
-def get_users(token):
-    url = URL + "users/"
-    return requests.get(url, headers={"Authorization": "Token " + token}, verify=False)
-
+from sportscred_interface import *
 
 # thhese functions should be moved somewhere else later lol
 

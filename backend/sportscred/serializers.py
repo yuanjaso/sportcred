@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from sportscred.models import Profile, ProfilePicture
+from sportscred.models import Profile, Sport, Team, Player, ProfilePicture
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -27,3 +27,24 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ["user", "status", "profilepicture"]
+
+
+class SportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sport
+        fields = ["id", "name"]
+
+
+# Foreign key serialization
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = ["id", "full_name", "short_name", "plays_sport"]
+        depth = 2
+
+
+class PlayerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Player
+        fields = "__all__"
+        depth = 2
