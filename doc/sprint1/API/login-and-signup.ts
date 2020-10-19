@@ -51,7 +51,7 @@ const apiRequirements: API[] = [
       body: {
         questionaire: {question_id: 1, answer: "asdf" },
       },
-      queryParams: { type: "questionaire" },
+      queryParams: {},
     },
     response: {
       statusCode: 200,
