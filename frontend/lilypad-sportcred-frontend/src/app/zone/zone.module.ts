@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { ZoneRoutingModule } from './zone-routing.module';
 import { ZoneComponent } from './zone.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { MaterialModule } from '../../global/material/material.module';
 
 
 @NgModule({
-  declarations: [ZoneComponent],
+  declarations: [ZoneComponent, ToolbarComponent],
   imports: [
     CommonModule,
-    ZoneRoutingModule
+    ZoneRoutingModule,
+    MaterialModule
   ]
 })
 export class ZoneModule { }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { all_routes } from '../../global/routing-statics';
+
 
 @Component({
   selector: 'app-zone',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ZoneComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private titleService: Title
+  ) { 
+    this.titleService.setTitle(all_routes.zone.title);
+  }
 
   ngOnInit(): void {
   }
