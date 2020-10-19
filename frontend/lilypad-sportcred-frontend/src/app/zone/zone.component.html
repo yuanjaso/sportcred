@@ -1,9 +1,13 @@
-<mat-grid-list cols="2" rowHeight="2:1">
-    <mat-grid-tile>Open Court</mat-grid-tile>
-    <mat-grid-tile>Picks & Predictions</mat-grid-tile>
-    <mat-grid-tile>Trivia</mat-grid-tile>
-    <mat-grid-tile>Analyze & Debate</mat-grid-tile>
-</mat-grid-list>
+
+<div class="home-layout" fxLayout="row wrap">
+    <div fxFlex="50%" *ngFor="let card of cardList">
+        <mat-card fxLayoutAlign="center">
+            <mat-card-content>
+              {{card.title}}
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
 
 <app-header></app-header>
 
