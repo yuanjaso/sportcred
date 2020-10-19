@@ -41,23 +41,29 @@ const apiRequirements: API[] = [
         email: 'michaeldough@gmail.com'},
     },
   },
-  {
-    description: 'trying to submit initial questionaire',
+    {
+    description: "trying to submit initial questionaire",
     request: {
-      requestURL: '/api/v1/register/',
-      requestMethod: 'POST',
+      requestURL: "/api/v1/questionnaire/",
+      requestMethod: "POST",
+      Mimetype: "application/json",
+      Header: {Authorization: "Token" + "token"},
       body: {
         questionaire: [
-          { id: 12, answer: 'asdf' },
-          { id: 122, answer: 1 },
+          {question_id: 1, answer: "asdf" },
+          {question_id: 2, answer: 1 },
         ],
       },
-      queryParams: { type: 'questionaire' },
+      queryParams: { type: "questionaire" },
     },
     response: {
       statusCode: 200,
-      response: { success: true },
+      response: {user_id: 1, question_id: 1, answer: "asdf"}
     },
+    response: {
+      statusCode: 400,
+      response: {details: "Explain why it didn't work."}
+    }
   },
   {
     description: 'getting some questions',
@@ -71,16 +77,42 @@ const apiRequirements: API[] = [
       statusCode: 200,
       response: [
         {
-          id: 23,
+          question_id: 23,
           question_content: 'how many hats do you have',
-          is_qualitative: true,
-          min_int: 1,
-          max_int: 3,
+          min_int: 0, 
+          max_int: 100,
+          question_type: "One of the following (QN (Quantative)/QL (Qualitative)/S (Sports)/T (Teams)/P (Players)/C (Custom)"
         },
         {
-          id: 232,
+          question_id: 232,
           question_content: 'whats ur favorite animal',
-          is_qualitative: false,
+          min_int: 0, // If the question is not qualitative, we'll just ignore the min_int and max_int values.
+          max_int: 100,
+          question_type: "One of the following (QN (Quantative)/QL (Qualitative)/S (Sports)/T (Teams)/P (Players)/C (Custom)"
+        },
+      ],
+    },
+  },
+  {
+    description: 'Querying custom question answers based of question id',
+    request: {
+      requestURL: 'api/v1/questionnaire/:id/answers', //id is custom_answer_id.
+      requestMethod: 'GET',
+      body: {},
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      response: [
+        {
+          Mimetype: "application/json",
+          Body: {
+               question_id: 1,
+               answers: [
+                          {answer_id: 1, custom_answer: "asdf"},
+                          {answer_id: 2, custom_answer: 1},
+                        ] 
+              }
         },
       ],
     },
