@@ -4,9 +4,29 @@ const apiRequirements: API[] = [
   {
     description: 'trying to login',
     request: {
-      requestURL: '/api/v1/login/',
-      requestMethod: 'GET',
+      requestURL: '/api/v1/users/login/', // this made routing for me easier, if its a hassle for this let me know
+      requestMethod: 'POST', // typically we dont send body's in GET requests
       body: {
+        username: 'sadf@gmail.com', // i named the field username but u can also pass in email for username as shown
+        password: '69420',
+      },
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      response: { 
+        token: 'asdf13dwer276tse8ft7wef',
+        user_id: 4, // added user_id, you'll probably want to know your own id
+      },
+    },
+  },
+  {
+    description: 'trying to register basic info',
+    request: {
+      requestURL: '/api/v1/users/', // try to collect all the user objects stuff into one endpoint
+      requestMethod: 'POST',
+      body: {
+        username: 'mans',
         email: 'sadf@gmail.com',
         password: '69420',
       },
@@ -14,24 +34,11 @@ const apiRequirements: API[] = [
     },
     response: {
       statusCode: 200,
-      response: { token: 'asdf13dwer276tse8ft7wef' },
-    },
-  },
-  {
-    description: 'trying to register basic info',
-    request: {
-      requestURL: '/api/v1/register/',
-      requestMethod: 'POST',
-      body: {
-        username: 'mans',
-        email: 'sadf@gmail.com',
-        password: '69420',
-      },
-      queryParams: { type: 'basic' },
-    },
-    response: {
-      statusCode: 200,
-      response: { success: true },
+      response: {
+        token: 'asdf13dwer276tse8ft7wef',
+        user_id: 4,
+        username: 'michaeldough',
+        email: 'michaeldough@gmail.com'},
     },
   },
   {
