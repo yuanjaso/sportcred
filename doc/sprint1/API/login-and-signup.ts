@@ -49,10 +49,7 @@ const apiRequirements: API[] = [
       Mimetype: "application/json",
       Header: {Authorization: "Token" + "token"},
       body: {
-        questionaire: [
-          {question_id: 1, answer: "asdf" },
-          {question_id: 2, answer: 1 },
-        ],
+        questionaire: {question_id: 1, answer: "asdf" },
       },
       queryParams: { type: "questionaire" },
     },
@@ -88,7 +85,9 @@ const apiRequirements: API[] = [
           question_content: 'whats ur favorite animal',
           min_int: 0, // If the question is not qualitative, we'll just ignore the min_int and max_int values.
           max_int: 100,
-          question_type: "One of the following (QN (Quantative)/QL (Qualitative)/S (Sports)/T (Teams)/P (Players)/C (Custom)"
+          question_type: "QN/QL/S/T/P/C"
+          // We only return one of the following: QN/QL/S/T/P/C
+          // QN stands for quantative, QL stands for qualitative, S stands for Sports, T stands for Teams, P stands for Players, C stands for Custom
         },
       ],
     },
@@ -110,7 +109,7 @@ const apiRequirements: API[] = [
                question_id: 1,
                answers: [
                           {answer_id: 1, custom_answer: "asdf"},
-                          {answer_id: 2, custom_answer: 1},
+                          {answer_id: 2, custom_answer: "bcdf"},
                         ] 
               }
         },
