@@ -116,7 +116,7 @@ class ProfileViewSet(viewsets.ViewSet):
         This method returns a profile given a username
         """
         try:
-            profile = User.objects.get(username=request.data["username"]).profile
+            profile = User.objects.get(pk=request.data["user_id"]).profile
             print(ProfileSerializer(profile).data)
             return Response(ProfileSerializer(profile).data)
         except Exception as e:

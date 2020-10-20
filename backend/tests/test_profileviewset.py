@@ -80,6 +80,7 @@ def test_get_profile():
     }
     res = create_user(data["name"], data["password"], data["email"])
     res = auth_user(data["name"], data["password"])
+    user_id = res.json()["user_id"]
     assert res.status_code == 200
     # upload second user profile data/pic
     token2 = res.json()["token"]
@@ -88,11 +89,11 @@ def test_get_profile():
     assert res.status_code == 200
     # upload file
     url = URL + "profile/"
-    # get profile of the 2nd user as the first user
+    # get profile of the 2nd user as the first user by using the first users token
     res = requests.get(
         url,
         headers={"Authorization": "Token " + token},
-        data={"username": data["name"]},
+        data={"user_id": user_id},
     )
     assert res.status_code == 200
     assert res.json()["user"]["username"] == data["name"]

@@ -26,7 +26,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ["user", "status", "profilepicture"]
+        fields = ["user", "status", "about", "profilepicture"]
 
 
 class SportSerializer(serializers.ModelSerializer):
