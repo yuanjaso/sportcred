@@ -9,11 +9,11 @@ import { all_routes } from '../../global/routing-statics';
 })
 export class ZoneComponent implements OnInit {
 
-  cardList: { title: string, link: string }[] = [
-    { title: "Open Court", link: "somelink" },
-    { title: "Picks & Predictions", link: "somelink" },
-    { title: "Trivia", link: "somelink" },
-    { title: "Analyze & Debate", link: "somelink" }
+  cardList: { title: string, imgLink: string }[] = [
+    { title: "Open Court", imgLink: "../../assets/dashboard_OC.png" },
+    { title: "Picks & Predictions", imgLink: "../../assets/dashboard_PP.png" },
+    { title: "Analyze & Debate", imgLink: "../../assets/dashboard_AD.png" },
+    { title: "Trivia", imgLink: "../../assets/dashboard_Trivia.png" }
   ];
 
   constructor(

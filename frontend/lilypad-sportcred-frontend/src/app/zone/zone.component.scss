@@ -1,3 +1,4 @@
+@import "../../global/fonts.scss";
 .home-layout {
     height: 100vh;
     overflow-y: hidden;
@@ -11,9 +12,10 @@
 }
 
 .mat-card-content {
+    @extend .font-primary;
+    @extend .white-font;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
 }
