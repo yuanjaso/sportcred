@@ -125,7 +125,7 @@ const apiRequirements: API[] = [
   },
     },
     {
-    description: "follow that user_id",
+    description: "unfollow that user_id",
     request: {
       requestURL: "/api/v1/profile/:id/follows", // the id of the person u want to unfollow
       requestMethod: "DELETE",
