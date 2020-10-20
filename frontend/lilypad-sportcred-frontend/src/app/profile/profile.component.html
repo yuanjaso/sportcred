@@ -1,12 +1,15 @@
-<div id="acs" class="column xy-center">
-  <p>ACS</p>
-  <p>{{ acs }}</p>
-</div>
+<ng-container *ngIf="profile !== undefined; else loading">
+  <div id="acs" class="column xy-center">
+    <p>ACS</p>
+    <p>{{ profile.acs }}</p>
+  </div>
 
-<div id="name">
-  <p>{{ username }}</p>
-</div>
+  <div id="name">
+    <p>{{ profile.username }}</p>
+  </div>
 
-<div id="status" class="row xy-center">
-  <p>{{ status }}</p>
-</div>
+  <div id="status" class="row xy-center">
+    <p>{{ profile.status }}</p>
+  </div>
+</ng-container>
+<ng-template #loading> loading </ng-template>
