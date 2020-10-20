@@ -13,7 +13,7 @@ import os
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import *  # we literally need everything
-from sportscred.models import ProfilePicture, Profile
+from sportscred.models import ProfilePicture, Profile, Sport
 
 
 class IndexPage(TemplateView):
@@ -76,17 +76,25 @@ class ProfileViewSet(viewsets.ViewSet):
             )
 
     @action(detail=False, methods=["put"])
-    def status(self, request):
+    def details(self, request):
         """
-        This method updates the status of
+        This method updates the status, about and highlight of profile
         """
         try:
-
+            update = ["status", "about"]
             profile = request.user.profile
-            profile.status = request.data["status"]
+            for item in update:
+                if hasattr(request.data, item):
+                    setattr(profile, item, request.data[item])
+            if hasattr(request.data, "highlight"):
+                # expecting a list
+                highlights = request.data["highlight"]
+                for highlight in highlights:
+                    s = Sport(name=highlight)
+                    s.save()
+                    profile.add(s)
             return Response()
         except Exception as e:
-
             print(e)
             return Response(
                 {"details": "Profile not found"},
@@ -117,7 +125,6 @@ class ProfileViewSet(viewsets.ViewSet):
         """
         try:
             profile = User.objects.get(pk=request.data["user_id"]).profile
-            print(ProfileSerializer(profile).data)
             return Response(ProfileSerializer(profile).data)
         except Exception as e:
             print(e)

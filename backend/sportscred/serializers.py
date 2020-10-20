@@ -48,3 +48,9 @@ class PlayerSerializer(serializers.ModelSerializer):
         model = Player
         fields = "__all__"
         depth = 2
+
+
+class HighlightSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfilePicture
+        fields = "__all__"
