@@ -31,4 +31,13 @@ export class ToolbarComponent implements OnInit {
     }
   }
 
+  setCurrentTab() {
+    switch(this.router.url) {
+      case 'profile':
+        // TODO: Add profile link to case
+        return 0;
+      default:
+        return 1;
+    }
+  }
 }

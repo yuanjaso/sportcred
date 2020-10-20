@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group mat-align-tabs="center" [selectedIndex]="setCurrentTab()">
     <mat-tab>
         <ng-template mat-tab-label>
             <i class="material-icons" (click)="setPage('PROFILE')">person</i>
