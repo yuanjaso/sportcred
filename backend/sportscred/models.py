@@ -8,11 +8,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=100, blank=True)
 
     profile_picture = models.ImageField(
@@ -154,6 +150,7 @@ class QuestionaireUserResponse(models.Model):
     quantitative_response = models.IntegerField(blank=True)
     sport = models.ForeignKey("Sport", on_delete=models.CASCADE, blank=True)
     team = models.ForeignKey("Team", on_delete=models.CASCADE, blank=True)
+    player = models.ForeignKey("Player", on_delete=models.CASCADE, blank=True)
     custom_answer = models.ForeignKey(
         "QuestionaireAnswer", on_delete=models.CASCADE, blank=True
     )

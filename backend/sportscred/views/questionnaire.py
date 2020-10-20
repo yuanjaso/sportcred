@@ -1,11 +1,21 @@
+import numbers
+
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from ..serializers import QuestionnaireSerializer, QuestionnaireAnswerSerializer
-from sportscred.models import QuestionaireQuestion, QuestionaireAnswer
+from ..serializers import (
+    QuestionnaireSerializer,
+    QuestionnaireAnswerSerializer,
+    QuestionaireUserResponseSerializer,
+)
+from sportscred.models import (
+    QuestionaireQuestion,
+    QuestionaireAnswer,
+    QuestionaireUserResponse,
+)
 
 
 class QuestionnaireViewSet(viewsets.ViewSet):
@@ -26,4 +36,61 @@ class QuestionnaireViewSet(viewsets.ViewSet):
 
     # For POST
     def create(self, request):
-        pass
+        # Have to catch handler and send bad request
+        send_response = []
+
+        for response_data in request.data:
+            print(response_data)
+            question_id = response_data["question_id"]
+            try:
+                question = QuestionaireQuestion.objects.get(pk=question_id)
+            except:
+                return Response(
+                    {"details": f"The {question_id} does not exist."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            q_handler = QuestionnaireHandler(
+                question, response_data["answer"], request.user
+            )
+            handler = getattr(q_handler, "handle_" + question.question_type)
+            result = handler()
+            if isinstance(result, Response):
+                return result
+            else:
+                send_response.append(result)
+
+        for item in send_response:
+            item.save()
+
+        serializer = QuestionaireUserResponseSerializer(send_response, many=True)
+        return Response(serializer.data)
+
+
+class QuestionnaireHandler:
+    def __init__(self, question, answer, user):
+        self.question = question
+        self.user = user
+        self.answer = answer
+
+    def handle_QN(self):
+        if not isinstance(self.answer, int):
+            return Response(
+                {"details": "The answer is not an integer."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if self.answer < question.min_int or self.answer > question.max_int:
+            return Response(
+                {"details": "The answer is not within the specified range."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return self.update_DB("quantitative_response")
+
+    def update_DB(self, response_type):
+        user_response = QuestionaireUserResponse.objects.create(
+            question=self.question, user=self.user
+        )
+
+        setattr(user_response, response_type, self.answer)
+        return user_response

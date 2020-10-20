@@ -7,6 +7,7 @@ from sportscred.models import (
     Player,
     QuestionaireQuestion,
     QuestionaireAnswer,
+    QuestionaireUserResponse,
 )
 
 
@@ -19,7 +20,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email"]
+        fields = ["id", "username", "email", "is_superuser"]
 
 
 class SportSerializer(serializers.ModelSerializer):
@@ -53,3 +54,11 @@ class QuestionnaireAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionaireAnswer
         fields = "__all__"
+
+
+class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionaireUserResponse
+        field = "__all__"
+        depth = 2
+
