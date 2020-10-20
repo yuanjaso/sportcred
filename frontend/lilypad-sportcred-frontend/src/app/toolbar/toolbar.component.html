@@ -1,5 +1,17 @@
 <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Profile"></mat-tab>
-    <mat-tab label="Home"></mat-tab>
-    <mat-tab label="Live"></mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <i class="material-icons" (click)="setPage('PROFILE')">person</i>
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <i class="material-icons" (click)="setPage('ZONE')">home</i>
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span id="live-tab" (click)="setPage('LIVE')">LIVE</span>
+        </ng-template>
+    </mat-tab>
 </mat-tab-group>
