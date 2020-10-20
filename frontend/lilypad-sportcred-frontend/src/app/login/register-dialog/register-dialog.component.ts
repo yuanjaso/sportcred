@@ -61,7 +61,7 @@ export class RegisterDialogComponent implements OnInit {
             },
           ];
           this.questionairLength = this.questionaire.length;
-        }, 50000);
+        }, 10000);
       });
   }
 

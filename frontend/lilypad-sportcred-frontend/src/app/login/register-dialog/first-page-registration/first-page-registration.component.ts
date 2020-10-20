@@ -70,7 +70,7 @@ export class FirstPageRegistrationComponent implements OnInit {
   }
   register() {
     // if inputs not valid based on validators
-    //if (this.form.status === 'INVALID') return;
+    if (this.form.status === 'INVALID') return;
 
     let username = this.form.controls.username.value;
     let email = this.form.controls.email.value;
