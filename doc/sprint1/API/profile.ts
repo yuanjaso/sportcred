@@ -59,7 +59,7 @@ const apiRequirements: API[] = [
       requestMethod: "GET",
       body: null,
       queryParams: {
-        userId: 4,
+        user_id: 4,
       },
     },
     response: {
