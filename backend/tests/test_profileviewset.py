@@ -34,7 +34,18 @@ def test_update_status():
     res = requests.put(
         url,
         headers={"Authorization": "Token " + token},
-        data={"username": "michael", "status": "c00l"},
+        data={"status": "c00l"},
+        verify=False,
+    )
+    assert res.status_code == 200
+
+
+def test_update_about():
+    url = URL + "profile/about/"
+    res = requests.put(
+        url,
+        headers={"Authorization": "Token " + token},
+        data={"about": "c00l2"},
         verify=False,
     )
     assert res.status_code == 200
