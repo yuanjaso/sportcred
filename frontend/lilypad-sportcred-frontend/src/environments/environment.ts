@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   //!todo fill this out
-  backendUrl: 'https://localhost:8080/',
+  backendUrl: 'https://localhost:8080/api',
+  apiVersion: 1,
+  //easily editable if scheme changes in the future
+  urlProcessor: (url: string): string =>
+    `${environment.backendUrl}/v${environment.apiVersion}/${url}/`,
 };
 
 /*

@@ -9,7 +9,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    //default is to go to login
+    // default is to go to login
     path: all_routes.login.url,
     loadChildren: () =>
       import('./login/login-routing.module').then((m) => m.LoginRoutingModule),

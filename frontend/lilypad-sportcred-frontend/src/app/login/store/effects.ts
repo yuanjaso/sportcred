@@ -8,7 +8,7 @@ import {
   generalRegistrationInfo,
   questionaireRegistrationInfo,
 } from '../models';
-
+import { setLoginToken } from '../../auth/store/actions';
 @Injectable()
 export class LoginEffects {
   tryRegisterBasic$ = createEffect(() =>
@@ -16,10 +16,11 @@ export class LoginEffects {
       ofType(actions.tryRegisterBasic),
       mergeMap((info: generalRegistrationInfo) => {
         return this.loginService.tryRegisterBasic(info).pipe(
-          map(() => {
+          map((response) => {
             this.loginService.$registrationStatus.next(true);
             return {
-              type: '',
+              type: setLoginToken.type,
+              payload: (response as any).token,
             };
           }),
           catchError(() => {

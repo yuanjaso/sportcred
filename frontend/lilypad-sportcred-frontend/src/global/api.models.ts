@@ -1,3 +1,5 @@
 import { environment } from '../environments/environment';
-export const testAPi = environment.backendUrl + 'test';
-export const getQuestionaireApi = environment.backendUrl + 'get_questionaires';
+
+export const loginURL = environment.urlProcessor('users/login');
+export const usersURL = environment.urlProcessor('users/users');
+export const questionaireURL = environment.urlProcessor('questionnaire');

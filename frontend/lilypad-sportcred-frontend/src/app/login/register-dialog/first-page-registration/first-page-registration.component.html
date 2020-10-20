@@ -69,11 +69,14 @@
   </div>
   <div style="flex-grow: 9"></div>
   <div class="button">
-    <button
+    <!-- <button
       type="submit"
-      [disabled]="this.form.status === 'INVALID'"
+      [disabled]="this.form.status === 'INVALID' || registrationSpamBlock"
       mat-stroked-button
     >
+      Register
+    </button> -->
+    <button type="submit" [disabled]="registrationSpamBlock" mat-stroked-button>
       Register
     </button>
   </div>

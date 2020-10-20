@@ -39,6 +39,9 @@ export class FirstPageRegistrationComponent implements OnInit {
   //passwordChange emits when password is edited, we need this
   // to update confirm password validity cocurrently
   passwordChange: Subscription;
+
+  //registrationSpamBlock prevents register button from being spammed
+  registrationSpamBlock: boolean = false;
   constructor(
     private store: Store<AppState>,
     private loginService: LoginService
@@ -57,20 +60,22 @@ export class FirstPageRegistrationComponent implements OnInit {
         if (status) {
           this.success.emit(true);
         } else {
-          //since status is false, we assume email is taken
-          // set error as such
+          // since status is false, we assume email is taken
+          // set error as such, disable block
           this.form.controls.email.setErrors({ taken: true });
+          this.registrationSpamBlock = false;
         }
       })
     );
   }
   register() {
     // if inputs not valid based on validators
-    if (this.form.status === 'INVALID') return;
+    //if (this.form.status === 'INVALID') return;
 
     let username = this.form.controls.username.value;
     let email = this.form.controls.email.value;
     let password = this.form.controls.password.value;
+    this.registrationSpamBlock = true;
     this.store.dispatch(tryRegisterBasic({ username, email, password }));
   }
 
