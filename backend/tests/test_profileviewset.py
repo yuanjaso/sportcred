@@ -31,7 +31,7 @@ token = auth_user_res.json()["token"]
 
 def test_update_status():
     url = URL + "profile/details/"
-    res = requests.put(
+    res = requests.patch(
         url,
         headers={"Authorization": "Token " + token},
         data={"status": "c00l"},
@@ -42,7 +42,7 @@ def test_update_status():
 
 def test_update_about():
     url = URL + "profile/details/"
-    res = requests.put(
+    res = requests.patch(
         url,
         headers={"Authorization": "Token " + token},
         data={"about": "c00l2"},

@@ -75,7 +75,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-    @action(detail=False, methods=["put"])
+    @action(detail=False, methods=["patch"])
     def details(self, request):
         """
         This method updates the status, about and highlight of profile
@@ -107,7 +107,6 @@ class ProfileViewSet(viewsets.ViewSet):
         This method updates the about text of the user
         """
         try:
-
             profile = request.user.profile
             profile.about = request.data["about"]
             return Response()
