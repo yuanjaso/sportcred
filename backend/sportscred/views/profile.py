@@ -83,16 +83,24 @@ class ProfileViewSet(viewsets.ViewSet):
             update = ["status", "about"]
             profile = request.user.profile
             for item in update:
-                if hasattr(request.data, item):
+                if item in request.data.keys():
                     setattr(profile, item, request.data[item])
-            if hasattr(request.data, "highlight"):
+
+            if "highlights" in request.data.keys():
                 # expecting a list
-                highlights = request.data["highlight"]
+                highlights = request.data["highlights"]
                 for highlight in highlights:
-                    s = Sport(name=highlight)
-                    s.save()
-                    profile.add(s)
-            return Response()
+                    try:
+                        s = Sport.objects.get(name=highlight)
+                        profile.highlights.add(s)
+                        profile.save()
+                    except Sport.DoesNotExist:
+                        return Response(
+                            {"details": "bad highlights"},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+
+            return Response(ProfileSerializer(profile).data)
         except Exception as e:
             print(e)
             return Response(

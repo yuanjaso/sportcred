@@ -20,15 +20,6 @@ class ProfilePictureSerializer(serializers.ModelSerializer):
         return pic.file.url
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    profilepicture = ProfilePictureSerializer()
-
-    class Meta:
-        model = Profile
-        fields = ["user", "status", "about", "profilepicture"]
-
-
 class SportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sport
@@ -50,7 +41,11 @@ class PlayerSerializer(serializers.ModelSerializer):
         depth = 2
 
 
-class HighlightSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    profilepicture = ProfilePictureSerializer()
+    highlights = SportSerializer(many=True)
+
     class Meta:
-        model = ProfilePicture
-        fields = "__all__"
+        model = Profile
+        fields = ["user", "status", "highlights", "about", "profilepicture"]

@@ -1,4 +1,5 @@
 import requests
+import json
 
 URL = "http://127.0.0.1:8000/api/v1/"
 
@@ -49,6 +50,30 @@ def test_update_about():
         verify=False,
     )
     assert res.status_code == 200
+
+
+def test_update_highlights():
+    url = URL + "profile/"
+
+    res = requests.patch(
+        url,
+        headers={"Authorization": "Token " + token, "Content-Type": "application/json"},
+        data=json.dumps({"highlights": ["Basketball"]}),
+        verify=False,
+    )
+    assert res.status_code == 200
+    assert len(res.json()["highlights"]) == 1
+    assert res.json()["highlights"][0]["name"] == "Basketball"
+
+    res = requests.patch(
+        url,
+        headers={"Authorization": "Token " + token, "Content-Type": "application/json"},
+        data=json.dumps({"highlights": ["adasdasdl"]}),
+        verify=False,
+    )
+    assert res.status_code == 400
+    assert len(res.json()["highlights"]) == 1
+    assert res.json()["highlights"][0]["name"] == "Basketball"
 
 
 def test_update_picture():
