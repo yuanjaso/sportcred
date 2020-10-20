@@ -78,6 +78,10 @@ const apiRequirements: API[] = [
         //acs: 599,
         //acsHistory: [900, -1, 34, 23, 43, -23],
         about: "placeholder",
+        highlights: [
+          {id :1, "Basketball" },
+        {'id': 2, 'name': 'Baseball'},,
+        ]
       },
     },
   },
