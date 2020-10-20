@@ -8,6 +8,10 @@ import { all_routes } from '../../global/routing-statics';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  acs = 867;
+  username = 'LeBron James';
+  status = 'Go Raptors!!! SportCred is the best!';
+
   constructor(private title: Title) {}
 
   ngOnInit(): void {

@@ -1,0 +1,51 @@
+:host {
+  height: 100%;
+  width: 100%;
+  background-color: #2e2e2e;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > *:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  div#acs {
+    background-color: #c4c4c4;
+    color: #2e2e2e;
+
+    border-radius: 3.5rem;
+    height: 7rem;
+    width: 7rem;
+
+    justify-content: center;
+    align-items: center;
+
+    p {
+      margin: 0;
+      line-height: 2rem;
+      font-size: 2rem;
+      letter-spacing: 0.2rem;
+    }
+  }
+
+  div#name {
+    p {
+      color: white;
+      font-size: 5rem;
+      line-height: 5rem;
+    }
+  }
+
+  div#status {
+    width: 80%;
+
+    p {
+      color: white;
+      font-size: 2.5rem;
+      line-height: 2.5rem;
+    }
+  }
+}

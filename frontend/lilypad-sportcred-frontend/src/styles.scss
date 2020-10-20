@@ -9,6 +9,21 @@ body {
 }
 body {
   margin: 0;
+
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .xy-center {
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /*CUSTOM MATERIAL STYLING*/
