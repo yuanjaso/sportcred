@@ -6,10 +6,15 @@
 }
 
 .mat-card {
-    background: #747474;
     height: 50vh;
     margin: 3px;
+    transition: 0.5s;
+    opacity: 1;
 }
+
+.mat-card:hover {
+    opacity: 0.5;
+} 
 
 .mat-card-content {
     @extend .font-primary;
@@ -18,4 +23,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-shadow: 5px 5px 5px black;
 }
