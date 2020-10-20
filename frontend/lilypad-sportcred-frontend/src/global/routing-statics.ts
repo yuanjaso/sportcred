@@ -18,10 +18,15 @@ const trivia: pageConfig = {
   url: 'trivia',
   title: 'Sportscred - Trivia',
 };
+const profile: pageConfig = {
+  url: 'profile',
+  title: 'Sportscred - Profile',
+};
 
 export const all_routes = {
+  profile,
   login,
   register,
   zone,
-  trivia
+  trivia,
 };
