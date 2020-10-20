@@ -12,6 +12,8 @@ export class ProfileService {
       username: 'LeBron James',
       status: 'Go Raptors!!!',
       acs: 945,
+      pictureURL:
+        'https://miro.medium.com/max/3288/1*Eu8NZH76BTABlaSOac6Tyg.jpeg',
     }).pipe(delay(1500));
   }
 }

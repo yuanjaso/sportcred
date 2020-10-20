@@ -13,11 +13,19 @@ body {
   .column {
     display: flex;
     flex-direction: column;
+
+    > *:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 
   .row {
     display: flex;
     flex-direction: row;
+
+    > *:not(:last-child) {
+      margin-right: 1rem;
+    }
   }
 
   .xy-center {

@@ -1,7 +1,13 @@
 <ng-container *ngIf="profile !== undefined; else loading">
-  <div id="acs" class="column xy-center">
-    <p>ACS</p>
-    <p>{{ profile.acs }}</p>
+  <div class="row xy-center">
+    <div id="picture">
+      <img [src]="profile.pictureURL" />
+    </div>
+
+    <div id="acs" class="column xy-center">
+      <p>ACS</p>
+      <p>{{ profile.acs }}</p>
+    </div>
   </div>
 
   <div id="name">
