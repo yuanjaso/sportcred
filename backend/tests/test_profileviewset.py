@@ -88,6 +88,67 @@ def test_update_picture_deleteold():
     assert res.status_code == 200
 
 
+def test_follow():
+    data = {
+        "name": "michael3",
+        "password": "doughs",
+        "email": "michael_doughs3@gmail.com",
+    }
+    res = create_user(data["name"], data["password"], data["email"])
+    res = auth_user(data["name"], data["password"])
+    pk = res.json()["user_id"]
+
+    url = URL + f"profile/{pk}/follows/"
+    res = requests.put(url, headers={"Authorization": "Token " + token})
+    print(res.json())
+    assert res.status_code == 200
+    assert res.json() == {
+        "followers": [],
+        "following": [pk],
+        "id": auth_user_res.json()["user_id"],
+    }
+
+
+def test_get_follows():
+    data = {
+        "name": "michael3",
+        "password": "doughs",
+        "email": "michael_doughs3@gmail.com",
+    }
+    res = auth_user(data["name"], data["password"])
+    pk = res.json()["user_id"]
+    print(pk)
+    url = URL + f"profile/{pk}/follows/"
+    res = requests.get(url, headers={"Authorization": "Token " + token})
+    print(res.json())
+    assert res.status_code == 200
+    assert res.json() == {
+        "followers": [auth_user_res.json()["user_id"]],
+        "following": [],
+        "id": str(pk),
+    }
+
+
+def test_unfollow():
+    data = {
+        "name": "michael3",
+        "password": "doughs",
+        "email": "michael_doughs3@gmail.com",
+    }
+    res = auth_user(data["name"], data["password"])
+    pk = res.json()["user_id"]
+    print(pk)
+    url = URL + f"profile/{pk}/follows/"
+    res = requests.delete(url, headers={"Authorization": "Token " + token})
+    print(res.json())
+    assert res.status_code == 200
+    assert res.json() == {
+        "followers": [],
+        "following": [],
+        "id": auth_user_res.json()["user_id"],
+    }
+
+
 def test_get_profile():
     files = {
         "profile_picture": (

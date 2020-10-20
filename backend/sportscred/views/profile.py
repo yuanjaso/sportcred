@@ -108,18 +108,68 @@ class ProfileViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-    @action(detail=False, methods=["put"])
-    def about(self, request):
+    @action(detail=True, methods=["put"])
+    def follows(self, request, pk=None):
         """
-        This method updates the about text of the user
+        This method is responsible for allowing users follow each other
         """
+        if pk == None:
+            return Response(
+                {"details": "Profile of followee not found, bad pk"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        profile = request.user.profile
         try:
-            profile = request.user.profile
-            profile.about = request.data["about"]
-            return Response()
-        except Exception as e:
+            followe = User.objects.get(pk=pk).profile
+            followe.followers.add(profile)
+            followe.save()
+            data = FollowSerializer(profile).data
+            data["id"] = profile.user.pk
+            return Response(data)
+        except User.DoesNotExist:
 
-            print(e)
+            return Response(
+                {"details": "Profile not found"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    @follows.mapping.delete
+    def unfollows(self, request, pk=None):
+        """Unfollow"""
+        if pk == None:
+            return Response(
+                {"details": "Profile of followee not found, bad pk"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        profile = request.user.profile
+        try:
+            followe = User.objects.get(pk=pk).profile
+
+            followe.followers.remove(profile)
+            profile.save()
+            data = FollowSerializer(profile).data
+            data["id"] = profile.user.pk
+            return Response(data)
+        except User.DoesNotExist:
+            return Response(
+                {"details": "Profile not found"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    @follows.mapping.get
+    def get_followers(self, request, pk=None):
+        """Unfollow"""
+        if pk == None:
+            return Response(
+                {"details": "Profile of followee not found, bad pk"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            followe = User.objects.get(pk=pk).profile
+            data = FollowSerializer(followe).data
+            data["id"] = pk
+            return Response(data)
+        except User.DoesNotExist:
             return Response(
                 {"details": "Profile not found"},
                 status=status.HTTP_400_BAD_REQUEST,
