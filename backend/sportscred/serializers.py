@@ -1,6 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from sportscred.models import Profile, Sport, Team, Player
+from sportscred.models import (
+    Profile,
+    Sport,
+    Team,
+    Player,
+    QuestionaireQuestion,
+    QuestionaireAnswer,
+)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -34,3 +41,15 @@ class PlayerSerializer(serializers.ModelSerializer):
         model = Player
         fields = "__all__"
         depth = 2
+
+
+class QuestionnaireSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionaireQuestion
+        fields = "__all__"
+
+
+class QuestionnaireAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionaireAnswer
+        fields = "__all__"

@@ -9,10 +9,11 @@ router.register(r"api/v1/users", mine.UserViewSet, basename="user")
 router.register(r"api/v1/sports", mine.SportViewSet, basename="sport")
 router.register(r"api/v1/teams", mine.TeamViewSet, basename="team")
 router.register(r"api/v1/players", mine.PlayerViewSet, basename="player")
+router.register(
+    r"api/v1/questionnaire", mine.QuestionnaireViewSet, basename="questionnaire"
+)
 
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = [
-    path("", include(router.urls)),
-]
+urlpatterns = [path("", include(router.urls))]
