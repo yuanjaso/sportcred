@@ -61,7 +61,7 @@ const apiRequirements: API[] = [
     },
     response: {
       statusCode: 200,
-      response: { user_id: 1, question_id: 1, answer: 'asdf' },
+      response: [{ user_id: 1, question_id: 1, answer: 'asdf' },...],
       is_superuser: False,
     },
     response: {
@@ -148,7 +148,7 @@ const apiRequirements: API[] = [
                      'team': {"id": int, "full_name": string, "short_name": string, "plays_sport": int},
                      'custom': {'id': int, 'question': int, 'answer': string},
                      'player': {'id': int, 'first_name': string, 'last_name': string},
-                    }],
+                    }, ...],
                      
                     
     },
