@@ -60,6 +60,7 @@ class UserViewSet(viewsets.ViewSet):
             "user_id": u.pk,
             "username": u.username,
             "email": u.email,
+            "is_superuser": u.is_superuser,
         }
         return Response(response)
 
@@ -74,7 +75,13 @@ class UserViewSet(viewsets.ViewSet):
         if user:
             # get or create a token
             token = Token.objects.get(user=user)
-            return Response({"token": token.key, "user_id": user.pk})
+            return Response(
+                {
+                    "token": token.key,
+                    "user_id": user.pk,
+                    "is_superuser": user.is_superuser,
+                }
+            )
         else:
             try:
                 user = User.objects.get(email__icontains=request.data["username"])
@@ -87,7 +94,13 @@ class UserViewSet(viewsets.ViewSet):
             user = authenticate(username=username, password=request.data["password"])
             if user:
                 token = Token.objects.get(user=user)
-                return Response({"token": token.key, "user_id": user.pk})
+                return Response(
+                    {
+                        "token": token.key,
+                        "user_id": user.pk,
+                        "is_superuser": user.is_superuser,
+                    }
+                )
             return Response(
                 {"details": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
             )
