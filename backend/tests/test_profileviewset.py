@@ -72,8 +72,6 @@ def test_update_highlights():
         verify=False,
     )
     assert res.status_code == 400
-    assert len(res.json()["highlights"]) == 1
-    assert res.json()["highlights"][0]["name"] == "Basketball"
 
 
 def test_update_picture():
