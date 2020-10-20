@@ -4,20 +4,20 @@ from sportscred_interface import *
 
 
 def test_user_creation():
-    res = create_user("michael", "doughs", "michael_doughs@gmail.com")
+    res = create_user("myco", "doughs", "myco_doughs@gmail.com")
     assert res.status_code == 200
     assert list(res.json().keys()) == ["token", "user_id", "username", "email"]
 
     # duplicate username is a nono
-    res = create_user("michael", "doughs", "michaele_doughs@gmail.com")
+    res = create_user("myco", "doughs", "michaele_doughs@gmail.com")
     assert res.status_code == 400
 
     # duplicate email is a nono
-    res = create_user("michaels", "doughs", "michael_doughs@gmail.com")
+    res = create_user("michaels", "doughs", "myco_doughs@gmail.com")
     assert res.status_code == 400
 
     # duplicate username and email is also a nono
-    res = create_user("michael", "doughs", "michael_doughs@gmail.com")
+    res = create_user("myco", "doughs", "myco_doughs@gmail.com")
     assert res.status_code == 400
 
 
