@@ -6,7 +6,13 @@ from sportscred_interface import *
 def test_user_creation():
     res = create_user("michael", "doughs", "michael_doughs@gmail.com")
     assert res.status_code == 200
-    assert list(res.json().keys()) == ["token", "user_id", "username", "email"]
+    assert list(res.json().keys()) == [
+        "token",
+        "user_id",
+        "username",
+        "email",
+        "is_superuser",
+    ]
 
     # duplicate username is a nono
     res = create_user("michael", "doughs", "michaele_doughs@gmail.com")
@@ -25,12 +31,12 @@ def test_login():
     # username works
     res = auth_user("michael", "doughs")
     assert res.status_code == 200
-    assert list(res.json().keys()) == ["token", "user_id"]
+    assert list(res.json().keys()) == ["token", "user_id", "is_superuser"]
 
     # email also works
     res = auth_user("michael_doughs@gmail.com", "doughs")
     assert res.status_code == 200
-    assert list(res.json().keys()) == ["token", "user_id"]
+    assert list(res.json().keys()) == ["token", "user_id", "is_superuser"]
 
     # fails on bad passwords
     res = auth_user("michael_doughs@gmail.com", "doughse")
