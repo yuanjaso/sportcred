@@ -78,7 +78,9 @@ const apiRequirements: API[] = [
           question_content: 'how many hats do you have',
           min_int: 0, 
           max_int: 100,
-          question_type: "One of the following (QN (Quantative)/QL (Qualitative)/S (Sports)/T (Teams)/P (Players)/C (Custom)"
+          question_type: "QN/QL/S/T/P/C"
+          // We only return one of the following: QN/QL/S/T/P/C
+          // QN stands for quantative, QL stands for qualitative, S stands for Sports, T stands for Teams, P stands for Players, C stands for Custom
         },
         {
           question_id: 232,
