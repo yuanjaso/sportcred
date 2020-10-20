@@ -125,4 +125,33 @@ const apiRequirements: API[] = [
       ],
     },
   },
+  {
+    description: 'Querying user responses as a superuser',
+    request: {
+      requestURL: 'api/v1/questionnaire/:id/responses', //id is the question id
+      requestMethod: 'GET',
+      body: {},
+      queryParams: {page: 'int'},
+    },
+    response: {
+      statusCode: 200,
+      response:{
+        'count': 10, // total number of objects from query. we don't actually return everything in the results
+        'next': None, // tells you the previous page number if there is one
+        'previous': None, // tells you the next page number if there is one 
+        'results': [{
+                     'user': {'id': int, 'username': string, 'email': string, 'is_superuser': boolean}, 
+                     'question': {'id': int, 'question_content': string, 'question_type': string},
+                     'qualitative_response': string,
+                     'quantitative_response': int,
+                     'sport': {'id': int, 'name': string},
+                     'team': {"id": int, "full_name": string, "short_name": string, "plays_sport": int},
+                     'custom': {'id': int, 'question': int, 'answer': string},
+                     'player': {'id': int, 'first_name': string, 'last_name': string},
+                    }],
+                     
+                    
+    },
+   },
+  },
 ];
