@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { all_routes } from '../../global/routing-statics';
-
+import { MatDialog } from '@angular/material/dialog';
+import { LiveDialogComponent } from './live-dialog/live-dialog.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,13 +12,12 @@ import { all_routes } from '../../global/routing-statics';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
   setPage(page: string) {
-    console.log("clicked something\n");
     switch(page) {
       case 'PROFILE':
         // TODO: Profile link here
@@ -26,8 +26,9 @@ export class ToolbarComponent implements OnInit {
         this.router.navigate([all_routes.zone.url]);
         break;
       case 'LIVE':
-        // TODO: Coming soon page or popup dialog for LIVE
-      break;
+        // Popup dialog
+        this.onClickLive();
+        break;
     }
   }
 
@@ -39,5 +40,9 @@ export class ToolbarComponent implements OnInit {
       default:
         return 1;
     }
+  }
+
+  onClickLive() {
+    this.dialog.open(LiveDialogComponent);
   }
 }
