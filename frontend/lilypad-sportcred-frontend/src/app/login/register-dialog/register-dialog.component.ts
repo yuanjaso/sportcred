@@ -48,20 +48,20 @@ export class RegisterDialogComponent implements OnInit {
             {
               id: 12,
               question_content: 'How much do you like Hats?',
-              is_qualitative: false,
+              question_type: 'QN',
               min_int: 1,
               max_int: 10,
             },
             {
               id: 122,
               question_content: 'What is your opinion on ... ... ...',
-              is_qualitative: true,
+              question_type: 'S',
               min_int: 1,
               max_int: 3,
             },
           ];
           this.questionairLength = this.questionaire.length;
-        }, 20000);
+        }, 10000);
       });
   }
 
@@ -73,12 +73,12 @@ export class RegisterDialogComponent implements OnInit {
     this.questionaireResponse.push(e);
     this.proceedSlide();
   }
-  register() {
+  registerQuestionaire() {
     //info in generalInfoResponse and questionaireResponse should be validated
 
     this.store.dispatch(
       tryRegisterQuestionaire({
-        answers: this.questionaireResponse,
+        questionaire: this.questionaireResponse,
       })
     );
     this.onNoClick();
@@ -90,9 +90,9 @@ export class RegisterDialogComponent implements OnInit {
   proceedSlide() {
     if (!this.swiper || !this.swiper.directiveRef) return;
     if (this.swiper.index == this.questionairLength) {
-      //if we are at last slide, try to register
+      //if we are at last slide, try to register the questionaire
       //NOTE this conditional takes into account the 1 more slide hack
-      this.register();
+      this.registerQuestionaire();
     } else {
       this.swiper.directiveRef.nextSlide();
     }

@@ -26,13 +26,13 @@ export class LoginComponent implements OnInit {
   ) {
     this.titleService.setTitle(all_routes.login.title);
   }
-  signin() {
+  signin(): void {
     if (!this.form.valid) return;
-    let email = this.form.controls.email.value;
-    let password = this.form.controls.password.value;
-    this.store.dispatch(getLoginToken({ email, password }));
+    const email = this.form.controls.email.value;
+    const password = this.form.controls.password.value;
+    this.store.dispatch(getLoginToken({ username: email, password }));
   }
-  register() {
+  register(): void {
     const dialogRef = this.dialog.open(RegisterDialogComponent);
     // dialogRef.afterClosed().subscribe((result) => {
     //   console.log('The dialog was closed');

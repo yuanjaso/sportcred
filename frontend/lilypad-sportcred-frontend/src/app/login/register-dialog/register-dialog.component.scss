@@ -1,7 +1,6 @@
 .host {
   margin: -24px;
   max-width: 40rem;
-  height: 20rem;
 }
 .seperator {
   margin: 2rem;
@@ -16,9 +15,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-@media only screen and (max-width: 600px) {
-  .host {
-    height: 35rem;
-  }
 }

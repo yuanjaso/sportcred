@@ -6,13 +6,13 @@
     </div>
     <div style="flex-grow: 9"></div>
 
-    <ng-container *ngIf="question.is_qualitative">
+    <ng-container *ngIf="question.question_type !== quantitative">
       <mat-form-field>
         <mat-label>Answer</mat-label>
-        <textarea matInput formControlName="string"></textarea>
+        <textarea matInput formControlName="string" rows="5"></textarea>
       </mat-form-field>
     </ng-container>
-    <ng-container *ngIf="!question.is_qualitative">
+    <ng-container *ngIf="question.question_type === quantitative">
       <mat-slider
         thumbLabel
         tickInterval="1"

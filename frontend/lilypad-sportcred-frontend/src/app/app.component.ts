@@ -8,7 +8,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class AppComponent {
   constructor(private titleService: Title) {
-    let title = 'Sportcred';
+    const title = 'Sportcred';
     this.titleService.setTitle(title);
   }
 }

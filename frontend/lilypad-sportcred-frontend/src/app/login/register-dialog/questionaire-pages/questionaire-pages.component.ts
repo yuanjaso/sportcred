@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { question, answer } from '../../models';
+import { question, answer, questionTypes } from '../../models';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -15,17 +15,21 @@ export class QuestionairePagesComponent implements OnInit {
     number: new FormControl(0),
     string: new FormControl(''),
   });
+
+  // create this local variable to access in html
+  quantitative = questionTypes.quantitative;
   constructor() {}
 
   ngOnInit(): void {}
   submit() {
-    let answer = this.question.is_qualitative
-      ? this.form.controls.string.value
-      : this.form.controls.number.value;
-
+    let answer =
+      this.question.question_type === this.quantitative
+        ? this.form.controls.number.value
+        : this.form.controls.string.value;
+    console.log(answer);
     this.answer.emit({
       answer,
-      question: this.question,
+      question_id: this.question.id,
     });
   }
 }

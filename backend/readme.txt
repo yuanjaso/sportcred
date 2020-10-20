@@ -1,7 +1,6 @@
 To install the dependencies
 
-python3 setup.py develop
-
+pip3 install -r requirements.txt
 To reset and drop the database run:
 
 sh reset_dev.sh 

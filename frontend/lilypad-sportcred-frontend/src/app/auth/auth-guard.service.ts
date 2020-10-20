@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { selectAuthToken } from '../auth/store/selectors';
 import { first } from 'rxjs/operators';
 
-//this class guards URLS
+// this class guards URLS
 // if a url is guarded, the user will not be allowed to go there
 // unless they have a valid token in the store
 // the user can only obtain a valid token via logging in
@@ -18,7 +18,7 @@ export class AuthGuardService implements CanActivate {
   constructor(public router: Router, private store: Store<AppState>) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    let authenticated = await this.store
+    const authenticated = await this.store
       .select(selectAuthToken)
       .pipe(first())
       .toPromise();
