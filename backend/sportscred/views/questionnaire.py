@@ -15,6 +15,10 @@ from sportscred.models import (
     QuestionaireQuestion,
     QuestionaireAnswer,
     QuestionaireUserResponse,
+    Profile,
+    Sport,
+    Player,
+    Team,
 )
 
 
@@ -40,7 +44,6 @@ class QuestionnaireViewSet(viewsets.ViewSet):
         send_response = []
 
         for response_data in request.data:
-            print(response_data)
             question_id = response_data["question_id"]
             try:
                 question = QuestionaireQuestion.objects.get(pk=question_id)
@@ -53,6 +56,7 @@ class QuestionnaireViewSet(viewsets.ViewSet):
                 question, response_data["answer"], request.user
             )
             handler = getattr(q_handler, "handle_" + question.question_type)
+
             result = handler()
             if isinstance(result, Response):
                 return result
@@ -69,7 +73,7 @@ class QuestionnaireViewSet(viewsets.ViewSet):
 class QuestionnaireHandler:
     def __init__(self, question, answer, user):
         self.question = question
-        self.user = user
+        self.user = Profile.objects.get(pk=user)
         self.answer = answer
 
     def handle_QN(self):
@@ -79,13 +83,67 @@ class QuestionnaireHandler:
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if self.answer < question.min_int or self.answer > question.max_int:
+        if self.answer < self.question.min_int or self.answer > self.question.max_int:
             return Response(
                 {"details": "The answer is not within the specified range."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         return self.update_DB("quantitative_response")
+
+    def handle_QL(self):
+        if not isinstance(self.answer, str):
+            return Response(
+                {"details": "The answer is not a string."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return self.update_DB("qualitative_response")
+
+    def handle_S(self):
+        try:
+            sport = Sport.objects.get(pk=self.answer)
+        except:
+            return Response(
+                {"details": "The answer is not from the list."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        self.answer = sport
+        return self.update_DB("sport")
+
+    def handle_P(self):
+        try:
+            player = Player.objects.get(pk=self.answer)
+        except:
+            return Response(
+                {"details": "The answer is not from the list."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        self.answer = player
+
+        return self.update_DB("player")
+
+    def handle_T(self):
+        try:
+            team = Team.objects.get(pk=self.answer)
+        except:
+            return Response(
+                {"details": "The answer is not from the list."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        self.answer = team
+        return self.update_DB("team")
+
+    def handle_C(self):
+        try:
+            custom_question = QuestionaireAnswer.objects.get(pk=self.answer)
+        except:
+            return Response(
+                {"details": "The answer is not from the list."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        self.answer = custom_question
+        return self.update_DB("custom_answer")
 
     def update_DB(self, response_type):
         user_response = QuestionaireUserResponse.objects.create(
@@ -94,3 +152,4 @@ class QuestionnaireHandler:
 
         setattr(user_response, response_type, self.answer)
         return user_response
+

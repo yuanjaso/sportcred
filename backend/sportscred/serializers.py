@@ -59,6 +59,6 @@ class QuestionnaireAnswerSerializer(serializers.ModelSerializer):
 class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionaireUserResponse
-        field = "__all__"
+        fields = "__all__"
         depth = 2
 
