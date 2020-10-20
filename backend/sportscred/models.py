@@ -1,23 +1,38 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+import os
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.models.User
 # using default user class
 
 
+def hash_directory(instance, filename):
+    x, file_extension = os.path.splitext(filename)
+    return (
+        f"user/pictures/{instance.hash_value[0:2]}/{instance.hash_value[2:4]}/{instance.hash_value}"
+        + file_extension
+    )
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=100, blank=True)
-
-    profile_picture = models.ImageField(
-        upload_to="user_id/files"
-    )  # Add upload argument (Make a folder named after each user)
+    about = models.CharField(max_length=300, blank=True)
     agree = models.ManyToManyField("DebatePost", through="Agrees")
     like = models.ManyToManyField("SocialPost", through="Likes")
     highlights = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
+
+
+class ProfilePicture(models.Model):
+    name = models.CharField(max_length=100)
+    size = models.CharField(max_length=100)
+    content_type = models.CharField(max_length=100, blank=True)
+    charset = models.CharField(max_length=100, blank=True, null=True)
+    file = models.ImageField(upload_to=hash_directory, null=True)
+    hash_value = models.CharField(max_length=64)
+    profile = models.OneToOneField("Profile", on_delete=models.CASCADE, blank=True)
 
 
 class Post(models.Model):

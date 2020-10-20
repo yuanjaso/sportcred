@@ -1,0 +1,62 @@
+@import "./colors.scss";
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+
+$colour: black;
+$negative-colour: white;
+$font: 20px; //base rem
+html {
+  font-size: $font;
+}
+* {
+  font-family: "Staatliches", cursive;
+  font-size: $font;
+}
+.black-font {
+  color: $negative-colour;
+}
+.white-font {
+  color: $negative-colour;
+}
+.green-font {
+  color: $green;
+}
+.font {
+  &-primary {
+    font-weight: 100;
+
+    @extend .font;
+    font-size: 4rem;
+    line-height: 4rem;
+  }
+  &-secondary {
+    @extend .font;
+    font-size: 2rem;
+    line-height: 2rem;
+    &-bold {
+      @extend .font-secondary;
+      font-weight: 400;
+    }
+  }
+  &-tertiary {
+    @extend .font;
+    font-size: 1rem;
+    line-height: 1rem;
+
+    &-bold {
+      @extend .font-tertiary;
+      font-weight: 400;
+    }
+  }
+  &-links {
+    @extend .font;
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+  }
+  &-footer {
+    font-style: italic;
+    @extend .font;
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}

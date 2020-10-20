@@ -1,4 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+//@import "./global/custom-material.scss";
+@import "./global/fonts.scss";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+
+/*CUSTOM MATERIAL STYLING*/
+
+//this styling allows the error message to be multilined, without this styling, the error message wil be overlapped and hidden
+mat-form-field .mat-form-field {
+  &-underline {
+    position: relative;
+    bottom: auto;
+  }
+  &-subscript-wrapper {
+    position: static;
+  }
+}
+//makes sure all swiper cards are filling the max height
+.swiper-slide {
+  height: auto !important;
+}
+/*COMPONENT SPECIFIC STYLING*/
+.login-component {
+  .button {
+    width: 100%;
+    & button {
+      width: 100%;
+      background-color: $grey;
+      @extend .white-font;
+    }
+  }
+}

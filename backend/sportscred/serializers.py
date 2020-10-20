@@ -5,6 +5,7 @@ from sportscred.models import (
     Sport,
     Team,
     Player,
+    ProfilePicture,
     QuestionaireQuestion,
     QuestionaireAnswer,
     QuestionaireUserResponse,
@@ -21,6 +22,17 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "email", "is_superuser"]
+
+
+class ProfilePictureSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProfilePicture
+        fields = ["name", "content_type", "charset", "url"]
+
+    def get_url(self, pic):
+        return pic.file.url
 
 
 class SportSerializer(serializers.ModelSerializer):
@@ -43,7 +55,6 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 2
 
-
 class QuestionnaireSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionaireQuestion
@@ -62,3 +73,24 @@ class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 2
 
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    profilepicture = ProfilePictureSerializer()
+    highlights = SportSerializer(many=True)
+
+    class Meta:
+        model = Profile
+        fields = ["user", "status", "highlights", "about", "profilepicture"]
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    following = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = ["followers", "following"]
+
+    def get_following(self, profile):
+        return Profile.objects.filter(followers=profile).values_list(
+            "user__pk", flat=True
+        )
