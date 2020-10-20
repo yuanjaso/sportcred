@@ -41,7 +41,7 @@ class QuestionnaireViewSet(viewsets.ViewSet):
     # For POST
     def create(self, request):
         # Have to catch handler and send bad request
-        send_response = []
+        handlers = []
 
         for response_data in request.data:
             question_id = response_data["question_id"]
@@ -61,10 +61,10 @@ class QuestionnaireViewSet(viewsets.ViewSet):
             if isinstance(result, Response):
                 return result
             else:
-                send_response.append(result)
+                send_response.append(q_handler)
 
-        for item in send_response:
-            item.save()
+        for handler in handlers:
+            handler.save()
 
         serializer = QuestionaireUserResponseSerializer(send_response, many=True)
         return Response(serializer.data)
@@ -89,16 +89,12 @@ class QuestionnaireHandler:
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return self.update_DB("quantitative_response")
-
     def handle_QL(self):
         if not isinstance(self.answer, str):
             return Response(
                 {"details": "The answer is not a string."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        return self.update_DB("qualitative_response")
 
     def handle_S(self):
         try:
@@ -109,7 +105,6 @@ class QuestionnaireHandler:
                 status=status.HTTP_400_BAD_REQUEST,
             )
         self.answer = sport
-        return self.update_DB("sport")
 
     def handle_P(self):
         try:
@@ -121,8 +116,6 @@ class QuestionnaireHandler:
             )
         self.answer = player
 
-        return self.update_DB("player")
-
     def handle_T(self):
         try:
             team = Team.objects.get(pk=self.answer)
@@ -132,7 +125,6 @@ class QuestionnaireHandler:
                 status=status.HTTP_400_BAD_REQUEST,
             )
         self.answer = team
-        return self.update_DB("team")
 
     def handle_C(self):
         try:
@@ -143,7 +135,6 @@ class QuestionnaireHandler:
                 status=status.HTTP_400_BAD_REQUEST,
             )
         self.answer = custom_question
-        return self.update_DB("custom_answer")
 
     def update_DB(self, response_type):
         user_response = QuestionaireUserResponse.objects.create(
@@ -152,4 +143,3 @@ class QuestionnaireHandler:
 
         setattr(user_response, response_type, self.answer)
         return user_response
-
