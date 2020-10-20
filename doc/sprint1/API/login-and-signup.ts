@@ -14,7 +14,7 @@ const apiRequirements: API[] = [
     },
     response: {
       statusCode: 200,
-      response: { 
+      response: {
         token: 'asdf13dwer276tse8ft7wef',
         user_id: 4, // added user_id, you'll probably want to know your own id
       },
@@ -38,29 +38,33 @@ const apiRequirements: API[] = [
         token: 'asdf13dwer276tse8ft7wef',
         user_id: 4,
         username: 'michaeldough',
-        email: 'michaeldough@gmail.com'},
+        email: 'michaeldough@gmail.com',
+      },
     },
   },
-    {
-    description: "trying to submit initial questionaire",
+  {
+    description: 'trying to submit initial questionaire',
     request: {
-      requestURL: "/api/v1/questionnaire/",
-      requestMethod: "POST",
-      Mimetype: "application/json",
-      Header: {Authorization: "Token" + "token"},
+      requestURL: '/api/v1/questionnaire/',
+      requestMethod: 'POST',
+      Mimetype: 'application/json',
+      Header: { Authorization: 'Token' + 'token' },
       body: {
-        questionaire: {question_id: 1, answer: "asdf" },
+        questionaire: [
+          { question_id: 1, answer: 'asdf' },
+          { question_id: 2, answer: 40 },
+        ],
       },
       queryParams: {},
     },
     response: {
       statusCode: 200,
-      response: {user_id: 1, question_id: 1, answer: "asdf"}
+      response: { user_id: 1, question_id: 1, answer: 'asdf' },
     },
     response: {
       statusCode: 400,
-      response: {details: "Explain why it didn't work."}
-    }
+      response: { details: "Explain why it didn't work." },
+    },
   },
   {
     description: 'getting some questions',
@@ -76,18 +80,17 @@ const apiRequirements: API[] = [
         {
           question_id: 23,
           question_content: 'how many hats do you have',
-          min_int: 0, 
+          min_int: 0,
           max_int: 100,
-          question_type: "QN/QL/S/T/P/C"
-          // We only return one of the following: QN/QL/S/T/P/C
-          // QN stands for quantative, QL stands for qualitative, S stands for Sports, T stands for Teams, P stands for Players, C stands for Custom
+          question_type:
+            'One of the following (QN (Quantative)/QL (Qualitative)/S (Sports)/T (Teams)/P (Players)/C (Custom)',
         },
         {
           question_id: 232,
           question_content: 'whats ur favorite animal',
-          min_int: 0, // If the question is not qualitative, we'll just ignore the min_int and max_int values.
+          min_int: 0, // If the question is not quantitative, we'll just ignore the min_int and max_int values.
           max_int: 100,
-          question_type: "QN/QL/S/T/P/C"
+          question_type: 'QN/QL/S/T/P/C',
           // We only return one of the following: QN/QL/S/T/P/C
           // QN stands for quantative, QL stands for qualitative, S stands for Sports, T stands for Teams, P stands for Players, C stands for Custom
         },
@@ -106,14 +109,14 @@ const apiRequirements: API[] = [
       statusCode: 200,
       response: [
         {
-          Mimetype: "application/json",
+          Mimetype: 'application/json',
           Body: {
-               question_id: 1,
-               answers: [
-                          {answer_id: 1, custom_answer: "asdf"},
-                          {answer_id: 2, custom_answer: "bcdf"},
-                        ] 
-              }
+            question_id: 1,
+            answers: [
+              { answer_id: 1, custom_answer: 'asdf' },
+              { answer_id: 2, custom_answer: 'bcdf' },
+            ],
+          },
         },
       ],
     },
