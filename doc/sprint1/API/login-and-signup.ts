@@ -17,7 +17,7 @@ const apiRequirements: API[] = [
       response: {
         token: 'asdf13dwer276tse8ft7wef',
         user_id: 4, // added user_id, you'll probably want to know your own id
-        is_super_user: False,
+        is_superuser: False,
       },
     },
   },
@@ -40,7 +40,7 @@ const apiRequirements: API[] = [
         user_id: 4,
         username: 'michaeldough',
         email: 'michaeldough@gmail.com',
-        is_super_user: False,
+        is_superuser: False,
       },
     },
   },
@@ -62,12 +62,12 @@ const apiRequirements: API[] = [
     response: {
       statusCode: 200,
       response: { user_id: 1, question_id: 1, answer: 'asdf' },
-      is_super_user: False,
+      is_superuser: False,
     },
     response: {
       statusCode: 400,
       response: { details: "Explain why it didn't work." },
-      is_super_user: False,
+      is_superuser: False,
     },
   },
   {
