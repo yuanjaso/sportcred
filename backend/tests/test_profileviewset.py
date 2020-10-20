@@ -38,18 +38,17 @@ def test_update_status():
         verify=False,
     )
     assert res.status_code == 200
-    assert res.json()["status"] == "c00l"
 
 
 def test_update_picture():
-    files = {"profile_picture": open("test_img.png", "rb")}
+    files = {"profile_picture": open("./pictures/test_img.png", "rb")}
     url = URL + "profile/picture/"
     res = requests.put(url, headers={"Authorization": "Token " + token}, files=files)
     assert res.status_code == 200
 
 
 def test_update_picture_deleteold():
-    files = {"profile_picture": open("test2_img.png", "rb")}
+    files = {"profile_picture": open("./pictures/test2_img.png", "rb")}
     url = URL + "profile/picture/"
     res = requests.put(url, headers={"Authorization": "Token " + token}, files=files)
     assert res.status_code == 200
@@ -57,7 +56,11 @@ def test_update_picture_deleteold():
 
 def test_get_profile():
     files = {
-        "profile_picture": ("test_img.png", open("test_img.png", "rb"), "image/png")
+        "profile_picture": (
+            "test_img.png",
+            open("./pictures/test_img.png", "rb"),
+            "image/png",
+        )
     }
     data = {
         "name": "michael2",

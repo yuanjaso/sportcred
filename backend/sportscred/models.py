@@ -22,6 +22,7 @@ class Profile(models.Model):
         primary_key=True,
     )
     status = models.CharField(max_length=100, blank=True)
+    about = models.CharField(max_length=300, blank=True)
     agree = models.ManyToManyField("DebatePost", through="Agrees")
     like = models.ManyToManyField("SocialPost", through="Likes")
     highlights = models.ManyToManyField("Sport")

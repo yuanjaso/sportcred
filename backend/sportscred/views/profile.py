@@ -82,9 +82,27 @@ class ProfileViewSet(viewsets.ViewSet):
         """
         try:
 
-            profile = User.objects.get(username=request.data["username"]).profile
+            profile = request.user.profile
             profile.status = request.data["status"]
-            return Response(ProfileSerializer(profile).data)
+            return Response()
+        except Exception as e:
+
+            print(e)
+            return Response(
+                {"details": "Profile not found"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    @action(detail=False, methods=["put"])
+    def about(self, request):
+        """
+        This method updates the about text of the user
+        """
+        try:
+
+            profile = request.user.profile
+            profile.about = request.data["about"]
+            return Response()
         except Exception as e:
 
             print(e)
@@ -99,7 +117,7 @@ class ProfileViewSet(viewsets.ViewSet):
         """
         try:
             profile = User.objects.get(username=request.data["username"]).profile
-
+            print(ProfileSerializer(profile).data)
             return Response(ProfileSerializer(profile).data)
         except Exception as e:
             print(e)
