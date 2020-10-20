@@ -91,4 +91,53 @@ const apiRequirements: API[] = [
       },
     },
   },
+  {
+    description: "See followers, and following",
+    request: {
+      requestURL: "/api/v1/profile/:id/follows",
+      requestMethod: "GET",
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      body: {
+        user_id: 1, // id that u queried
+        followers: [1,2,3],
+        following: [1,2]
+      },
+    },
+  },
+    {
+    description: "follow that user_id",
+    request: {
+      requestURL: "/api/v1/profile/:id/follows", // the id of the person u want to follow
+      requestMethod: "PUT",
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      body: {
+        user_id: 1, // you're own user_id
+        followers: [1,2,3], // the list of people following you
+        following: [1,2,4] // the updated list of people you're following
+      },
+    },
+  },
+    },
+    {
+    description: "follow that user_id",
+    request: {
+      requestURL: "/api/v1/profile/:id/follows", // the id of the person u want to unfollow
+      requestMethod: "DELETE",
+      queryParams: {},
+    },
+    response: {
+      statusCode: 200,
+      body: {
+        user_id: 1, // you're own user_id
+        followers: [1,2,3], // the list of people following you
+        following: [1,2,] // the updated list of people you're following
+      },
+    },
+  },
 ];
