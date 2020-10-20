@@ -42,8 +42,9 @@ class QuestionnaireViewSet(viewsets.ViewSet):
     def create(self, request):
         # Have to catch handler and send bad request
         handlers = []
+        user_responses = []
 
-        for response_data in request.data:
+        for response_data in request.data:  # validation step
             question_id = response_data["question_id"]
             try:
                 question = QuestionaireQuestion.objects.get(pk=question_id)
@@ -61,12 +62,13 @@ class QuestionnaireViewSet(viewsets.ViewSet):
             if isinstance(result, Response):
                 return result
             else:
-                send_response.append(q_handler)
+                handlers.append(q_handler)
 
         for handler in handlers:
-            handler.save()
+            user_response = handler.update_DB()
+            user_responses.append(user_response)
 
-        serializer = QuestionaireUserResponseSerializer(send_response, many=True)
+        serializer = QuestionaireUserResponseSerializer(user_responses, many=True)
         return Response(serializer.data)
 
 
@@ -75,6 +77,19 @@ class QuestionnaireHandler:
         self.question = question
         self.user = Profile.objects.get(pk=user)
         self.answer = answer
+
+        if self.question.question_type == "QN":
+            self.attr = "quantitative_response"
+        elif self.question.question_type == "QL":
+            self.attr = "qualitative_response"
+        elif self.question.question_type == "S":
+            self.attr = "sport"
+        elif self.question.question_type == "T":
+            self.attr = "team"
+        elif self.question.question_type == "P":
+            self.attr = "player"
+        else:
+            self.attr = "custom_answer"
 
     def handle_QN(self):
         if not isinstance(self.answer, int):
@@ -136,10 +151,11 @@ class QuestionnaireHandler:
             )
         self.answer = custom_question
 
-    def update_DB(self, response_type):
+    def update_DB(self):
         user_response = QuestionaireUserResponse.objects.create(
             question=self.question, user=self.user
         )
 
-        setattr(user_response, response_type, self.answer)
+        setattr(user_response, self.attr, self.answer)
+        user_response.save()
         return user_response
