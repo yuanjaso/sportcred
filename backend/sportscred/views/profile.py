@@ -75,8 +75,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-    @action(detail=False, methods=["patch"])
-    def details(self, request):
+    def patch(self, request):
         """
         This method updates the status, about and highlight of profile
         """
