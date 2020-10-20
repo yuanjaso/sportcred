@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  //!todo fill this out
+  backendUrl: 'localhost',
 };

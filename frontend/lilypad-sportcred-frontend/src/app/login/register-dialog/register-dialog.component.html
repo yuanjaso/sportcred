@@ -1,0 +1,34 @@
+<div class="host login-component">
+  <swiper [config]="swiperConfig" [(index)]="swiperIndex">
+    <div class="card h-100">
+      <div class="seperator">
+        <app-first-page-registration
+          (success)="onFinishBasicRegistration($event)"
+        ></app-first-page-registration>
+      </div>
+    </div>
+    <ng-container *ngIf="questionaire !== undefined">
+      <div
+        class="card h-100"
+        *ngFor="let question of questionaire; let i = index"
+      >
+        <div class="seperator">
+          <app-questionaire-pages
+            [question]="question"
+            [outOf]="getOutOf(i)"
+            (answer)="getAnswer($event)"
+          ></app-questionaire-pages>
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="questionaire === undefined" class="card h-100">
+      <div class="spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+    <div>
+      this is a useles last swipe, it is to fix a bug with resizing resulting in
+      swiper jump back
+    </div>
+  </swiper>
+</div>
