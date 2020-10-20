@@ -65,8 +65,14 @@ class QuestionnaireViewSet(viewsets.ViewSet):
                 handlers.append(q_handler)
 
         for handler in handlers:
-            user_response = handler.update_DB()
-            user_responses.append(user_response)
+            try:
+                user_response = handler.update_DB()
+                user_responses.append(user_response)
+            except:
+                return Response(
+                    {"details": "You have already answered this question."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         serializer = QuestionaireUserResponseSerializer(user_responses, many=True)
         return Response(serializer.data)
