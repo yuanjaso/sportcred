@@ -44,35 +44,56 @@ def test_get_custom_answers_4(token):
     assert res.status_code == 200
 
 
-def test_post_favourite_sport_1(token):
-    url = URL + "questionnaire/"
-    res = requests.post(
-        url,
-        headers={"Authorization": "Token " + token},
-        json=[{"question_id": 1, "answer": 1}],
-        verify=False,
-    )
-    assert res.status_code == 200
-    assert 
+# def test_post_everything_correct(token):
+#     url = URL + "questionnaire/"
+#     res = requests.post(
+#         url,
+#         headers={"Authorization": "Token " + token},
+#         json=[
+#             {"question_id": 1, "answer": 1},
+#             {"question_id": 2, "answer": 100},
+#             {"question_id": 3, "answer": 4},
+#             {"question_id": 4, "answer": 10},
+#             {"question_id": 5, "answer": 1},
+#             {"question_id": 6, "answer": "blue"},
+#         ],
+#         verify=False,
+#     )
+#     assert res.status_code == 200
+
+## For this test case, the question_ids of 0, 7 and 10 are wrong.
+# def test_post_incorrect_question_ids(token):
+#     url = URL + "questionnaire/"
+#     res = requests.post(
+#         url,
+#         headers={"Authorization": "Token " + token},
+#         json=[
+#             {"question_id": 0, "answer": 1},
+#             {"question_id": 2, "answer": 100},
+#             {"question_id": 3, "answer": 4},
+#             {"question_id": 7, "answer": 10},
+#             {"question_id": 5, "answer": 1},
+#             {"question_id": 10, "answer": "blue"},
+#         ],
+#         verify=False,
+#     )
+#     assert res.status_code == 400
 
 
-def test_post_favourite_sport_2(token):
-    url = URL + "questionnaire/"
-    res = requests.post(
-        url,
-        headers={"Authorization": "Token " + token},
-        json=[{"question_id": 1, "answer": 10}],
-        verify=False,
-    )
-    assert res.status_code == 200
-
-
-def test_post_favourite_sport_3(token):
-    url = URL + "questionnaire/"
-    res = requests.post(
-        url,
-        headers={"Authorization": "Token " + token},
-        json=[{"question_id": 1, "answer": 0}],
-        verify=False,
-    )
-    assert res.status_code == 404
+## For this test case, the answers to question_ids 1, 2 and 6 are wrong.
+# def test_post_incorrect_answer_values(token):
+#     url = URL + "questionnaire/"
+#     res = requests.post(
+#         url,
+#         headers={"Authorization": "Token " + token},
+#         json=[
+#             {"question_id": 1, "answer": 0},
+#             {"question_id": 2, "answer": -10},
+#             {"question_id": 3, "answer": 4},
+#             {"question_id": 4, "answer": 10},
+#             {"question_id": 5, "answer": 1},
+#             {"question_id": 6, "answer": 5},
+#         ],
+#         verify=False,
+#     )
+#     assert res.status_code == 400
