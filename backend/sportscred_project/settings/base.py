@@ -99,11 +99,13 @@ class BaseSettings(DjangoDefaults):
         "rest_framework.authtoken",
         "django.contrib.sites",
         "django_filters",
+        "corsheaders",
     ]
 
     PROJECT_APPS = ["sportscred_project", "sportscred"]
 
     MIDDLEWARE = (
+        "corsheaders.middleware.CorsMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
@@ -146,6 +148,8 @@ class BaseSettings(DjangoDefaults):
 
     WSGI_APPLICATION = PROJECT_NAME + ".wsgi.application"
     ASGI_APPLICATION = PROJECT_NAME + ".routing.application"
+
+    CORS_ALLOW_ALL_ORIGINS = True
 
     # Database
     # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
