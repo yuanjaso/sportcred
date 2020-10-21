@@ -3,4 +3,5 @@ export interface Profile {
   acs: number;
   status: string;
   pictureURL: string;
+  about: string;
 }

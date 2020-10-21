@@ -14,6 +14,8 @@ export class ProfileService {
       acs: 945,
       pictureURL:
         'https://miro.medium.com/max/3288/1*Eu8NZH76BTABlaSOac6Tyg.jpeg',
+      about:
+        'Hi, I am LeBron James. I am the best. I play basketball. I have three kids. I am 35 years old. I play for the Lakers. I am the best. I am the best.',
     }).pipe(delay(1500));
   }
 }

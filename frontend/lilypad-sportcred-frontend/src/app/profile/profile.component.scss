@@ -58,4 +58,20 @@
       line-height: 2.5rem;
     }
   }
+
+  div#about {
+    label {
+      background-color: $grey;
+      padding: 0.5rem;
+      width: fit-content;
+      margin: 0;
+    }
+
+    textarea {
+      border: 1px solid $black;
+      padding: 1rem;
+      background-color: $white;
+      resize: none;
+    }
+  }
 }

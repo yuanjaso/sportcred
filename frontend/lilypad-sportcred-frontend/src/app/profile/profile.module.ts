@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ProfileRoutingModule } from './profile-routing.module';
@@ -11,6 +12,7 @@ import { profileFeatureKey, profileReducer } from './store/profile.reducer';
 @NgModule({
   declarations: [ProfileComponent],
   imports: [
+    MatInputModule,
     StoreModule.forFeature(profileFeatureKey, profileReducer),
     EffectsModule.forFeature([ProfileEffects]),
     CommonModule,

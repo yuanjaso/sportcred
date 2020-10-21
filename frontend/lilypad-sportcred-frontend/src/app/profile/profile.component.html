@@ -1,4 +1,6 @@
 <ng-container *ngIf="profile !== undefined; else loading">
+  <button>Followers/Following</button>
+
   <div class="row xy-center">
     <div id="picture">
       <img [src]="profile.pictureURL" />
@@ -16,6 +18,14 @@
 
   <div id="status" class="row xy-center">
     <p>{{ profile.status }}</p>
+  </div>
+
+  <div id="about" class="column">
+    <label for="about-message">About</label>
+
+    <textarea id="about-message" matInput rows="3" cols="50">
+      {{ profile.about }}
+    </textarea>
   </div>
 </ng-container>
 <ng-template #loading> loading </ng-template>
