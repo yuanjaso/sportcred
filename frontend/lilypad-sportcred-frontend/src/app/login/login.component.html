@@ -35,6 +35,9 @@
         placeholder="jordanlover123@hotmail.com"
         formControlName="email"
       />
+      <mat-error *ngIf="form.controls.email.hasError('incorrect')">
+        Login <strong>Failed</strong>
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">

@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 export class LoginService {
   /*SUBJECTS */
   $registrationStatus = new Subject<boolean>();
+  $loginStatus = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 

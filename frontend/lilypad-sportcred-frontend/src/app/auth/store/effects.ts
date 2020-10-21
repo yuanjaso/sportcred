@@ -18,7 +18,10 @@ export class AuthEffects {
             type: actions.setLoginToken.type,
             payload: token,
           })),
-          catchError(() => EMPTY)
+          catchError(() => {
+            this.loginService.$loginStatus.next(false);
+            return EMPTY;
+          })
         )
       )
     )
