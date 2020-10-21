@@ -6,3 +6,4 @@ django-filter == 2.1.0
 pytest
 requests
 pyyaml
+django-cors-headers == 2.2.0
