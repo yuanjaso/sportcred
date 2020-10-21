@@ -40,11 +40,11 @@ export class LoginEffects {
       ofType(actions.tryRegisterBasic),
       mergeMap((info: generalRegistrationInfo) => {
         return this.loginService.tryRegisterBasic(info).pipe(
-          map((response) => {
+          map((payload) => {
             this.loginService.$registrationStatus.next(true);
             return {
               type: setUserInfo.type,
-              token: (response as any).token,
+              payload,
             };
           }),
           catchError(() => {

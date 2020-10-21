@@ -11,7 +11,6 @@ export const initialState: AuthState = {
 const reducer = createReducer<AuthState>(
   initialState,
   on(actions.setUserInfo, (state, { payload: userinfo }) => {
-    console.log('asdf');
     return { ...state, userinfo };
   }),
   on(actions.clearLoginToken, (state) => {
