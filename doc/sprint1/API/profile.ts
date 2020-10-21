@@ -2,7 +2,7 @@ import { API } from "./restapi";
 
 const apiRequirements: API[] = [
   {
-    description: "Update status",
+    description: "Update Status/Picture/About/ or Highlights",
     request: {
       requestURL: "/api/v1/profile/", // dont need id since you're only patching yourself
       requestMethod: "PATCH",
