@@ -30,7 +30,7 @@
     />
     <p *ngIf="!editStatusMode">{{ profile.status }}</p>
 
-    <ng-container *ngIf="isOwnProfile">
+    <ng-container *ngIf="(userId$ | async) === profile.user.id">
       <button
         *ngIf="!editStatusMode"
         color="accent"
@@ -55,7 +55,7 @@
     <div class="row">
       <label for="about-message">About</label>
 
-      <ng-container *ngIf="isOwnProfile">
+      <ng-container *ngIf="(userId$ | async) === profile.user.id">
         <button
           *ngIf="!editAboutMode"
           color="accent"

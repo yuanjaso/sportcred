@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { all_routes } from '../../global/routing-statics';
 import { AppState } from '../store/reducer';
@@ -21,8 +21,7 @@ export class ProfileComponent implements OnInit {
   editStatusMode = false;
   editAboutMode = false;
 
-  // ! hardcoded true if the user is viewing their own profile, false otherwise
-  isOwnProfile = true;
+  userId$: Observable<number>;
 
   followers = 59;
   following = 104;
@@ -48,6 +47,9 @@ export class ProfileComponent implements OnInit {
         )
         .subscribe()
     );
+
+    // ! utilize store selector instead
+    this.userId$ = of(2);
   }
 
   beginEditStatus(): void {
