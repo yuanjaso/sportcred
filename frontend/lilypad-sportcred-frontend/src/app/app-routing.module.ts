@@ -20,7 +20,7 @@ const routes: Routes = [
       import('./profile/profile-routing.module').then(
         (m) => m.ProfileRoutingModule
       ),
-    // canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   {
     path: all_routes.zone.url,
