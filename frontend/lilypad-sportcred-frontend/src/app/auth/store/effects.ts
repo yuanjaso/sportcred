@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 import { LoginService } from '../../login/login.service';
 import * as actions from './actions';
-import { loginInfo } from '../../login/models';
+import { loginInfo } from '../../login/login.types';
 
 @Injectable()
 export class AuthEffects {

@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { tryRegisterQuestionaire, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
-import { generalRegistrationInfo, question, answer } from '../models';
+import { generalRegistrationInfo, question, answer } from '../login.types';
 import { selectQuestionaire } from '../store/selectors';
 import { first } from 'rxjs/operators';
 import { SwiperComponent, SWIPER_CONFIG } from 'ngx-swiper-wrapper';

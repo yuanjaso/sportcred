@@ -7,7 +7,7 @@ import * as actions from './actions';
 import {
   generalRegistrationInfo,
   questionaireRegistrationInfo,
-} from '../models';
+} from '../login.types';
 import { setLoginToken } from '../../auth/store/actions';
 @Injectable()
 export class LoginEffects {

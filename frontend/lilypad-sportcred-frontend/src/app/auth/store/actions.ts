@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { loginInfo } from '../../login/models';
+import { loginInfo } from '../../login/login.types';
 
 export const getLoginToken = createAction(
   '[Auth] Get Login Token',

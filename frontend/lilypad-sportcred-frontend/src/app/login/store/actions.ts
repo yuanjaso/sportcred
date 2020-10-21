@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import * as models from '../models';
+import * as models from '../login.types';
 
 export const tryRegisterBasic = createAction(
   '[Login] Try Register Basic',
