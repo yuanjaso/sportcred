@@ -1,19 +1,21 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as actions from './actions';
+import { User } from '../models';
 export interface AuthState {
-  authtoken: string;
+  userinfo: User;
 }
 export const initialState: AuthState = {
-  authtoken: '',
+  userinfo: undefined,
 };
 
 const reducer = createReducer<AuthState>(
   initialState,
-  on(actions.setLoginToken, (state, { token }) => {
-    return { ...state, authtoken: token };
+  on(actions.setUserInfo, (state, { payload: userinfo }) => {
+    console.log('asdf');
+    return { ...state, userinfo };
   }),
   on(actions.clearLoginToken, (state) => {
-    return { ...state, authtoken: '' };
+    return { ...state, userinfo: undefined };
   })
 );
 

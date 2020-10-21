@@ -13,6 +13,9 @@
       >
         Length of user name limited to min of 3 and max of 10
       </mat-error>
+      <mat-error *ngIf="form.controls.username.hasError('taken')">
+        Email or Username is <strong>taken</strong>
+      </mat-error>
       <mat-error *ngIf="form.controls.username.hasError('required')">
         User name is <strong>required</strong>
       </mat-error>
@@ -25,7 +28,7 @@
         formControlName="email"
       />
       <mat-error *ngIf="form.controls.email.hasError('taken')">
-        Email is <strong>taken</strong>
+        Email or Username is <strong>taken</strong>
       </mat-error>
       <mat-error *ngIf="form.controls.email.hasError('email')">
         Email is <strong>Invalid</strong>

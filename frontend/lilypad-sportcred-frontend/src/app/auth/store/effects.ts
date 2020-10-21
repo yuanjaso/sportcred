@@ -9,26 +9,29 @@ import { loginInfo } from '../../login/models';
 import { NONE_TYPE } from '@angular/compiler';
 import { Router } from '@angular/router';
 import { login } from '../../login/store/actions';
+import { User } from '../models';
 @Injectable()
 export class AuthEffects {
-  getLoginToken$ = createEffect(() =>
+  getUserInfo$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(actions.getLoginToken),
+      ofType(actions.getUserInfo),
       mergeMap((info: loginInfo) =>
         this.loginService.tryLogin(info).pipe(
           first(),
-          mergeMap((payload) => [
-            {
-              //we set the login token
-              type: actions.setLoginToken.type,
-              token: (payload as any).token,
-            },
-            {
-              //also dispatch the login action, which sole purpose
-              // is to wait for the token in the store to change, then routing accordingly
-              type: login.type,
-            },
-          ]),
+          mergeMap((payload: User) => {
+            return [
+              {
+                //we set the login token
+                type: actions.setUserInfo.type,
+                payload,
+              },
+              {
+                //also dispatch the login action, which sole purpose
+                // is to wait for the token in the store to change, then routing accordingly
+                type: login.type,
+              },
+            ];
+          }),
           catchError(() => {
             this.loginService.$loginStatus.next(false);
             return EMPTY;

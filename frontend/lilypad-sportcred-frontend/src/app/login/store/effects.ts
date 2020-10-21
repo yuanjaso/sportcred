@@ -8,10 +8,10 @@ import {
   generalRegistrationInfo,
   questionaireRegistrationInfo,
 } from '../models';
-import { setLoginToken } from '../../auth/store/actions';
+import { setUserInfo } from '../../auth/store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
-import { selectAuthToken } from '../../auth/store/selectors';
+import { selectUserInfo } from '../../auth/store/selectors';
 import { Router } from '@angular/router';
 import { all_routes } from '../../../global/routing-statics';
 
@@ -24,10 +24,9 @@ export class LoginEffects {
         //wait for token to be valid, once its valid we can reroute
         //This is done to avoid race condition, as we can NOT route before token is stored.
         // the auth guard will just kick us out to login
-        return this.store.select(selectAuthToken).pipe(
-          first((a) => !!a),
+        return this.store.select(selectUserInfo).pipe(
+          first((a) => !!a?.token),
           mergeMap(() => {
-            console.log('login');
             this.router.navigate([all_routes.zone.url]);
             return [];
           })
@@ -44,13 +43,13 @@ export class LoginEffects {
           map((response) => {
             this.loginService.$registrationStatus.next(true);
             return {
-              type: setLoginToken.type,
+              type: setUserInfo.type,
               token: (response as any).token,
             };
           }),
           catchError(() => {
             //inform the dialog that email is already taken
-            this.loginService.$registrationStatus.next(true);
+            this.loginService.$registrationStatus.next(false);
             return EMPTY;
           })
         );

@@ -60,9 +60,11 @@ export class FirstPageRegistrationComponent implements OnInit {
         if (status) {
           this.success.emit(true);
         } else {
-          // since status is false, we assume email is taken
+          // since status is false, we assume email or username is taken
           // set error as such, disable block
           this.form.controls.email.setErrors({ taken: true });
+          this.form.controls.username.setErrors({ taken: true });
+
           this.registrationSpamBlock = false;
         }
       })
