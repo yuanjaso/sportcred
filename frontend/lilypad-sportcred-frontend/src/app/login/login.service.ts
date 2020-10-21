@@ -21,7 +21,7 @@ export class LoginService {
     return this.http.post(apis.usersURL, info);
   }
   tryRegisterQuestionaire(info: models.questionaireRegistrationInfo) {
-    return this.http.post(apis.questionaireURL, info);
+    return this.http.post(apis.questionaireURL, info.questionaire);
   }
   getQuestionaire() {
     return this.http.get(apis.questionaireURL);
