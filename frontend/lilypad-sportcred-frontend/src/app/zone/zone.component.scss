@@ -1,8 +1,9 @@
 @import "../../global/fonts.scss";
+@import "../../global/colors.scss";
 .home-layout {
     height: 100vh;
     overflow-y: hidden;
-    background: #272727;
+    background: $bg-black;
 }
 
 .mat-card {

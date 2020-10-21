@@ -1,5 +1,7 @@
+@import "../../global/colors.scss";
+
 .mat-toolbar {
-    background: #272727;
+    background: $bg-black;
     overflow: hidden;
     position: fixed;
     top: 0;

@@ -12,24 +12,14 @@ import { LiveDialogComponent } from './live-dialog/live-dialog.component';
 })
 export class ToolbarComponent implements OnInit {
 
+  tabList: { icon: string, link: string }[] = [
+    { icon: "person", link: all_routes.profile.url },
+    { icon: "home", link: all_routes.zone.url }
+  ]
+
   constructor(public router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-  }
-
-  setPage(page: string) {
-    switch(page) {
-      case 'PROFILE':
-        // TODO: Profile link here
-        break;
-      case 'ZONE':
-        this.router.navigate([all_routes.zone.url]);
-        break;
-      case 'LIVE':
-        // Popup dialog
-        this.onClickLive();
-        break;
-    }
   }
 
   setCurrentTab() {

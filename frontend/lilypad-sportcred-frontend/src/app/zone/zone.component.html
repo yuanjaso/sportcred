@@ -1,7 +1,7 @@
 
 <div class="home-layout" fxLayout="row wrap">
     <div fxFlex="50%" *ngFor="let card of cardList">
-        <mat-card (click)="onClickCard((card.link))" fxLayoutAlign="center" style="background-image: url({{card.imgLink}});">
+        <mat-card routerLink="/{{card.link}}" fxLayoutAlign="center" style="background-image: url({{card.imgLink}});">
             <mat-card-content>
               {{card.title}}
             </mat-card-content>

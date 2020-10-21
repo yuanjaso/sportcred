@@ -1,5 +1,7 @@
+@import "../../global/colors.scss";
+
 .mat-tab-group {
-    background-color: #272727;
+    background-color: $bg-black;
     padding: 0.5%;
     overflow: hidden;
     position: fixed;
@@ -9,7 +11,7 @@
 
 /* Accent colour of toolbar */
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-    background:#14A76C;
+    background: $dash-green;
 } 
 
 .mat-tab-label {
