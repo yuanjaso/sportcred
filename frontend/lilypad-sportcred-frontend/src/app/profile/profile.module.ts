@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -13,6 +16,9 @@ import { profileFeatureKey, profileReducer } from './store/profile.reducer';
   declarations: [ProfileComponent],
   imports: [
     MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
     StoreModule.forFeature(profileFeatureKey, profileReducer),
     EffectsModule.forFeature([ProfileEffects]),
     CommonModule,
