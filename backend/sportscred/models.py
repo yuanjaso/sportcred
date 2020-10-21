@@ -16,11 +16,7 @@ def hash_directory(instance, filename):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=100, blank=True)
     about = models.CharField(max_length=300, blank=True)
     agree = models.ManyToManyField("DebatePost", through="Agrees")
@@ -165,12 +161,15 @@ class QuestionaireUserResponse(models.Model):
     # will need to do the check at the viewset level
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     question = models.ForeignKey("QuestionaireQuestion", on_delete=models.CASCADE)
-    qualitative_response = models.CharField(max_length=300, blank=True)
-    quantitative_response = models.IntegerField(blank=True)
-    sport = models.ForeignKey("Sport", on_delete=models.CASCADE, blank=True)
-    team = models.ForeignKey("Team", on_delete=models.CASCADE, blank=True)
+    qualitative_response = models.CharField(max_length=300, blank=True, null=True)
+    quantitative_response = models.IntegerField(blank=True, null=True)
+    sport = models.ForeignKey("Sport", on_delete=models.CASCADE, blank=True, null=True)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE, blank=True, null=True)
+    player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, blank=True, null=True
+    )
     custom_answer = models.ForeignKey(
-        "QuestionaireAnswer", on_delete=models.CASCADE, blank=True
+        "QuestionaireAnswer", on_delete=models.CASCADE, blank=True, null=True
     )
 
     class Meta:
