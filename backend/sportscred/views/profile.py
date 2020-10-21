@@ -85,7 +85,7 @@ class ProfileViewSet(viewsets.ViewSet):
             for item in update:
                 if item in request.data.keys():
                     setattr(profile, item, request.data[item])
-
+                    profile.save()
             if "highlights" in request.data.keys():
                 # expecting a list
                 highlights = request.data["highlights"]
