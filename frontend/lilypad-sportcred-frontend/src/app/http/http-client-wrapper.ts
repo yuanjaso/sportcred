@@ -52,6 +52,10 @@ export class HttpClientWrapper {
   }
 
   private stringifyQueryParams(rawQueryParams: RawQueryParams): QueryParams {
+    if (rawQueryParams === undefined) {
+      return undefined;
+    }
+
     const result = {};
     for (const [key, value] of Object.entries(rawQueryParams)) {
       result[key] = value.toString();

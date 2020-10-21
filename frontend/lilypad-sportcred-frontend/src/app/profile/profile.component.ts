@@ -51,12 +51,10 @@ export class ProfileComponent implements OnInit {
   }
 
   beginEditStatus(): void {
-    console.log('old status', this.profile.status);
     this.editStatusMode = true;
   }
 
   submitNewStatus(): void {
-    console.log('new status', this.profile.status);
     this.editStatusMode = false;
 
     this.store.dispatch(
@@ -65,16 +63,14 @@ export class ProfileComponent implements OnInit {
   }
 
   beginEditAbout(): void {
-    console.log('old about', this.profile.about);
     this.editAboutMode = true;
   }
 
   submitNewAbout(): void {
-    console.log('new status', this.profile.about);
     this.editAboutMode = false;
 
     this.store.dispatch(
-      updateProfile({ profile: { status: this.profile.about } })
+      updateProfile({ profile: { about: this.profile.about } })
     );
   }
 }
