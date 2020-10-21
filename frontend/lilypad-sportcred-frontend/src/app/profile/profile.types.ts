@@ -11,4 +11,8 @@ export interface Profile {
   favourite_sports: { id: number; name: string }[];
 }
 
-export type UpdateProfilePayload = Partial<Omit<Profile, 'user' | 'acs'>>;
+export type UpdateProfilePayload = Partial<
+  Omit<Profile, 'user' | 'acs' | 'favourite_sports'> & {
+    favourite_sports: number[];
+  }
+>;

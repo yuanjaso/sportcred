@@ -97,13 +97,36 @@
     <div id="highlights" class="column">
       <p class="font-secondary white-font">Highlights</p>
 
-      <div id="sports">
+      <div id="sports" class="column">
         <p class="font-tertiary white-font">Sports:</p>
         <mat-chip-list class="mat-chip-list-stacked">
           <mat-chip *ngFor="let sport of profile.favourite_sports">
             {{ sport.name }}
           </mat-chip>
         </mat-chip-list>
+
+        <ng-container *ngIf="(userId$ | async) === profile.user.id">
+          <mat-form-field color="accent" appearance="outline">
+            <mat-label>Favourite Sport</mat-label>
+            <mat-select
+              multiple
+              [(ngModel)]="favouriteSports"
+              disableOptionCentering
+            >
+              <mat-option *ngFor="let sport of sports" [value]="sport.id">
+                {{ sport.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="updateFavouriteSports()"
+          >
+            Update
+          </button>
+        </ng-container>
       </div>
     </div>
   </div>
