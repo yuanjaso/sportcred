@@ -7,16 +7,18 @@ const apiRequirements: API[] = [
       requestURL: "/api/v1/profile/", // dont need id since you're only patching yourself
       requestMethod: "PATCH",
       body: {
+        profilepicture: "newpic.jpg",
         status: "Hi guys, I like sportcred!", // only one of these fields need to be here. patch is partial update
         about: "placeholder",
-        highlights: [1,2], // array of sports_id's
+        highlights: [1, 2], // array of sports_id's
         // friends list is kinda nasty since it can get really big. it needs to be paginated so it will get its own endpoint
       },
       queryParams: {},
     },
-    response: {  // all response body's should be the same. we can use the same serializer to normalize it
+    response: {
+      // all response body's should be the same. we can use the same serializer to normalize it
       statusCode: 200,
-      body: {
+      response: {
         user: { id: 4, username: "michael", email: "michael_doughs@gmail.com" },
         status: "Hi guys, I like sportcred!",
         profilepicture: {
@@ -31,8 +33,8 @@ const apiRequirements: API[] = [
         //acsHistory: [900, -1, 34, 23, 43, -23],
         about: "placeholder",
         highlights: [
-          {id :1, "Basketball" },
-        {'id': 2, 'name': 'Baseball'},
+          { id: 1, name: "Basketball" },
+          { id: 2, name: "Baseball" },
         ],
       },
     },
@@ -70,23 +72,18 @@ const apiRequirements: API[] = [
     },
     response: {
       statusCode: 200,
-      body: {
-        user: { id: 4, username: "michael", email: "michael_doughs@gmail.com" },
+      response: {
+        user: { id: 4, username: "michael", is_superuser: true },
         status: "Sportcred is the best !!!!!",
-        profilepicture: {
-          name: "somethingsomething.png",
-          content_type: "image/png",
-          charset: "None",
-          url:
-            "/media/user/pictures/f3/0a/f30a2b6329a1bb5d867848c53d3581b5d1068d85475fa0699283a63e9f5a6c7c.png",
-        },
+        profilepicture:
+          "/media/user/pictures/f3/0a/f30a2b6329a1bb5d867848c53d3581b5d1068d85475fa0699283a63e9f5a6c7c.png",
         //ACS is on hold for this sprint
-        //acs: 599,
+        // acs: 599,
         //acsHistory: [900, -1, 34, 23, 43, -23],
         about: "placeholder",
         highlights: [
-          {id :1, "Basketball" },
-        {'id': 2, 'name': 'Baseball'},
+          { id: 1, name: "Basketball" },
+          { id: 2, name: "Baseball" },
         ],
       },
     },
@@ -96,47 +93,50 @@ const apiRequirements: API[] = [
     request: {
       requestURL: "/api/v1/profile/:id/follows",
       requestMethod: "GET",
+      body: null,
       queryParams: {},
     },
     response: {
       statusCode: 200,
-      body: {
+      response: {
         user_id: 1, // id that u queried
-        followers: [1,2,3],
-        following: [1,2]
+        followers: [1, 2, 3],
+        following: [1, 2],
       },
     },
   },
-    {
+  {
     description: "follow that user_id",
     request: {
       requestURL: "/api/v1/profile/:id/follows", // the id of the person u want to follow
       requestMethod: "PUT",
       queryParams: {},
+      body: null,
     },
     response: {
       statusCode: 200,
-      body: {
+      response: {
         user_id: 1, // you're own user_id
-        followers: [1,2,3], // the list of people following you
-        following: [1,2,4] // the updated list of people you're following
+        followers: [1, 2, 3], // the list of people following you
+        following: [1, 2, 4], // the updated list of people you're following
       },
     },
   },
-    },
-    {
+
+  {
     description: "unfollow that user_id",
     request: {
       requestURL: "/api/v1/profile/:id/follows", // the id of the person u want to unfollow
       requestMethod: "DELETE",
       queryParams: {},
+      body: null,
     },
     response: {
       statusCode: 200,
-      body: {
+      response: {
         user_id: 1, // you're own user_id
-        followers: [1,2,3], // the list of people following you
-        following: [1,2,] // the updated list of people you're following
+        followers: [1, 2, 3], // the list of people following you
+        following: [1, 2], // the updated list of people you're following
       },
     },
   },
