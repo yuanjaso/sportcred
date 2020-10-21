@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# extract the branch name
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# delete all characters that are not numbers (assuming the numbers in the branch name are STRICTLY for ticket number)
+TICKET_NUMBER=`echo $BRANCH | sed 's/[^0-9]//g'`
+
+# Add the ticket number to the commit message
+# $1 is the file that holds the existing commit message so the updated commit message is just
+# the ticket number + original commit message
+echo [LIL-${TICKET_NUMBER}] "$(cat $1)" > "$1"

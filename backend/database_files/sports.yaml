@@ -1,0 +1,61 @@
+Sports:
+  -
+    name: "Basketball"
+  -
+    name: "Baseball"
+  - 
+    name: "Football"
+  -
+    name: "Soccer"
+  - 
+    name: "Tennis"
+  -
+    name: "Boxing"
+  - 
+    name: "Golf"
+  -
+    name: "Poker"
+  -
+    name: "eSports"
+  -
+    name: "Hockey"
+Teams:
+  -
+    full_name: "Los Angeles Lakers"
+    short_name: "Lakers"
+    sport: "Basketball"
+  - 
+    full_name: "Toronto Raptors"
+    short_name: "Raptors"
+    sport: "Basketball"
+  - 
+    full_name: "Golden State Warriors"
+    short_name: "Warriors"
+    sport: "Basketball"
+  - 
+    full_name: "Toronto Blue Jays"
+    short_name: "Blue Jays"
+    sport: "Baseball"
+  - 
+    full_name: "Toronto Maple Leafs"
+    short_name: "leafs"
+    sport: "Hockey"
+Players:
+  - 
+    first_name: "LeBron"
+    last_name: "James"
+    team: "Los Angeles Lakers"
+  - 
+    first_name: "Anthony"
+    last_name: "Davis"
+    team: "Los Angeles Lakers"
+  - 
+    first_name: "Kyle"
+    last_name: "Lowry"
+    team: "Toronto Raptors"
+  -
+    first_name: "Kyle"
+    last_name: "Lowry"
+    team: "Toronto Maple Leafs"
+
+    

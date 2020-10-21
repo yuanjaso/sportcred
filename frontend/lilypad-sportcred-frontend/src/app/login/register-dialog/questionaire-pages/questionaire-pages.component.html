@@ -1,0 +1,30 @@
+<ng-container *ngIf="question !== undefined">
+  <form class="sub-box" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="question-index">Question {{ outOf }}</div>
+    <div class="question">
+      {{ question.question_content }}
+    </div>
+    <div style="flex-grow: 9"></div>
+
+    <ng-container *ngIf="question.question_type !== quantitative">
+      <mat-form-field>
+        <mat-label>Answer</mat-label>
+        <textarea matInput formControlName="string" rows="5"></textarea>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="question.question_type === quantitative">
+      <mat-slider
+        thumbLabel
+        tickInterval="1"
+        [min]="question.min_int"
+        [max]="question.max_int"
+        formControlName="number"
+      ></mat-slider>
+    </ng-container>
+    <div style="flex-grow: 9"></div>
+
+    <div class="button">
+      <button type="submit" mat-stroked-button>Submit</button>
+    </div>
+  </form>
+</ng-container>

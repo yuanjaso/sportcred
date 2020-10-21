@@ -1,0 +1,54 @@
+<div class="title-box login-component">
+  <!--currently, video autoplay is buggy, but i beleive this is a nonissue when deployed-->
+  <video id="myVideo" autoplay loop muted>
+    <source src="../../assets/welcome-vid.mp4" type="video/mp4" />
+  </video>
+  <img src="../../assets/icon.png" alt="icon" />
+  <div class="mid">
+    <div class="slogan">Whats your A.C.S?</div>
+    <div class="paragraph">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima, porro!
+      Officiis soluta facere commodi tempore distinctio excepturi veniam
+      repellendus ea quibusdam. Explicabo, repellendus et ex reiciendis unde
+      earum nostrum. Officiis! Lorem ipsum dolor sit amet consectetur
+      adipisicing elit. Beatae provident, unde ullam, architecto quos
+      consequatur maiores laboriosam, optio ratione ab et qui sint iure. Placeat
+      doloremque facere voluptatibus beatae quod.
+    </div>
+  </div>
+  <div class="offsetter">&nbsp;</div>
+</div>
+<div class="login-box login-component">
+  <form class="sub-box" [formGroup]="form" (ngSubmit)="signin()">
+    <div class="desc">
+      Sign In
+      <div class="createaccount">
+        or &nbsp;
+        <div class="link" (click)="register()">create an account</div>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        placeholder="jordanlover123@hotmail.com"
+        formControlName="email"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        placeholder="password123"
+        formControlName="password"
+        type="password"
+      />
+    </mat-form-field>
+
+    <div class="button">
+      <button type="submit" mat-stroked-button>Sign In</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,26 @@
+QuestionnaireQuestion:
+  - content: "Favorite sport?"
+    question_type: "S"
+  - content: "What is your age?"
+    question_type: "QN"
+    max_int: 130
+    min_int: 0
+  - content: "Highest level of sport play?"
+    question_type: "C"
+  - content: "What sport would you like to know/learn about?"
+    question_type: "S"
+  - content: "Favourite sports team?"
+    question_type: "T"
+
+  - content: "What's your favourite color?"
+    question_type: "QL"
+QuestionnaireAnswer:
+  # for custom enumeration
+  - original_question: "Highest level of sport play?"
+    answer: "No history"
+  - original_question: "Highest level of sport play?"
+    answer: "High school"
+  - original_question: "Highest level of sport play?"
+    answer: "Universtity"
+  - original_question: "Highest level of sport play?"
+    answer: "Professional"

@@ -99,11 +99,13 @@ class BaseSettings(DjangoDefaults):
         "rest_framework.authtoken",
         "django.contrib.sites",
         "django_filters",
+        "corsheaders",
     ]
 
     PROJECT_APPS = ["sportscred_project", "sportscred"]
 
     MIDDLEWARE = (
+        "corsheaders.middleware.CorsMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
@@ -112,6 +114,7 @@ class BaseSettings(DjangoDefaults):
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
+        "corsheaders.middleware.CorsPostCsrfMiddleware",
     )
 
     ROOT_URLCONF = PROJECT_NAME + ".urls"
@@ -147,6 +150,11 @@ class BaseSettings(DjangoDefaults):
     WSGI_APPLICATION = PROJECT_NAME + ".wsgi.application"
     ASGI_APPLICATION = PROJECT_NAME + ".routing.application"
 
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True
+
+    CORS_ORIGIN_REGEX_WHITELIST = [r"(.*)localhost(.*)"]
+
     # Database
     # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -175,4 +183,4 @@ class BaseSettings(DjangoDefaults):
     # FIXME: better storage structure
     @property
     def MEDIA_ROOT(self):
-        return self.BASE_DIR
+        return os.path.join(self.BASE_DIR, "media")

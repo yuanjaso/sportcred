@@ -1,0 +1,87 @@
+@import "../../global/fonts.scss";
+:host {
+  display: flex;
+  height: 100vh;
+}
+.title-box {
+  video {
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    max-height: 100vh;
+  }
+
+  //toggle this background to enable/disable video
+  //background: linear-gradient(30deg, $black 10%, $black 50%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 5;
+  img,
+  .offsetter {
+    width: 10rem;
+    align-self: flex-start;
+    padding: 1rem;
+  }
+  .mid {
+    @extend .font-secondary;
+    @extend .white-font;
+    display: flex;
+    flex-direction: column;
+    max-width: calc(100% - 2rem);
+    width: 20rem;
+    .slogan {
+      @extend .font-primary;
+      height: fit-content;
+      padding-bottom: 1rem;
+    }
+    .paragraph {
+      @extend .font-tertiary;
+    }
+  }
+}
+.login-box {
+  display: flex;
+  flex-grow: 1;
+  background-color: white;
+  padding: 3rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .sub-box {
+    .desc {
+      @extend .font-secondary;
+      padding-bottom: 1.5rem;
+      width: 100%;
+      .createaccount {
+        @extend .font-tertiary;
+        padding-top: 0.5rem;
+        align-self: flex-start;
+        display: flex;
+        .link {
+          @extend .font-links;
+        }
+      }
+    }
+    //border: 3px solid $darkgreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media only screen and (max-width: 600px) {
+  :host {
+    flex-direction: column;
+  }
+  .title-box {
+    flex-grow: 0;
+    .mid,
+    .offsetter {
+      display: none;
+    }
+  }
+}
