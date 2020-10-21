@@ -172,10 +172,11 @@ def test_get_profile():
     requests.put(url, headers={"Authorization": "Token " + token2}, files=files)
     assert res.status_code == 200
     # upload file
-    url = URL + f"profile/{user_id}/"
+    url = URL + "profile/"
     # get profile of the 2nd user as the first user by using the first users token
     res = requests.get(
         url,
+        params={"id": user_id},
         headers={"Authorization": "Token " + token},
     )
     assert res.status_code == 200
