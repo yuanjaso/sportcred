@@ -139,18 +139,15 @@ const apiRequirements: API[] = [
         'count': 10, // total number of objects from query. we don't actually return everything in the results
         'next': None, // tells you the previous page number if there is one
         'previous': None, // tells you the next page number if there is one 
-        'results': [{
-                     'user': {'id': int, 'username': string, 'email': string, 'is_superuser': boolean}, 
-                     'question': {'id': int, 'question_content': string, 'question_type': string},
-                     'qualitative_response': string,
-                     'quantitative_response': int,
-                     'sport': {'id': int, 'name': string},
-                     'team': {"id": int, "full_name": string, "short_name": string, "plays_sport": int},
-                     'custom': {'id': int, 'question': int, 'answer': string},
-                     'player': {'id': int, 'first_name': string, 'last_name': string},
-                    }, ...],
-                     
-                    
+        'results': ['user': {'id': int, 'username': string, 'email': string, 'is_superuser': boolean}, 
+                    'question': {'id': int, 'question_content': string, 'question_type': string},
+                    'answer': string | int
+                                     | {'id': int, 'name': string}
+                                     | {"id": int, "full_name": string, "short_name": string, "plays_sport": int} 
+                                     | {'id': int, 'question': int, 'answer': string} 
+                                     | {'id': int, 'first_name': string, 'last_name': string}
+                   },
+                    ...],     
     },
    },
   },
