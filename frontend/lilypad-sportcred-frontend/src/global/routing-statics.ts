@@ -4,23 +4,23 @@ interface pageConfig {
 }
 const login: pageConfig = {
   url: 'login',
-  title: 'Sportcred - Login',
+  title: 'SPORTCRED - Login',
 };
 const register: pageConfig = {
   url: 'register',
-  title: 'Sportcred - Register',
+  title: 'SPORTCRED - Register',
 };
 const zone: pageConfig = {
   url: 'zone',
-  title: 'Sportcred - Zone',
+  title: 'SPORTCRED - Zone',
 };
 const trivia: pageConfig = {
   url: 'trivia',
-  title: 'Sportcred - Trivia',
+  title: 'SPORTCRED - Trivia',
 };
 const profile: pageConfig = {
   url: 'profile',
-  title: 'Sportcred - Profile',
+  title: 'SPORTCRED - Profile',
 };
 
 export const all_routes = {
