@@ -180,7 +180,7 @@ class ProfileViewSet(viewsets.ViewSet):
         This method returns a profile given a username
         """
         try:
-            profile = Profile.objects.get(pk=pk)
+            profile = User.objects.get(pk=pk).profile
             return Response(ProfileSerializer(profile).data)
         except Exception as e:
             print(e)
