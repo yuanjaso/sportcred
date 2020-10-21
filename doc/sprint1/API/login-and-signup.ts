@@ -17,7 +17,8 @@ const apiRequirements: API[] = [
       response: {
         token: 'asdf13dwer276tse8ft7wef',
         user_id: 4, // added user_id, you'll probably want to know your own id
-        is_superuser: False,
+        is_superuser: false,
+        questionaire_registered: false,
       },
     },
   },
@@ -40,7 +41,8 @@ const apiRequirements: API[] = [
         user_id: 4,
         username: 'michaeldough',
         email: 'michaeldough@gmail.com',
-        is_superuser: False,
+        is_superuser: false,
+        questionaire_registered: false,
       },
     },
   },
