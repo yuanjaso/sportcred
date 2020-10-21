@@ -10,6 +10,10 @@
   justify-content: center;
   align-items: center;
 
+  p {
+    margin-bottom: 0;
+  }
+
   > *:not(:last-child) {
     margin-bottom: 1rem;
   }
@@ -60,6 +64,10 @@
   }
 
   div#about {
+    > * {
+      margin-bottom: 0;
+    }
+
     label {
       background-color: $grey;
       padding: 0.5rem;
