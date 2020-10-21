@@ -175,12 +175,12 @@ class ProfileViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-    def list(self, request):
+    def retrieve(self, request, pk=None):
         """
         This method returns a profile given a username
         """
         try:
-            profile = User.objects.get(pk=request.data["user_id"]).profile
+            profile = User.objects.get(pk=pk)
             return Response(ProfileSerializer(profile).data)
         except Exception as e:
             print(e)
