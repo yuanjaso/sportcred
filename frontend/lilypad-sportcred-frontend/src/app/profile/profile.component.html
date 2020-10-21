@@ -1,92 +1,111 @@
 <ng-container *ngIf="profile !== undefined; else loading">
-  <div id="follow" class="row">
-    <button mat-raised-button>Followers: {{ followers }}</button>
-    <button mat-raised-button>Following: {{ following }}</button>
-  </div>
-
-  <div class="row xy-center">
-    <div id="picture">
-      <img [src]="profile.profilepicture" />
+  <div id="left">
+    <div id="follow" class="row xy-center">
+      <button mat-raised-button>Followers: {{ followers }}</button>
+      <button mat-raised-button>Following: {{ following }}</button>
     </div>
 
-    <div id="acs" class="column xy-center">
-      <p>ACS</p>
-      <p>{{ profile.acs }}</p>
+    <div class="row xy-center">
+      <div id="picture">
+        <img [src]="profile.profilepicture" />
+      </div>
+
+      <div id="acs" class="column xy-center">
+        <p class="font-secondary white-font">ACS</p>
+        <p class="font-secondary white-font">{{ profile.acs }}</p>
+      </div>
     </div>
-  </div>
 
-  <div id="name">
-    <p>{{ profile.user.username }}</p>
-  </div>
+    <div id="name">
+      <p class="font-primary white-font">{{ profile.user.username }}</p>
+    </div>
 
-  <div id="status" class="row xy-center">
-    <p>Status:</p>
+    <div id="status" class="row xy-center">
+      <p class="font-secondary white-font">Status:</p>
 
-    <input
-      *ngIf="editStatusMode"
-      matInput
-      type="text"
-      [(ngModel)]="profile.status"
-    />
-    <p *ngIf="!editStatusMode">{{ profile.status }}</p>
-
-    <ng-container *ngIf="(userId$ | async) === profile.user.id">
-      <button
-        *ngIf="!editStatusMode"
-        color="accent"
-        mat-icon-button
-        (click)="beginEditStatus()"
-      >
-        <mat-icon>create</mat-icon>
-      </button>
-
-      <button
+      <input
         *ngIf="editStatusMode"
-        color="accent"
-        mat-icon-button
-        (click)="submitNewStatus()"
-      >
-        <mat-icon>save</mat-icon>
-      </button>
-    </ng-container>
-  </div>
-
-  <div id="about" class="column">
-    <div class="row">
-      <label for="about-message">About</label>
+        matInput
+        type="text"
+        [(ngModel)]="profile.status"
+      />
+      <p class="font-secondary white-font" *ngIf="!editStatusMode">
+        {{ profile.status }}
+      </p>
 
       <ng-container *ngIf="(userId$ | async) === profile.user.id">
         <button
-          *ngIf="!editAboutMode"
+          *ngIf="!editStatusMode"
           color="accent"
           mat-icon-button
-          (click)="beginEditAbout()"
+          (click)="beginEditStatus()"
         >
           <mat-icon>create</mat-icon>
         </button>
 
         <button
-          *ngIf="editAboutMode"
+          *ngIf="editStatusMode"
           color="accent"
           mat-icon-button
-          (click)="submitNewAbout()"
+          (click)="submitNewStatus()"
         >
           <mat-icon>save</mat-icon>
         </button>
       </ng-container>
     </div>
 
-    <p *ngIf="!editAboutMode">{{ profile.about }}</p>
-    <textarea
-      *ngIf="editAboutMode"
-      id="about-message"
-      matInput
-      rows="3"
-      cols="50"
-      [(ngModel)]="profile.about"
-    >
-      {{ profile.about }}
-    </textarea>
+    <div id="about" class="column">
+      <div class="row">
+        <label for="about-message">About</label>
+
+        <ng-container *ngIf="(userId$ | async) === profile.user.id">
+          <button
+            *ngIf="!editAboutMode"
+            color="accent"
+            mat-icon-button
+            (click)="beginEditAbout()"
+          >
+            <mat-icon>create</mat-icon>
+          </button>
+
+          <button
+            *ngIf="editAboutMode"
+            color="accent"
+            mat-icon-button
+            (click)="submitNewAbout()"
+          >
+            <mat-icon>save</mat-icon>
+          </button>
+        </ng-container>
+      </div>
+
+      <p *ngIf="!editAboutMode">{{ profile.about }}</p>
+      <textarea
+        *ngIf="editAboutMode"
+        id="about-message"
+        matInput
+        rows="3"
+        cols="50"
+        [(ngModel)]="profile.about"
+      >
+        {{ profile.about }}
+      </textarea>
+    </div>
+  </div>
+
+  <div id="right">
+    <div id="highlights" class="column">
+      <p class="font-secondary white-font">Highlights</p>
+
+      <div id="sports">
+        <p class="font-tertiary white-font">Sports:</p>
+        <mat-chip-list class="mat-chip-list-stacked">
+          <mat-chip *ngFor="let sport of profile.favourite_sports">
+            {{ sport.name }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
   </div>
 </ng-container>
 <ng-template #loading> loading </ng-template>
