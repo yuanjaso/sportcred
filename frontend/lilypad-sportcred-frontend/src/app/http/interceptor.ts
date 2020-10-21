@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '../store/reducer';
 import { Store } from '@ngrx/store';
 import { selectUserInfo } from '../auth/store/selectors';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, first } from 'rxjs/operators';
 
 // this class intercepts all http requests, and attaches the token to the header
 
@@ -24,6 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.store.select(selectUserInfo).pipe(
+      first(),
       switchMap((info) => {
         if (!!info?.token) {
           req = req.clone({

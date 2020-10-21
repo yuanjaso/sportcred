@@ -6,7 +6,7 @@ import { all_routes } from '../../global/routing-statics';
 import { getUserInfo, clearLoginToken } from '../auth/store/actions';
 import { AppState } from '../store/reducer';
 import { MatDialog } from '@angular/material/dialog';
-import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
+import { BasicRegistrationDialogComponent } from './basic-registration-dialog/basic-registration-dialog.component';
 import { LoginService } from './login.service';
 import { Subscription } from 'rxjs';
 @Component({
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.store.dispatch(getUserInfo({ username: email, password }));
   }
   register(): void {
-    const dialogRef = this.dialog.open(RegisterDialogComponent);
+    const dialogRef = this.dialog.open(BasicRegistrationDialogComponent);
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

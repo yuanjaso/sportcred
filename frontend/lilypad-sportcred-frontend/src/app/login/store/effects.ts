@@ -40,12 +40,17 @@ export class LoginEffects {
       ofType(actions.tryRegisterBasic),
       mergeMap((info: generalRegistrationInfo) => {
         return this.loginService.tryRegisterBasic(info).pipe(
-          map((payload) => {
+          mergeMap((payload) => {
             this.loginService.$registrationStatus.next(true);
-            return {
-              type: setUserInfo.type,
-              payload,
-            };
+            return [
+              {
+                type: setUserInfo.type,
+                payload,
+              },
+              {
+                type: actions.login.type,
+              },
+            ];
           }),
           catchError(() => {
             //inform the dialog that email is already taken
@@ -78,7 +83,7 @@ export class LoginEffects {
         this.loginService.getQuestionaire().pipe(
           map((questions) => ({
             type: actions.setQuestionaire.type,
-            payload: questions,
+            questionaire: questions,
           })),
           catchError(() => EMPTY)
         )

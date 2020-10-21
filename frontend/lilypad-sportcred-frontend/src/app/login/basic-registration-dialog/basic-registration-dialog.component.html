@@ -1,4 +1,8 @@
-<form class="sub-box" [formGroup]="form" (ngSubmit)="register()">
+<form
+  class="sub-box login-component"
+  [formGroup]="form"
+  (ngSubmit)="register()"
+>
   <div class="desc">Register</div>
   <div class="fields">
     <mat-form-field appearance="outline">
@@ -79,8 +83,5 @@
     >
       Register
     </button>
-    <!-- <button type="submit" [disabled]="registrationSpamBlock" mat-stroked-button>
-      Register
-    </button> -->
   </div>
 </form>
