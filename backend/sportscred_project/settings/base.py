@@ -153,6 +153,8 @@ class BaseSettings(DjangoDefaults):
     CORS_ALLOW_ALL_ORIGINS = True
     CORS_ALLOW_CREDENTIALS = True
 
+    CORS_ORIGIN_REGEX_WHITELIST = [r"(.*)localhost(.*)"]
+
     # Database
     # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
