@@ -1,0 +1,14 @@
+@import "../../../global/fonts.scss";
+
+.wrapper {
+    position: relative;
+}
+
+#title {
+    @extend *;
+    @extend .font-secondary;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

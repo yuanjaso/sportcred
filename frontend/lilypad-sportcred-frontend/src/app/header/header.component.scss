@@ -1,0 +1,15 @@
+@import "../../global/colors.scss";
+
+.mat-toolbar {
+    background: $bg-black;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.logo {
+    width: 20%;
+    height: 100%;
+    display: block;
+}
