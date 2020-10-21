@@ -175,4 +175,4 @@ class BaseSettings(DjangoDefaults):
     # FIXME: better storage structure
     @property
     def MEDIA_ROOT(self):
-        return self.BASE_DIR
+        return os.path.join(self.BASE_DIR, "media")

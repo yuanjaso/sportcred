@@ -8,6 +8,7 @@ class DevSettings(BaseSettings):
 
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     DEFAULT_FROM_EMAIL = "noreply@example.com"
+    MEDIA_URL = "/media/"
 
     @property
     def DATABASES(self):
