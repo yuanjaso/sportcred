@@ -10,8 +10,8 @@ def test_user_creation():
         "token",
         "user_id",
         "username",
-        "email",
         "is_superuser",
+        "questionaire_registered",
     ]
 
     # duplicate username is a nono
@@ -31,12 +31,22 @@ def test_login():
     # username works
     res = auth_user("michael", "doughs")
     assert res.status_code == 200
-    assert list(res.json().keys()) == ["token", "user_id", "is_superuser"]
+    assert list(res.json().keys()) == [
+        "token",
+        "user_id",
+        "is_superuser",
+        "questionaire_registered",
+    ]
 
     # email also works
     res = auth_user("michael_doughs@gmail.com", "doughs")
     assert res.status_code == 200
-    assert list(res.json().keys()) == ["token", "user_id", "is_superuser"]
+    assert list(res.json().keys()) == [
+        "token",
+        "user_id",
+        "is_superuser",
+        "questionaire_registered",
+    ]
 
     # fails on bad passwords
     res = auth_user("michael_doughs@gmail.com", "doughse")

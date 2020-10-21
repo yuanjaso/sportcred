@@ -8,16 +8,17 @@ import { LoginEffects } from './store/effects';
 import { loginFeatureKey, loginReducer } from './store/reducers';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
-import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
-import {
-  SwiperModule,
-  SWIPER_CONFIG,
-  SwiperConfigInterface,
-} from 'ngx-swiper-wrapper';
-import { FirstPageRegistrationComponent } from './register-dialog/first-page-registration/first-page-registration.component';
-import { QuestionairePagesComponent } from './register-dialog/questionaire-pages/questionaire-pages.component';
+import { SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { QuestionairePagesComponent } from './questionaire-registration-dialog/questionaire-pages/questionaire-pages.component';
+import { BasicRegistrationDialogComponent } from './basic-registration-dialog/basic-registration-dialog.component';
+import { QuestionaireRegistrationDialogComponent } from './questionaire-registration-dialog/questionaire-registration-dialog.component';
 @NgModule({
-  declarations: [LoginComponent, RegisterDialogComponent, FirstPageRegistrationComponent, QuestionairePagesComponent],
+  declarations: [
+    LoginComponent,
+    QuestionairePagesComponent,
+    BasicRegistrationDialogComponent,
+    QuestionaireRegistrationDialogComponent,
+  ],
   imports: [
     HttpClientModule,
     StoreModule.forFeature(loginFeatureKey, loginReducer),
