@@ -1,7 +1,9 @@
+@import "../../global/colors.scss";
+
 :host {
   height: 100%;
   width: 100%;
-  background-color: #2e2e2e;
+  background-color: $darkgrey;
 
   display: flex;
   flex-direction: column;
@@ -13,8 +15,8 @@
   }
 
   div#acs {
-    background-color: #c4c4c4;
-    color: #2e2e2e;
+    background-color: $grey;
+    color: $black;
 
     border-radius: 3.5rem;
     height: 7rem;
@@ -41,7 +43,7 @@
 
   div#name {
     p {
-      color: white;
+      color: $white;
       font-size: 5rem;
       line-height: 5rem;
     }
@@ -51,7 +53,7 @@
     width: 80%;
 
     p {
-      color: white;
+      color: $white;
       font-size: 2.5rem;
       line-height: 2.5rem;
     }
