@@ -12,6 +12,9 @@ router.register(r"api/v1/profile", mine.ProfileViewSet, basename="profile")
 router.register(r"api/v1/sports", mine.SportViewSet, basename="sport")
 router.register(r"api/v1/teams", mine.TeamViewSet, basename="team")
 router.register(r"api/v1/players", mine.PlayerViewSet, basename="player")
+router.register(
+    r"api/v1/questionnaire", mine.QuestionnaireViewSet, basename="questionnaire"
+)
 
 
 # Wire up our API using automatic URL routing.
