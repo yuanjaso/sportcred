@@ -11,8 +11,9 @@ export class ZoneComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    const missingquestionairesetup = true;
-    if (missingquestionairesetup) {
+    //todo replace with selector after backend supports this boolean
+    const missingQuestionaireResponses = true;
+    if (missingQuestionaireResponses) {
       const dialogRef = this.dialog.open(
         QuestionaireRegistrationDialogComponent
       );
