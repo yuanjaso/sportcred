@@ -15,7 +15,7 @@ export class LoginService {
 
   /* HTTP REQUESTS*/
   tryLogin(info: models.loginInfo) {
-    return this.http.put(apis.loginURL, info);
+    return this.http.post(apis.loginURL, info);
   }
   tryRegisterBasic(info: models.generalRegistrationInfo) {
     return this.http.post(apis.usersURL, info);

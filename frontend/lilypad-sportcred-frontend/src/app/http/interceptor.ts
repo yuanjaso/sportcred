@@ -25,15 +25,13 @@ export class TokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return this.store.select(selectAuthToken).pipe(
       switchMap((jwt) => {
-        req = req.clone({
-          setHeaders: {
-            Authorization: `Token ${jwt}`,
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,PUT,OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-          },
-        });
+        if (!!jwt) {
+          req = req.clone({
+            setHeaders: {
+              Authorization: `Token ${jwt}`,
+            },
+          });
+        }
         return next.handle(req);
       })
     );

@@ -9,3 +9,4 @@ export const setLoginToken = createAction(
   '[Auth] Set Login Token',
   props<{ token: string }>()
 );
+export const clearLoginToken = createAction('[Auth] Clear Login Token');

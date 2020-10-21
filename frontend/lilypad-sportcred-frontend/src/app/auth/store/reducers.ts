@@ -1,6 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as actions from './actions';
-
 export interface AuthState {
   authtoken: string;
 }
@@ -10,7 +9,12 @@ export const initialState: AuthState = {
 
 const reducer = createReducer<AuthState>(
   initialState,
-  on(actions.setLoginToken, (state, { token }) => ({ ...state, token }))
+  on(actions.setLoginToken, (state, { token }) => {
+    return { ...state, authtoken: token };
+  }),
+  on(actions.clearLoginToken, (state) => {
+    return { ...state, authtoken: '' };
+  })
 );
 
 export function authReducer(state: AuthState, action: Action): AuthState {

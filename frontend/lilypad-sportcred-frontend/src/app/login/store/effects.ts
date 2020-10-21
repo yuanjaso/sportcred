@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, first } from 'rxjs/operators';
 import { LoginService } from '../login.service';
 import * as actions from './actions';
 import {
@@ -9,8 +9,33 @@ import {
   questionaireRegistrationInfo,
 } from '../models';
 import { setLoginToken } from '../../auth/store/actions';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/reducer';
+import { selectAuthToken } from '../../auth/store/selectors';
+import { Router } from '@angular/router';
+import { all_routes } from '../../../global/routing-statics';
+
 @Injectable()
 export class LoginEffects {
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.login),
+      mergeMap(() => {
+        //wait for token to be valid, once its valid we can reroute
+        //This is done to avoid race condition, as we can NOT route before token is stored.
+        // the auth guard will just kick us out to login
+        return this.store.select(selectAuthToken).pipe(
+          first((a) => !!a),
+          mergeMap(() => {
+            console.log('login');
+            this.router.navigate([all_routes.zone.url]);
+            return [];
+          })
+        );
+      })
+    )
+  );
+
   tryRegisterBasic$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.tryRegisterBasic),
@@ -20,7 +45,7 @@ export class LoginEffects {
             this.loginService.$registrationStatus.next(true);
             return {
               type: setLoginToken.type,
-              payload: (response as any).token,
+              token: (response as any).token,
             };
           }),
           catchError(() => {
@@ -61,5 +86,10 @@ export class LoginEffects {
       )
     )
   );
-  constructor(private actions$: Actions, private loginService: LoginService) {}
+  constructor(
+    private actions$: Actions,
+    private loginService: LoginService,
+    private store: Store<AppState>,
+    private router: Router
+  ) {}
 }
