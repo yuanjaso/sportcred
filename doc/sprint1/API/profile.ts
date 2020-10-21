@@ -35,6 +35,7 @@ const apiRequirements: API[] = [
       requestURL: "/api/v1/profile/", // dont need id since you're only patching yourself
       requestMethod: "PATCH",
       body: {
+        // actually not sure if picture should be here
         profilepicture: "newpic.jpg",
         status: "Hi guys, I like sportcred!", // only one of these fields need to be here. patch is partial update
         about: "placeholder",
