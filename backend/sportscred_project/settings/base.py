@@ -151,6 +151,7 @@ class BaseSettings(DjangoDefaults):
     ASGI_APPLICATION = PROJECT_NAME + ".routing.application"
 
     CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True
 
     # Database
     # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
