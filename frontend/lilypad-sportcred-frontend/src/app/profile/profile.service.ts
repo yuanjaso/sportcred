@@ -1,21 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { Profile } from './profile.types';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClientWrapper } from '../http/http-client-wrapper';
+import { Profile, UpdateProfilePayload } from './profile.types';
 
 @Injectable()
 export class ProfileService {
-  constructor() {}
+  constructor(private httpClient: HttpClientWrapper) {}
 
   getProfile(userId: number): Observable<Profile> {
-    return of({
-      username: 'LeBron James',
-      status: 'Go Raptors!!!',
-      acs: 945,
-      pictureURL:
-        'https://miro.medium.com/max/3288/1*Eu8NZH76BTABlaSOac6Tyg.jpeg',
-      about:
-        'Hi, I am LeBron James. I am the best. I play basketball. I have three kids. I am 35 years old. I play for the Lakers. I am the best. I am the best.',
-    }).pipe(delay(1500));
+    return this.httpClient
+      .get<Profile>('profile', { id: userId })
+      .pipe(
+        // ! temporary solution to get right payload
+        map((profile) => ({
+          ...profile,
+          user: {
+            ...profile.user,
+            username: 'LeBron James',
+          },
+          acs: 945,
+          favourite_sports: [{ id: 1, name: 'Basketball' }],
+          profilepicture:
+            'https://miro.medium.com/max/3288/1*Eu8NZH76BTABlaSOac6Tyg.jpeg',
+        }))
+      );
+  }
+
+  updateProfile(profile: UpdateProfilePayload): Observable<Profile> {
+    return this.httpClient.patch('profile', profile);
   }
 }

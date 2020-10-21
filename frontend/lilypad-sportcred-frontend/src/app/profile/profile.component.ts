@@ -7,7 +7,7 @@ import { map, tap } from 'rxjs/operators';
 import { all_routes } from '../../global/routing-statics';
 import { AppState } from '../store/reducer';
 import { Profile } from './profile.types';
-import { getProfile } from './store/profile.actions';
+import { getProfile, updateProfile } from './store/profile.actions';
 import { selectProfile } from './store/profile.selectors';
 
 @Component({
@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   editStatusMode = false;
   editAboutMode = false;
 
-  // true if the user is viewing their own profile, false otherwise
+  // ! hardcoded true if the user is viewing their own profile, false otherwise
   isOwnProfile = true;
 
   followers = 59;
@@ -34,8 +34,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.title.setTitle(all_routes.profile.title);
 
-    // make dummy request to get user 1
-    this.store.dispatch(getProfile({ userId: 4 }));
+    // ! hardcoded make dummy request to get user 1
+    this.store.dispatch(getProfile({ userId: 2 }));
 
     this.subscription.add(
       this.store
@@ -58,6 +58,10 @@ export class ProfileComponent implements OnInit {
   submitNewStatus(): void {
     console.log('new status', this.profile.status);
     this.editStatusMode = false;
+
+    this.store.dispatch(
+      updateProfile({ profile: { status: this.profile.status } })
+    );
   }
 
   beginEditAbout(): void {
@@ -68,5 +72,9 @@ export class ProfileComponent implements OnInit {
   submitNewAbout(): void {
     console.log('new status', this.profile.about);
     this.editAboutMode = false;
+
+    this.store.dispatch(
+      updateProfile({ profile: { status: this.profile.about } })
+    );
   }
 }

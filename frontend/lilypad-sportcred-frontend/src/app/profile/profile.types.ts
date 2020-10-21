@@ -1,7 +1,14 @@
 export interface Profile {
-  username: string;
+  user: {
+    id: number;
+    username: string;
+    is_superuser: boolean;
+  };
   acs: number;
   status: string;
-  pictureURL: string;
+  profilepicture: string;
   about: string;
+  favourite_sports: { id: number; name: string }[];
 }
+
+export type UpdateProfilePayload = Partial<Omit<Profile, 'user' | 'acs'>>;
