@@ -44,22 +44,23 @@ def test_get_custom_answers_4(token):
     assert res.status_code == 200
 
 
-# def test_post_everything_correct(token):
-#     url = URL + "questionnaire/"
-#     res = requests.post(
-#         url,
-#         headers={"Authorization": "Token " + token},
-#         json=[
-#             {"question_id": 1, "answer": 1},
-#             {"question_id": 2, "answer": 100},
-#             {"question_id": 3, "answer": 4},
-#             {"question_id": 4, "answer": 10},
-#             {"question_id": 5, "answer": 1},
-#             {"question_id": 6, "answer": "blue"},
-#         ],
-#         verify=False,
-#     )
-#     assert res.status_code == 200
+def test_post_everything_correct(token):
+    url = URL + "questionnaire/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + token},
+        json=[
+            {"question_id": 1, "answer": 1},
+            {"question_id": 2, "answer": 100},
+            {"question_id": 3, "answer": 4},
+            {"question_id": 4, "answer": 10},
+            {"question_id": 5, "answer": 1},
+            {"question_id": 6, "answer": "blue"},
+        ],
+        verify=False,
+    )
+    assert res.status_code == 200
+
 
 ## For this test case, the question_ids of 0, 7 and 10 are wrong.
 # def test_post_incorrect_question_ids(token):

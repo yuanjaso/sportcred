@@ -1,11 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 import { loginInfo } from '../../login/login.types';
+import { User } from '../auth.types';
 
-export const getLoginToken = createAction(
-  '[Auth] Get Login Token',
+export const getUserInfo = createAction(
+  '[Auth] Get User Info',
   props<loginInfo>()
 );
-export const setLoginToken = createAction(
-  '[Auth] Set Login Token',
-  props<{ token: string }>()
+export const setUserInfo = createAction(
+  '[Auth] Set User Info',
+  props<{ payload: User }>()
 );
+export const clearLoginToken = createAction('[Auth] Clear Login Token');

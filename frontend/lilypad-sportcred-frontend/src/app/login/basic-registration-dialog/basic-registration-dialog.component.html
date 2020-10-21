@@ -1,4 +1,8 @@
-<form class="sub-box" [formGroup]="form" (ngSubmit)="register()">
+<form
+  class="sub-box login-component"
+  [formGroup]="form"
+  (ngSubmit)="register()"
+>
   <div class="desc">Register</div>
   <div class="fields">
     <mat-form-field appearance="outline">
@@ -13,6 +17,9 @@
       >
         Length of user name limited to min of 3 and max of 10
       </mat-error>
+      <mat-error *ngIf="form.controls.username.hasError('taken')">
+        Email or Username is <strong>taken</strong>
+      </mat-error>
       <mat-error *ngIf="form.controls.username.hasError('required')">
         User name is <strong>required</strong>
       </mat-error>
@@ -25,7 +32,7 @@
         formControlName="email"
       />
       <mat-error *ngIf="form.controls.email.hasError('taken')">
-        Email is <strong>taken</strong>
+        Email or Username is <strong>taken</strong>
       </mat-error>
       <mat-error *ngIf="form.controls.email.hasError('email')">
         Email is <strong>Invalid</strong>
@@ -76,8 +83,5 @@
     >
       Register
     </button>
-    <!-- <button type="submit" [disabled]="registrationSpamBlock" mat-stroked-button>
-      Register
-    </button> -->
   </div>
 </form>

@@ -9,19 +9,19 @@ import { Subject } from 'rxjs';
 export class LoginService {
   /*SUBJECTS */
   $registrationStatus = new Subject<boolean>();
+  $loginStatus = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 
   /* HTTP REQUESTS*/
   tryLogin(info: models.loginInfo) {
-    console.log(apis.loginURL);
-    return this.http.post(apis.loginURL, { username: 'bbb', password: '.' });
+    return this.http.post(apis.loginURL, info);
   }
   tryRegisterBasic(info: models.generalRegistrationInfo) {
     return this.http.post(apis.usersURL, info);
   }
   tryRegisterQuestionaire(info: models.questionaireRegistrationInfo) {
-    return this.http.post(apis.questionaireURL, info);
+    return this.http.post(apis.questionaireURL, info.questionaire);
   }
   getQuestionaire() {
     return this.http.get(apis.questionaireURL);

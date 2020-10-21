@@ -59,8 +59,8 @@ class UserViewSet(viewsets.ViewSet):
             "token": token.key,
             "user_id": u.pk,
             "username": u.username,
-            "email": u.email,
             "is_superuser": u.is_superuser,
+            "questionaire_registered": profile.questionaire_registered,
         }
         return Response(response)
 
@@ -80,6 +80,7 @@ class UserViewSet(viewsets.ViewSet):
                     "token": token.key,
                     "user_id": user.pk,
                     "is_superuser": user.is_superuser,
+                    "questionaire_registered": user.profile.questionaire_registered,
                 }
             )
         else:
@@ -99,6 +100,7 @@ class UserViewSet(viewsets.ViewSet):
                         "token": token.key,
                         "user_id": user.pk,
                         "is_superuser": user.is_superuser,
+                        "questionaire_registered": user.profile.questionaire_registered,
                     }
                 )
             return Response(
