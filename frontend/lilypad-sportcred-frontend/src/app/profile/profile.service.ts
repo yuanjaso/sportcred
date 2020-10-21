@@ -20,7 +20,11 @@ export class ProfileService {
             username: 'LeBron James',
           },
           acs: 945,
-          favourite_sports: [{ id: 1, name: 'Basketball' }],
+          favourite_sports: [
+            { id: 1, name: 'Basketball' },
+            { id: 2, name: 'Football' },
+            { id: 3, name: 'Soccer' },
+          ],
           profilepicture:
             'https://miro.medium.com/max/3288/1*Eu8NZH76BTABlaSOac6Tyg.jpeg',
         }))
