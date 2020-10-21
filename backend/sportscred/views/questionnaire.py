@@ -39,23 +39,48 @@ class QuestionnaireViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     # For POST
+    # Gets the answers the user gave
     def create(self, request):
         # Have to catch handler and send bad request
         handlers = []
         user_responses = []
 
+        # Checks if the input is an array.
+        if not isinstance(request.data, list):
+            return Response(
+                {"details": "The input is not an array."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         for response_data in request.data:  # validation step
-            question_id = response_data["question_id"]
+
+            # Checks if the key is question_id
+            try:
+                question_id = response_data["question_id"]
+            except:
+                return Response(
+                    {"details": "The key is not question_id."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
             try:
                 question = QuestionaireQuestion.objects.get(pk=question_id)
             except:
                 return Response(
-                    {"details": f"The {question_id} does not exist."},
+                    {"details": f"The question_id {question_id} does not exist."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            q_handler = QuestionnaireHandler(
-                question, response_data["answer"], request.user
-            )
+            try:
+                q_handler = QuestionnaireHandler(
+                    question, response_data["answer"], request.user
+                )
+
+            # Checks if the user gave an answer.
+            except:
+                return Response(
+                    {"details": "You didn't provide an answer."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             handler = getattr(q_handler, "handle_" + question.question_type)
 
             result = handler()
