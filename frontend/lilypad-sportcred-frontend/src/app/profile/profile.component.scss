@@ -1,0 +1,96 @@
+@import "../../global/colors.scss";
+
+:host {
+  height: 100%;
+  width: 100%;
+  background-color: $darkgrey;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  mat-icon.material-icons {
+    padding: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  div#left {
+    margin-right: 2.5rem;
+
+    > *:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  div#right {
+    height: 50%;
+
+    p {
+      color: $white;
+    }
+  }
+
+  div#acs {
+    background-color: $grey;
+    color: $black;
+
+    border-radius: 3.5rem;
+    height: 7rem;
+    width: 7rem;
+
+    justify-content: center;
+    align-items: center;
+
+    p {
+      margin: 0;
+      letter-spacing: 0.2rem;
+    }
+  }
+
+  div#acs-history {
+    background-color: $white;
+    padding: 1rem;
+  }
+
+  div#picture {
+    img {
+      width: 10rem;
+      height: 10rem;
+      border-radius: 2.5rem;
+    }
+  }
+
+  div#status {
+    width: 80%;
+  }
+
+  div#about {
+    > * {
+      margin-bottom: 0;
+    }
+
+    p {
+      width: 20rem;
+      background-color: $white;
+      padding: 1rem;
+    }
+
+    label {
+      background-color: $grey;
+      padding: 0.5rem;
+      width: fit-content;
+      margin: 0;
+    }
+
+    textarea {
+      border: 1px solid $black;
+      padding: 1rem;
+      background-color: $white;
+      resize: none;
+    }
+  }
+}

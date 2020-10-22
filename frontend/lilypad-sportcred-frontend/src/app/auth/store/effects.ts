@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType, act } from '@ngrx/effects';
-import { EMPTY, from, fromEventPattern } from 'rxjs';
-import { catchError, map, mergeMap, first } from 'rxjs/operators';
-import { AuthService } from '../auth.service';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { EMPTY } from 'rxjs';
+import { catchError, first, mergeMap } from 'rxjs/operators';
 import { LoginService } from '../../login/login.service';
-import * as actions from './actions';
-import { loginInfo } from '../../login/models';
-import { NONE_TYPE } from '@angular/compiler';
-import { Router } from '@angular/router';
+import { loginInfo } from '../../login/login.types';
 import { login } from '../../login/store/actions';
-import { User } from '../models';
+import { User } from '../auth.types';
+import * as actions from './actions';
+
 @Injectable()
 export class AuthEffects {
   getUserInfo$ = createEffect(() =>

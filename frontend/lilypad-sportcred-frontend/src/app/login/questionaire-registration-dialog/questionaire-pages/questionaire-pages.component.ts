@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { question, answer, questionTypes } from '../../models';
+import { question, answer, questionTypes } from '../../login.types';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({

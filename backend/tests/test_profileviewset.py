@@ -176,8 +176,8 @@ def test_get_profile():
     # get profile of the 2nd user as the first user by using the first users token
     res = requests.get(
         url,
+        params={"id": user_id},
         headers={"Authorization": "Token " + token},
-        data={"user_id": user_id},
     )
     assert res.status_code == 200
     assert res.json()["user"]["username"] == data["name"]

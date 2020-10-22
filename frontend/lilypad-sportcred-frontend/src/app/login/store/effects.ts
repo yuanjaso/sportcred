@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { EMPTY } from 'rxjs';
-import { catchError, map, mergeMap, first } from 'rxjs/operators';
+import { catchError, first, map, mergeMap } from 'rxjs/operators';
+import { all_routes } from '../../../global/routing-statics';
+import { setUserInfo } from '../../auth/store/actions';
+import { selectUserInfo } from '../../auth/store/selectors';
+import { AppState } from '../../store/reducer';
 import { LoginService } from '../login.service';
-import * as actions from './actions';
 import {
   generalRegistrationInfo,
   questionaireRegistrationInfo,
-} from '../models';
-import { setUserInfo } from '../../auth/store/actions';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../store/reducer';
-import { selectUserInfo } from '../../auth/store/selectors';
-import { Router } from '@angular/router';
-import { all_routes } from '../../../global/routing-statics';
+} from '../login.types';
+import * as actions from './actions';
 
 @Injectable()
 export class LoginEffects {
