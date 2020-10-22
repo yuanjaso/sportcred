@@ -16,7 +16,7 @@ export class HttpClientWrapper {
   constructor(private httpClient: HttpClient) {}
 
   get<T>(url: string, queryParams?: RawQueryParams): Observable<T> {
-    return this.httpClient.get<T>(this.urlProcessor(url), {
+    return this.httpClient.get<T>(environment.urlProcessor(url), {
       params: this.stringifyQueryParams(queryParams),
     });
   }
@@ -26,7 +26,7 @@ export class HttpClientWrapper {
     body: any | null,
     queryParams?: RawQueryParams
   ): Observable<T> {
-    return this.httpClient.post<T>(this.urlProcessor(url), body, {
+    return this.httpClient.post<T>(environment.urlProcessor(url), body, {
       params: this.stringifyQueryParams(queryParams),
     });
   }
@@ -36,19 +36,15 @@ export class HttpClientWrapper {
     body: any | null,
     queryParams?: RawQueryParams
   ): Observable<T> {
-    return this.httpClient.patch<T>(this.urlProcessor(url), body, {
+    return this.httpClient.patch<T>(environment.urlProcessor(url), body, {
       params: this.stringifyQueryParams(queryParams),
     });
   }
 
   delete<T>(url: string, queryParams?: RawQueryParams): Observable<T> {
-    return this.httpClient.delete<T>(this.urlProcessor(url), {
+    return this.httpClient.delete<T>(environment.urlProcessor(url), {
       params: this.stringifyQueryParams(queryParams),
     });
-  }
-
-  private urlProcessor(url: string): string {
-    return `${environment.backendUrl}/v${environment.apiVersion}/${url}/`;
   }
 
   private stringifyQueryParams(rawQueryParams: RawQueryParams): QueryParams {
