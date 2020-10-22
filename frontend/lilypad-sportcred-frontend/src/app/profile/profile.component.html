@@ -23,12 +23,10 @@
     <div id="status" class="row xy-center">
       <p class="font-secondary white-font">Status:</p>
 
-      <input
-        *ngIf="editStatusMode"
-        matInput
-        type="text"
-        [(ngModel)]="profile.status"
-      />
+      <mat-form-field *ngIf="editStatusMode" appearance="fill">
+        <input matInput type="text" [(ngModel)]="profile.status" />
+      </mat-form-field>
+
       <p class="font-secondary white-font" *ngIf="!editStatusMode">
         {{ profile.status }}
       </p>
