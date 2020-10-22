@@ -15,10 +15,6 @@ export class ProfileService {
         // ! temporary solution to get right payload
         map((profile) => ({
           ...profile,
-          user: {
-            ...profile.user,
-            username: 'LeBron James',
-          },
           acs: 945,
           favourite_sports: [
             { id: 1, name: 'Basketball' },
