@@ -35,6 +35,7 @@
         placeholder="jordanlover123@hotmail.com"
         formControlName="email"
       />
+      <mat-error *ngIf="form.controls.email.hasError('incorrect')"> </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -45,10 +46,15 @@
         formControlName="password"
         type="password"
       />
+      <mat-error *ngIf="form.controls.email.hasError('incorrect')">
+        Login <strong>Failed</strong>
+      </mat-error>
     </mat-form-field>
 
     <div class="button">
-      <button type="submit" mat-stroked-button>Sign In</button>
+      <button type="submit" mat-stroked-button [disabled]="!this.form.valid">
+        Sign In
+      </button>
     </div>
   </form>
 </div>

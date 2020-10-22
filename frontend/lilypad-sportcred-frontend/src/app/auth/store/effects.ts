@@ -1,24 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { AuthService } from '../auth.service';
+import { catchError, first, mergeMap } from 'rxjs/operators';
 import { LoginService } from '../../login/login.service';
+import { loginInfo } from '../../login/login.types';
+import { login } from '../../login/store/actions';
+import { User } from '../auth.types';
 import * as actions from './actions';
-import { loginInfo } from '../../login/models';
 
 @Injectable()
 export class AuthEffects {
-  getLoginToken$ = createEffect(() =>
+  getUserInfo$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(actions.getLoginToken),
+      ofType(actions.getUserInfo),
       mergeMap((info: loginInfo) =>
         this.loginService.tryLogin(info).pipe(
-          map((token) => ({
-            type: actions.setLoginToken.type,
-            payload: token,
-          })),
-          catchError(() => EMPTY)
+          first(),
+          mergeMap((payload: User) => {
+            return [
+              {
+                //we set the login token
+                type: actions.setUserInfo.type,
+                payload,
+              },
+              {
+                //also dispatch the login action, which sole purpose
+                // is to wait for the token in the store to change, then routing accordingly
+                type: login.type,
+              },
+            ];
+          }),
+          catchError(() => {
+            this.loginService.$loginStatus.next(false);
+            return EMPTY;
+          })
         )
       )
     )

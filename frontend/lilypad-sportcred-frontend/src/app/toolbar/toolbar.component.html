@@ -1,14 +1,33 @@
 <mat-tab-group mat-align-tabs="center" [selectedIndex]="setCurrentTab()">
-    <div *ngFor="let tab of tabList">
-        <mat-tab>
-            <ng-template mat-tab-label>
-                <i class="material-icons" routerLink="/{{tab.link}}">{{tab.icon}}</i>
-            </ng-template>
-        </mat-tab>
-    </div>
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <span id="live-tab" (click)="onClickLive()">LIVE</span>
-        </ng-template>
-    </mat-tab>
+  <!-- i negated the ngif as a temporary fix cuz there are no admin users -->
+  <mat-tab *ngIf="!isAdmin">
+    <ng-template mat-tab-label>
+      <i class="material-icons" routerLink="/{{ adminTab.link }}">
+        {{ adminTab.icon }}
+      </i>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i
+        class="material-icons"
+        (click)="onProfileClick()"
+        routerLink="/{{ profileTab.link }}"
+      >
+        {{ profileTab.icon }}
+      </i>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="material-icons" routerLink="/{{ zoneTab.link }}">
+        {{ zoneTab.icon }}
+      </i>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span id="live-tab" (click)="onClickLive()">LIVE</span>
+    </ng-template>
+  </mat-tab>
 </mat-tab-group>

@@ -1,11 +1,11 @@
+import { EnviromentConfigs } from './environment.prod';
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+export const environment: EnviromentConfigs = {
   production: false,
-  //!todo fill this out
-  backendUrl: 'http://localhost:8000/api',
+  backendUrl: 'http://127.0.0.1:8000/api',
   apiVersion: 1,
   //easily editable if scheme changes in the future
   urlProcessor: (url: string): string =>

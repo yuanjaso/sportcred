@@ -24,6 +24,11 @@ class Profile(models.Model):
     highlights = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
 
+    @property
+    def questionaire_registered(self):
+        qs = QuestionaireUserResponse.objects.filter(user=self)
+        return len(qs) != 0
+
 
 class ProfilePicture(models.Model):
     name = models.CharField(max_length=100)

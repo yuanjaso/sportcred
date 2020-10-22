@@ -85,7 +85,7 @@ class ProfileViewSet(viewsets.ViewSet):
             for item in update:
                 if item in request.data.keys():
                     setattr(profile, item, request.data[item])
-
+                    profile.save()
             if "highlights" in request.data.keys():
                 # expecting a list
                 highlights = request.data["highlights"]
@@ -180,7 +180,7 @@ class ProfileViewSet(viewsets.ViewSet):
         This method returns a profile given a username
         """
         try:
-            profile = User.objects.get(pk=request.data["user_id"]).profile
+            profile = User.objects.get(pk=request.query_params["id"]).profile
             return Response(ProfileSerializer(profile).data)
         except Exception as e:
             print(e)

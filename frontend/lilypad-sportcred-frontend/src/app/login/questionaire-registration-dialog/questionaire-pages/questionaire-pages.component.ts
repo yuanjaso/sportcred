@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { question, answer, questionTypes } from '../../models';
+import { question, answer, questionTypes } from '../../login.types';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -26,7 +26,6 @@ export class QuestionairePagesComponent implements OnInit {
       this.question.question_type === this.quantitative
         ? this.form.controls.number.value
         : this.form.controls.string.value;
-    console.log(answer);
     this.answer.emit({
       answer,
       question_id: this.question.id,
