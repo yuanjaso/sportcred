@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 import { all_routes } from '../../global/routing-statics';
+import { selectUserInfo } from '../auth/store/selectors';
 import { AppState } from '../store/reducer';
 import { Profile } from './profile.types';
 import { getProfile, updateProfile } from './store/profile.actions';
@@ -53,8 +54,11 @@ export class ProfileComponent implements OnInit {
         .subscribe()
     );
 
-    // ! utilize store selector instead
-    this.userId$ = of(2);
+    this.userId$ = this.store.select(selectUserInfo).pipe(
+      first(),
+      map((user) => user.user_id)
+    );
+    // ! hardcoded
     of([
       { id: 1, name: 'Basketball' },
       { id: 2, name: 'Football' },
