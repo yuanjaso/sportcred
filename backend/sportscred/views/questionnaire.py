@@ -29,6 +29,14 @@ class QuestionnaireViewSet(viewsets.ViewSet):
     def list(self, request):
         questions = QuestionaireQuestion.objects.all()
         serializer = QuestionnaireSerializer(questions, many=True)
+
+        # Gets the custom answers
+        for item in serializer.data:
+            if item["question_type"] == "C":
+                options = []
+                for item2 in QuestionaireAnswer.objects.all().values():
+                    options.append(item2)
+                item["options"] = options
         return Response(serializer.data)
 
     # Querying for the custom answers.
