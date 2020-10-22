@@ -7,7 +7,6 @@ import { selectUserInfo } from '../auth/store/selectors';
 import { first } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { all_routes } from '../../global/routing-statics';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-zone',
@@ -16,17 +15,10 @@ import { Router } from '@angular/router';
 })
 export class ZoneComponent implements OnInit {
 
-
-  cardList: { title: string, imgLink: string, link: string }[] = [
-    { title: all_routes.open_court.dashTitle, imgLink: all_routes.open_court.dashImgLink, link: all_routes.open_court.url },
-    { title: all_routes.predictions.dashTitle, imgLink: all_routes.predictions.dashImgLink, link: all_routes.predictions.url },
-    { title: all_routes.debate.dashTitle, imgLink: all_routes.debate.dashImgLink, link: all_routes.debate.url },
-    { title: all_routes.trivia.dashTitle, imgLink: all_routes.trivia.dashImgLink, link: all_routes.trivia.url }
-  ];
+  cardList= [all_routes.open_court, all_routes.predictions, all_routes.debate, all_routes.trivia]
 
   constructor(
     private titleService: Title,
-    private router: Router,
     public dialog: MatDialog,
     private store: Store<AppState>
   ) { 
