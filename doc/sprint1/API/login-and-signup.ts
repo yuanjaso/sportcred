@@ -100,29 +100,15 @@ const apiRequirements: API[] = [
           // We only return one of the following: QN/QL/S/T/P/C
           // QN stands for quantative, QL stands for qualitative, S stands for Sports, T stands for Teams, P stands for Players, C stands for Custom
         },
-      ],
-    },
-  },
-  {
-    description: 'Querying custom question answers based of question id',
-    request: {
-      requestURL: 'api/v1/questionnaire/:id/answers', //id is custom_answer_id.
-      requestMethod: 'GET',
-      body: {},
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: [
         {
-          Mimetype: 'application/json',
-          Body: {
-            question_id: 1,
-            answers: [
-              { answer_id: 1, custom_answer: 'asdf' },
-              { answer_id: 2, custom_answer: 'bcdf' },
-            ],
-          },
+          question_id: 233, // Suppose 233 is a custom question
+          question_content: 'Highest level of sport play?',
+          min_int: 0, // If the question is not quantitative, we'll just ignore the min_int and max_int values.
+          max_int: 100,
+          question_type: 'C',
+          // We only return one of the following: QN/QL/S/T/P/C
+          // QN stands for quantative, QL stands for qualitative, S stands for Sports, T stands for Teams, P stands for Players, C stands for Custom
+         options: [{'id': 1, 'question_id': 233, 'custom_answer': "No history"}, ...] // More dictionaries in the array
         },
       ],
     },
