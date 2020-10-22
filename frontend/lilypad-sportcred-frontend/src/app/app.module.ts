@@ -19,7 +19,7 @@ import { appReducers } from './store/reducer';
 import { TriviaModule } from './trivia/trivia.module';
 import { ZoneModule } from './zone/zone.module';
 @NgModule({
-  declarations: [AppComponent, AdminComponent],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
