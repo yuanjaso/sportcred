@@ -48,11 +48,12 @@ export class ToolbarComponent implements OnInit {
 
   setCurrentTab() {
     switch (this.router.url) {
-      case 'profile':
-        // TODO: Add profile link to case
+      case all_routes.admin.url:
         return 0;
+      case all_routes.profile.url:
+        return 1
       default:
-        return 1;
+        return 2;
     }
   }
 
