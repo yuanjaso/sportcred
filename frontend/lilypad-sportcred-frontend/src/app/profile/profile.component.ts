@@ -8,7 +8,7 @@ import { all_routes } from '../../global/routing-statics';
 import { selectUserInfo } from '../auth/store/selectors';
 import { AppState } from '../store/reducer';
 import { Profile } from './profile.types';
-import { getProfile, updateProfile } from './store/profile.actions';
+import { updateProfile } from './store/profile.actions';
 import { selectProfile } from './store/profile.selectors';
 
 @Component({
