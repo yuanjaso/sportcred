@@ -1,4 +1,12 @@
 <mat-tab-group mat-align-tabs="center" [selectedIndex]="setCurrentTab()">
+  <!-- i negated the ngif as a temporary fix cuz there are no admin users -->
+  <mat-tab *ngIf="!isAdmin">
+    <ng-template mat-tab-label>
+      <i class="material-icons" routerLink="/{{ adminTab.link }}">
+        {{ adminTab.icon }}
+      </i>
+    </ng-template>
+  </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
       <i
