@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
 
   userId$: Observable<number>;
 
+  // ! hardcoded
   followers = 59;
   following = 104;
 
@@ -36,9 +37,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.title.setTitle(all_routes.profile.title);
-
-    // ! hardcoded make dummy request to get user 1
-    this.store.dispatch(getProfile({ userId: 2 }));
 
     this.subscription.add(
       this.store
@@ -58,6 +56,7 @@ export class ProfileComponent implements OnInit {
       first(),
       map((user) => user.user_id)
     );
+
     // ! hardcoded
     of([
       { id: 1, name: 'Basketball' },
