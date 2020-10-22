@@ -26,28 +26,34 @@ const trivia: dashPageConfig = {
   url: 'trivia',
   title: 'SPORTCRED - Trivia',
   dashTitle: 'Trivia',
-  dashImgLink: '../../assets/dashboard_Trivia.png'
+  dashImgLink: '../../assets/dashboard_Trivia.png',
 };
 const debate: dashPageConfig = {
   url: 'debate',
   title: 'SPORTCRED - Analyze & Debate',
   dashTitle: 'Analyze & Debate',
-  dashImgLink: '../../assets/dashboard_AD.png'
+  dashImgLink: '../../assets/dashboard_AD.png',
 };
 const predictions: dashPageConfig = {
   url: 'predictions',
   title: 'SPORTCRED - Picks & Predictions',
   dashTitle: 'Picks & Predictions',
-  dashImgLink: '../../assets/dashboard_PP.png'
+  dashImgLink: '../../assets/dashboard_PP.png',
 };
 const open_court: dashPageConfig = {
   url: 'open-court',
   title: 'SPORTCRED - Open Court',
   dashTitle: 'Open Court',
-  dashImgLink: '../../assets/dashboard_OC.png'
+  dashImgLink: '../../assets/dashboard_OC.png',
+};
+
+const admin: pageConfig = {
+  url: 'admin',
+  title: 'SPORTCRED - Admin',
 };
 
 export const all_routes = {
+  admin,
   profile,
   login,
   register,
@@ -55,5 +61,5 @@ export const all_routes = {
   trivia,
   debate,
   predictions,
-  open_court
+  open_court,
 };

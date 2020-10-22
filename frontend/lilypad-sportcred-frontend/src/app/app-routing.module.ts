@@ -23,6 +23,12 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
+    path: all_routes.admin.url,
+    loadChildren: () =>
+      import('./admin/admin-routing.module').then((m) => m.AdminRoutingModule),
+    canActivate: [AuthGuardService],
+  },
+  {
     path: all_routes.zone.url,
     loadChildren: () =>
       import('./zone/zone-routing.module').then((m) => m.ZoneRoutingModule),
