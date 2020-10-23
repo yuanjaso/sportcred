@@ -50,6 +50,8 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 | LIL-53 (Create Profile endpoint) (Subtask of LIL-49)                                  | Ohmasinh Negi |
 | LIL-54 (add is_superuser as a key in the response body for all user objects)          | Qing Yu Lan   |
 | LIL-55 (For frontend if user is_admin a button shows up)                              | Jason Yuan    |
+| LIL-56 (CORS-header issue)                                                            | Michael Do    |
+| LIL-58 (Hotfix to check if input for questionnaire endpoint is an array)              | Qing Yu Lan   |
 
 
 <b>Team Capacity:</b><br>
