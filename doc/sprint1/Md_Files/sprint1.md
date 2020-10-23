@@ -45,7 +45,11 @@ Furthermore, if we have time, we want to start on the ACS scoring system.
 | LIL-47 (Automate prepending of ticket number to commit message)                       | Michael Do    |
 | LIL-49 (User_endpoints)                                                               | Michael Do    |
 | LIL-50 (Finish sprint1.md and rpm.md)                                                 | Qing Yu Lan   |
-| LIL-51 (Create an API for questionnaire and make the endpoints for questionnaire)     | Qing Yu Lan   |
+| LIL-51 (Create an API for questionnaire) (Subtask of LIL-49)                          | Qing Yu Lan   |
+| LIL-52 (Implement Generic GET endpoint)                                               | Michael Do    |
+| LIL-53 (Create Profile endpoint) (Subtask of LIL-49)                                  | Ohmasinh Negi |
+| LIL-54 (add is_superuser as a key in the response body for all user objects)          | Qing Yu Lan   |
+| LIL-55 (For frontend if user is_admin a button shows up)                              | Jason Yuan    |
 
 
 <b>Team Capacity:</b><br>
