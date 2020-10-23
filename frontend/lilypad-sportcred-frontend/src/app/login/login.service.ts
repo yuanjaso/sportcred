@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientWrapper } from '../http/http-client-wrapper';
 import * as models from './login.types';
 import * as apis from '../../global/api.types';
 import { Subject } from 'rxjs';
@@ -11,7 +11,7 @@ export class LoginService {
   $registrationStatus = new Subject<boolean>();
   $loginStatus = new Subject<boolean>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClientWrapper) {}
 
   /* HTTP REQUESTS*/
   tryLogin(info: models.loginInfo) {
