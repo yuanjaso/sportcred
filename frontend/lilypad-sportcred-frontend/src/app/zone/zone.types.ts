@@ -15,5 +15,5 @@ export interface Player {
   id: number;
   first_name: string;
   last_name: string;
-  plays_on: Team;
+  plays_on: Team[];
 }

@@ -11,6 +11,8 @@ export const selectTeams = createSelector(
     props?: { sportFilter?: sportTypes; customFilter?: Function }
   ) => {
     let entire = state.allTeams;
+    if (entire === undefined) return undefined;
+
     if (props?.sportFilter) {
       entire = entire.filter(
         (team) => team.plays_sport.name === props.sportFilter
@@ -31,9 +33,11 @@ export const selectPlayers = createSelector(
     props?: { sportFilter?: sportTypes; customFilter?: Function }
   ) => {
     let entire = state.allplayers;
+    if (entire === undefined) return undefined;
+
     if (props?.sportFilter) {
       entire = entire.filter(
-        (player) => player.plays_on.plays_sport.name === props.sportFilter
+        (player) => player.plays_on[0]?.plays_sport.name === props.sportFilter
       );
     }
     if (props?.customFilter) {

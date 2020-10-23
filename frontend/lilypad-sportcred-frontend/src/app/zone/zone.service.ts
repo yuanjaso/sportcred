@@ -10,9 +10,9 @@ export class ZoneService {
 
   /* HTTP REQUESTS*/
   getAllPlayers() {
-    return this.http.get(teamsURL);
+    return this.http.get(playersURL);
   }
   getAllTeams() {
-    return this.http.get(playersURL);
+    return this.http.get(teamsURL);
   }
 }

@@ -9,7 +9,7 @@ import { Title } from '@angular/platform-browser';
 import { all_routes } from '../../global/routing-statics';
 import * as actions from './store/actions';
 import * as selectors from './store/selectors';
-
+import * as types from './zone.types';
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',
@@ -45,15 +45,21 @@ export class ZoneComponent implements OnInit {
     this.store.dispatch(actions.getAllPlayers());
     this.store.dispatch(actions.getAllSportsTeams());
 
+    // this.store
+    //   .select(selectors.selectPlayers, {
+    //     sportFilter: 'Basketball',
+    //     customFilter: (player: types.Player) => player.first_name === 'Kyle',
+    //   })
+    //   .pipe(first((players) => players.length !== 0))
+    //   .subscribe((players) => {
+    //     console.log(players);
+    //   });
     this.store
-      .select(selectors.selectPlayers)
-      .pipe(first((players) => !!players))
-      .subscribe((players) => {
-        console.log(players);
-      });
-    this.store
-      .select(selectors.selectTeams)
-      .pipe(first((teams) => !!teams))
+      .select(selectors.selectTeams, {
+        sportFilter: 'Basketball',
+        customFilter: (tean: types.Team) => tean.short_name === 'Raptors',
+      })
+      .pipe(first((teams) => teams !== undefined))
       .subscribe((teams) => {
         console.log(teams);
       });
