@@ -13,6 +13,6 @@ export class ZoneService {
     return this.http.get(teamsURL);
   }
   getAllTeams() {
-    return this.http.get(teamsURL);
+    return this.http.get(playersURL);
   }
 }

@@ -8,7 +8,7 @@ export const selectTeams = createSelector(
   (
     state: ZoneState,
     //customFilter is a boolean function
-    props: { sportFilter?: sportTypes; customFilter?: Function }
+    props?: { sportFilter?: sportTypes; customFilter?: Function }
   ) => {
     let entire = state.allTeams;
     if (props?.sportFilter) {
@@ -28,7 +28,7 @@ export const selectPlayers = createSelector(
   (
     state: ZoneState,
     //customFilter is a boolean function
-    props: { sportFilter?: sportTypes; customFilter?: Function }
+    props?: { sportFilter?: sportTypes; customFilter?: Function }
   ) => {
     let entire = state.allplayers;
     if (props?.sportFilter) {

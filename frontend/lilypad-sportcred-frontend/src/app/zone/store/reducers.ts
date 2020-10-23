@@ -7,8 +7,8 @@ export interface ZoneState {
   allplayers: types.Player[];
 }
 export const initialState: ZoneState = {
-  allTeams: [],
-  allplayers: [],
+  allTeams: undefined,
+  allplayers: undefined,
 };
 
 const reducer = createReducer<ZoneState>(

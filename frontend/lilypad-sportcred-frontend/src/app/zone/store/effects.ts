@@ -17,7 +17,7 @@ export class ZoneEffects {
           map((teams: Team[]) => {
             return {
               type: actions.setAllSportsTeams.type,
-              teams,
+              teams: (teams as any).results,
             };
           }),
           catchError(() => {
@@ -30,14 +30,14 @@ export class ZoneEffects {
 
   getAllPlayers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(actions.setAllPlayers),
+      ofType(actions.getAllPlayers),
       mergeMap(() =>
         this.zoneService.getAllPlayers().pipe(
           first(),
           map((players: Player[]) => {
             return {
               type: actions.setAllPlayers.type,
-              players,
+              players: (players as any).results,
             };
           }),
           catchError(() => {
