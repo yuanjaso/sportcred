@@ -64,5 +64,12 @@ export class ZoneComponent implements OnInit {
         console.log('fetching teams');
         this.store.dispatch(actions.getAllSportsTeams());
       });
+    this.store
+      .select(selectors.selectSports)
+      .pipe(first((sport) => sport === undefined))
+      .subscribe(() => {
+        console.log('fetching sports');
+        this.store.dispatch(actions.getAllSports());
+      });
   }
 }

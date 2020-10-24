@@ -1,20 +1,12 @@
-export const sportStrings = [
-  'Basketball',
-  'Baseball',
-  'Hockey',
-  'Football',
-  'Soccer',
-];
-export type sportTypes = typeof sportStrings;
-
 export interface Team {
+  id: number;
   full_name: string;
   short_name: string;
   plays_sport: Sport;
 }
 export interface Sport {
   id: number;
-  name: sportTypes;
+  name: string;
 }
 
 export interface Player {

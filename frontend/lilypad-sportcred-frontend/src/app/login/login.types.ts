@@ -17,14 +17,16 @@ export interface question {
   max_int?: number;
   //options is only applicable to CUSTOM questions
   //it defines the custom allowed responses
-  options?: answer[];
+  options?: customAnswerOption[];
 }
+export interface customAnswerOption {
+  id: number;
+  custom_answer: number | string;
+}
+
 export interface answer {
   question_id: number;
-  answer?: number | string;
-  //request has been made to rename custom_answer to answer
-  //TODO remove custom_answer when api changes
-  custom_answer?: number | string;
+  answer: number | string;
 }
 export interface generalRegistrationInfo {
   username: string;

@@ -4,7 +4,7 @@ import { EMPTY } from 'rxjs';
 import { catchError, first, map, mergeMap } from 'rxjs/operators';
 import { ZoneService } from '../zone.service';
 import * as actions from './actions';
-import { Team, Player } from '../zone.types';
+import { Team, Player, Sport } from '../zone.types';
 
 @Injectable()
 export class ZoneEffects {
@@ -48,5 +48,24 @@ export class ZoneEffects {
     )
   );
 
+  getAllSports$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.getAllSports),
+      mergeMap(() =>
+        this.zoneService.getAllSports().pipe(
+          first(),
+          map((sports: Sport[]) => {
+            return {
+              type: actions.setAllSports.type,
+              sports: (sports as any).results,
+            };
+          }),
+          catchError(() => {
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
   constructor(private actions$: Actions, private zoneService: ZoneService) {}
 }

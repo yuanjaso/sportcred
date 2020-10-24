@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { question, answer, questionTypes } from '../../login.types';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppState } from '../../../store/reducer';
 import { Store } from '@ngrx/store';
-import { selectPlayers, selectTeams } from '../../../zone/store/selectors';
-import { first } from 'rxjs/operators';
-import { sportStrings } from '../../../zone/zone.types';
+import {
+  selectPlayers,
+  selectTeams,
+  selectSports,
+} from '../../../zone/store/selectors';
 @Component({
   selector: 'app-questionaire-pages',
   templateUrl: './questionaire-pages.component.html',
@@ -20,30 +22,25 @@ export class QuestionairePagesComponent implements OnInit {
   @Input() customFilter: Function;
   @Input() outOf: String = '';
   @Output() answer = new EventEmitter<answer>();
+
   form: FormGroup = new FormGroup({
-    number: new FormControl(0),
-    string: new FormControl(''),
+    answer: new FormControl(undefined, [Validators.required]),
   });
 
-  //observables
+  //data observables
   $players = this.store.select(selectPlayers);
   $teams = this.store.select(selectTeams);
+  $sports = this.store.select(selectSports);
 
   // create this local variable to access in html
-  sportStrings = sportStrings;
   questionTypes = questionTypes;
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {
-    console.log(this.question.question_type);
-    console.log(questionTypes.players);
-  }
+  ngOnInit(): void {}
   submit() {
-    let answer =
-      this.question.question_type === this.questionTypes.quantitative
-        ? this.form.controls.number.value
-        : this.form.controls.string.value;
+    let answer = this.form.controls.answer.value;
+    if (Array.isArray(answer)) answer = answer.length > 0 ? answer[0] : '';
     this.answer.emit({
       answer,
       question_id: this.question.id,

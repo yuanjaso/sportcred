@@ -46,16 +46,16 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
         this.questionaire = cloneDeep(questionaire);
         this.questionairLength = this.questionaire.length;
 
-        //TODO REMOVE
-        //test QUESTION for PLAYERS
-        this.questionairLength = this.questionaire.push({
-          id: 7,
-          max_int: null,
-          min_int: null,
-          question_content: 'Who is your favorite player?',
-          question_type: 'P',
-        });
-        //END TODO
+        // //TODO REMOVE
+        // //test QUESTION for PLAYERS
+        // this.questionairLength = this.questionaire.push({
+        //   id: 7,
+        //   max_int: null,
+        //   min_int: null,
+        //   question_content: 'Who is your favorite player?',
+        //   question_type: 'P',
+        // });
+        // //END TODO
       });
   }
   getAnswer(e) {
@@ -77,7 +77,6 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
     return `${i + 1}/${this.questionairLength}`;
   }
   proceedSlide() {
-    console.log('asdf');
     if (!this.swiper || !this.swiper.directiveRef) return;
     if (this.swiper.index == this.questionairLength - 1) {
       //if we are at last slide, try to register the questionaire

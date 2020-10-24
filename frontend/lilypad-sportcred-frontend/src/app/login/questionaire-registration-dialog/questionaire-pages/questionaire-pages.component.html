@@ -9,7 +9,7 @@
     <ng-container *ngIf="question.question_type === questionTypes.qualitative">
       <mat-form-field>
         <mat-label>Answer</mat-label>
-        <textarea matInput formControlName="string" rows="5"></textarea>
+        <textarea matInput formControlName="answer" rows="5"></textarea>
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="question.question_type === questionTypes.quantitative">
@@ -18,41 +18,45 @@
         tickInterval="1"
         [min]="question.min_int"
         [max]="question.max_int"
-        formControlName="number"
+        formControlName="answer"
       ></mat-slider>
     </ng-container>
     <ng-container *ngIf="question.question_type === questionTypes.sports">
-      <mat-selection-list #sport [multiple]="false">
-        <mat-list-option *ngFor="let sport of sportStrings">
-          {{sport}}
+      <mat-selection-list #sport [multiple]="false" formControlName="answer">
+        <mat-list-option *ngFor="let sport of $sports | async" [value]="sport.id">
+          {{sport.name}}
         </mat-list-option>
       </mat-selection-list>
     </ng-container>
     <ng-container *ngIf="question.question_type === questionTypes.teams">
-      <mat-selection-list #team [multiple]="false">
-        <mat-list-option *ngFor="let team of $teams | async">
+      <mat-selection-list #team [multiple]="false"  formControlName="answer">
+        <mat-list-option *ngFor="let team of $teams | async" [value]="team.id">
           {{team.full_name}}
         </mat-list-option>
       </mat-selection-list>
     </ng-container>
-    <ng-container *ngIf="question.question_type === questionTypes.players">
-      <mat-selection-list #player [multiple]="false">
-        <mat-list-option *ngFor="let player of $players | async">
+    <ng-container *ngIf="question.question_type === questionTypes.players" >
+      <mat-selection-list #player [multiple]="false"  formControlName="answer">
+        <mat-list-option *ngFor="let player of $players | async" [value]="player.id">
           [{{player.plays_on[0].full_name}}] - {{player.first_name}} {{player.last_name}} 
         </mat-list-option>
       </mat-selection-list>
     </ng-container>
-    <ng-container *ngIf="question.question_type === questionTypes.custom">
-      <mat-selection-list #option [multiple]="false">
-        <mat-list-option *ngFor="let option of question.options">
+    <ng-container *ngIf="question.question_type === questionTypes.custom" >
+      <mat-selection-list #option [multiple]="false"  formControlName="answer">
+        <mat-list-option *ngFor="let option of question.options" [value]="option.id">
           {{option.custom_answer}}
         </mat-list-option>
       </mat-selection-list>
     </ng-container>
     <div style="flex-grow: 9"></div>
 
+    <mat-error *ngIf="form.controls.answer.hasError('empty')">
+     Please provide an answer
+    </mat-error>
+
     <div class="button">
-      <button type="submit" mat-stroked-button>Submit</button>
+      <button type="submit" mat-stroked-button [disabled]="this.form.status === 'INVALID'">Submit</button>
     </div>
   </form>
 </ng-container>

@@ -4,11 +4,13 @@ import * as actions from './actions';
 
 export interface ZoneState {
   allTeams: types.Team[];
-  allplayers: types.Player[];
+  allPlayers: types.Player[];
+  allSports: types.Sport[];
 }
 export const initialState: ZoneState = {
   allTeams: undefined,
-  allplayers: undefined,
+  allPlayers: undefined,
+  allSports: undefined,
 };
 
 const reducer = createReducer<ZoneState>(
@@ -17,7 +19,10 @@ const reducer = createReducer<ZoneState>(
     return { ...state, allTeams: teams };
   }),
   on(actions.setAllPlayers, (state, { players }) => {
-    return { ...state, allplayers: players };
+    return { ...state, allPlayers: players };
+  }),
+  on(actions.setAllSports, (state, { sports }) => {
+    return { ...state, allSports: sports };
   }),
   on(actions.clearAllPlayersAndTeams, (state) => {
     return {
