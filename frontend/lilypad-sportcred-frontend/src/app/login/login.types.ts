@@ -1,16 +1,16 @@
-export const questionTypes = {
-  quantitative: 'QN',
-  qualitative: 'QL',
-  sports: 'S',
-  teams: 'T',
-  players: 'P',
-  custom: 'C',
-};
+export enum QuestionType {
+  quantitative = 'QN',
+  qualitative = 'QL',
+  sports = 'S',
+  teams = 'T',
+  players = 'P',
+  custom = 'C',
+}
 export interface Question {
   id: number;
   question_content: string;
   //question_type's type is 'QN' | 'QL' ..., pulls from the VALUES of questionTypes
-  question_type: typeof questionTypes[keyof typeof questionTypes];
+  question_type: QuestionType;
   // min int, max int are only applicable if question is quantitative (QN)
   // (is_qualitative is false)
   min_int?: number;

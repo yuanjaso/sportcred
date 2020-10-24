@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { tryRegisterQuestionaire, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
-import { Question, Answer } from '../login.types';
+import { Question, Answer, QuestionType } from '../login.types';
 import { selectQuestionaire } from '../store/selectors';
 import { SwiperComponent } from 'ngx-swiper-wrapper';
 import { first } from 'rxjs/operators';
@@ -53,7 +53,7 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
         //   max_int: null,
         //   min_int: null,
         //   question_content: 'Who is your favorite player?',
-        //   question_type: 'P',
+        //   question_type: QuestionType.players,
         // });
         // //END TODO
       });

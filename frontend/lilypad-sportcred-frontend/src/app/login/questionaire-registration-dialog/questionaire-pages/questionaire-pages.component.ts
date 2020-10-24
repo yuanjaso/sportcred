@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Question, Answer, questionTypes } from '../../login.types';
+import { Question, Answer, QuestionType } from '../../login.types';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppState } from '../../../store/reducer';
 import { Store } from '@ngrx/store';
@@ -33,7 +33,7 @@ export class QuestionairePagesComponent implements OnInit {
   $sports = this.store.select(selectSports);
 
   // create this local variable to access in html
-  questionTypes = questionTypes;
+  questionTypes = QuestionType;
 
   constructor(private store: Store<AppState>) {}
 
