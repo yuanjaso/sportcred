@@ -13,3 +13,7 @@ export const setAllPlayers = createAction(
   '[Zone] Set All Players',
   props<{ players: Player[] }>()
 );
+
+export const clearAllPlayersAndTeams = createAction(
+  '[Zone] clear All Players And Teams'
+);

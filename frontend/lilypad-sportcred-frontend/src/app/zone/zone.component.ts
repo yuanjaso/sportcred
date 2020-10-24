@@ -32,6 +32,7 @@ export class ZoneComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchGlobalData();
     this.store
       .select(selectUserInfo)
       .pipe(first((info) => !!info))
@@ -42,26 +43,26 @@ export class ZoneComponent implements OnInit {
           );
         }
       });
-    this.store.dispatch(actions.getAllPlayers());
-    this.store.dispatch(actions.getAllSportsTeams());
+  }
 
-    // this.store
-    //   .select(selectors.selectPlayers, {
-    //     sportFilter: 'Basketball',
-    //     customFilter: (player: types.Player) => player.first_name === 'Kyle',
-    //   })
-    //   .pipe(first((players) => players.length !== 0))
-    //   .subscribe((players) => {
-    //     console.log(players);
-    //   });
+  /**
+   * checks if vital data is in store,
+   * if not, dispatch for it
+   */
+  fetchGlobalData(): void {
     this.store
-      .select(selectors.selectTeams, {
-        sportFilter: 'Basketball',
-        customFilter: (tean: types.Team) => tean.short_name === 'Raptors',
-      })
-      .pipe(first((teams) => teams !== undefined))
+      .select(selectors.selectPlayers)
+      .pipe(first((players) => players === undefined))
+      .subscribe(() => {
+        console.log('fetching players');
+        this.store.dispatch(actions.getAllPlayers());
+      });
+    this.store
+      .select(selectors.selectTeams)
+      .pipe(first((teams) => teams === undefined))
       .subscribe((teams) => {
-        console.log(teams);
+        console.log('fetching teams');
+        this.store.dispatch(actions.getAllSportsTeams());
       });
   }
 }

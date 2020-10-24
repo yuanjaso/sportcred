@@ -1,4 +1,10 @@
-const sportStrings = ['Basketball', 'Baseball', 'Hockey', 'Football', 'Soccer'];
+export const sportStrings = [
+  'Basketball',
+  'Baseball',
+  'Hockey',
+  'Football',
+  'Soccer',
+];
 export type sportTypes = typeof sportStrings;
 
 export interface Team {

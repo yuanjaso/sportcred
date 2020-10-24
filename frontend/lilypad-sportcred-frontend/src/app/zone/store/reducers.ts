@@ -18,6 +18,13 @@ const reducer = createReducer<ZoneState>(
   }),
   on(actions.setAllPlayers, (state, { players }) => {
     return { ...state, allplayers: players };
+  }),
+  on(actions.clearAllPlayersAndTeams, (state) => {
+    return {
+      ...state,
+      allTeams: undefined,
+      allplayers: undefined,
+    };
   })
 );
 

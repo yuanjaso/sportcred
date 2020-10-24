@@ -4,6 +4,7 @@ export const questionTypes = {
   sports: 'S',
   teams: 'T',
   players: 'p',
+  custom: 'C',
 };
 export interface question {
   id: number;
