@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { tryRegisterQuestionaire, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
-import { question, answer } from '../login.types';
+import { Question, Answer } from '../login.types';
 import { selectQuestionaire } from '../store/selectors';
 import { SwiperComponent } from 'ngx-swiper-wrapper';
 import { first } from 'rxjs/operators';
@@ -22,11 +22,11 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
   swiperIndex = 0;
 
   //questions we get from the backend
-  questionaire: question[] = undefined;
+  questionaire: Question[] = undefined;
   questionairLength: number = -1;
 
   //the user's response to the questions and general info
-  questionaireResponse: answer[] = [];
+  questionaireResponse: Answer[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<QuestionaireRegistrationDialogComponent>,

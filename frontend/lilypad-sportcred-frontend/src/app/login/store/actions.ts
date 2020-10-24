@@ -4,14 +4,14 @@ import * as models from '../login.types';
 export const login = createAction('[Login] login');
 export const tryRegisterBasic = createAction(
   '[Login] Try Register Basic',
-  props<models.generalRegistrationInfo>()
+  props<models.GeneralRegistrationInfo>()
 );
 export const tryRegisterQuestionaire = createAction(
   '[Login] Try Register Questionaire',
-  props<models.questionaireRegistrationInfo>()
+  props<models.QuestionaireRegistrationInfo>()
 );
 export const getQuestionaire = createAction('[Login] Get Questionaire');
 export const setQuestionaire = createAction(
   '[Login] Set Questionaire',
-  props<{ questionaire: models.question[] }>()
+  props<{ questionaire: models.Question[] }>()
 );

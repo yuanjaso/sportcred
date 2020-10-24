@@ -6,7 +6,7 @@ export const questionTypes = {
   players: 'P',
   custom: 'C',
 };
-export interface question {
+export interface Question {
   id: number;
   question_content: string;
   //question_type's type is 'QN' | 'QL' ..., pulls from the VALUES of questionTypes
@@ -17,26 +17,26 @@ export interface question {
   max_int?: number;
   //options is only applicable to CUSTOM questions
   //it defines the custom allowed responses
-  options?: customAnswerOption[];
+  options?: CustomAnswerOption[];
 }
-export interface customAnswerOption {
+export interface CustomAnswerOption {
   id: number;
   custom_answer: number | string;
 }
 
-export interface answer {
+export interface Answer {
   question_id: number;
   answer: number | string;
 }
-export interface generalRegistrationInfo {
+export interface GeneralRegistrationInfo {
   username: string;
   email: string;
   password: string;
 }
-export interface questionaireRegistrationInfo {
-  questionaire: answer[];
+export interface QuestionaireRegistrationInfo {
+  questionaire: Answer[];
 }
-export interface loginInfo {
+export interface LoginInfo {
   username: string;
   password: string;
 }

@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { selectFeatureZone } from '../../store/selectors';
+import { Player, Team } from '../zone.types';
 import { ZoneState } from './reducers';
 
 export const selectTeams = createSelector(
@@ -7,7 +8,7 @@ export const selectTeams = createSelector(
   (
     state: ZoneState,
     //customFilter is a boolean function
-    props?: { sportFilter?: string; customFilter?: Function }
+    props?: { sportFilter?: string; customFilter?: (team: Team) => boolean }
   ) => {
     let entire = state.allTeams;
     if (entire === undefined) return undefined;
@@ -29,7 +30,7 @@ export const selectPlayers = createSelector(
   (
     state: ZoneState,
     //customFilter is a boolean function
-    props?: { sportFilter?: string; customFilter?: Function }
+    props?: { sportFilter?: string; customFilter?: (player: Player) => boolean }
   ) => {
     let entire = state.allPlayers;
     if (entire === undefined) return undefined;

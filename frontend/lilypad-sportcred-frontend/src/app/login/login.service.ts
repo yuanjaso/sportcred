@@ -14,13 +14,13 @@ export class LoginService {
   constructor(private http: HttpClientWrapper) {}
 
   /* HTTP REQUESTS*/
-  tryLogin(info: models.loginInfo) {
+  tryLogin(info: models.LoginInfo) {
     return this.http.post(apis.loginURL, info);
   }
-  tryRegisterBasic(info: models.generalRegistrationInfo) {
+  tryRegisterBasic(info: models.GeneralRegistrationInfo) {
     return this.http.post(apis.usersURL, info);
   }
-  tryRegisterQuestionaire(info: models.questionaireRegistrationInfo) {
+  tryRegisterQuestionaire(info: models.QuestionaireRegistrationInfo) {
     return this.http.post(apis.questionaireURL, info.questionaire);
   }
   getQuestionaire() {

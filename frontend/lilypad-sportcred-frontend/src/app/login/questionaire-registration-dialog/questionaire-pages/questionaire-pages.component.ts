@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { question, answer, questionTypes } from '../../login.types';
+import { Question, Answer, questionTypes } from '../../login.types';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppState } from '../../../store/reducer';
 import { Store } from '@ngrx/store';
@@ -14,14 +14,14 @@ import {
   styleUrls: ['./questionaire-pages.component.scss'],
 })
 export class QuestionairePagesComponent implements OnInit {
-  @Input() question: question = undefined;
+  @Input() question: Question = undefined;
 
   //custom filter is to further filter response type, for example if we
   // want all teams only in the eastern conference...
   // only applicable to questions with a select range of responses ('Lakers', 'Raptors'...)
   @Input() customFilter: Function;
   @Input() outOf: String = '';
-  @Output() answer = new EventEmitter<answer>();
+  @Output() answer = new EventEmitter<Answer>();
 
   form: FormGroup = new FormGroup({
     answer: new FormControl(undefined, [Validators.required]),
