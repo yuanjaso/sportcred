@@ -3,10 +3,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { tryRegisterQuestionaire, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
-import { generalRegistrationInfo, question, answer } from '../login.types';
+import { question, answer } from '../login.types';
 import { selectQuestionaire } from '../store/selectors';
 import { SwiperComponent } from 'ngx-swiper-wrapper';
 import { first } from 'rxjs/operators';
+import { cloneDeep } from 'lodash';
+
 @Component({
   selector: 'app-questionaire-registration-dialog',
   templateUrl: './questionaire-registration-dialog.component.html',
@@ -41,8 +43,19 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
       .subscribe((questionaire) => {
         //get questionaire from store
 
-        this.questionaire = questionaire;
+        this.questionaire = cloneDeep(questionaire);
         this.questionairLength = this.questionaire.length;
+
+        //TODO REMOVE
+        //test QUESTION for PLAYERS
+        this.questionairLength = this.questionaire.push({
+          id: 7,
+          max_int: null,
+          min_int: null,
+          question_content: 'Who is your favorite player?',
+          question_type: 'P',
+        });
+        //END TODO
       });
   }
   getAnswer(e) {

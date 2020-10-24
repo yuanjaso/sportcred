@@ -3,7 +3,7 @@ export const questionTypes = {
   qualitative: 'QL',
   sports: 'S',
   teams: 'T',
-  players: 'p',
+  players: 'P',
   custom: 'C',
 };
 export interface question {
@@ -15,10 +15,16 @@ export interface question {
   // (is_qualitative is false)
   min_int?: number;
   max_int?: number;
+  //options is only applicable to CUSTOM questions
+  //it defines the custom allowed responses
+  options?: answer[];
 }
 export interface answer {
   question_id: number;
-  answer: number | string;
+  answer?: number | string;
+  //request has been made to rename custom_answer to answer
+  //TODO remove custom_answer when api changes
+  custom_answer?: number | string;
 }
 export interface generalRegistrationInfo {
   username: string;

@@ -6,13 +6,13 @@
     </div>
     <div style="flex-grow: 9"></div>
 
-    <ng-container *ngIf="question.question_type !== quantitative">
+    <ng-container *ngIf="question.question_type === questionTypes.qualitative">
       <mat-form-field>
         <mat-label>Answer</mat-label>
         <textarea matInput formControlName="string" rows="5"></textarea>
       </mat-form-field>
     </ng-container>
-    <ng-container *ngIf="question.question_type === quantitative">
+    <ng-container *ngIf="question.question_type === questionTypes.quantitative">
       <mat-slider
         thumbLabel
         tickInterval="1"
@@ -20,6 +20,34 @@
         [max]="question.max_int"
         formControlName="number"
       ></mat-slider>
+    </ng-container>
+    <ng-container *ngIf="question.question_type === questionTypes.sports">
+      <mat-selection-list #sport [multiple]="false">
+        <mat-list-option *ngFor="let sport of sportStrings">
+          {{sport}}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+    <ng-container *ngIf="question.question_type === questionTypes.teams">
+      <mat-selection-list #team [multiple]="false">
+        <mat-list-option *ngFor="let team of $teams | async">
+          {{team.full_name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+    <ng-container *ngIf="question.question_type === questionTypes.players">
+      <mat-selection-list #player [multiple]="false">
+        <mat-list-option *ngFor="let player of $players | async">
+          [{{player.plays_on[0].full_name}}] - {{player.first_name}} {{player.last_name}} 
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+    <ng-container *ngIf="question.question_type === questionTypes.custom">
+      <mat-selection-list #option [multiple]="false">
+        <mat-list-option *ngFor="let option of question.options">
+          {{option.custom_answer}}
+        </mat-list-option>
+      </mat-selection-list>
     </ng-container>
     <div style="flex-grow: 9"></div>
 

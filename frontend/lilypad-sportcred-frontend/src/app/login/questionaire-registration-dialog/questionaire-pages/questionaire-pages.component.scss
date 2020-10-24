@@ -4,6 +4,9 @@
   flex-direction: column;
   height: 100%;
 }
+mat-selection-list {
+  overflow-y: scroll;
+}
 .question-index {
   @extend .font-tertiary;
 }

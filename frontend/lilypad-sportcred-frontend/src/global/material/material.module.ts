@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
 
 const modules = [
   MatCardModule,
@@ -31,6 +32,7 @@ const modules = [
   MatChipsModule,
   MatIconModule,
   MatSelectModule,
+  MatListModule,
 ];
 @NgModule({
   declarations: [],
