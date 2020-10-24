@@ -21,6 +21,6 @@ export const setAllSports = createAction(
   props<{ sports: Sport[] }>()
 );
 
-export const clearAllPlayersAndTeams = createAction(
+export const clearAllZoneData = createAction(
   '[Zone] clear All Players And Teams'
 );

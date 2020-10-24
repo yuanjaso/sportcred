@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { all_routes } from '../../global/routing-statics';
 import { getUserInfo, clearLoginToken } from '../auth/store/actions';
 import { AppState } from '../store/reducer';
-import { clearAllPlayersAndTeams } from './../zone/store/actions';
+import { clearAllZoneData } from './../zone/store/actions';
 import { MatDialog } from '@angular/material/dialog';
 import { BasicRegistrationDialogComponent } from './basic-registration-dialog/basic-registration-dialog.component';
 import { LoginService } from './login.service';
@@ -59,6 +59,6 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   clearAllStore(): void {
     this.store.dispatch(clearLoginToken());
-    this.store.dispatch(clearAllPlayersAndTeams());
+    // this.store.dispatch(clearAllZoneData());
   }
 }

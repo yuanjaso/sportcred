@@ -24,11 +24,12 @@ const reducer = createReducer<ZoneState>(
   on(actions.setAllSports, (state, { sports }) => {
     return { ...state, allSports: sports };
   }),
-  on(actions.clearAllPlayersAndTeams, (state) => {
+  on(actions.clearAllZoneData, (state) => {
     return {
       ...state,
       allTeams: undefined,
       allplayers: undefined,
+      allSports: undefined,
     };
   })
 );

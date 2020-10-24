@@ -19,7 +19,7 @@ export class QuestionairePagesComponent implements OnInit {
   //custom filter is to further filter response type, for example if we
   // want all teams only in the eastern conference...
   // only applicable to questions with a select range of responses ('Lakers', 'Raptors'...)
-  @Input() customFilter: Function;
+  @Input() customFilter: () => boolean;
   @Input() outOf: String = '';
   @Output() answer = new EventEmitter<Answer>();
 
@@ -28,16 +28,21 @@ export class QuestionairePagesComponent implements OnInit {
   });
 
   //data observables
-  $players = this.store.select(selectPlayers);
-  $teams = this.store.select(selectTeams);
-  $sports = this.store.select(selectSports);
+  $players = undefined;
+  $teams = undefined;
+  $sports = undefined;
 
   // create this local variable to access in html
   questionTypes = QuestionType;
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //set data observables
+    this.$players = this.store.select(selectPlayers);
+    this.$teams = this.store.select(selectTeams);
+    this.$sports = this.store.select(selectSports);
+  }
   submit() {
     let answer = this.form.controls.answer.value;
     if (Array.isArray(answer)) answer = answer.length > 0 ? answer[0] : '';
