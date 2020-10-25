@@ -5,7 +5,6 @@
       {{ question.question_content }}
     </div>
     <div style="flex-grow: 9"></div>
-
     <ng-container *ngIf="question.question_type === questionTypes.qualitative">
       <mat-form-field>
         <mat-label>Answer</mat-label>
@@ -22,14 +21,23 @@
       ></mat-slider>
     </ng-container>
     <ng-container *ngIf="question.question_type === questionTypes.sports">
+      <mat-form-field appearance="outline" class="search" >
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          formControlName="search"
+        />
+      </mat-form-field>
       <mat-selection-list #sport [multiple]="false" formControlName="answer">
+
         <mat-list-option *ngFor="let sport of $sports | async" [value]="sport.id">
           {{sport.name}}
         </mat-list-option>
       </mat-selection-list>
     </ng-container>
     <ng-container *ngIf="question.question_type === questionTypes.teams">
-      <mat-selection-list #team [multiple]="false"  formControlName="answer">
+      <mat-selection-list #team [multiple]="false"  formControlName="answer" (selectionChange)="onSelectedOptionsChange()"
+      > 
         <mat-list-option *ngFor="let team of $teams | async" [value]="team.id">
           {{team.full_name}}
         </mat-list-option>

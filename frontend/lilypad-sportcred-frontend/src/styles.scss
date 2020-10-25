@@ -36,6 +36,12 @@ body {
 
 /*CUSTOM MATERIAL STYLING*/
 
+.mat-form-field-wrapper {
+  margin-bottom: -1.25em !important;
+}
+.mat-form-field-subscript-wrapper {
+  display: none !important;
+}
 //this styling allows the error message to be multilined, without this styling, the error message wil be overlapped and hidden
 mat-form-field .mat-form-field {
   &-underline {

@@ -17,7 +17,7 @@ export class ZoneEffects {
           map((teams: Team[]) => {
             return {
               type: actions.setAllSportsTeams.type,
-              teams: (teams as any).results,
+              teams,
             };
           }),
           catchError(() => {
@@ -37,7 +37,7 @@ export class ZoneEffects {
           map((players: Player[]) => {
             return {
               type: actions.setAllPlayers.type,
-              players: (players as any).results,
+              players,
             };
           }),
           catchError(() => {
@@ -57,7 +57,7 @@ export class ZoneEffects {
           map((sports: Sport[]) => {
             return {
               type: actions.setAllSports.type,
-              sports: (sports as any).results,
+              sports,
             };
           }),
           catchError(() => {

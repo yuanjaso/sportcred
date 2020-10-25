@@ -8,6 +8,9 @@ import {
   selectTeams,
   selectSports,
 } from '../../../zone/store/selectors';
+import { Observable } from 'rxjs';
+import { Player, Sport, Team } from 'src/app/zone/zone.types';
+import { filter } from 'lodash';
 @Component({
   selector: 'app-questionaire-pages',
   templateUrl: './questionaire-pages.component.html',
@@ -28,9 +31,9 @@ export class QuestionairePagesComponent implements OnInit {
   });
 
   //data observables
-  $players = undefined;
-  $teams = undefined;
-  $sports = undefined;
+  $players: Observable<Player[]> = undefined;
+  $teams: Observable<Team[]> = undefined;
+  $sports: Observable<Sport[]> = undefined;
 
   // create this local variable to access in html
   questionTypes = QuestionType;

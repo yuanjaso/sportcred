@@ -13,3 +13,9 @@ mat-selection-list {
 .question {
   @extend .font-secondary;
 }
+mat-selection-list {
+  margin-bottom: 1rem;
+}
+.search {
+  margin-top: 1rem;
+}
