@@ -8,7 +8,7 @@ from ..serializers import TeamSerializer
 
 # from ..permissions import AnonCreateAndUpdateOwnerOnly
 from sportscred.models import Profile
-from .utils import filter_paginate_request
+from .utils import filter_request
 
 
 class TeamViewSet(viewsets.ViewSet):
@@ -18,4 +18,4 @@ class TeamViewSet(viewsets.ViewSet):
 
     # GET
     def list(self, request):
-        return filter_paginate_request(request, TeamFilter, TeamSerializer)
+        return filter_request(request, TeamFilter, TeamSerializer)

@@ -21,7 +21,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "is_superuser"]
+        fields = ["id", "username", "is_superuser"]
 
 
 class ProfilePictureSerializer(serializers.ModelSerializer):
@@ -55,6 +55,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 2
 
+
 class QuestionnaireSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionaireQuestion
@@ -72,6 +73,7 @@ class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
         model = QuestionaireUserResponse
         fields = "__all__"
         depth = 2
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
