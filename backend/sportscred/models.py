@@ -164,6 +164,8 @@ class BaseAcsHistory(models.Model):
 
     def update_acs(self):
         # updates actual acs score from ACS able
+        # either implement a generic function here
+        # or override it in the subclass
         raise NotImplementedError
 
 
