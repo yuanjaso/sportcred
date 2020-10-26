@@ -102,45 +102,49 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
       filter: string
     ) => boolean;
   } {
-    if (this.question.question_type === this.questionTypes.players) {
-      return {
-        selector: this.store.select(selectPlayers),
-        filterFunc: (players: Player, filter: string) =>
-          players.first_name.toUpperCase().includes(filter.toUpperCase()) ||
-          players.last_name.toUpperCase().includes(filter.toUpperCase()),
-      };
-    } else if (this.question.question_type === this.questionTypes.sports) {
-      return {
-        selector: this.store.select(selectSports),
-        filterFunc: (sport: Sport, filter: string) =>
-          sport.name.toUpperCase().includes(filter.toUpperCase()),
-      };
-    } else if (this.question.question_type === this.questionTypes.teams) {
-      return {
-        selector: this.store.select(selectTeams),
-        filterFunc: (team: Team, filter: string) =>
-          team.full_name.toUpperCase().includes(filter.toUpperCase()),
-      };
-    } else if (this.question.question_type === this.questionTypes.custom) {
-      return {
-        //since custom data is coming straight within the question,
-        //we wrap it in an observable to be compatible
-        selector: new Observable((observer) => {
-          observer.next(this.question.options);
-          observer.complete();
-        }),
-        filterFunc: (question: CustomAnswerOption, filter: string) => {
-          if (typeof question.custom_answer === 'number') {
+    switch (this.question.question_type) {
+      case this.questionTypes.players:
+        return {
+          selector: this.store.select(selectPlayers),
+          filterFunc: (players: Player, filter: string) =>
+            players.first_name.toUpperCase().includes(filter.toUpperCase()) ||
+            players.last_name.toUpperCase().includes(filter.toUpperCase()),
+        };
+      case this.questionTypes.sports:
+        return {
+          selector: this.store.select(selectSports),
+          filterFunc: (sport: Sport, filter: string) =>
+            sport.name.toUpperCase().includes(filter.toUpperCase()),
+        };
+      case this.questionTypes.teams:
+        return {
+          selector: this.store.select(selectTeams),
+          filterFunc: (team: Team, filter: string) =>
+            team.full_name.toUpperCase().includes(filter.toUpperCase()),
+        };
+      case this.questionTypes.custom:
+        return {
+          //since custom data is coming straight within the question,
+          //we wrap it in an observable to be compatible
+          selector: new Observable((observer) => {
+            observer.next(this.question.options);
+            observer.complete();
+          }),
+          filterFunc: (question: CustomAnswerOption, filter: string) => {
+            if (typeof question.custom_answer === 'number') {
+              return question.custom_answer
+                .toString()
+                .toUpperCase()
+                .includes(filter.toUpperCase());
+            }
             return question.custom_answer
-              .toString()
               .toUpperCase()
               .includes(filter.toUpperCase());
-          }
-          return question.custom_answer
-            .toUpperCase()
-            .includes(filter.toUpperCase());
-        },
-      };
+          },
+        };
+      default: {
+        selector: new Observable();
+      }
     }
   }
   ngOnDestroy() {
