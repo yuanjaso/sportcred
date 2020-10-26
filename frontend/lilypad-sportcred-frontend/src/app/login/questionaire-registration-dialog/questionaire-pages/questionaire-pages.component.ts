@@ -138,9 +138,12 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
               .includes(filter.toUpperCase());
           },
         };
-      default: {
-        selector: new Observable();
-      }
+      default:
+        //if question is sent improperly (no type)
+        return {
+          selector: new Observable(),
+          filterFunc: () => undefined,
+        };
     }
   }
   ngOnDestroy() {
