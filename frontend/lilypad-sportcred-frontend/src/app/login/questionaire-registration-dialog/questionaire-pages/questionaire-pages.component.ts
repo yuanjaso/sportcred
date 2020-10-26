@@ -1,5 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Question, Answer, QuestionType } from '../../login.types';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
+import {
+  Question,
+  Answer,
+  QuestionType,
+  CustomAnswerOption,
+} from '../../login.types';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppState } from '../../../store/reducer';
 import { Store } from '@ngrx/store';
@@ -8,15 +20,17 @@ import {
   selectTeams,
   selectSports,
 } from '../../../zone/store/selectors';
-import { Observable } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { Player, Sport, Team } from 'src/app/zone/zone.types';
-import { filter } from 'lodash';
+import { map, filter, debounce, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-questionaire-pages',
   templateUrl: './questionaire-pages.component.html',
   styleUrls: ['./questionaire-pages.component.scss'],
 })
-export class QuestionairePagesComponent implements OnInit {
+export class QuestionairePagesComponent implements OnInit, OnDestroy {
+  subscription = new Subscription();
+
   @Input() question: Question = undefined;
 
   //custom filter is to further filter response type, for example if we
@@ -28,12 +42,13 @@ export class QuestionairePagesComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
     answer: new FormControl(undefined, [Validators.required]),
+    search: new FormControl(undefined),
   });
 
-  //data observables
-  $players: Observable<Player[]> = undefined;
-  $teams: Observable<Team[]> = undefined;
-  $sports: Observable<Sport[]> = undefined;
+  //data
+  $answerSelection: Observable<
+    Player[] | Team[] | Sport[] | CustomAnswerOption[]
+  > = undefined;
 
   // create this local variable to access in html
   questionTypes = QuestionType;
@@ -41,10 +56,7 @@ export class QuestionairePagesComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    //set data observables
-    this.$players = this.store.select(selectPlayers);
-    this.$teams = this.store.select(selectTeams);
-    this.$sports = this.store.select(selectSports);
+    this.subscribeToSearches();
   }
   submit() {
     let answer = this.form.controls.answer.value;
@@ -53,5 +65,85 @@ export class QuestionairePagesComponent implements OnInit {
       answer,
       question_id: this.question.id,
     });
+  }
+
+  subscribeToSearches() {
+    this.subscription.add(
+      this.form
+        .get('search') //listens to whenever the search bar is touched
+        .valueChanges.pipe(
+          startWith(''), //emit 1 on initialization to init the data observable
+          debounce(() => interval(200))
+        )
+        .subscribe((filt) => {
+          const controller = this.getDataObservable();
+          this.$answerSelection = controller.selector.pipe(
+            map((data: any[]) =>
+              data.filter((data) => controller.filterFunc(data, filt))
+            )
+          );
+        })
+    );
+  }
+
+  /**
+   * this function returns the data observable and search filter function
+   * based on the question type
+   *
+   * the selector is the place we get our data from
+   * filterFunc is the function the SEARCH filters against
+   *
+   *
+   */
+  getDataObservable(): {
+    selector: Observable<Player[] | Team[] | Sport[] | CustomAnswerOption[]>;
+    filterFunc: (
+      dataPoint: Player | Team | Sport | CustomAnswerOption,
+      filter: string
+    ) => boolean;
+  } {
+    if (this.question.question_type === this.questionTypes.players) {
+      return {
+        selector: this.store.select(selectPlayers),
+        filterFunc: (players: Player, filter: string) =>
+          players.first_name.toUpperCase().includes(filter.toUpperCase()) ||
+          players.last_name.toUpperCase().includes(filter.toUpperCase()),
+      };
+    } else if (this.question.question_type === this.questionTypes.sports) {
+      return {
+        selector: this.store.select(selectSports),
+        filterFunc: (sport: Sport, filter: string) =>
+          sport.name.toUpperCase().includes(filter.toUpperCase()),
+      };
+    } else if (this.question.question_type === this.questionTypes.teams) {
+      return {
+        selector: this.store.select(selectTeams),
+        filterFunc: (team: Team, filter: string) =>
+          team.full_name.toUpperCase().includes(filter.toUpperCase()),
+      };
+    } else if (this.question.question_type === this.questionTypes.custom) {
+      return {
+        //since custom data is coming straight within the question,
+        //we wrap it in an observable to be compatible
+        selector: new Observable((observer) => {
+          observer.next(this.question.options);
+          observer.complete();
+        }),
+        filterFunc: (question: CustomAnswerOption, filter: string) => {
+          if (typeof question.custom_answer === 'number') {
+            return question.custom_answer
+              .toString()
+              .toUpperCase()
+              .includes(filter.toUpperCase());
+          }
+          return question.custom_answer
+            .toUpperCase()
+            .includes(filter.toUpperCase());
+        },
+      };
+    }
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
