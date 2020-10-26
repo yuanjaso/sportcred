@@ -23,6 +23,15 @@ import {
 import { interval, Observable, Subscription } from 'rxjs';
 import { Player, Sport, Team } from 'src/app/zone/zone.types';
 import { map, filter, debounce, startWith } from 'rxjs/operators';
+
+interface DataOrigin {
+  selector: Observable<Player[] | Team[] | Sport[] | CustomAnswerOption[]>;
+  filterFunc: (
+    dataPoint: Player | Team | Sport | CustomAnswerOption,
+    filter: string
+  ) => boolean;
+}
+
 @Component({
   selector: 'app-questionaire-pages',
   templateUrl: './questionaire-pages.component.html',
@@ -45,30 +54,34 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
     search: new FormControl(undefined),
   });
 
-  //data
+  // create this local variable to access in html
+  questionTypes = QuestionType;
+
+  //---------------data---------------
   $answerSelection: Observable<
     Player[] | Team[] | Sport[] | CustomAnswerOption[]
   > = undefined;
-
-  // create this local variable to access in html
-  questionTypes = QuestionType;
+  //dataOrigin is where we get the data for this specific question type
+  dataOrigin: DataOrigin;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.dataOrigin = this.getDataOrigin();
+
     //gets and filters data (selection options)
     this.subscription.add(
       this.form
         .get('search') //listens to whenever the search bar is touched
         .valueChanges.pipe(
           startWith(''), //emit 1 on initialization to init the data observable
-          debounce(() => interval(200))
+          debounce(() => interval(400)) // debounce so we dont make too many selectors
         )
         .subscribe((filt) => {
-          const controller = this.getDataObservable();
-          this.$answerSelection = controller.selector.pipe(
+          this.$answerSelection = this.dataOrigin.selector.pipe(
+            filter((a) => !!a),
             map((data: any[]) =>
-              data.filter((data) => controller.filterFunc(data, filt))
+              data.filter((data) => this.dataOrigin.filterFunc(data, filt))
             )
           );
         })
@@ -83,21 +96,14 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
     });
   }
   /**
+   *
    * this function returns the data observable and search filter function
    * based on the question type
    *
    * the selector is the place we get our data from
    * filterFunc is the function the SEARCH filters against
-   *
-   *
    */
-  getDataObservable(): {
-    selector: Observable<Player[] | Team[] | Sport[] | CustomAnswerOption[]>;
-    filterFunc: (
-      dataPoint: Player | Team | Sport | CustomAnswerOption,
-      filter: string
-    ) => boolean;
-  } {
+  getDataOrigin(): DataOrigin {
     switch (this.question.question_type) {
       case this.questionTypes.players:
         return {
