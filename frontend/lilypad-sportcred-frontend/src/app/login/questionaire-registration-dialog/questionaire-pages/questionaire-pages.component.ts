@@ -56,18 +56,7 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.subscribeToSearches();
-  }
-  submit() {
-    let answer = this.form.controls.answer.value;
-    if (Array.isArray(answer)) answer = answer.length > 0 ? answer[0] : '';
-    this.answer.emit({
-      answer,
-      question_id: this.question.id,
-    });
-  }
-
-  subscribeToSearches() {
+    //gets and filters data (selection options)
     this.subscription.add(
       this.form
         .get('search') //listens to whenever the search bar is touched
@@ -85,7 +74,14 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
         })
     );
   }
-
+  submit() {
+    let answer = this.form.controls.answer.value;
+    if (Array.isArray(answer)) answer = answer.length > 0 ? answer[0] : '';
+    this.answer.emit({
+      answer,
+      question_id: this.question.id,
+    });
+  }
   /**
    * this function returns the data observable and search filter function
    * based on the question type
