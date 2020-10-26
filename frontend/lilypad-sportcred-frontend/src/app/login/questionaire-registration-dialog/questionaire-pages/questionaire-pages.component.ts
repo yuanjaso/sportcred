@@ -22,7 +22,7 @@ import {
 } from '../../../zone/store/selectors';
 import { interval, Observable, Subscription } from 'rxjs';
 import { Player, Sport, Team } from 'src/app/zone/zone.types';
-import { map, filter, debounce, startWith } from 'rxjs/operators';
+import { map, filter, startWith, debounceTime } from 'rxjs/operators';
 
 interface DataOrigin {
   selector: Observable<Player[] | Team[] | Sport[] | CustomAnswerOption[]>;
@@ -75,7 +75,7 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
         .get('search') //listens to whenever the search bar is touched
         .valueChanges.pipe(
           startWith(''), //emit 1 on initialization to init the data observable
-          debounce(() => interval(400)) // debounce so we dont make too many selectors
+          debounceTime(400) // debounce so we dont make too many selectors
         )
         .subscribe((filt) => {
           this.$answerSelection = this.dataOrigin.selector.pipe(
