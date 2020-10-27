@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { TriviaQuestions } from '../trivia.models';
+import { TriviaQuestions } from '../trivia.types';
 
 export const getTriviaQuestions = createAction('[Trivia] Get Trivia Questions');
 export const setTriviaQuestions = createAction(

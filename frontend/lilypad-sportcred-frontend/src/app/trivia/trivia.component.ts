@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
-import { getTriviaQuestions, setTriviaQuestions } from './store/actions';
+import { getTriviaQuestions, setTriviaQuestions } from './store/trivia.actions';
 
 @Component({
   selector: 'app-trivia',

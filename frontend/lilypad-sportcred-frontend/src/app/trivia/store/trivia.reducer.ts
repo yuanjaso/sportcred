@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { TriviaQuestions } from '../trivia.models';
-import * as TriviaActions from './actions';
+import { TriviaQuestions } from '../trivia.types';
+import * as TriviaActions from './trivia.actions';
 
 export interface TriviaState {
   triviaQuestions: TriviaQuestions[];
