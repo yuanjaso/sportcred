@@ -1,21 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { ACS } from '../profile/profile.types';
 import { AppState } from '../store/reducer';
 import {
   getTriviaQuestions,
   setTriviaQuestions,
   submitTriviaResults
 } from './store/trivia.actions';
+import { selectUpdatedACS } from './store/trivia.selectors';
 
 @Component({
   selector: 'app-trivia',
-  template: `<div>hi</div>`,
+  template: `<div>ACS: {{ acs$ | async | json }}</div>`,
   styles: [``],
 })
 export class TriviaComponent implements OnInit {
+  // ! temporary variable just to show that displaying updated ACS works
+  acs$: Observable<ACS>;
+
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.example();
+
     this.store.dispatch(getTriviaQuestions());
     this.store.dispatch(
       setTriviaQuestions({
@@ -24,6 +32,11 @@ export class TriviaComponent implements OnInit {
         ],
       })
     );
+  }
+
+  // ! temporary function just to show that displaying updated ACS works
+  example(): void {
+    this.acs$ = this.store.select(selectUpdatedACS);
 
     this.store.dispatch(
       submitTriviaResults({
