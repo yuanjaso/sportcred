@@ -2,7 +2,7 @@ import { API } from './restapi';
 
 const apiRequirements: API[] = [
   {
-    description: 'Get questions for a game of a single player trivia',
+    description: 'Get a list of trivia_instances you are part of',
     request: {
       requestURL: '/api/v1/trivia/',
       requestMethod: 'GET',
@@ -11,25 +11,27 @@ const apiRequirements: API[] = [
     },
     response: {
       statusCode: 200,
-      response: {
-        id: 1,
-        user: 1,
-        other_user: 2, // can be none
-        is_completed: true,
-        date: "2020-10-25T19:13:12Z",
-        sport: { id: 1, name: "Basketball" },
-        questions: [ // there will always be 11 of them
-          {
-            id: 1,
-            question_content: "whats your favourite color",
-            correct_answer: { id: 4, answer_content: "blue" },
-            answers: [
-              { id: 4, answer_content: "blue" },
-              { id: 5, answer_content: "green" }
-            ]
-          }
-        ]
-      },
+      response: [
+        {
+          id: 1,
+          user: 1,
+          other_user: 2, // can be none
+          is_completed: true,
+          date: "2020-10-25T19:13:12Z",
+          sport: { id: 1, name: "Basketball" },
+          questions: [ // there will always be 11 of them
+            {
+              id: 1,
+              question_content: "whats your favourite color",
+              correct_answer: { id: 4, answer_content: "blue" },
+              answers: [
+                { id: 4, answer_content: "blue" },
+                { id: 5, answer_content: "green" }
+              ]
+            }
+          ]
+        },
+      ]
     },
   },
   {
@@ -84,7 +86,10 @@ const apiRequirements: API[] = [
       statusCode: 200, // frontend already has all data
       // 400 if bad request somehow
       // normally backend should be the authority but its fine for this case
-      response: {}
+      response: {
+        average: 1234,
+        basketball: 1234,
+      }
     },
   },
 ];

@@ -170,6 +170,7 @@ class BaseAcsHistory(models.Model):
 
 
 class TriviaAcsHistory(BaseAcsHistory):
+    history_type = "T"
     trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
 
 
