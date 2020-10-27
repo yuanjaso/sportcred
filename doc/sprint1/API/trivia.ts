@@ -14,8 +14,8 @@ const apiRequirements: API[] = [
       response: [
         {
           id: 1,
-          user: 1,
-          other_user: 2, // can be none
+          user: { id: 1, username: "rick" },
+          other_user: { id: 2, username: "myco" }, // can be none
           is_completed: true,
           date: "2020-10-25T19:13:12Z",
           sport: { id: 1, name: "Basketball" },
@@ -49,8 +49,8 @@ const apiRequirements: API[] = [
       statusCode: 200,
       response: {
         id: 1,
-        user: 1,
-        other_user: 2, // can be none
+        user: { id: 1, username: "rick" },
+        other_user: { id: 2, username: "myco" }, // can be none
         is_completed: true,
         date: "2020-10-25T19:13:12Z",
         sport: { id: 1, name: "Basketball" },
