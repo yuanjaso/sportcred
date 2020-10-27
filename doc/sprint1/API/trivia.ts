@@ -87,6 +87,7 @@ const apiRequirements: API[] = [
       // 400 if bad request somehow
       // normally backend should be the authority but its fine for this case
       response: {
+        // return empty response if other_user is not none
         average: 1234,
         basketball: 1234,
       }
