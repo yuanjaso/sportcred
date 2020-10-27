@@ -1,13 +1,19 @@
+// @deprecated
 export interface TriviaQuestions {
   question: any;
   answers: any[];
   correctAnswer: any;
 }
 
+interface User {
+  id: number;
+  username: string;
+}
+
 export interface TriviaInstance {
   id: number;
-  user: number;
-  other_user?: number;
+  user: User;
+  other_user?: User;
   is_completed: boolean;
   date: string;
   sport: { id: number; name: string };
