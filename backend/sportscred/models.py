@@ -29,6 +29,11 @@ class Profile(models.Model):
         qs = QuestionaireUserResponse.objects.filter(user=self)
         return len(qs) != 0
 
+    @property
+    def average_acs(self):
+        # TODO: implement this
+        raise NotImplementedError
+
 
 class ProfilePicture(models.Model):
     name = models.CharField(max_length=100)
@@ -94,7 +99,7 @@ class Likes(models.Model):
 
 
 class ACS(models.Model):
-    score = models.FloatField(max_length=10)
+    score = models.IntegerField()
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
@@ -116,6 +121,57 @@ class TriviaAnswer(models.Model):
     parent_question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
     content = models.CharField(max_length=100, blank=False, null=False)
     # TODO: Think we should store the trivia responses in the database can be done in later sprint
+
+
+class TriviaInstance(models.Model):
+    # represents an instance of trivia for a user
+    # basically this is trivia_history
+    questions = models.ManyToManyField("TriviaQuestion")
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    is_completed = models.BooleanField(default=False)
+    other_user = models.ForeignKey(
+        "Profile",
+        related_name="other_user",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+    def select_questions(self):
+        # randomly select the question set and form the many_to_many relationships
+        raise NotImplementedError
+
+
+class TriviaResponse(models.Model):
+    trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
+    question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
+    answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE)
+
+    @property
+    def is_correct(self):
+        # true if answer is correct
+        # false otherwise
+        raise NotImplementedError
+
+
+class BaseAcsHistory(models.Model):
+    # you never actually call this this is just the abstract class
+    delta = models.IntegerField()
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def update_acs(self):
+        # updates actual acs score from ACS able
+        # either implement a generic function here
+        # or override it in the subclass
+        raise NotImplementedError
+
+
+class TriviaAcsHistory(BaseAcsHistory):
+    history_type = "T"
+    trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
 
 
 class Sport(models.Model):
