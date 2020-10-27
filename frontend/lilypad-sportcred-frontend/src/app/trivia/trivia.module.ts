@@ -6,6 +6,7 @@ import { TriviaEffects } from './store/trivia.effects';
 import { triviaFeatureKey, triviaReducer } from './store/trivia.reducer';
 import { TriviaRoutingModule } from './trivia-routing.module';
 import { TriviaComponent } from './trivia.component';
+import { TriviaService } from './trivia.service';
 
 @NgModule({
   declarations: [TriviaComponent],
@@ -15,5 +16,6 @@ import { TriviaComponent } from './trivia.component';
     CommonModule,
     TriviaRoutingModule,
   ],
+  providers: [TriviaService],
 })
 export class TriviaModule {}

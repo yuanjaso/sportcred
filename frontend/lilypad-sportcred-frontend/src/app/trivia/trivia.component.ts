@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
-import { getTriviaQuestions, setTriviaQuestions } from './store/trivia.actions';
+import {
+  getTriviaQuestions,
+  setTriviaQuestions,
+  submitTriviaResults
+} from './store/trivia.actions';
 
 @Component({
   selector: 'app-trivia',
@@ -18,6 +22,27 @@ export class TriviaComponent implements OnInit {
         triviaQuestions: [
           { answers: ['', 234, null], question: 'asdf', correctAnswer: 'asdf' },
         ],
+      })
+    );
+
+    this.store.dispatch(
+      submitTriviaResults({
+        results: {
+          questions: [
+            {
+              id: 4,
+              submission_answer: 5,
+              submission_time: new Date().toISOString(),
+            },
+            {
+              id: 5,
+              submission_answer: 2,
+              submission_time: new Date().toISOString(),
+            },
+          ],
+          start_time: new Date().toISOString(),
+          trivia_instance: 1,
+        },
       })
     );
   }
