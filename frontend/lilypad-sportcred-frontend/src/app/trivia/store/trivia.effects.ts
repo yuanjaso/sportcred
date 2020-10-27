@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as TriviaActions from './actions';
+import * as TriviaActions from './trivia.actions';
 
 @Injectable()
 export class TriviaEffects {
