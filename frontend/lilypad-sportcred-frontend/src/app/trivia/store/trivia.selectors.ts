@@ -10,3 +10,8 @@ export const selectUpdatedACS = createSelector(
   selectFeatureTrivia,
   (state) => state.updatedACS
 );
+
+export const selectTriviaInstance = createSelector(
+  selectFeatureTrivia,
+  (state) => state.triviaInstance
+);

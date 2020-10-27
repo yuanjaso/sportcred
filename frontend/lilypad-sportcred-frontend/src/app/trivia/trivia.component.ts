@@ -5,24 +5,32 @@ import { ACS } from '../profile/profile.types';
 import { AppState } from '../store/reducer';
 import {
   getTriviaQuestions,
+  setTriviaInstance,
   setTriviaQuestions,
   submitTriviaResults
 } from './store/trivia.actions';
-import { selectUpdatedACS } from './store/trivia.selectors';
+import {
+  selectTriviaInstance,
+  selectUpdatedACS
+} from './store/trivia.selectors';
+import { TriviaInstance } from './trivia.types';
 
 @Component({
   selector: 'app-trivia',
-  template: `<div>ACS: {{ acs$ | async | json }}</div>`,
+  template: ` <div>ACS: {{ acs$ | async | json }}</div>
+    <div>Trivia Instance (JSON): {{ triviaInstance$ | async | json }}</div>`,
   styles: [``],
 })
 export class TriviaComponent implements OnInit {
   // ! temporary variable just to show that displaying updated ACS works
   acs$: Observable<ACS>;
+  triviaInstance$: Observable<TriviaInstance>;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.example();
+    this.exampleForPullingTriviaData();
 
     this.store.dispatch(getTriviaQuestions());
     this.store.dispatch(
@@ -30,6 +38,69 @@ export class TriviaComponent implements OnInit {
         triviaQuestions: [
           { answers: ['', 234, null], question: 'asdf', correctAnswer: 'asdf' },
         ],
+      })
+    );
+  }
+
+  exampleForPullingTriviaData(): void {
+    this.triviaInstance$ = this.store.select(selectTriviaInstance);
+
+    this.store.dispatch(
+      setTriviaInstance({
+        triviaInstance: {
+          date: new Date().toISOString(),
+          id: 3,
+          is_completed: false,
+          sport: { id: 3, name: 'Basketball' },
+          questions: [
+            {
+              id: 4,
+              answers: [
+                { id: 4, answer_content: 'Kobe' },
+                { id: 5, answer_content: 'Jordan' },
+                { id: 6, answer_content: 'LeBron' },
+                { id: 7, answer_content: 'Harden' },
+              ],
+              correct_answer: { id: 4, answer_content: 'Kobe' },
+              question_content: 'Who is the GOAT?',
+            },
+            {
+              id: 4,
+              answers: [
+                { id: 4, answer_content: 'Kobe' },
+                { id: 5, answer_content: 'Jordan' },
+                { id: 6, answer_content: 'LeBron' },
+                { id: 7, answer_content: 'Harden' },
+              ],
+              correct_answer: { id: 4, answer_content: 'Kobe' },
+              question_content: 'Who is the GOAT?',
+            },
+            {
+              id: 4,
+              answers: [
+                { id: 4, answer_content: 'Kobe' },
+                { id: 5, answer_content: 'Jordan' },
+                { id: 6, answer_content: 'LeBron' },
+                { id: 7, answer_content: 'Harden' },
+              ],
+              correct_answer: { id: 4, answer_content: 'Kobe' },
+              question_content: 'Who is the GOAT?',
+            },
+            {
+              id: 4,
+              answers: [
+                { id: 4, answer_content: 'Kobe' },
+                { id: 5, answer_content: 'Jordan' },
+                { id: 6, answer_content: 'LeBron' },
+                { id: 7, answer_content: 'Harden' },
+              ],
+              correct_answer: { id: 4, answer_content: 'Kobe' },
+              question_content: 'Who is the GOAT?',
+            },
+          ],
+          user: { id: 4, username: 'LeBron' },
+          other_user: { id: 45, username: 'Jordan' },
+        },
       })
     );
   }
