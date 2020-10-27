@@ -23,9 +23,10 @@ const apiRequirements: API[] = [
           { id: 1, name: "Basketball" },
           { id: 2, name: "Baseball" },
         ],
-        //ACS is on hold for this sprint
-        // acs: 599,
-        //acsHistory: [900, -1, 34, 23, 43, -23],
+        ACS: {
+          average: 1234,
+          basketball: 1234,
+        }
       },
     },
   },
@@ -57,10 +58,33 @@ const apiRequirements: API[] = [
           { id: 1, name: "Basketball" },
           { id: 2, name: "Baseball" },
         ],
-        //ACS is on hold for this sprint
-        //acs: 599,
-        //acsHistory: [900, -1, 34, 23, 43, -23],
+        ACS: {
+          average: 1234,
+          basketball: 1234,
+        }
       },
+    },
+  },
+  {
+    description: "query acs history ",
+    request: {
+      requestURL: "/api/v1/profile/:id/acs_history", // dont need id since you're only patching yourself
+      requestMethod: "GET",
+      body: {},
+      queryParams: { group_by_date: false },
+    },
+    response: {
+      statusCode: 200,
+      // if group by date is false, then return datetime and id's
+      // if group by date is true, then return just date object and no id or source
+      response: [
+        {
+          date: "2020-10-25T19:13:12Z",
+          delta: -5,
+          source_type: "T", // just T for now
+          id: 3
+        },
+      ],
     },
   },
   {
