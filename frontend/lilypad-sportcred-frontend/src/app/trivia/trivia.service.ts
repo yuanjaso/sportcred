@@ -9,7 +9,11 @@ import { TriviaResults } from './trivia.types';
 export class TriviaService {
   constructor(private httpClient: HttpClientWrapper) {}
 
-  submitTriviaResults(results: TriviaResults): Observable<ACS> {
+  /**
+   * Returns null when the game was for multiple players
+   * @param results 
+   */
+  submitTriviaResults(results: TriviaResults): Observable<ACS | null> {
     // return this.httpClient.post('trivia/answers', results);
     // ! hardcoded, waiting for backend to implement
     return of({ average: 455, basketball: 12 }).pipe(delay(1500));
