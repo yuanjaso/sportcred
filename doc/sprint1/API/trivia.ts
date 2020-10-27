@@ -88,6 +88,7 @@ const apiRequirements: API[] = [
       // normally backend should be the authority but its fine for this case
       response: {
         // return empty response if other_user is not none
+        // only return score for sport played
         average: 1234,
         basketball: 1234,
       }
