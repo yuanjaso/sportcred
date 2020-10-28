@@ -31,8 +31,7 @@ class Profile(models.Model):
 
     @property
     def average_acs(self):
-        # TODO: implement this
-        raise NotImplementedError
+        return ACS.objects.filter(post=self).aggregate(Models.Avg("score"))
 
 
 class ProfilePicture(models.Model):
