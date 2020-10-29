@@ -1,16 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { ZoneRoutingModule } from './zone-routing.module';
-import { ZoneComponent } from './zone.component';
-import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { LiveDialogComponent } from '../toolbar/live-dialog/live-dialog.component';
+import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../global/material/material.module';
 import { HeaderComponent } from '../header/header.component';
-import { zoneFeatureKey, zoneReducer } from './store/reducers';
+import { LiveDialogComponent } from '../toolbar/live-dialog/live-dialog.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { ZoneEffects } from './store/effects';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { zoneFeatureKey, zoneReducer } from './store/reducers';
+import { ZoneRoutingModule } from './zone-routing.module';
+import { ZoneComponent } from './zone.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +24,10 @@ import { EffectsModule } from '@ngrx/effects';
     CommonModule,
     ZoneRoutingModule,
     MaterialModule,
+  ],
+  exports: [
+    ToolbarComponent,
+    HeaderComponent,
   ],
 })
 export class ZoneModule {}
