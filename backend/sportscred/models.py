@@ -103,7 +103,7 @@ class ACS(models.Model):
     sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ["user", "sports", "score"]
+        unique_together = ["user", "sports"]
 
 
 # For trivia
@@ -158,14 +158,31 @@ class TriviaResponse(models.Model):
 class BaseAcsHistory(models.Model):
     # you never actually call this this is just the abstract class
     delta = models.IntegerField()
+    score = models.IntegerField()
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+    sports = models.ForeignKey("Sports", on_delete=models.CASCADE)
 
     def update_acs(self):
-        # updates actual acs score from ACS able
+        # updates actual acs score from ACS table
         # either implement a generic function here
         # or override it in the subclass
-        raise NotImplementedError
+
+        # Check whether or not the combination or user & sport is in the table.
+        user_and_sports = ACS, objects.filter("user_id"=user and "sports_id"=sports).values("score", "user_id", "sports_id")
+        if(user_and_sports):
+            update_ACS = ACS.objects.update(
+                score=self.delta+self.score, user_id=self.user, sports_id=self.sports
+            )
+        else:
+            update_ACS = ACS.objects.create(
+                score=self.delta, user_id=self.user, sports_id=self.sports
+            )
+
+    @staticmethod
+    def create(delta, user, date, sports):
+        new_base_acs_history = BaseAcsHistory()
+        new_base_acs_history.update_ACS()
 
 
 class TriviaAcsHistory(BaseAcsHistory):
