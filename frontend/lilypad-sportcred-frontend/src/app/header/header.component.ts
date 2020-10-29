@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { interval, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { AppState } from '../store/reducer';
-import { queryForTriviaGames } from '../trivia/store/trivia.actions';
+import {
+  queryForTriviaGames,
+  setTriviaInstance
+} from '../trivia/store/trivia.actions';
 import { selectAllTriviaInstances } from '../trivia/store/trivia.selectors';
 import { TriviaInstance } from '../trivia/trivia.types';
 
@@ -13,16 +17,20 @@ import { TriviaInstance } from '../trivia/trivia.types';
   styleUrls: ['./header.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   notificationsCount: number;
   triviaInstances: TriviaInstance[];
 
   private subscription = new Subscription();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     this.infiniteQueryForTriviaInvites();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -51,7 +59,8 @@ export class HeaderComponent implements OnInit {
     this.subscription.add(infiniteRequest$.subscribe());
   }
 
-  playTrivia(instance: TriviaInstance): void {
-    console.log('playing the following instance', instance);
+  playTrivia(triviaInstance: TriviaInstance): void {
+    this.store.dispatch(setTriviaInstance({ triviaInstance }));
+    this.router.navigate(['trivia']);
   }
 }
