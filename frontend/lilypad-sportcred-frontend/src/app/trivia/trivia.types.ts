@@ -1,10 +1,3 @@
-// @deprecated
-export interface TriviaQuestions {
-  question: any;
-  answers: any[];
-  correctAnswer: any;
-}
-
 interface User {
   id: number;
   username: string;

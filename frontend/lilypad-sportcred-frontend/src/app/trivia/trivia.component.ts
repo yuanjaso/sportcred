@@ -3,12 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ACS } from '../profile/profile.types';
 import { AppState } from '../store/reducer';
-import {
-  getTriviaQuestions,
-  setTriviaInstance,
-  setTriviaQuestions,
-  submitTriviaResults
-} from './store/trivia.actions';
+import { setTriviaInstance, submitTriviaResults } from './store/trivia.actions';
 import {
   selectTriviaInstance,
   selectUpdatedACS
@@ -31,15 +26,6 @@ export class TriviaComponent implements OnInit {
   ngOnInit(): void {
     this.example();
     this.exampleForPullingTriviaData();
-
-    this.store.dispatch(getTriviaQuestions());
-    this.store.dispatch(
-      setTriviaQuestions({
-        triviaQuestions: [
-          { answers: ['', 234, null], question: 'asdf', correctAnswer: 'asdf' },
-        ],
-      })
-    );
   }
 
   exampleForPullingTriviaData(): void {

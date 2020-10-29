@@ -7,11 +7,6 @@ import { setUpdatedACS } from './trivia.actions';
 
 @Injectable()
 export class TriviaEffects {
-  getTriviaQuestions$ = createEffect(
-    () => this.actions$.pipe(ofType(TriviaActions.getTriviaQuestions)),
-    { dispatch: false }
-  );
-
   submitTriviaResults$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TriviaActions.submitTriviaResults),
