@@ -9,6 +9,9 @@ from sportscred.models import (
     QuestionaireQuestion,
     QuestionaireAnswer,
     QuestionaireUserResponse,
+    TriviaQuestion,
+    TriviaInstance,
+    TriviaAnswer,
 )
 
 
@@ -75,16 +78,6 @@ class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
         depth = 2
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    profilepicture = ProfilePictureSerializer()
-    highlights = SportSerializer(many=True)
-
-    class Meta:
-        model = Profile
-        fields = ["user", "status", "highlights", "about", "profilepicture"]
-
-
 class FollowSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
 
@@ -96,3 +89,32 @@ class FollowSerializer(serializers.ModelSerializer):
         return Profile.objects.filter(followers=profile).values_list(
             "user__pk", flat=True
         )
+
+
+class TriviaAnswersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["content", "id"]
+
+
+class TriviaQuestionsSerializer(serializers.ModelSerializer):
+    answers = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TriviaQuestion
+        fields = ["id", "correct_answer", "content", "answers"]
+
+    def get_answers(self, question):
+        return TriviaAnswersSerializer(
+            TriviaAnswer.objects.filter(parent_question=question), many=True
+        ).data
+
+
+class TriviaSerializer(serializers.ModelSerializer):
+    questions = TriviaQuestionsSerializer(many=True)
+    user = UserSerializer()
+    other_user = UserSerializer()
+
+    class Meta:
+        model = TriviaInstance
+        fields = ["id", "user", "other_user", "is_completed", "creation_date", "sport"]

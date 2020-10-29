@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 import os
+import random
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.models.User
 # using default user class
@@ -130,7 +131,7 @@ class TriviaInstance(models.Model):
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    is_completed = models.BooleanField(default=False)
+    is_completed = models.CharField(max_length=100,blank=True)
     other_user = models.ForeignKey(
         "Profile",
         related_name="other_user",
@@ -139,21 +140,26 @@ class TriviaInstance(models.Model):
         null=True,
     )
 
-    def select_questions(self):
-        # randomly select the question set and form the many_to_many relationships
-        raise NotImplementedError
+    @classmethod
+    def create(cls, user, other_user, sport):
+        questions = TriviaQuestion.objects.all()
+        # change 11 to constant
+        random_questions = random.sample(questions, 11)
+        return cls(
+            user=user, other_user=other_user, sport=sport, questions=random_questions
+        )
 
 
 class TriviaResponse(models.Model):
     trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
     question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
     answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE)
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
 
     @property
     def is_correct(self):
-        # true if answer is correct
-        # false otherwise
-        raise NotImplementedError
+        return self.question.correct_answer == self.answer
+         
 
 
 class BaseAcsHistory(models.Model):
