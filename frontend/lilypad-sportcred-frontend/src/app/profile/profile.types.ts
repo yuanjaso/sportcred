@@ -16,3 +16,8 @@ export type UpdateProfilePayload = Partial<
     favourite_sports: number[];
   }
 >;
+
+export interface ACS {
+  average: number;
+  [sport: string]: number;
+}
