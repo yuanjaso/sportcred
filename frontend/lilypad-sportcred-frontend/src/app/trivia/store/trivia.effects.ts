@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { map, mergeMap, mergeMapTo, withLatestFrom } from 'rxjs/operators';
+import { AppState } from '../../store/reducer';
 import { TriviaService } from '../trivia.service';
 import * as TriviaActions from './trivia.actions';
 import { setUpdatedACS } from './trivia.actions';
+import { selectAllTriviaInstances } from './trivia.selectors';
 
 @Injectable()
 export class TriviaEffects {
@@ -22,13 +25,24 @@ export class TriviaEffects {
       ofType(TriviaActions.queryForTriviaGames),
       // using mergeMapTo because the HTTP request requires no parameters and thus is 'constant'
       mergeMapTo(this.triviaService.queryForTriviaGames()),
-      map((allTriviaInstances) =>
-        TriviaActions.setAllTriviaInstances({ allTriviaInstances })
-      )
+      withLatestFrom(this.store.select(selectAllTriviaInstances)),
+      map(([newTriviaInstances, currentTriviaInstances]) => {
+        // there is high probability that the new response is the exact same as before
+        // if so, stop the data stream right here otherwise proceed
+        if (
+          currentTriviaInstances === undefined ||
+          currentTriviaInstances.length !== newTriviaInstances.length
+        ) {
+          return TriviaActions.setAllTriviaInstances({
+            allTriviaInstances: newTriviaInstances,
+          });
+        }
+      })
     )
   );
 
   constructor(
+    private store: Store<AppState>,
     private actions$: Actions,
     private triviaService: TriviaService
   ) {}
