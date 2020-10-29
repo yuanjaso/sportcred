@@ -11,6 +11,7 @@ export interface TriviaInstance {
   date: string;
   sport: { id: number; name: string };
   questions: TriviaQuestion[];
+  score: string | null;
 }
 
 export interface Answer {

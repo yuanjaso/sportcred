@@ -35,6 +35,7 @@ export class TriviaService {
       ],
     };
     const a: TriviaInstance = {
+      score: null,
       id: 4,
       date: new Date().toISOString(),
       user: { id: 2, username: 'John' },
@@ -55,8 +56,32 @@ export class TriviaService {
         sampleQuestion,
       ],
     };
+    const b: TriviaInstance = {
+      score: '6-5',
+      id: 5,
+      date: new Date().toISOString(),
+      user: { id: 2, username: 'John' },
+      other_user: { id: 3, username: 'Daniel' },
+      is_completed: true,
+      sport: { id: 1, name: 'Football' },
+      questions: [
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+        sampleQuestion,
+      ],
+    };
     // each time there will be a random number of instances from 1 - 10 for fun
-    const instances: TriviaInstance[] = fill(Array(random(10)), a);
+    const instances: TriviaInstance[] = fill(Array(random(1, 5)), a).concat(
+      fill(Array(random(1, 4)), b)
+    );
     return of(instances).pipe(delay(500));
   }
 }

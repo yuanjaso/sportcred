@@ -34,6 +34,7 @@ export class TriviaComponent implements OnInit {
     this.store.dispatch(
       setTriviaInstance({
         triviaInstance: {
+          score: null,
           date: new Date().toISOString(),
           id: 3,
           is_completed: false,

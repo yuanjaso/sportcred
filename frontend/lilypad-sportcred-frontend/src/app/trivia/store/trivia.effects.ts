@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, mergeMap, mergeMapTo, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  mergeMap,
+  mergeMapTo,
+  withLatestFrom
+} from 'rxjs/operators';
 import { AppState } from '../../store/reducer';
 import { TriviaService } from '../trivia.service';
 import * as TriviaActions from './trivia.actions';
@@ -37,7 +43,8 @@ export class TriviaEffects {
             allTriviaInstances: newTriviaInstances,
           });
         }
-      })
+      }),
+      filter((action) => action !== undefined)
     )
   );
 

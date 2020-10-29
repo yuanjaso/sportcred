@@ -5,6 +5,7 @@ import { filter, tap } from 'rxjs/operators';
 import { AppState } from '../store/reducer';
 import { queryForTriviaGames } from '../trivia/store/trivia.actions';
 import { selectAllTriviaInstances } from '../trivia/store/trivia.selectors';
+import { TriviaInstance } from '../trivia/trivia.types';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +15,7 @@ import { selectAllTriviaInstances } from '../trivia/store/trivia.selectors';
 })
 export class HeaderComponent implements OnInit {
   notificationsCount: number;
+  triviaInstances: TriviaInstance[];
 
   private subscription = new Subscription();
 
@@ -21,10 +23,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.infiniteQueryForTriviaInvites();
-  }
-
-  showNotificationsModal(): void {
-    console.log('TODO: show notifications modal');
   }
 
   /**
@@ -38,8 +36,9 @@ export class HeaderComponent implements OnInit {
       tap((instances) => {
         // determine how many are in-completed
         this.notificationsCount = instances.filter(
-          (el) => el.is_completed === false
+          (el) => el.score === null
         ).length;
+        this.triviaInstances = instances;
       })
     );
     const infiniteRequest$ = interval(3500).pipe(
@@ -50,5 +49,9 @@ export class HeaderComponent implements OnInit {
 
     this.subscription.add(triviaInstances$.subscribe());
     this.subscription.add(infiniteRequest$.subscribe());
+  }
+
+  playTrivia(instance: TriviaInstance): void {
+    console.log('playing the following instance', instance);
   }
 }

@@ -21,3 +21,14 @@ button#notifications {
     padding: 0;
   }
 }
+
+div.notification-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    height: 75%;
+  }
+}
