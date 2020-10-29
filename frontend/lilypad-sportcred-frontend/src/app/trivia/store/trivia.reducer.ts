@@ -4,17 +4,25 @@ import { TriviaInstance } from '../trivia.types';
 import * as TriviaActions from './trivia.actions';
 
 export interface TriviaState {
+  // all historical games + unplayed invites
+  allTriviaInstances: TriviaInstance[];
   updatedACS: ACS;
+  // active game
   triviaInstance: TriviaInstance;
 }
 
 export const initialState: TriviaState = {
+  allTriviaInstances: undefined,
   updatedACS: undefined,
   triviaInstance: undefined,
 };
 
 const reducer = createReducer<TriviaState>(
   initialState,
+  on(TriviaActions.setAllTriviaInstances, (state, { allTriviaInstances }) => ({
+    ...state,
+    allTriviaInstances,
+  })),
   on(TriviaActions.setTriviaInstance, (state, { triviaInstance }) => ({
     ...state,
     triviaInstance,
@@ -22,7 +30,7 @@ const reducer = createReducer<TriviaState>(
   on(TriviaActions.setUpdatedACS, (state, { acs }) => ({
     ...state,
     updatedACS: acs,
-  })),
+  }))
 );
 
 export function triviaReducer(state: TriviaState, action: Action): TriviaState {
