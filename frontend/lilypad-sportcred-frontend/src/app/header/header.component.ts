@@ -10,4 +10,8 @@ export class HeaderComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  showNotificationsModal(): void {
+    console.log('TODO: show notifications modal');
+  }
 }

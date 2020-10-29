@@ -13,3 +13,11 @@
   height: 100%;
   display: block;
 }
+
+button#notifications {
+  color: $dash-green;
+
+  mat-icon.material-icons {
+    padding: 0;
+  }
+}
