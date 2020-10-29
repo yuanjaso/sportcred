@@ -4,10 +4,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../global/material/material.module';
 import { ZoneModule } from '../zone/zone.module';
-import { TriviaEffects } from './store/effects';
-import { triviaFeatureKey, triviaReducer } from './store/reducer';
+import { TriviaEffects } from './store/trivia.effects';
+import { triviaFeatureKey, triviaReducer } from './store/trivia.reducer';
 import { TriviaRoutingModule } from './trivia-routing.module';
 import { TriviaComponent } from './trivia.component';
+import { TriviaService } from './trivia.service';
 
 @NgModule({
   declarations: [TriviaComponent],
@@ -19,5 +20,6 @@ import { TriviaComponent } from './trivia.component';
     MaterialModule,
     ZoneModule
   ],
+  providers: [TriviaService],
 })
 export class TriviaModule {}
