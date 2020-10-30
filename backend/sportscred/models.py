@@ -119,7 +119,7 @@ class TriviaQuestion(models.Model):
 
 # For trivia
 class TriviaAnswer(models.Model):
-    parent_question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
+    parent_question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE, null=True)
     content = models.CharField(max_length=100, blank=False, null=False)
     # TODO: Think we should store the trivia responses in the database can be done in later sprint
 
