@@ -39,9 +39,11 @@ class Command(BaseCommand):
                 t.save()
                 i +=1
             x = i 
-            while (x < len(triva_questions)):
-                answer = triva_answers[i]
-                question = TriviaAnswer.objects.get(pk = answer["parent_question"])
+            while (x < len(triva_answers)):
+                answer = triva_answers[x]
+                if (answer == None):
+                    break
+                question = TriviaQuestion.objects.get(pk = answer["parent_question"])
                 t = TriviaAnswer.objects.create(
                     content=answer["content"],
                     pk=answer["pk"],
