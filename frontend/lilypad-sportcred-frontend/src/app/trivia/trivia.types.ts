@@ -1,10 +1,3 @@
-// @deprecated
-export interface TriviaQuestions {
-  question: any;
-  answers: any[];
-  correctAnswer: any;
-}
-
 interface User {
   id: number;
   username: string;
@@ -18,6 +11,7 @@ export interface TriviaInstance {
   date: string;
   sport: { id: number; name: string };
   questions: TriviaQuestion[];
+  score: string | null;
 }
 
 export interface Answer {

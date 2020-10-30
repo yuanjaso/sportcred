@@ -1,22 +1,28 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { ACS } from '../../profile/profile.types';
-import { TriviaInstance, TriviaQuestions } from '../trivia.types';
+import { TriviaInstance } from '../trivia.types';
 import * as TriviaActions from './trivia.actions';
 
 export interface TriviaState {
-  triviaQuestions: TriviaQuestions[];
+  // all historical games + unplayed invites
+  allTriviaInstances: TriviaInstance[];
   updatedACS: ACS;
+  // active game
   triviaInstance: TriviaInstance;
 }
 
 export const initialState: TriviaState = {
-  triviaQuestions: undefined,
+  allTriviaInstances: undefined,
   updatedACS: undefined,
   triviaInstance: undefined,
 };
 
 const reducer = createReducer<TriviaState>(
   initialState,
+  on(TriviaActions.setAllTriviaInstances, (state, { allTriviaInstances }) => ({
+    ...state,
+    allTriviaInstances,
+  })),
   on(TriviaActions.setTriviaInstance, (state, { triviaInstance }) => ({
     ...state,
     triviaInstance,
@@ -24,10 +30,6 @@ const reducer = createReducer<TriviaState>(
   on(TriviaActions.setUpdatedACS, (state, { acs }) => ({
     ...state,
     updatedACS: acs,
-  })),
-  on(TriviaActions.setTriviaQuestions, (state, { triviaQuestions }) => ({
-    ...state,
-    triviaQuestions,
   }))
 );
 
