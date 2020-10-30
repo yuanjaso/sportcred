@@ -9,6 +9,7 @@ from sportscred.models import (
     QuestionaireQuestion,
     QuestionaireAnswer,
     QuestionaireUserResponse,
+    ACS,
 )
 
 
@@ -96,3 +97,9 @@ class FollowSerializer(serializers.ModelSerializer):
         return Profile.objects.filter(followers=profile).values_list(
             "user__pk", flat=True
         )
+
+
+class ACSSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ACS
+        fields = ["score"]

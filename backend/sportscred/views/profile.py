@@ -13,11 +13,7 @@ import os
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import *  # we literally need everything
-from sportscred.models import ProfilePicture, Profile, Sport
-
-
-class IndexPage(TemplateView):
-    template_name = "index.html"
+from sportscred.models import ProfilePicture, Profile, Sport, ACS, BaseAcsHistory
 
 
 class ProfileViewSet(viewsets.ViewSet):
@@ -71,8 +67,7 @@ class ProfileViewSet(viewsets.ViewSet):
         except Exception as e:
             print(e)
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     def patch(self, request):
@@ -82,6 +77,7 @@ class ProfileViewSet(viewsets.ViewSet):
         try:
             update = ["status", "about"]
             profile = request.user.profile
+            print(request.user.id)
             for item in update:
                 if item in request.data.keys():
                     setattr(profile, item, request.data[item])
@@ -99,13 +95,21 @@ class ProfileViewSet(viewsets.ViewSet):
                             {"details": "bad highlights"},
                             status=status.HTTP_400_BAD_REQUEST,
                         )
-
-            return Response(ProfileSerializer(profile).data)
+            acs = ACS.objects.get(user_id=request.user.id)
+            acs_history = BaseAcsHistory.objects.filter(  # get only returns 1 item at most.
+                user_id=request.user.id
+            ).values()
+            acs_history_list = []
+            for item in acs_history:
+                acs_history_list.append(item["delta"])
+            profile_info = ProfileSerializer(profile).data
+            profile_info["ACS"] = ACSSerializer(acs).data["score"]
+            profile_info["ACS_History"] = acs_history_list
+            return Response(profile_info)
         except Exception as e:
             print(e)
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     @action(detail=True, methods=["put"])
@@ -129,8 +133,7 @@ class ProfileViewSet(viewsets.ViewSet):
         except User.DoesNotExist:
 
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     @follows.mapping.delete
@@ -152,8 +155,7 @@ class ProfileViewSet(viewsets.ViewSet):
             return Response(data)
         except User.DoesNotExist:
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     @follows.mapping.get
@@ -171,8 +173,7 @@ class ProfileViewSet(viewsets.ViewSet):
             return Response(data)
         except User.DoesNotExist:
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     def list(self, request):
@@ -180,11 +181,20 @@ class ProfileViewSet(viewsets.ViewSet):
         This method returns a profile given a username
         """
         try:
-            profile = User.objects.get(pk=request.query_params["id"]).profile
-            return Response(ProfileSerializer(profile).data)
+            profile = User.objects.get(pk=request.query_params["user_id"]).profile
+            acs = ACS.objects.get(user_id=request.query_params["user_id"])
+            acs_history = BaseAcsHistory.objects.filter(  # get only returns 1 item at most.
+                user_id=request.query_params["user_id"]
+            ).values()
+            acs_history_list = []
+            for item in acs_history:
+                acs_history_list.append(item["delta"])
+            profile_info = ProfileSerializer(profile).data
+            profile_info["ACS"] = ACSSerializer(acs).data["score"]
+            profile_info["ACS_History"] = acs_history_list
+            return Response(profile_info)
         except Exception as e:
             print(e)
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
