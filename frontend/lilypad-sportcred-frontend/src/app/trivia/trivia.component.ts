@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ACS } from '../profile/profile.types';
@@ -19,7 +19,6 @@ import { TriviaInstance } from './trivia.types';
   selector: 'app-trivia',
   templateUrl: './trivia.component.html',
   styleUrls: ['./trivia.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   // ! to show example
   // template: ` <div>ACS: {{ acs$ | async | json }}</div>
   //   <div>Trivia Instance (JSON): {{ triviaInstance$ | async | json }}</div>`,

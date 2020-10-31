@@ -1,8 +1,9 @@
 @import "../../global/fonts.scss";
-body {
+:host {
   background: $bg-black;
-  position: relative;
-  overflow: auto;
+  height: 100%;
+  width: 100%;
+  display: block;
 }
 
 .vertical-container {
