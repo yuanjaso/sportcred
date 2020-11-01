@@ -179,6 +179,6 @@ def test_get_profile():
         params={"id": user_id},
         headers={"Authorization": "Token " + token},
     )
+    print(res.json())
     assert res.status_code == 200
     assert res.json()["user"]["username"] == data["name"]
-    assert res.json()["user"]["email"] == data["email"]

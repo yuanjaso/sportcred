@@ -9,13 +9,10 @@ from sportscred.models import (
     QuestionaireQuestion,
     QuestionaireAnswer,
     QuestionaireUserResponse,
+    TriviaQuestion,
+    TriviaInstance,
+    TriviaAnswer,
 )
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ["user", "status", "profile_picture"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -96,3 +93,46 @@ class FollowSerializer(serializers.ModelSerializer):
         return Profile.objects.filter(followers=profile).values_list(
             "user__pk", flat=True
         )
+
+
+class TriviaAnswersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TriviaAnswer
+        fields = ["content", "id"]
+
+
+class TriviaQuestionsSerializer(serializers.ModelSerializer):
+    answers = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TriviaQuestion
+        fields = ["id", "correct_answer", "content", "answers"]
+
+    def get_answers(self, question):
+        return TriviaAnswersSerializer(
+            TriviaAnswer.objects.filter(parent_question=question), many=True
+        ).data
+
+
+class TriviaSerializer(serializers.ModelSerializer):
+    questions = TriviaQuestionsSerializer(many=True)
+    user = serializers.SerializerMethodField()
+    other_user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TriviaInstance
+        fields = [
+            "id",
+            "user",
+            "other_user",
+            "score",
+            "creation_date",
+            "sport",
+            "questions",
+        ]
+
+    def get_user(self, instance):
+        return UserSerializer(instance.user.user).data
+
+    def get_other_user(self, instance):
+        return UserSerializer(instance.other_user.user).data

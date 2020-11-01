@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 import os
+import random
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.models.User
 # using default user class
@@ -118,7 +119,9 @@ class TriviaQuestion(models.Model):
 
 # For trivia
 class TriviaAnswer(models.Model):
-    parent_question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
+    parent_question = models.ForeignKey(
+        "TriviaQuestion", on_delete=models.CASCADE, null=True
+    )
     content = models.CharField(max_length=100, blank=False, null=False)
     # TODO: Think we should store the trivia responses in the database can be done in later sprint
 
@@ -130,7 +133,7 @@ class TriviaInstance(models.Model):
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    is_completed = models.BooleanField(default=False)
+    score = models.CharField(max_length=100, blank=True)
     other_user = models.ForeignKey(
         "Profile",
         related_name="other_user",
@@ -140,20 +143,24 @@ class TriviaInstance(models.Model):
     )
 
     def select_questions(self):
-        # randomly select the question set and form the many_to_many relationships
-        raise NotImplementedError
+        questions = TriviaQuestion.objects.filter(related_to_sport=self.sport)
+        random_questions = random.sample(list(questions), 11)
+        for q in random_questions:
+            self.questions.add(q)
+            self.save()
 
 
 class TriviaResponse(models.Model):
     trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
     question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
     answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE)
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    start_time = models.DateTimeField(blank=False)
+    submission_time = models.DateTimeField(blank=False)
 
     @property
     def is_correct(self):
-        # true if answer is correct
-        # false otherwise
-        raise NotImplementedError
+        return self.question.correct_answer == self.answer
 
 
 class BaseAcsHistory(models.Model):
