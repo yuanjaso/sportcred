@@ -121,7 +121,6 @@ class ProfileViewSet(viewsets.ViewSet):
 
     @action(detail=True, methods=["get"])
     def acs_history(self, request, pk=None):
-        # TODO. ASK MICHAEL WHAT TO DO FOR GROUP_BY
         """
         This method is responsible for returning the ACS history of a user.
         """
@@ -158,17 +157,24 @@ class ProfileViewSet(viewsets.ViewSet):
             )
 
     @action(detail=True, methods=["put"])
-    # ASK MICHAEL IF YOU CAN FOLLOW YOURSELF
     def radar(self, request, pk=None):
         """
         This method is responsible for allowing users follow each other
         """
-        if pk == None:  # Note: If the user doesn't enter an id, this won't work.
+        if pk == None:
             return Response(
                 {"details": "Profile of followee not found, bad pk"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        profile = request.user.profile
+
+        if request.user.id == int(pk):
+            return Response(
+                {"details": "Cannot follow yourself"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        else:
+            profile = request.user.profile
+
         try:
             followe = User.objects.get(pk=pk).profile
             followe.followers.add(profile)
