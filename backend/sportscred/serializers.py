@@ -15,16 +15,10 @@ from sportscred.models import (
 )
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ["user", "status", "profile_picture"]
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "is_superuser"]
+        fields = ["id", "username", "email", "is_superuser"]
 
 
 class ProfilePictureSerializer(serializers.ModelSerializer):
@@ -76,6 +70,16 @@ class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
         model = QuestionaireUserResponse
         fields = "__all__"
         depth = 2
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    profilepicture = ProfilePictureSerializer()
+    highlights = SportSerializer(many=True)
+
+    class Meta:
+        model = Profile
+        fields = ["user", "status", "highlights", "about", "profilepicture"]
 
 
 class FollowSerializer(serializers.ModelSerializer):
