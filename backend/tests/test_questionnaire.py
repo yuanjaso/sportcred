@@ -10,7 +10,7 @@ URL = "http://127.0.0.1:8000/api/v1/"
 
 @fixture
 def token():
-    res = auth_user("bbb", ".")
+    res = auth_user("poop", ".")
     return res.json()["token"]
 
 
@@ -69,6 +69,8 @@ def test_get_responses(token):
         res = requests.get(
             url, headers={"Authorization": "Token " + token}, verify=False
         )
+        print("here")
+        print(res.json())
         assert res.status_code == 200
         i += 1
 
