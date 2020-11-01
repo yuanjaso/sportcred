@@ -64,7 +64,7 @@ const apiRequirements: API[] = [
   {
     description: "query acs history ",
     request: {
-      requestURL: "/api/v1/profile/:id/acs_history", // dont need id since you're only patching yourself
+      requestURL: "/api/v1/profile/:id/acs_history",
       requestMethod: "GET",
       body: {},
       queryParams: { group_by_date: false },
@@ -78,7 +78,8 @@ const apiRequirements: API[] = [
           date: "2020-10-25T19:13:12Z",
           delta: -5,
           source_type: "T", // just T for now
-          id: 3
+          user_id: 3
+          sports: {sports_id (int) : sports_name (str)}
         },
       ],
     },
