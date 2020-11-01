@@ -124,9 +124,6 @@ const apiRequirements: API[] = [
     response: {
       statusCode: 200,
       response:{
-        'count': 10, // total number of objects from query. we don't actually return everything in the results
-        'next': None, // tells you the previous page number if there is one
-        'previous': None, // tells you the next page number if there is one 
         'results': ['user': {'id': int, 'username': string, 'email': string, 'is_superuser': boolean}, 
                     'question': {'id': int, 'question_content': string, 'question_type': string},
                     'answer': string | int

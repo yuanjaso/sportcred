@@ -66,10 +66,28 @@ class QuestionnaireAnswerSerializer(serializers.ModelSerializer):
 
 
 class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    question = QuestionnaireSerializer()
+    answer = serializers.SerializerMethodField()
+
     class Meta:
         model = QuestionaireUserResponse
-        fields = "__all__"
-        depth = 2
+        fields = ["user", "question", "answer"]
+
+    def get_user(self, qur):
+        return UserSerializer(qur.user.user).data
+
+    def get_answer(self, qur):
+        QUESTION_TYPE = {
+            "QN": qur.quantitative_response,
+            "QL": qur.qualitative_response,
+            "S": SportSerializer(qur.sport).data,
+            "T": TeamSerializer(qur.team).data,
+            "P": PlayerSerializer(qur.player).data,
+            "C": QuestionnaireAnswerSerializer(qur.custom_answer).data,
+        }
+        q_type = qur.question.question_type
+        return QUESTION_TYPE[q_type]
 
 
 class ProfileSerializer(serializers.ModelSerializer):
