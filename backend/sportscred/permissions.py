@@ -22,3 +22,10 @@ class AnonCreateAndUpdateOwnerOnly(BasePermission):
             and obj.id == request.user.id
             or request.user.is_staff
         )
+
+
+class QuestionnaireSuper(BasePermission):
+    def has_permission(self, request, view):
+        if view.action == "responses":
+            return request.user.is_superuser
+        return True

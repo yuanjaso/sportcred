@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from ..serializers import (
     QuestionnaireSerializer,
@@ -20,10 +21,12 @@ from sportscred.models import (
     Player,
     Team,
 )
+from sportscred.permissions import QuestionnaireSuper
 
 
 class QuestionnaireViewSet(viewsets.ViewSet):
 
+    permission_classes = [IsAuthenticated, QuestionnaireSuper]
     # Queries the database for the questions.
     # For GET
     def list(self, request):
