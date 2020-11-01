@@ -14,7 +14,7 @@ import os
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import *  # we literally need everything
-from sportscred.models import ProfilePicture, Profile, Sport, ACS
+from sportscred.models import ProfilePicture, Profile, Sport, ACS, BaseAcsHistory
 
 
 class ProfileViewSet(viewsets.ViewSet):
@@ -119,12 +119,51 @@ class ProfileViewSet(viewsets.ViewSet):
                 {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
+    @action(detail=True, methods=["get"])
+    def acs_history(self, request, pk=None):
+        # TODO. ASK MICHAEL WHAT TO DO FOR GROUP_BY
+        """
+        This method is responsible for returning the ACS history of a user.
+        """
+        if pk == None:
+            return Response(
+                {"details": "User id not inputted."}, status=status.HTTP_400_BAD_REQUEST
+            )
+        profile = request.user.profile
+        try:
+            acs = BaseAcsHistory.objects.filter(user_id=profile)
+            try:
+                group_by_date = request.query_params["group_by_date"]
+            except:
+                return Response(
+                    {"details": "You did not enter a value for group_by_date"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            if group_by_date.lower() == "true":
+                print(BaseAcsHistorySerializer(acs, many=True).data)
+            elif group_by_date.lower() == "false":
+                print("2")
+            else:
+                return Response(
+                    {"details": "You did not enter true or false for group_by_date"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            return Response(
+                {"details": "Ignore this"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        except User.DoesNotExist:
+            return Response(
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
     @action(detail=True, methods=["put"])
-    def follows(self, request, pk=None):
+    # ASK MICHAEL IF YOU CAN FOLLOW YOURSELF
+    def radar(self, request, pk=None):
         """
         This method is responsible for allowing users follow each other
         """
-        if pk == None:
+        if pk == None:  # Note: If the user doesn't enter an id, this won't work.
             return Response(
                 {"details": "Profile of followee not found, bad pk"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -143,7 +182,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-    @follows.mapping.delete
+    @radar.mapping.delete
     def unfollows(self, request, pk=None):
         """Unfollow"""
         if pk == None:
@@ -165,7 +204,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-    @follows.mapping.get
+    @radar.mapping.get
     def get_followers(self, request, pk=None):
         """Unfollow"""
         if pk == None:

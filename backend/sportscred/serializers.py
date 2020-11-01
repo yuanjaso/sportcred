@@ -10,6 +10,7 @@ from sportscred.models import (
     QuestionaireAnswer,
     QuestionaireUserResponse,
     ACS,
+    BaseAcsHistory,
 )
 
 
@@ -109,3 +110,9 @@ class ACSSerializer(serializers.ModelSerializer):
 
     def get_name(self, acs):
         return acs.sports.name
+
+
+class BaseAcsHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BaseAcsHistory
+        fields = "__all__"
