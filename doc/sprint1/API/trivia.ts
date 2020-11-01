@@ -16,7 +16,7 @@ const apiRequirements: API[] = [
           id: 1,
           user: { id: 1, username: "rick" },
           other_user: { id: 2, username: "myco" }, // can be none
-          is_completed: true,
+          score: "6-5",
           date: "2020-10-25T19:13:12Z",
           sport: { id: 1, name: "Basketball" },
           questions: [
@@ -52,7 +52,7 @@ const apiRequirements: API[] = [
         id: 1,
         user: { id: 1, username: "rick" },
         other_user: { id: 2, username: "myco" }, // can be none
-        is_completed: true,
+        score: "5-6",
         date: "2020-10-25T19:13:12Z",
         sport: { id: 1, name: "Basketball" },
         questions: [

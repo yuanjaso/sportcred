@@ -179,7 +179,7 @@ class TriviaViewSet(viewsets.ViewSet):
                         user_score += 1
                     elif other_user_res.is_correct:
                         other_user_score += 1
-                instance.is_completed = str(user_score) + "-" + str(other_user_score)
+                instance.score = str(user_score) + "-" + str(other_user_score)
                 instance.save()
 
             if instance.other_user:

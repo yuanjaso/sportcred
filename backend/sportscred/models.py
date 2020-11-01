@@ -133,7 +133,7 @@ class TriviaInstance(models.Model):
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    is_completed = models.CharField(max_length=100, blank=True)
+    score = models.CharField(max_length=100, blank=True)
     other_user = models.ForeignKey(
         "Profile",
         related_name="other_user",

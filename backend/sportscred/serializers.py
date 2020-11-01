@@ -125,7 +125,7 @@ class TriviaSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "other_user",
-            "is_completed",
+            "score",
             "creation_date",
             "sport",
             "questions",
