@@ -158,7 +158,6 @@ class TriviaResponse(models.Model):
 class BaseAcsHistory(models.Model):
     # you never actually call this this is just the abstract class
     delta = models.IntegerField()
-    score = models.IntegerField()
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
@@ -169,28 +168,29 @@ class BaseAcsHistory(models.Model):
         # or override it in the subclass
 
         # Check whether or not the combination or user & sport is in the table.
-        user_and_sports = ACS.objects.filter(
-            user_id=self.user, sports_id=self.sports
-        ).values("score", "user_id", "sports_id")
-        if user_and_sports:
-            update_ACS = ACS.objects.update(
-                score=self.delta + self.score, user_id=self.user, sports_id=self.sports
-            )
-        else:
-            update_ACS = ACS.objects.create(
-                score=self.delta, user_id=self.user, sports_id=self.sports
-            )
-        pass
-
-    @staticmethod
-    def create(delta, user, date, sports):
-        new_base_acs_history = BaseAcsHistory()
-        new_base_acs_history.update_ACS()
+        try:
+            acs = ACS.objects.get(user_id=self.user, sports_id=self.sports)
+            acs.score = acs.score + self.delta
+            if acs.score < 0:
+                acs.score = 0
+            # ToDo Make sure acs score is not negative.
+        except:
+            acs = ACS.objects.create(user_id=self.user, sports_id=self.sports)
+            acs.score = self.delta  # Make sure it's not negative.
+            if acs.score < 0:
+                acs.score = 0
+        acs.save()
 
 
 class TriviaAcsHistory(BaseAcsHistory):
     history_type = "T"
     trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
+
+    @staticmethod
+    def create(delta, user, sports):
+        # ToDo Get Michael to fix this (Class Method)
+        BaseAcsHistory.objects.create(delta=delta, user=user, sports=sports)
+        new_base_acs_history.update_ACS()
 
 
 class Sport(models.Model):

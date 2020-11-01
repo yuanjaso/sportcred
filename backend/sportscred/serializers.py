@@ -100,6 +100,12 @@ class FollowSerializer(serializers.ModelSerializer):
 
 
 class ACSSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = ACS
-        fields = ["score"]
+        fields = ["name", "score"]
+        depth = 2
+
+    def get_name(self, acs):
+        return acs.sports.name

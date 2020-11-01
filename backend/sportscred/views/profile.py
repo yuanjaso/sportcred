@@ -8,12 +8,13 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from hashlib import sha256
+from django.db.models import Avg, Sum
 import os
 
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import *  # we literally need everything
-from sportscred.models import ProfilePicture, Profile, Sport, ACS, BaseAcsHistory
+from sportscred.models import ProfilePicture, Profile, Sport, ACS
 
 
 class ProfileViewSet(viewsets.ViewSet):
@@ -77,7 +78,6 @@ class ProfileViewSet(viewsets.ViewSet):
         try:
             update = ["status", "about"]
             profile = request.user.profile
-            print(request.user.id)
             for item in update:
                 if item in request.data.keys():
                     setattr(profile, item, request.data[item])
@@ -87,7 +87,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 highlights = request.data["highlights"]
                 for highlight in highlights:
                     try:
-                        s = Sport.objects.get(name=highlight)
+                        s = Sport.objects.get(id=highlight)
                         profile.highlights.add(s)
                         profile.save()
                     except Sport.DoesNotExist:
@@ -95,16 +95,23 @@ class ProfileViewSet(viewsets.ViewSet):
                             {"details": "bad highlights"},
                             status=status.HTTP_400_BAD_REQUEST,
                         )
-            acs = ACS.objects.get(user_id=request.user.id)
-            acs_history = BaseAcsHistory.objects.filter(  # get only returns 1 item at most.
-                user_id=request.user.id
-            ).values()
-            acs_history_list = []
-            for item in acs_history:
-                acs_history_list.append(item["delta"])
+            profile = User.objects.get(pk=request.query_params["user_id"]).profile
+            acs_info = ACS.objects.filter(user_id=request.query_params["user_id"])
+
+            # Gets the ACS average of the user.
+            acs_avg = acs_info.aggregate(Avg("score"))
+
+            # Keeps track of the user's acs average score and scores for each sport.
+            ACS_Score = {}
+            ACS_Score["average"] = acs_avg["score__avg"]
+
+            # Gets the ACS Score for each sport.
+            for item in ACSSerializer(acs_info, many=True).data:
+                ACS_Score[item["name"]] = item["score"]
+
             profile_info = ProfileSerializer(profile).data
-            profile_info["ACS"] = ACSSerializer(acs).data["score"]
-            profile_info["ACS_History"] = acs_history_list
+            profile_info["favourite_sports"] = profile_info.pop("highlights")
+            profile_info["ACS"] = ACS_Score
             return Response(profile_info)
         except Exception as e:
             print(e)
@@ -182,17 +189,24 @@ class ProfileViewSet(viewsets.ViewSet):
         """
         try:
             profile = User.objects.get(pk=request.query_params["user_id"]).profile
-            acs = ACS.objects.get(user_id=request.query_params["user_id"])
-            acs_history = BaseAcsHistory.objects.filter(  # get only returns 1 item at most.
-                user_id=request.query_params["user_id"]
-            ).values()
-            acs_history_list = []
-            for item in acs_history:
-                acs_history_list.append(item["delta"])
+            acs_info = ACS.objects.filter(user_id=request.query_params["user_id"])
+
+            # Gets the ACS average of the user.
+            acs_avg = acs_info.aggregate(Avg("score"))
+
+            # Keeps track of the user's acs average score and scores for each sport.
+            ACS_Score = {}
+            ACS_Score["average"] = acs_avg["score__avg"]
+
+            # Gets the ACS Score for each sport.
+            for item in ACSSerializer(acs_info, many=True).data:
+                ACS_Score[item["name"]] = item["score"]
+
             profile_info = ProfileSerializer(profile).data
-            profile_info["ACS"] = ACSSerializer(acs).data["score"]
-            profile_info["ACS_History"] = acs_history_list
+            profile_info["favourite_sports"] = profile_info.pop("highlights")
+            profile_info["ACS"] = ACS_Score
             return Response(profile_info)
+
         except Exception as e:
             print(e)
             return Response(
