@@ -14,7 +14,14 @@ import os
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import *  # we literally need everything
-from sportscred.models import ProfilePicture, Profile, Sport, ACS, BaseAcsHistory
+from sportscred.models import (
+    ProfilePicture,
+    Profile,
+    Sport,
+    ACS,
+    BaseAcsHistory,
+    TriviaAcsHistory,
+)
 
 
 class ProfileViewSet(viewsets.ViewSet):
@@ -141,18 +148,57 @@ class ProfileViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+            return_list = []
             if group_by_date.lower() == "true":
-                print(acs.values("date").annotate(Sum("delta")))
+                acs_values = []
+                unique_dates = {}
+                result = []
+
+                # This formats the datetime field so that we only get the day/month/year
+                for item in acs.values():
+                    item.pop("id")
+                    item.pop("sports_id")
+
+                    if not str(item["date"])[:10] in unique_dates:
+
+                        unique_dates[str(item["date"])[:10]] = [
+                            item["user_id"],
+                            item["delta"],
+                        ]
+                    else:
+                        unique_dates[str(item["date"])[:10]][1] += item["delta"]
+
+                for item in unique_dates:
+                    print(item)
+                    result.append(
+                        {
+                            "Date": item,
+                            "User_id": unique_dates[item][0],
+                            "Delta_Sum": unique_dates[item][1],
+                        }
+                    )
+                return Response(result)
             elif group_by_date.lower() == "false":
-                print("2")
+                for item in acs.values():
+                    item.pop("id")  # Removes id
+                    item[
+                        "source_type"
+                    ] = TriviaAcsHistory.source_type  # Adds source type
+                    sports_id = item.pop("sports_id")
+
+                    item["Sports_id"] = {
+                        "id": sports_id,
+                        "name": Sport.objects.filter(id=sports_id).values("name")[0][
+                            "name"
+                        ],
+                    }
+                    return_list.append(item)
             else:
                 return Response(
                     {"details": "You did not enter true or false for group_by_date"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            return Response(
-                {"details": "Ignore this"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response(return_list)
         except User.DoesNotExist:
             return Response(
                 {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
