@@ -99,11 +99,11 @@ class Likes(models.Model):
 
 class ACS(models.Model):
     score = models.IntegerField()
-    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ["user", "sports"]
+        unique_together = ["profile", "sports"]
 
 
 # For trivia
@@ -158,9 +158,9 @@ class TriviaResponse(models.Model):
 class BaseAcsHistory(models.Model):
     # you never actually call this this is just the abstract class
     delta = models.IntegerField()
-    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
+    sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
     def update_acs(self):
         # updates actual acs score from ACS table
@@ -169,28 +169,34 @@ class BaseAcsHistory(models.Model):
 
         # Check whether or not the combination or user & sport is in the table.
         try:
-            acs = ACS.objects.get(user_id=self.user, sports_id=self.sports)
+            acs = ACS.objects.get(profile=self.profile, sports=self.sport)
             acs.score = acs.score + self.delta
             if acs.score < 0:
                 acs.score = 0
+            acs.save()
+
             # ToDo Make sure acs score is not negative.
         except:
-            acs = ACS.objects.create(user_id=self.user, sports_id=self.sports)
-            acs.score = self.delta  # Make sure it's not negative.
-            if acs.score < 0:
-                acs.score = 0
-        acs.save()
+            if self.delta < 0:
+                self.delta = 0
+                self.save()
+            acs = ACS.objects.create(
+                profile=self.profile, sports=self.sport, score=self.delta
+            )
+
+    @classmethod
+    def create(cls, delta, profile, sport):
+        # ToDo Get Michael to fix this (Class Method)
+        acs_history = cls.objects.create(delta=delta, profile=profile, sport=sport)
+        acs_history.update_acs()
+        return acs_history
 
 
 class TriviaAcsHistory(BaseAcsHistory):
     source_type = "T"
-    trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
-
-    @staticmethod
-    def create(delta, user, sports):
-        # ToDo Get Michael to fix this (Class Method)
-        BaseAcsHistory.objects.create(delta=delta, user=user, sports=sports)
-        new_base_acs_history.update_ACS()
+    trivia_instance = models.ForeignKey(
+        "TriviaInstance", on_delete=models.CASCADE, null=True
+    )
 
 
 class Sport(models.Model):
