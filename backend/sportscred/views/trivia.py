@@ -23,8 +23,6 @@ class TriviaViewSet(viewsets.ViewSet):
     the `format=None` keyword argument for each action.
     """
 
-    permission_classes = [AnonCreateAndUpdateOwnerOnly]
-
     def list(self, request):
         """
         This method returns a list of the logged in user's trivia instances
