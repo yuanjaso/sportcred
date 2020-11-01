@@ -119,7 +119,9 @@ class TriviaQuestion(models.Model):
 
 # For trivia
 class TriviaAnswer(models.Model):
-    parent_question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE, null=True)
+    parent_question = models.ForeignKey(
+        "TriviaQuestion", on_delete=models.CASCADE, null=True
+    )
     content = models.CharField(max_length=100, blank=False, null=False)
     # TODO: Think we should store the trivia responses in the database can be done in later sprint
 
@@ -131,7 +133,7 @@ class TriviaInstance(models.Model):
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    is_completed = models.CharField(max_length=100,blank=True)
+    is_completed = models.CharField(max_length=100, blank=True)
     other_user = models.ForeignKey(
         "Profile",
         related_name="other_user",
@@ -140,14 +142,12 @@ class TriviaInstance(models.Model):
         null=True,
     )
 
-    @classmethod
-    def create(cls, user, other_user, sport):
+    def select_questions(self):
         questions = TriviaQuestion.objects.all()
-        # change 11 to constant
-        random_questions = random.sample(questions, 11)
-        return cls(
-            user=user, other_user=other_user, sport=sport, questions=random_questions
-        )
+        random_questions = random.sample(list(questions), 11)
+        for q in random_questions:
+            self.questions.add(q)
+            self.save()
 
 
 class TriviaResponse(models.Model):
@@ -155,11 +155,12 @@ class TriviaResponse(models.Model):
     question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
     answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE)
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    start_time = models.DateTimeField(blank=False)
+    submission_time = models.DateTimeField(blank=False)
 
     @property
     def is_correct(self):
         return self.question.correct_answer == self.answer
-         
 
 
 class BaseAcsHistory(models.Model):

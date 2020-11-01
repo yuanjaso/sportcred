@@ -93,7 +93,7 @@ class FollowSerializer(serializers.ModelSerializer):
 
 class TriviaAnswersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
+        model = TriviaAnswer
         fields = ["content", "id"]
 
 
@@ -112,9 +112,23 @@ class TriviaQuestionsSerializer(serializers.ModelSerializer):
 
 class TriviaSerializer(serializers.ModelSerializer):
     questions = TriviaQuestionsSerializer(many=True)
-    user = UserSerializer()
-    other_user = UserSerializer()
+    user = serializers.SerializerMethodField()
+    other_user = serializers.SerializerMethodField()
 
     class Meta:
         model = TriviaInstance
-        fields = ["id", "user", "other_user", "is_completed", "creation_date", "sport"]
+        fields = [
+            "id",
+            "user",
+            "other_user",
+            "is_completed",
+            "creation_date",
+            "sport",
+            "questions",
+        ]
+
+    def get_user(self, instance):
+        return UserSerializer(instance.user.user).data
+
+    def get_other_user(self, instance):
+        return UserSerializer(instance.other_user.user).data
