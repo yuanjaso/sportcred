@@ -18,7 +18,7 @@ from sportscred.models import (
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "is_superuser"]
+        fields = ["id", "username", "is_superuser"]
 
 
 class ProfilePictureSerializer(serializers.ModelSerializer):

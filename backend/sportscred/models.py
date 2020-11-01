@@ -143,7 +143,7 @@ class TriviaInstance(models.Model):
     )
 
     def select_questions(self):
-        questions = TriviaQuestion.objects.all()
+        questions = TriviaQuestion.objects.filter(related_to_sport=self.sport)
         random_questions = random.sample(list(questions), 11)
         for q in random_questions:
             self.questions.add(q)

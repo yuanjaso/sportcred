@@ -182,4 +182,3 @@ def test_get_profile():
     print(res.json())
     assert res.status_code == 200
     assert res.json()["user"]["username"] == data["name"]
-    assert res.json()["user"]["email"] == data["email"]
