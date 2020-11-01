@@ -1,0 +1,49 @@
+@import "../../global/fonts.scss";
+@import "../trivia.component.scss";
+
+.timer-container {
+    color: white;
+}
+
+.question-container {
+  width: 590px;
+  height: 200px;
+  border-style: solid;
+  border-color: $orange;
+  border-width: 5px;
+  position: relative;
+}
+
+.question {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 25px;
+  line-height: 30px;
+  color: white;
+}
+
+.trivia-answer-container {
+  width: 600px;
+}
+
+.mat-flat-button {
+  width: 200px;
+  padding: 20px;
+}
+
+@media only screen and (max-width: 700px) {
+  .mat-flat-button {
+    width: 175px;
+  }
+  .question {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
