@@ -95,8 +95,10 @@ class ProfileViewSet(viewsets.ViewSet):
                             {"details": "bad highlights"},
                             status=status.HTTP_400_BAD_REQUEST,
                         )
-            profile = User.objects.get(pk=request.query_params["user_id"]).profile
-            acs_info = ACS.objects.filter(user_id=request.query_params["user_id"])
+
+            # Don't need query params.
+            profile = User.objects.get(pk=request.user.id).profile
+            acs_info = ACS.objects.filter(user_id=request.user.id)
 
             # Gets the ACS average of the user.
             acs_avg = acs_info.aggregate(Avg("score"))
@@ -130,7 +132,7 @@ class ProfileViewSet(viewsets.ViewSet):
             )
         profile = request.user.profile
         try:
-            acs = BaseAcsHistory.objects.filter(user_id=profile)
+            acs = BaseAcsHistory.objects.filter(user_id=pk)
             try:
                 group_by_date = request.query_params["group_by_date"]
             except:
@@ -140,7 +142,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 )
 
             if group_by_date.lower() == "true":
-                print(BaseAcsHistorySerializer(acs, many=True).data)
+                print(acs.values("date").annotate(Sum("delta")))
             elif group_by_date.lower() == "false":
                 print("2")
             else:
