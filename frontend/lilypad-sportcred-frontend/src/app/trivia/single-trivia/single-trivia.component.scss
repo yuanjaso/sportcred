@@ -1,8 +1,10 @@
-@import "../../global/fonts.scss";
+@import "../../../global/fonts.scss";
 @import "../trivia.component.scss";
 
 .timer-container {
-    color: white;
+  color: white;
+  font-size: 50px;
+  padding: 20px;
 }
 
 .question-container {
