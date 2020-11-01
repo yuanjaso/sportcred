@@ -62,6 +62,17 @@ def test_post_everything_correct(token):
     assert res.status_code == 200
 
 
+def test_get_responses(token):
+    i = 1
+    while i < 6:
+        url = URL + "questionnaire/" + str(i) + "/responses/"
+        res = requests.get(
+            url, headers={"Authorization": "Token " + token}, verify=False
+        )
+        assert res.status_code == 200
+        i += 1
+
+
 ## For this test case, the question_ids of 0, 7 and 10 are wrong.
 # def test_post_incorrect_question_ids(token):
 #     url = URL + "questionnaire/"

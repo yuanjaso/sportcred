@@ -46,6 +46,13 @@ class QuestionnaireViewSet(viewsets.ViewSet):
         serializer = QuestionnaireAnswerSerializer(answers, many=True)
         return Response(serializer.data)
 
+    # Querying for the user responses for a certain question
+    @action(detail=True, methods=["get"])
+    def responses(self, request, pk=None):
+        responses = QuestionaireUserResponse.objects.filter(question_id=pk)
+        serializer = QuestionaireUserResponseSerializer(responses, many=True)
+        return Response(serializer.data)
+
     # For POST
     # Gets the answers the user gave
     def create(self, request):
