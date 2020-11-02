@@ -60,11 +60,12 @@ export class ToolbarComponent implements OnInit {
   }
 
   navigate(e) {
-    //todo i beleive this dispatch should be done in profile page instead (single resp principle)
-    if (this.pages[e.index].link == all_routes.profile.url) {
+    if (e.index >= this.pages.length) return;
+    if (this.pages[e.index]?.link == all_routes.profile.url) {
+      //todo i beleive this dispatch should be done in profile page instead (single resp principle)
       this.store.dispatch(getProfile({ userId: this.userId }));
     }
-    this.router.navigate([this.pages[e.index].link], {
+    this.router.navigate([this.pages[e.index]?.link], {
       relativeTo: this.route,
     });
   }
