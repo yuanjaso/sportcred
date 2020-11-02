@@ -7,3 +7,4 @@ pytest
 requests
 pyyaml
 django-cors-headers == 2.2.0
+python-dateutil
