@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { playersURL, sportsURL, teamsURL } from '../../global/api.types';
 import { HttpClientWrapper } from '../http/http-client-wrapper';
-import { teamsURL, playersURL, sportsURL } from '../../global/api.types';
 @Injectable({
   providedIn: 'root',
 })

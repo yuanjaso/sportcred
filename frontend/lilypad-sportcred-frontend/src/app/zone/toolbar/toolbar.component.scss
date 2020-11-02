@@ -1,0 +1,23 @@
+@import "../../../global/colors.scss";
+
+.mat-tab-group {
+  background-color: $bg-black;
+  // position: absolute;
+  // bottom: 0;
+  // z-index: 1000;
+  width: 100%;
+}
+
+/* Accent colour of toolbar */
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background: $dash-green;
+}
+
+.mat-tab-label {
+  color: white;
+}
+
+.mat-tab-body-wrapper {
+  display: none !important;
+}

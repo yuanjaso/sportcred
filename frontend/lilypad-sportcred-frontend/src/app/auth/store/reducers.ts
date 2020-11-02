@@ -14,6 +14,12 @@ const reducer = createReducer<AuthState>(
   on(actions.setUserInfo, (state, { payload: userinfo }) => {
     return { ...state, userinfo };
   }),
+  on(actions.setUserQuestionnaireStatus, (state, { payload: bool }) => {
+    return {
+      ...state,
+      userinfo: { ...state.userinfo, questionaire_registered: bool },
+    };
+  }),
   on(actions.clearLoginToken, (state) => {
     return { ...state, userinfo: undefined };
   })

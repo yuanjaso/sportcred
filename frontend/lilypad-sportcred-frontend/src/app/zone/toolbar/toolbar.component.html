@@ -1,0 +1,18 @@
+<mat-tab-group  mat-align-tabs="center" (selectedTabChange)="navigate($event)">
+  <mat-tab *ngFor="let page of pages">
+    <ng-template mat-tab-label>
+      <i class="material-icons">
+        {{ page.icon }}
+      </i>
+    </ng-template>
+  </mat-tab>
+  
+
+  <!-- todo remove hard coded LIVE-->
+  <!-- fix onclick only works on text, not button-->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span id="live-tab" (click)="onClickLive()">LIVE</span>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
