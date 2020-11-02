@@ -1,16 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { MaterialModule } from '../../global/material/material.module';
+import { HeaderComponent } from './header/header.component';
+import { ZoneEffects } from './store/effects';
+import { zoneFeatureKey, zoneReducer } from './store/reducers';
+import { AdminModule } from './subpages/admin/admin.module';
+import { PicksModule } from './subpages/picks/picks.module';
+import { ProfileModule } from './subpages/profile/profile.module';
+import { TriviaModule } from './subpages/trivia/trivia.module';
+import { LiveDialogComponent } from './toolbar/live-dialog/live-dialog.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ZoneRoutingModule } from './zone-routing.module';
 import { ZoneComponent } from './zone.component';
-import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { LiveDialogComponent } from '../toolbar/live-dialog/live-dialog.component';
-import { MaterialModule } from '../../global/material/material.module';
-import { HeaderComponent } from '../header/header.component';
-import { zoneFeatureKey, zoneReducer } from './store/reducers';
-import { ZoneEffects } from './store/effects';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,10 @@ import { EffectsModule } from '@ngrx/effects';
     CommonModule,
     ZoneRoutingModule,
     MaterialModule,
+    ProfileModule,
+    PicksModule,
+    TriviaModule,
+    AdminModule,
   ],
 })
 export class ZoneModule {}

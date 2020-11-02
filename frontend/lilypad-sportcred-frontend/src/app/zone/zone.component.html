@@ -1,5 +1,5 @@
 
-<div class="home-layout" fxLayout="row wrap">
+<!-- <div class="home-layout" fxLayout="row wrap">
     <div fxFlex="50%" *ngFor="let card of cardList">
         <mat-card routerLink="/{{card.url}}" fxLayoutAlign="center" style="background-image: url({{card.dashImgLink}});">
             <mat-card-content>
@@ -8,7 +8,17 @@
         </mat-card>
     </div>
 </div>
+<li><a routerLink="/first-component" routerLinkActive="active">First Component</a></li> -->
 
-<app-header></app-header>
+<div *ngFor="let card of cardList">
+    <!-- <mat-card routerLink="/{{card.url}}" fxLayoutAlign="center" style="background-image: url({{card.dashImgLink}});">
+        <mat-card-content>
+          {{card.dashTitle}}
+        </mat-card-content>
+    </mat-card> -->
+    <li><a [routerLink]="card.url" routerLinkActive="active">Second Component</a></li>
+</div>
 
+<!-- <app-header></app-header> -->
+<router-outlet></router-outlet>
 <app-toolbar></app-toolbar>

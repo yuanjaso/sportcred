@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HttpClientWrapper } from '../http/http-client-wrapper';
+import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import { Profile, UpdateProfilePayload } from './profile.types';
 
 @Injectable()

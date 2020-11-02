@@ -1,14 +1,16 @@
 import { createFeatureSelector } from '@ngrx/store';
-import { AppState } from './reducer';
-
 import { authFeatureKey, AuthState } from '../auth/store/reducers';
 import { loginFeatureKey, LoginState } from '../login/store/reducers';
+import { zoneFeatureKey, ZoneState } from '../zone/store/reducers';
 import {
   profileFeatureKey,
   ProfileState,
-} from '../profile/store/profile.reducer';
-import { ZoneState, zoneFeatureKey } from '../zone/store/reducers';
-import { triviaFeatureKey, TriviaState } from '../trivia/store/reducer';
+} from '../zone/subpages/profile/store/profile.reducer';
+import {
+  triviaFeatureKey,
+  TriviaState,
+} from '../zone/subpages/trivia/store/reducer';
+import { AppState } from './reducer';
 
 export const selectFeatureTrivia = createFeatureSelector<AppState, TriviaState>(
   triviaFeatureKey
