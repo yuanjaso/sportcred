@@ -17,6 +17,8 @@
     
     echo "importing sports"
     python3 manage.py import_sports database_files/sports.yaml
+    python3 manage.py import_profile database_files/profile.yaml
+    python3 manage.py import_baseacshistory database_files/baseacshistory.yaml
 
     echo "importing trivia"
     python3 manage.py import_trivia database_files/trivia.yaml

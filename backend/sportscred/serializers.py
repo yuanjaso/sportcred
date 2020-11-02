@@ -9,6 +9,8 @@ from sportscred.models import (
     QuestionaireQuestion,
     QuestionaireAnswer,
     QuestionaireUserResponse,
+    ACS,
+    BaseAcsHistory,
     TriviaQuestion,
     TriviaInstance,
     TriviaAnswer,
@@ -112,6 +114,17 @@ class FollowSerializer(serializers.ModelSerializer):
             "user__pk", flat=True
         )
 
+
+class ACSSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ACS
+        fields = ["name", "score"]
+        depth = 2
+
+    def get_name(self, acs):
+        return acs.sports.name
 
 class TriviaAnswersSerializer(serializers.ModelSerializer):
     class Meta:
