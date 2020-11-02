@@ -1,28 +1,28 @@
 import {
   Component,
-  OnInit,
-  Input,
-  Output,
   EventEmitter,
+  Input,
   OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
-import {
-  Question,
-  Answer,
-  QuestionType,
-  CustomAnswerOption,
-} from '../../login.types';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AppState } from '../../../store/reducer';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, filter, map, startWith } from 'rxjs/operators';
+import { Player, Sport, Team } from 'src/app/zone/zone.types';
+import { AppState } from '../../../store/reducer';
 import {
   selectPlayers,
-  selectTeams,
   selectSports,
+  selectTeams,
 } from '../../../zone/store/selectors';
-import { interval, Observable, Subscription } from 'rxjs';
-import { Player, Sport, Team } from 'src/app/zone/zone.types';
-import { map, filter, startWith, debounceTime } from 'rxjs/operators';
+import {
+  Answer,
+  CustomAnswerOption,
+  Question,
+  QuestionType,
+} from '../../login.types';
 
 interface DataOrigin {
   selector: Observable<Player[] | Team[] | Sport[] | CustomAnswerOption[]>;
@@ -75,7 +75,7 @@ export class QuestionairePagesComponent implements OnInit, OnDestroy {
         .get('search') //listens to whenever the search bar is touched
         .valueChanges.pipe(
           startWith(''), //emit 1 on initialization to init the data observable
-          debounceTime(400) // debounce so we dont make too many selectors
+          debounceTime(100) // debounce so we dont make too many selectors
         )
         .subscribe((filt) => {
           this.$answerSelection = this.dataOrigin.selector.pipe(
