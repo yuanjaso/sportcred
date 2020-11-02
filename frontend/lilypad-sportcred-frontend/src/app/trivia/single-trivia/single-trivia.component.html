@@ -11,7 +11,7 @@
     <mat-grid-list cols="2" rowHeight="2:1">
       <div *ngFor="let ans of triviaAnswers">
         <mat-grid-tile>
-          <button mat-flat-button>{{ ans.answer }}</button>
+          <button (click)="onClickAnswer()" mat-flat-button>{{ ans.answer }}</button>
         </mat-grid-tile>
       </div>
     </mat-grid-list>
