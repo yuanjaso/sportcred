@@ -5,7 +5,10 @@ import { Store } from '@ngrx/store';
 import { EMPTY } from 'rxjs';
 import { catchError, first, map, mergeMap } from 'rxjs/operators';
 import { all_routes } from '../../../global/routing-statics';
-import { setUserInfo } from '../../auth/store/actions';
+import {
+  setUserInfo,
+  setUserQuestionnaireStatus,
+} from '../../auth/store/actions';
 import { selectUserInfo } from '../../auth/store/selectors';
 import { AppState } from '../../store/reducer';
 import { LoginService } from '../login.service';
@@ -68,7 +71,8 @@ export class LoginEffects {
       mergeMap((info: QuestionaireRegistrationInfo) => {
         return this.loginService.tryRegisterQuestionaire(info).pipe(
           map(() => ({
-            type: '',
+            type: setUserQuestionnaireStatus.type,
+            payload: true,
           })),
           catchError(() => EMPTY)
         );
