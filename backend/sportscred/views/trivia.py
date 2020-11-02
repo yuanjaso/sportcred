@@ -9,9 +9,11 @@ import os
 
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import *  # we literally need everything
-from sportscred.models import Profile, TriviaInstance, TriviaResponse
+from sportscred.models import Profile, TriviaInstance, TriviaResponse, TriviaAcsHistory
 
 import dateutil.parser as parser
+
+TRIVIA_DELTA = 5
 
 
 class TriviaViewSet(viewsets.ViewSet):
@@ -171,6 +173,27 @@ class TriviaViewSet(viewsets.ViewSet):
                         other_user_score += 1
                 instance.score = str(user_score) + "-" + str(other_user_score)
                 instance.save()
+                if user_score > other_user_score:
+                    user_delta = TRIVIA_DELTA
+                    other_delta = -TRIVIA_DELTA
+                else:
+                    user_delta = -TRIVIA_DELTA
+                    other_delta = TRIVIA_DELTA
+                user_acs_history = TriviaAcsHistory.create(
+                    delta=-TRIVIA_DELTA,
+                    profile=instance.user,
+                    sport=instance.sport,
+                )
+                user_acs_history.trivia_instance = instance
+                user_acs_history.save()
+
+                other_acs_history = TriviaAcsHistory.create(
+                    delta=-TRIVIA_DELTA,
+                    profile=instance.other_user,
+                    sport=instance.sport,
+                )
+                other_acs_history.trivia_instance = instance
+                other_acs_history.save()
 
             if instance.other_user:
                 # Multiplayer return nothing
@@ -178,6 +201,21 @@ class TriviaViewSet(viewsets.ViewSet):
             else:
                 # return acs average and sport
                 # calculate number of correct questions
+                sum = 0
+                for res in user_response:
+                    if res.is_correct:
+                        sum += 1
+                if sum > 5:
+                    user_score = TRIVIA_DELTA
+                else:
+                    user_score = -TRIVIA_DELTA
+                user_acs_history = TriviaAcsHistory.create(
+                    delta=TRIVIA_DELTA,
+                    profile=instance.user,
+                    sport=instance.sport,
+                )
+                user_acs_history.trivia_instance = instance
+                user_acs_history.save()
                 return Response(TriviaSerializer(instance).data)
         except Exception as e:
             print(e)
