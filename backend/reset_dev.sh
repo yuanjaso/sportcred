@@ -12,6 +12,8 @@
     python3 manage.py shell -c "from django.contrib.auth.models import User; u = User.objects.create_user('bbb', 'test@example.com', '.'); from rest_framework.authtoken.models import Token; Token.objects.create(user=u); from sportscred.models import Profile; Profile.objects.create(user=u);"   
     python3 manage.py import_questionnaire database_files/questionnaire.yaml 
     python3 manage.py import_sports database_files/sports.yaml
+    python3 manage.py import_profile database_files/profile.yaml
+    python3 manage.py import_baseacshistory database_files/baseacshistory.yaml
 
 
 

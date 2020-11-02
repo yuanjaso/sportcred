@@ -105,7 +105,7 @@ class ProfileViewSet(viewsets.ViewSet):
 
             # Don't need query params.
             profile = User.objects.get(pk=request.user.id).profile
-            acs_info = ACS.objects.filter(user_id=request.user.id)
+            acs_info = ACS.objects.filter(profile_id=request.user.id)
 
             # Gets the ACS average of the user.
             acs_avg = acs_info.aggregate(Avg("score"))
@@ -139,7 +139,7 @@ class ProfileViewSet(viewsets.ViewSet):
             )
         profile = request.user.profile
         try:
-            acs = BaseAcsHistory.objects.filter(user_id=pk)
+            acs = BaseAcsHistory.objects.filter(profile_id=pk)
             try:
                 group_by_date = request.query_params["group_by_date"]
             except:
@@ -157,23 +157,22 @@ class ProfileViewSet(viewsets.ViewSet):
                 # This formats the datetime field so that we only get the day/month/year
                 for item in acs.values():
                     item.pop("id")
-                    item.pop("sports_id")
+                    item.pop("sport_id")
 
                     if not str(item["date"])[:10] in unique_dates:
 
                         unique_dates[str(item["date"])[:10]] = [
-                            item["user_id"],
+                            item["profile_id"],
                             item["delta"],
                         ]
                     else:
                         unique_dates[str(item["date"])[:10]][1] += item["delta"]
 
                 for item in unique_dates:
-                    print(item)
                     result.append(
                         {
                             "Date": item,
-                            "User_id": unique_dates[item][0],
+                            "Profile_id": unique_dates[item][0],
                             "Delta_Sum": unique_dates[item][1],
                         }
                     )
@@ -184,7 +183,7 @@ class ProfileViewSet(viewsets.ViewSet):
                     item[
                         "source_type"
                     ] = TriviaAcsHistory.source_type  # Adds source type
-                    sports_id = item.pop("sports_id")
+                    sports_id = item.pop("sport_id")
 
                     item["Sports_id"] = {
                         "id": sports_id,
@@ -282,7 +281,7 @@ class ProfileViewSet(viewsets.ViewSet):
         """
         try:
             profile = User.objects.get(pk=request.query_params["user_id"]).profile
-            acs_info = ACS.objects.filter(user_id=request.query_params["user_id"])
+            acs_info = ACS.objects.filter(profile_id=request.query_params["user_id"])
 
             # Gets the ACS average of the user.
             acs_avg = acs_info.aggregate(Avg("score"))
