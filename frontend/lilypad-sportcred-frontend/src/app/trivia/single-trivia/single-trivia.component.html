@@ -5,13 +5,13 @@
 <div class="vertical-container">
   <div class="timer-container">{{ displayTimer }}</div>
   <div class="question-container">
-      <div class="question">1989 NBA Playoffs - Game 5 between the Chicago Bulls and Cleveland Cavaliers - Michael Jordan made what came to be known today as "The Shot". The Bulls were trailing by one point and had the ball with 3 seconds to go. Who did Jordan shoot over</div>
+      <div id="main-display" class="question"></div>
   </div>
   <div class="trivia-answer-container">
     <mat-grid-list cols="2" rowHeight="2:1">
       <div *ngFor="let ans of triviaAnswers">
         <mat-grid-tile>
-          <button (click)="onClickAnswer()" mat-flat-button>{{ ans.answer }}</button>
+          <button (click)="onClickAnswer(ans.id)" mat-flat-button>{{ ans.answer_content }}</button>
         </mat-grid-tile>
       </div>
     </mat-grid-list>
