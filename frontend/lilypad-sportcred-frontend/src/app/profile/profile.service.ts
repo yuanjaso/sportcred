@@ -10,7 +10,7 @@ export class ProfileService {
 
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
-      .get<Profile>('profile', { id: userId })
+      .get<Profile>('profile', { user_id: userId })
       .pipe(
         // ! temporary solution to get right payload
         map((profile) => ({
