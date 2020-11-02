@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { playersURL, sportsURL, teamsURL } from '../../global/api.types';
 import { HttpClientWrapper } from '../http/http-client-wrapper';
-import { teamsURL, playersURL, sportsURL } from '../../global/api.types';
 @Injectable({
   providedIn: 'root',
 })
 export class ZoneService {
   constructor(private http: HttpClientWrapper) {}
+
+  /*SUBJECTS */
+
+  //emit false to contract,
+  //emit true to expand,
+  //emit nothing to toggle
+  $sidenavToggle = new Subject<boolean>();
 
   /* HTTP REQUESTS*/
   getAllPlayers() {

@@ -2,14 +2,12 @@
 
 .mat-toolbar {
   background: $bg-black;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
+
   width: 100%;
 }
 
 .logo {
-  width: 20%;
+  width: 10rem;
   height: 100%;
   display: block;
 }

@@ -10,6 +10,14 @@ const routes: Routes = [
     component: ZoneComponent,
     children: [
       {
+        path: '',
+        loadChildren: () =>
+          import('./zone-home/zone-home-routing.module').then(
+            (m) => m.ZoneHomeRoutingModule
+          ),
+        canActivate: [AuthGuardService],
+      },
+      {
         path: all_routes.admin.url,
         loadChildren: () =>
           import('./subpages/admin/admin-routing.module').then(
@@ -22,14 +30,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./subpages/profile/profile-routing.module').then(
             (m) => m.ProfileRoutingModule
-          ),
-        canActivate: [AuthGuardService],
-      },
-      {
-        path: all_routes.trivia.url,
-        loadChildren: () =>
-          import('./subpages/trivia/trivia-routing.module').then(
-            (m) => m.TriviaRoutingModule
           ),
         canActivate: [AuthGuardService],
       },

@@ -9,7 +9,7 @@ import {
 import {
   triviaReducer,
   TriviaState,
-} from '../zone/subpages/trivia/store/reducer';
+} from '../zone/zone-home/subpages/trivia/store/reducer';
 
 export interface AppState {
   trivia: TriviaState;

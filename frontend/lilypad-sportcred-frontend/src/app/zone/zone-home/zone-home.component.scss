@@ -1,0 +1,44 @@
+@import "../../../global/fonts.scss";
+@import "../../../global/colors.scss";
+
+mat-drawer-container {
+  height: 100%;
+}
+.home-layout {
+  overflow-y: hidden;
+  background: $bg-black;
+  display: grid;
+  height: 100%;
+}
+
+.mat-card {
+  height: 100%;
+  width: 20rem;
+  max-width: 90vw;
+  transition: 0.5s;
+  opacity: 1;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+}
+
+.mat-card:hover {
+  opacity: 0.5;
+}
+
+.mat-card-content {
+  @extend .font-secondary;
+  @extend .white-font;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 5px 5px 5px black;
+}
+
+mat-slide-toggle {
+  position: absolute;
+  z-index: 9;
+  top: 1rem;
+  right: 1rem;
+}

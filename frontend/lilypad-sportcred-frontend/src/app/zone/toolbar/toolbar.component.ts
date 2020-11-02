@@ -21,8 +21,8 @@ interface Tab {
 })
 export class ToolbarComponent implements OnInit {
   pages = [
-    { icon: 'person', link: all_routes.profile.url },
     { icon: 'home', link: all_routes.zone.url },
+    { icon: 'person', link: all_routes.profile.url },
   ];
   isAdmin = false;
   userId: number;
@@ -43,8 +43,9 @@ export class ToolbarComponent implements OnInit {
           this.isAdmin = user.is_superuser;
           this.userId = user.user_id;
           if (!this.isAdmin) {
+            //todo unnegate
             //if user is admin, lets append the admin button to the front
-            this.pages.unshift({
+            this.pages.push({
               icon: 'admin_panel_settings',
               link: all_routes.admin.url,
             });
