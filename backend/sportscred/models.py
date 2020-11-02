@@ -174,19 +174,17 @@ class BaseAcsHistory(models.Model):
             if acs.score < 0:
                 acs.score = 0
             acs.save()
-
-            # ToDo Make sure acs score is not negative.
         except:
-            if self.delta < 0:
-                self.delta = 0
-                self.save()
             acs = ACS.objects.create(
                 profile=self.profile, sports=self.sport, score=self.delta
             )
+            if acs.score < 0:
+                acs.score = 0
+            acs.save()
 
     @classmethod
+    # Note: profile is a profile object and sport is a sport object.
     def create(cls, delta, profile, sport):
-        # ToDo Get Michael to fix this (Class Method)
         acs_history = cls.objects.create(delta=delta, profile=profile, sport=sport)
         acs_history.update_acs()
         return acs_history

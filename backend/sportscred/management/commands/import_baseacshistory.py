@@ -1,8 +1,9 @@
 from yaml import load
+from django.contrib.auth.models import User
 
 from django.core.management.base import BaseCommand, CommandError
 
-from sportscred.models import BaseAcsHistory
+from sportscred.models import BaseAcsHistory, TriviaAcsHistory, Sport, Profile
 
 
 class Command(BaseCommand):
@@ -17,9 +18,9 @@ class Command(BaseCommand):
                 data = load(f.read())
             base_acs_history = data["baseacshistory"]
             for item in base_acs_history:
-                b = BaseAcsHistory.objects.create(
+                b = TriviaAcsHistory.create(  # Attach a trivia instance
                     delta=item["delta"],
-                    profile_id=item["profile_id"],
-                    sport_id=item["sport_id"],
+                    profile=User.objects.get(pk=item["profile_id"]).profile,
+                    sport=Sport.objects.get(pk=item["sport_id"]),
                 )
                 b.save()
