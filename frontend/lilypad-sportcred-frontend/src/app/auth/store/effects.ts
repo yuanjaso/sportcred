@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, first, mergeMap } from 'rxjs/operators';
 import { LoginService } from '../../login/login.service';
-import { loginInfo } from '../../login/login.types';
+import { LoginInfo } from '../../login/login.types';
 import { login } from '../../login/store/actions';
 import { User } from '../auth.types';
 import * as actions from './actions';
@@ -13,7 +13,7 @@ export class AuthEffects {
   getUserInfo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.getUserInfo),
-      mergeMap((info: loginInfo) =>
+      mergeMap((info: LoginInfo) =>
         this.loginService.tryLogin(info).pipe(
           first(),
           mergeMap((payload: User) => {

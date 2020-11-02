@@ -10,8 +10,8 @@ import { selectUserInfo } from '../../auth/store/selectors';
 import { AppState } from '../../store/reducer';
 import { LoginService } from '../login.service';
 import {
-  generalRegistrationInfo,
-  questionaireRegistrationInfo,
+  GeneralRegistrationInfo,
+  QuestionaireRegistrationInfo,
 } from '../login.types';
 import * as actions from './actions';
 
@@ -38,7 +38,7 @@ export class LoginEffects {
   tryRegisterBasic$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.tryRegisterBasic),
-      mergeMap((info: generalRegistrationInfo) => {
+      mergeMap((info: GeneralRegistrationInfo) => {
         return this.loginService.tryRegisterBasic(info).pipe(
           mergeMap((payload) => {
             this.loginService.$registrationStatus.next(true);
@@ -65,7 +65,7 @@ export class LoginEffects {
   tryRegisterQuestionaire$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.tryRegisterQuestionaire),
-      mergeMap((info: questionaireRegistrationInfo) => {
+      mergeMap((info: QuestionaireRegistrationInfo) => {
         return this.loginService.tryRegisterQuestionaire(info).pipe(
           map(() => ({
             type: '',

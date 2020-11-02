@@ -10,7 +10,7 @@ URL = "http://127.0.0.1:8000/api/v1/"
 
 @fixture
 def token():
-    res = auth_user("bbb", ".")
+    res = auth_user("poop", ".")
     return res.json()["token"]
 
 
@@ -60,6 +60,19 @@ def test_post_everything_correct(token):
         verify=False,
     )
     assert res.status_code == 200
+
+
+def test_get_responses(token):
+    i = 1
+    while i < 6:
+        url = URL + "questionnaire/" + str(i) + "/responses/"
+        res = requests.get(
+            url, headers={"Authorization": "Token " + token}, verify=False
+        )
+        print("here")
+        print(res.json())
+        assert res.status_code == 200
+        i += 1
 
 
 ## For this test case, the question_ids of 0, 7 and 10 are wrong.

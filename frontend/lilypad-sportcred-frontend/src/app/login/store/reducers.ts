@@ -1,8 +1,8 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as actions from './actions';
-import { question } from '../login.types';
+import { Question } from '../login.types';
 export interface LoginState {
-  registration_questionaire: question[];
+  registration_questionaire: Question[];
 }
 export const initialState: LoginState = {
   registration_questionaire: undefined,

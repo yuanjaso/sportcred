@@ -8,16 +8,20 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from hashlib import sha256
+from django.db.models import Avg, Sum
 import os
 
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import *  # we literally need everything
-from sportscred.models import ProfilePicture, Profile, Sport
-
-
-class IndexPage(TemplateView):
-    template_name = "index.html"
+from sportscred.models import (
+    ProfilePicture,
+    Profile,
+    Sport,
+    ACS,
+    BaseAcsHistory,
+    TriviaAcsHistory,
+)
 
 
 class ProfileViewSet(viewsets.ViewSet):
@@ -71,8 +75,7 @@ class ProfileViewSet(viewsets.ViewSet):
         except Exception as e:
             print(e)
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     def patch(self, request):
@@ -91,7 +94,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 highlights = request.data["highlights"]
                 for highlight in highlights:
                     try:
-                        s = Sport.objects.get(name=highlight)
+                        s = Sport.objects.get(id=highlight)
                         profile.highlights.add(s)
                         profile.save()
                     except Sport.DoesNotExist:
@@ -100,16 +103,108 @@ class ProfileViewSet(viewsets.ViewSet):
                             status=status.HTTP_400_BAD_REQUEST,
                         )
 
-            return Response(ProfileSerializer(profile).data)
+            # Don't need query params.
+            profile = User.objects.get(pk=request.user.id).profile
+            acs_info = ACS.objects.filter(profile_id=request.user.id)
+
+            # Gets the ACS average of the user.
+            acs_avg = acs_info.aggregate(Avg("score"))
+
+            # Keeps track of the user's acs average score and scores for each sport.
+            ACS_Score = {}
+            ACS_Score["average"] = acs_avg["score__avg"]
+
+            # Gets the ACS Score for each sport.
+            for item in ACSSerializer(acs_info, many=True).data:
+                ACS_Score[item["name"]] = item["score"]
+
+            profile_info = ProfileSerializer(profile).data
+            profile_info["favourite_sports"] = profile_info.pop("highlights")
+            profile_info["ACS"] = ACS_Score
+            return Response(profile_info)
         except Exception as e:
             print(e)
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+    @action(detail=True, methods=["get"])
+    def acs_history(self, request, pk=None):
+        """
+        This method is responsible for returning the ACS history of a user.
+        """
+        if pk == None:
+            return Response(
+                {"details": "User id not inputted."}, status=status.HTTP_400_BAD_REQUEST
+            )
+        profile = request.user.profile
+        try:
+            acs = BaseAcsHistory.objects.filter(profile_id=pk)
+            try:
+                group_by_date = request.query_params["group_by_date"]
+            except:
+                return Response(
+                    {"details": "You did not enter a value for group_by_date"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            return_list = []
+            if group_by_date.lower() == "true":
+                acs_values = []
+                unique_dates = {}
+                result = []
+
+                # This formats the datetime field so that we only get the day/month/year
+                for item in acs.values():
+                    item.pop("id")
+                    item.pop("sport_id")
+
+                    if not str(item["date"])[:10] in unique_dates:
+
+                        unique_dates[str(item["date"])[:10]] = [
+                            item["profile_id"],
+                            item["delta"],
+                        ]
+                    else:
+                        unique_dates[str(item["date"])[:10]][1] += item["delta"]
+
+                for item in unique_dates:
+                    result.append(
+                        {
+                            "Date": item,
+                            "Profile_id": unique_dates[item][0],
+                            "Delta_Sum": unique_dates[item][1],
+                        }
+                    )
+                return Response(result)
+            elif group_by_date.lower() == "false":
+                for item in acs.values():
+                    item.pop("id")  # Removes id
+                    item[
+                        "source_type"
+                    ] = TriviaAcsHistory.source_type  # Adds source type
+                    sports_id = item.pop("sport_id")
+
+                    item["Sports_id"] = {
+                        "id": sports_id,
+                        "name": Sport.objects.filter(id=sports_id).values("name")[0][
+                            "name"
+                        ],
+                    }
+                    return_list.append(item)
+            else:
+                return Response(
+                    {"details": "You did not enter true or false for group_by_date"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            return Response(return_list)
+        except User.DoesNotExist:
+            return Response(
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     @action(detail=True, methods=["put"])
-    def follows(self, request, pk=None):
+    def radar(self, request, pk=None):
         """
         This method is responsible for allowing users follow each other
         """
@@ -118,7 +213,15 @@ class ProfileViewSet(viewsets.ViewSet):
                 {"details": "Profile of followee not found, bad pk"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        profile = request.user.profile
+
+        if request.user.id == int(pk):
+            return Response(
+                {"details": "Cannot follow yourself"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        else:
+            profile = request.user.profile
+
         try:
             followe = User.objects.get(pk=pk).profile
             followe.followers.add(profile)
@@ -129,11 +232,10 @@ class ProfileViewSet(viewsets.ViewSet):
         except User.DoesNotExist:
 
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-    @follows.mapping.delete
+    @radar.mapping.delete
     def unfollows(self, request, pk=None):
         """Unfollow"""
         if pk == None:
@@ -152,11 +254,10 @@ class ProfileViewSet(viewsets.ViewSet):
             return Response(data)
         except User.DoesNotExist:
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-    @follows.mapping.get
+    @radar.mapping.get
     def get_followers(self, request, pk=None):
         """Unfollow"""
         if pk == None:
@@ -171,8 +272,7 @@ class ProfileViewSet(viewsets.ViewSet):
             return Response(data)
         except User.DoesNotExist:
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     def list(self, request):
@@ -180,11 +280,27 @@ class ProfileViewSet(viewsets.ViewSet):
         This method returns a profile given a username
         """
         try:
-            profile = User.objects.get(pk=request.query_params["id"]).profile
-            return Response(ProfileSerializer(profile).data)
+            profile = User.objects.get(pk=request.query_params["user_id"]).profile
+            acs_info = ACS.objects.filter(profile_id=request.query_params["user_id"])
+
+            # Gets the ACS average of the user.
+            acs_avg = acs_info.aggregate(Avg("score"))
+
+            # Keeps track of the user's acs average score and scores for each sport.
+            ACS_Score = {}
+            ACS_Score["average"] = acs_avg["score__avg"]
+
+            # Gets the ACS Score for each sport.
+            for item in ACSSerializer(acs_info, many=True).data:
+                ACS_Score[item["name"]] = item["score"]
+
+            profile_info = ProfileSerializer(profile).data
+            profile_info["favourite_sports"] = profile_info.pop("highlights")
+            profile_info["ACS"] = ACS_Score
+            return Response(profile_info)
+
         except Exception as e:
             print(e)
             return Response(
-                {"details": "Profile not found"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
             )

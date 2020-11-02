@@ -62,7 +62,6 @@ def test_query_user():
     token = res.json()["token"]
     res = get_users(token)
     assert res.status_code == 200
-    assert list(res.json().keys()) == ["count", "next", "previous", "results"]
 
     res = get_users("boop")
     assert res.status_code == 401

@@ -4,27 +4,104 @@
     <div class="question">
       {{ question.question_content }}
     </div>
-    <div style="flex-grow: 9"></div>
 
-    <ng-container *ngIf="question.question_type !== quantitative">
+    <!-- if the question is a selection, we want to force it on top, so we remove the flex-grow-->
+    <div style="flex-grow: 9" 
+    *ngIf="question.question_type === questionTypes.qualitative 
+    ||
+    question.question_type === questionTypes.quantitative "></div>
+
+
+    <ng-container *ngIf="question.question_type === questionTypes.qualitative">
       <mat-form-field>
         <mat-label>Answer</mat-label>
-        <textarea matInput formControlName="string" rows="5"></textarea>
+        <textarea matInput formControlName="answer" rows="5"></textarea>
       </mat-form-field>
     </ng-container>
-    <ng-container *ngIf="question.question_type === quantitative">
+
+
+    <ng-container *ngIf="question.question_type === questionTypes.quantitative">
       <mat-slider
         thumbLabel
         tickInterval="1"
         [min]="question.min_int"
         [max]="question.max_int"
-        formControlName="number"
+        formControlName="answer"
       ></mat-slider>
     </ng-container>
-    <div style="flex-grow: 9"></div>
 
+
+    <ng-container *ngIf="question.question_type === questionTypes.sports">
+      <mat-form-field appearance="outline" class="search" >
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          formControlName="search"
+        />
+      </mat-form-field>
+      <mat-selection-list #sport [multiple]="false" formControlName="answer">
+        <mat-list-option *ngFor="let sport of $answerSelection | async" [value]="sport.id">
+          {{sport.name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+
+
+    <ng-container *ngIf="question.question_type === questionTypes.teams">
+      <mat-form-field appearance="outline" class="search" >
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          formControlName="search"
+        />
+      </mat-form-field>
+      <mat-selection-list #team [multiple]="false"  formControlName="answer"
+      > 
+        <mat-list-option *ngFor="let team of  $answerSelection | async" [value]="team.id">
+          {{team.full_name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+
+
+    <ng-container *ngIf="question.question_type === questionTypes.players" >
+      <mat-form-field appearance="outline" class="search" >
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          formControlName="search"
+        />
+      </mat-form-field>
+      <mat-selection-list #player [multiple]="false"  formControlName="answer">
+        <mat-list-option *ngFor="let player of  $answerSelection | async" [value]="player.id">
+          [{{player.plays_on[0].full_name}}] - {{player.first_name}} {{player.last_name}} 
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+
+
+    <ng-container *ngIf="question.question_type === questionTypes.custom" >
+      <mat-form-field appearance="outline" class="search" >
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          formControlName="search"
+        />
+      </mat-form-field>
+      <mat-selection-list #option [multiple]="false"  formControlName="answer">
+        <mat-list-option *ngFor="let option of $answerSelection | async" [value]="option.id">
+          {{option.custom_answer}}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+
+
+    <div style="flex-grow: 9"></div>
+    <mat-error *ngIf="form.controls.answer.hasError('empty')">
+     Please provide an answer
+    </mat-error>
     <div class="button">
-      <button type="submit" mat-stroked-button>Submit</button>
+      <button type="submit" mat-stroked-button [disabled]="this.form.status === 'INVALID'">Submit</button>
     </div>
   </form>
 </ng-container>
