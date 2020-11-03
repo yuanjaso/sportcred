@@ -5,9 +5,11 @@ import { Store } from '@ngrx/store';
 import { first } from 'rxjs/operators';
 import { all_routes } from '../../global/routing-statics';
 import { selectUserInfo } from '../auth/store/selectors';
+import { QuestionaireRegistrationDialogComponent } from '../login/questionaire-registration-dialog/questionaire-registration-dialog.component';
 import { AppState } from '../store/reducer';
 import * as actions from './store/actions';
 import * as selectors from './store/selectors';
+
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',
