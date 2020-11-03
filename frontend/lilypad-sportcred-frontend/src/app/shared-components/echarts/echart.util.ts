@@ -12,15 +12,16 @@ export function alignHistoryToFormat(history: ACSHistory[]): FormatedChartData {
       data: [],
     };
 
-  let dates = getBetweenDate(history[0]?.date ?? '');
+  let dates = datesTillToday(history[0]?.date ?? '');
 
   let data = new Array(dates.length);
   let rawIndex = 0;
   let propagatingPoint = 0;
   for (let i = 0; i < dates.length; i++) {
     if (dates[i] === history[rawIndex].date) {
-      rawIndex++;
+      //todo remove this check once api is in
       propagatingPoint = history[rawIndex]?.acs ?? 69;
+      rawIndex++;
     }
     data[i] = propagatingPoint;
   }
@@ -30,7 +31,14 @@ export function alignHistoryToFormat(history: ACSHistory[]): FormatedChartData {
   };
 }
 
-function getBetweenDate(startDate) {
+/**
+ * returns a list of dates from startDate to today, incrementing by 1 day
+ * datesTillToday('2019-01-01')
+ * => [2019-01-01, 2019-01-02, ... , 2020-...]
+ *
+ * @param startDate starting day to start the list
+ */
+function datesTillToday(startDate) {
   let dateArray = new Array();
   let currentDate = startDate;
   let today = new Date().toISOString();
