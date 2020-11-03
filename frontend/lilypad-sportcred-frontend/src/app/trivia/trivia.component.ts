@@ -17,9 +17,11 @@ import { TriviaInstance } from './trivia.types';
 
 @Component({
   selector: 'app-trivia',
-  template: ` <div>ACS: {{ acs$ | async | json }}</div>
-    <div>Trivia Instance (JSON): {{ triviaInstance$ | async | json }}</div>`,
-  styles: [``],
+  templateUrl: './trivia.component.html',
+  styleUrls: ['./trivia.component.scss'],
+  // ! to show example
+  // template: ` <div>ACS: {{ acs$ | async | json }}</div>
+  //   <div>Trivia Instance (JSON): {{ triviaInstance$ | async | json }}</div>`,
 })
 export class TriviaComponent implements OnInit {
   // ! temporary variable just to show that displaying updated ACS works
