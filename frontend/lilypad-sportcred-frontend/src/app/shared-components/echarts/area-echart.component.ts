@@ -39,12 +39,8 @@ export class AreaEchartsComponent implements OnInit {
       dataZoom: [
         {
           type: 'inside',
-          start: 0,
-          end: 10,
         },
         {
-          start: 0,
-          end: 10,
           handleStyle: {
             color: '#fff',
             shadowBlur: 3,

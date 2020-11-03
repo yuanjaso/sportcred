@@ -10,7 +10,7 @@ export class ProfileService {
   constructor(private httpClient: HttpClientWrapper) {}
 
   $hotProfile = new Subject<Profile>();
-  $hotACSHistory = new Subject<ACSHistory>();
+  $hotACSHistory = new Subject<ACSHistory[]>();
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
       .get<Profile>(profileURL, { user_id: userId })
@@ -30,9 +30,9 @@ export class ProfileService {
       );
   }
 
-  getACSHistory(userId: number): Observable<ACSHistory> {
-    return this.httpClient.get<Profile>(profileACSHistoryURL(userId), {
-      group_by_date: true,
+  getACSHistory(userId: number): Observable<ACSHistory[]> {
+    return this.httpClient.get<ACSHistory[]>(profileACSHistoryURL(userId), {
+      group_by_date: false,
     });
   }
 

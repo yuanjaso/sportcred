@@ -11,7 +11,12 @@ export interface Profile {
   favourite_sports: { id: number; name: string }[];
 }
 export interface ACSHistory {
-  //idk yet
+  delta: number;
+  profile_id: number;
+  date: string;
+  source_type: string;
+  acs: number;
+  Sports_id: { id: number; name: string };
 }
 
 export type UpdateProfilePayload = Partial<

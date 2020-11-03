@@ -7,6 +7,8 @@ import { Observable, of, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 import { all_routes } from '../../../../global/routing-statics';
 import { selectUserInfo } from '../../../auth/store/selectors';
+import { FormatedChartData } from '../../../shared-components/echarts/echart.types';
+import { alignHistoryToFormat } from '../../../shared-components/echarts/echart.util';
 import { AppState } from '../../../store/reducer';
 import { ProfileService } from './profile.service';
 import { ACSHistory, Profile } from './profile.types';
@@ -25,7 +27,7 @@ export class ProfileComponent implements OnInit {
   @Input() userId: number;
 
   profile: Profile;
-  acsHistory: ACSHistory;
+  FormattedACSHistory: FormatedChartData;
   editStatusMode = false;
   editAboutMode = false;
 
@@ -80,8 +82,8 @@ export class ProfileComponent implements OnInit {
         .pipe(
           filter((hist) => hist !== undefined),
           map((hist) => cloneDeep(hist)),
-          tap((hist) => {
-            this.acsHistory = hist;
+          tap((hist: ACSHistory[]) => {
+            this.FormattedACSHistory = alignHistoryToFormat(hist);
           })
         )
         .subscribe()
