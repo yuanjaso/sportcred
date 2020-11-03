@@ -166,8 +166,9 @@ class BaseAcsHistory(models.Model):
     # you never actually call this this is just the abstract class
     delta = models.IntegerField()
     profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(auto_now_add=True)
     sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
+    score = models.IntegerField(null=True)
 
     def update_acs(self):
         # updates actual acs score from ACS table
@@ -181,6 +182,8 @@ class BaseAcsHistory(models.Model):
             if acs.score < 0:
                 acs.score = 0
             acs.save()
+            self.score = acs.score
+            self.save()
         except:
             acs = ACS.objects.create(
                 profile=self.profile, sports=self.sport, score=self.delta
@@ -188,6 +191,8 @@ class BaseAcsHistory(models.Model):
             if acs.score < 0:
                 acs.score = 0
             acs.save()
+            self.score = acs.score
+            self.save()
 
     @classmethod
     # Note: profile is a profile object and sport is a sport object.
