@@ -36,9 +36,9 @@ export class ZoneComponent implements OnInit {
       .pipe(first((info) => !!info))
       .subscribe((info) => {
         if (!info.questionaire_registered) {
-          // const dialogRef = this.dialog.open(
-          //   QuestionaireRegistrationDialogComponent
-          // );
+          const dialogRef = this.dialog.open(
+            QuestionaireRegistrationDialogComponent
+          );
         }
       });
   }
