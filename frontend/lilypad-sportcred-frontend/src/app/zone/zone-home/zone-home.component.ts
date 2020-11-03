@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { all_routes } from '../../../global/routing-statics';
 import { ZoneService } from '../zone.service';
-
 @Component({
   selector: 'app-zone-home',
   templateUrl: './zone-home.component.html',
@@ -12,6 +11,8 @@ import { ZoneService } from '../zone.service';
 export class ZoneHomeComponent implements OnInit, OnDestroy {
   subcriptions = new Subscription();
   sidenavExpanded = true;
+
+  chartOption;
   cardList = [
     all_routes.open_court,
     all_routes.predictions,
@@ -21,19 +22,30 @@ export class ZoneHomeComponent implements OnInit, OnDestroy {
   constructor(
     private zoneService: ZoneService,
     private breakpointObserver: BreakpointObserver
-  ) {}
+  ) {
+    this.chartOption = {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line',
+        },
+      ],
+    };
+  }
 
   ngOnInit(): void {
     this.subcriptions.add(
       this.breakpointObserver
         .observe(['(max-width: 700px)'])
         .subscribe((state: BreakpointState) => {
-          if (state.matches) {
-            //toggle the sidenav through a service
-            this.sidenavExpanded = false;
-          } else {
-            this.sidenavExpanded = true;
-          }
+          this.sidenavExpanded = !state.matches;
         })
     );
   }
