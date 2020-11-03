@@ -1,8 +1,8 @@
 @import "../../../../global/colors.scss";
 
 :host {
-  height: 100%;
   width: 100%;
+  padding: 1rem 0;
   background-color: $darkgrey;
 
   display: flex;
@@ -87,6 +87,16 @@
       padding: 1rem;
       background-color: $white;
       resize: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  :host {
+    flex-direction: column;
+    & div#left {
+      margin-right: 0rem;
+      margin-bottom: 2rem;
     }
   }
 }
