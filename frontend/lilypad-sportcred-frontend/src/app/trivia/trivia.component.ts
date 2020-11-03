@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { all_routes } from '../../global/routing-statics';
 import { ACS } from '../profile/profile.types';
 import { AppState } from '../store/reducer';
 import {
@@ -27,6 +28,8 @@ export class TriviaComponent implements OnInit {
   // ! temporary variable just to show that displaying updated ACS works
   acs$: Observable<ACS>;
   triviaInstance$: Observable<TriviaInstance>;
+
+  singleLink = all_routes.trivia.url + '/' + all_routes.single_trivia.url;
 
   constructor(private store: Store<AppState>) {}
 

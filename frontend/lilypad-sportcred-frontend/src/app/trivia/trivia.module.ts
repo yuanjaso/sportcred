@@ -9,9 +9,10 @@ import { triviaFeatureKey, triviaReducer } from './store/trivia.reducer';
 import { TriviaRoutingModule } from './trivia-routing.module';
 import { TriviaComponent } from './trivia.component';
 import { TriviaService } from './trivia.service';
+import { SingleTriviaComponent } from './single-trivia/single-trivia.component';
 
 @NgModule({
-  declarations: [TriviaComponent],
+  declarations: [TriviaComponent, SingleTriviaComponent],
   imports: [
     StoreModule.forFeature(triviaFeatureKey, triviaReducer),
     EffectsModule.forFeature([TriviaEffects]),
