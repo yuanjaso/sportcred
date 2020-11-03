@@ -32,7 +32,7 @@ export class ProfileService {
 
   getACSHistory(userId: number): Observable<ACSHistory[]> {
     return this.httpClient.get<ACSHistory[]>(profileACSHistoryURL(userId), {
-      group_by_date: false,
+      group_by_date: true,
     });
   }
 

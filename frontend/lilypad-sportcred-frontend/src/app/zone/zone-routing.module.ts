@@ -11,6 +11,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        redirectTo: all_routes.zonehome.url,
+        pathMatch: 'full',
+      },
+      {
+        path: all_routes.zonehome.url,
         loadChildren: () =>
           import('./zone-home/zone-home-routing.module').then(
             (m) => m.ZoneHomeRoutingModule

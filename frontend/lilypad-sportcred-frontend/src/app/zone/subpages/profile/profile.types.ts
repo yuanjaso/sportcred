@@ -14,8 +14,8 @@ export interface ACSHistory {
   delta: number;
   profile_id: number;
   date: string;
+  score: number;
   source_type: string;
-  acs: number;
   Sports_id: { id: number; name: string };
 }
 
