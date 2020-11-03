@@ -1,4 +1,31 @@
 baseacshistory:
+  - delta: 100
+    profile_id: 1
+    sport_id: 1
+    year: 2020
+    month: 10
+    day: 5
   - delta: -50
     profile_id: 1
     sport_id: 1
+    year: 2020
+    month: 10
+    day: 5
+  - delta: 30
+    profile_id: 1
+    sport_id: 1
+    year: 2020
+    month: 10
+    day: 25
+  - delta: 100
+    profile_id: 1
+    sport_id: 1
+    year: 2020
+    month: 11
+    day: 1
+  - delta: 25
+    profile_id: 1
+    sport_id: 1
+    year: 2020
+    month: 11
+    day: 1

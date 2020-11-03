@@ -139,7 +139,7 @@ class ProfileViewSet(viewsets.ViewSet):
             )
         profile = request.user.profile
         try:
-            acs = BaseAcsHistory.objects.filter(profile_id=pk)
+            acs = BaseAcsHistory.objects.filter(profile_id=pk).order_by("date")
             try:
                 group_by_date = request.query_params["group_by_date"]
             except:
@@ -150,32 +150,19 @@ class ProfileViewSet(viewsets.ViewSet):
 
             return_list = []
             if group_by_date.lower() == "true":
-                acs_values = []
-                unique_dates = {}
+                history = acs.values("date", "sport").annotate(delta=Sum("delta"))
                 result = []
-
-                # This formats the datetime field so that we only get the day/month/year
-                for item in acs.values():
-                    item.pop("id")
-                    item.pop("sport_id")
-
-                    if not str(item["date"])[:10] in unique_dates:
-
-                        unique_dates[str(item["date"])[:10]] = [
-                            item["profile_id"],
-                            item["delta"],
-                        ]
-                    else:
-                        unique_dates[str(item["date"])[:10]][1] += item["delta"]
-
-                for item in unique_dates:
-                    result.append(
-                        {
-                            "Date": item,
-                            "Profile_id": unique_dates[item][0],
-                            "Delta_Sum": unique_dates[item][1],
-                        }
+                for acs in history:
+                    qs = (
+                        BaseAcsHistory.objects.filter(
+                            date=acs["date"], profile_id=pk, sport_id=acs["sport"]
+                        )
+                        .order_by("-id")
+                        .values()
                     )
+                    print(qs)
+                    acs["score"] = qs[0]["score"]
+                    result.append(acs)
                 return Response(result)
             elif group_by_date.lower() == "false":
                 for item in acs.values():
@@ -185,7 +172,7 @@ class ProfileViewSet(viewsets.ViewSet):
                     ] = TriviaAcsHistory.source_type  # Adds source type
                     sports_id = item.pop("sport_id")
 
-                    item["Sports_id"] = {
+                    item["sport"] = {
                         "id": sports_id,
                         "name": Sport.objects.filter(id=sports_id).values("name")[0][
                             "name"

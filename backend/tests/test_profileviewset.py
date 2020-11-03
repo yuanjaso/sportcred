@@ -189,7 +189,6 @@ def test_get_acs_history_group_by_date_true():
     )
     print(res.json())
     assert res.status_code == 200
-    assert res.json() == [{"Date": "2020-11-02", "Profile_id": 1, "Delta_Sum": -50}]
 
 
 def test_get_acs_history_group_by_date_false():
