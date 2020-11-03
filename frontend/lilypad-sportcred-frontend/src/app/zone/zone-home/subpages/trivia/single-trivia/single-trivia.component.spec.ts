@@ -8,9 +8,8 @@ describe('SingleTriviaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SingleTriviaComponent ]
-    })
-    .compileComponents();
+      declarations: [SingleTriviaComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

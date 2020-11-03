@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { HttpClientWrapper } from '../http/http-client-wrapper';
-import { ACS } from '../profile/profile.types';
+import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
+import { ACS } from '../../../subpages/profile/profile.types';
 import { TriviaResults } from './trivia.types';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class TriviaService {
 
   /**
    * Returns null when the game was for multiple players
-   * @param results 
+   * @param results
    */
   submitTriviaResults(results: TriviaResults): Observable<ACS | null> {
     // return this.httpClient.post('trivia/answers', results);

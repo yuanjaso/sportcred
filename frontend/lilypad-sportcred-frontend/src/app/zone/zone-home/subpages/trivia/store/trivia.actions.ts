@@ -1,9 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { ACS } from '../../profile/profile.types';
+import { ACS } from '../../../../subpages/profile/profile.types';
 import {
   TriviaInstance,
   TriviaQuestions,
-  TriviaResults
+  TriviaResults,
 } from '../trivia.types';
 
 export const getTriviaQuestions = createAction('[Trivia] Get Trivia Questions');

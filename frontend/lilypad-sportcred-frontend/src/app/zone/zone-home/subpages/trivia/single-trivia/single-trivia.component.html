@@ -5,13 +5,15 @@
 <div class="vertical-container">
   <div class="timer-container">{{ displayTimer }}</div>
   <div class="question-container">
-      <div id="main-display" class="question"></div>
+    <div id="main-display" class="question"></div>
   </div>
   <div class="trivia-answer-container">
     <mat-grid-list cols="2" rowHeight="2:1">
       <div *ngFor="let ans of triviaAnswers">
         <mat-grid-tile>
-          <button (click)="onClickAnswer(ans.id)" mat-flat-button>{{ ans.answer_content }}</button>
+          <button (click)="onClickAnswer(ans.id)" mat-flat-button>
+            {{ ans.answer_content }}
+          </button>
         </mat-grid-tile>
       </div>
     </mat-grid-list>
