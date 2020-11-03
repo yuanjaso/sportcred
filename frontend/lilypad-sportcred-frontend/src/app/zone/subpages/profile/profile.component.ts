@@ -9,8 +9,12 @@ import { all_routes } from '../../../../global/routing-statics';
 import { selectUserInfo } from '../../../auth/store/selectors';
 import { AppState } from '../../../store/reducer';
 import { ProfileService } from './profile.service';
-import { Profile } from './profile.types';
-import { updateProfile } from './store/profile.actions';
+import { ACSHistory, Profile } from './profile.types';
+import {
+  getACSHistory,
+  getProfile,
+  updateProfile,
+} from './store/profile.actions';
 
 @Component({
   selector: 'app-profile',
@@ -20,10 +24,8 @@ import { updateProfile } from './store/profile.actions';
 export class ProfileComponent implements OnInit {
   @Input() userId: number;
 
-  trueUserId;
-
   profile: Profile;
-
+  acsHistory: ACSHistory;
   editStatusMode = false;
   editAboutMode = false;
 
@@ -49,17 +51,37 @@ export class ProfileComponent implements OnInit {
     this.title.setTitle(all_routes.profile.title);
 
     //allow the userId to come in from @Input() OR route navigate
-    this.trueUserId = this.userId ?? this.route.snapshot.queryParams.userId;
+    let trueId = this.userId ?? this.route.snapshot.queryParams.userId;
+    this.store.dispatch(
+      getProfile({
+        userId: trueId,
+      })
+    );
+    this.store.dispatch(
+      getACSHistory({
+        userId: trueId,
+      })
+    );
 
     this.subscription.add(
-      this.profileService
-        .getProfile(this.trueUserId)
+      this.profileService.$hotProfile
         .pipe(
           filter((profile) => profile !== undefined),
           map((profile) => cloneDeep(profile)),
           tap((profile) => {
             this.profile = profile;
             this.favouriteSports = profile.favourite_sports.map((el) => el.id);
+          })
+        )
+        .subscribe()
+    );
+    this.subscription.add(
+      this.profileService.$hotACSHistory
+        .pipe(
+          filter((hist) => hist !== undefined),
+          map((hist) => cloneDeep(hist)),
+          tap((hist) => {
+            this.acsHistory = hist;
           })
         )
         .subscribe()

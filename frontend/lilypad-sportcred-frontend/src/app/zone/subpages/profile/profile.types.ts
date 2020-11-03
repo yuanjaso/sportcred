@@ -10,6 +10,9 @@ export interface Profile {
   about: string;
   favourite_sports: { id: number; name: string }[];
 }
+export interface ACSHistory {
+  //idk yet
+}
 
 export type UpdateProfilePayload = Partial<
   Omit<Profile, 'user' | 'acs' | 'favourite_sports'> & {

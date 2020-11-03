@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { ProfileService } from '../profile.service';
-import { getProfile, updateProfile } from './profile.actions';
+import { getACSHistory, getProfile, updateProfile } from './profile.actions';
 
 @Injectable()
 export class ProfileEffects {
@@ -16,7 +16,16 @@ export class ProfileEffects {
       })
     )
   );
-
+  getACSHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getACSHistory),
+      switchMap((action) => this.profileService.getACSHistory(action.userId)),
+      mergeMap((history) => {
+        this.profileService.$hotACSHistory.next(history);
+        return [];
+      })
+    )
+  );
   updateProfile$ = createEffect(
     () =>
       this.actions$.pipe(
