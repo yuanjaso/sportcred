@@ -16,7 +16,7 @@ export interface ACSHistory {
   date: string;
   score: number;
   source_type: string;
-  Sports_id: { id: number; name: string };
+  sport: number;
 }
 
 export type UpdateProfilePayload = Partial<

@@ -11,7 +11,7 @@ import { FormatedChartData } from '../../../shared-components/echarts/echart.typ
 import { alignHistoryToFormat } from '../../../shared-components/echarts/echart.util';
 import { AppState } from '../../../store/reducer';
 import { ProfileService } from './profile.service';
-import { ACSHistory, Profile } from './profile.types';
+import { Profile } from './profile.types';
 import {
   getACSHistory,
   getProfile,
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
   @Input() userId: number;
 
   profile: Profile;
-  FormattedACSHistory: FormatedChartData;
+  formattedACSHistory: FormatedChartData;
   editStatusMode = false;
   editAboutMode = false;
 
@@ -82,8 +82,9 @@ export class ProfileComponent implements OnInit {
         .pipe(
           filter((hist) => hist !== undefined),
           map((hist) => cloneDeep(hist)),
-          tap((hist: ACSHistory[]) => {
-            this.FormattedACSHistory = alignHistoryToFormat(hist);
+          map((hist) => alignHistoryToFormat(hist)),
+          tap((hist: FormatedChartData) => {
+            this.formattedACSHistory = hist;
           })
         )
         .subscribe()
