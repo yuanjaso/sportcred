@@ -139,7 +139,7 @@ class ProfileViewSet(viewsets.ViewSet):
             )
         profile = request.user.profile
         try:
-            acs = BaseAcsHistory.objects.filter(profile_id=pk)
+            acs = BaseAcsHistory.objects.filter(profile_id=pk).order_by("date")
             try:
                 group_by_date = request.query_params["group_by_date"]
             except:
@@ -150,32 +150,7 @@ class ProfileViewSet(viewsets.ViewSet):
 
             return_list = []
             if group_by_date.lower() == "true":
-                acs_values = []
-                unique_dates = {}
-                result = []
-
-                # This formats the datetime field so that we only get the day/month/year
-                for item in acs.values():
-                    item.pop("id")
-                    item.pop("sport_id")
-
-                    if not str(item["date"])[:10] in unique_dates:
-
-                        unique_dates[str(item["date"])[:10]] = [
-                            item["profile_id"],
-                            item["delta"],
-                        ]
-                    else:
-                        unique_dates[str(item["date"])[:10]][1] += item["delta"]
-
-                for item in unique_dates:
-                    result.append(
-                        {
-                            "Date": item,
-                            "Profile_id": unique_dates[item][0],
-                            "Delta_Sum": unique_dates[item][1],
-                        }
-                    )
+                result = acs.values("date", "sport").annotate(delta=Sum("delta"))
                 return Response(result)
             elif group_by_date.lower() == "false":
                 for item in acs.values():
