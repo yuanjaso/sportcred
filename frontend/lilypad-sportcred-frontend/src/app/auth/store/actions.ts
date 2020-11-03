@@ -10,4 +10,9 @@ export const setUserInfo = createAction(
   '[Auth] Set User Info',
   props<{ payload: User }>()
 );
+export const setUserQuestionnaireStatus = createAction(
+  '[Auth] Set User Questionnaire Status',
+  props<{ payload: boolean }>()
+);
+
 export const clearLoginToken = createAction('[Auth] Clear Login Token');

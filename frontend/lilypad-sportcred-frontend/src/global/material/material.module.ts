@@ -13,9 +13,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+
 const modules = [
   MatCardModule,
   MatFormFieldModule,
@@ -34,6 +37,8 @@ const modules = [
   MatSelectModule,
   MatListModule,
   MatGridListModule,
+  MatSidenavModule,
+  MatSlideToggleModule,
 ];
 @NgModule({
   declarations: [],

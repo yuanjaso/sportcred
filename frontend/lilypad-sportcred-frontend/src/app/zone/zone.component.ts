@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { QuestionaireRegistrationDialogComponent } from '../login/questionaire-registration-dialog/questionaire-registration-dialog.component';
-import { AppState } from '../store/reducer';
-import { Store } from '@ngrx/store';
-import { selectUserInfo } from '../auth/store/selectors';
-import { first } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import { first } from 'rxjs/operators';
 import { all_routes } from '../../global/routing-statics';
+import { selectUserInfo } from '../auth/store/selectors';
+import { AppState } from '../store/reducer';
 import * as actions from './store/actions';
 import * as selectors from './store/selectors';
-import * as types from './zone.types';
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',
@@ -38,9 +36,9 @@ export class ZoneComponent implements OnInit {
       .pipe(first((info) => !!info))
       .subscribe((info) => {
         if (!info.questionaire_registered) {
-          const dialogRef = this.dialog.open(
-            QuestionaireRegistrationDialogComponent
-          );
+          // const dialogRef = this.dialog.open(
+          //   QuestionaireRegistrationDialogComponent
+          // );
         }
       });
   }

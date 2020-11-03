@@ -1,0 +1,13 @@
+@import "../../../global/colors.scss";
+
+.mat-toolbar {
+  background: $bg-black;
+
+  width: 100%;
+}
+
+.logo {
+  width: 10rem;
+  height: 100%;
+  display: block;
+}

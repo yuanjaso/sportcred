@@ -15,6 +15,7 @@ router.register(r"api/v1/players", mine.PlayerViewSet, basename="player")
 router.register(
     r"api/v1/questionnaire", mine.QuestionnaireViewSet, basename="questionnaire"
 )
+router.register(r"api/v1/trivia", mine.TriviaViewSet, basename="trivia")
 
 
 # Wire up our API using automatic URL routing.

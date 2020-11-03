@@ -17,9 +17,7 @@ def create_user(username, password, email):
 def auth_user(username, password):
     url = URL + "users/login/"
     res = requests.post(
-        url,
-        data={"username": username, "password": password},
-        verify=False,
+        url, data={"username": username, "password": password}, verify=False
     )
     return res
 
@@ -58,12 +56,12 @@ def test_update_highlights():
     res = requests.patch(
         url,
         headers={"Authorization": "Token " + token, "Content-Type": "application/json"},
-        data=json.dumps({"highlights": ["Basketball"]}),
+        data=json.dumps({"highlights": [1]}),
         verify=False,
     )
     assert res.status_code == 200
-    assert len(res.json()["highlights"]) == 1
-    assert res.json()["highlights"][0]["name"] == "Basketball"
+    assert len(res.json()["favourite_sports"]) == 1
+    assert res.json()["favourite_sports"][0]["name"] == "Basketball"
 
     res = requests.patch(
         url,
@@ -98,7 +96,7 @@ def test_follow():
     res = auth_user(data["name"], data["password"])
     pk = res.json()["user_id"]
 
-    url = URL + f"profile/{pk}/follows/"
+    url = URL + f"profile/{pk}/radar/"
     res = requests.put(url, headers={"Authorization": "Token " + token})
     print(res.json())
     assert res.status_code == 200
@@ -118,7 +116,7 @@ def test_get_follows():
     res = auth_user(data["name"], data["password"])
     pk = res.json()["user_id"]
     print(pk)
-    url = URL + f"profile/{pk}/follows/"
+    url = URL + f"profile/{pk}/radar/"
     res = requests.get(url, headers={"Authorization": "Token " + token})
     print(res.json())
     assert res.status_code == 200
@@ -138,7 +136,7 @@ def test_unfollow():
     res = auth_user(data["name"], data["password"])
     pk = res.json()["user_id"]
     print(pk)
-    url = URL + f"profile/{pk}/follows/"
+    url = URL + f"profile/{pk}/radar/"
     res = requests.delete(url, headers={"Authorization": "Token " + token})
     print(res.json())
     assert res.status_code == 200
@@ -175,10 +173,42 @@ def test_get_profile():
     url = URL + "profile/"
     # get profile of the 2nd user as the first user by using the first users token
     res = requests.get(
-        url,
-        params={"id": user_id},
-        headers={"Authorization": "Token " + token},
+        url, params={"user_id": user_id}, headers={"Authorization": "Token " + token}
     )
     assert res.status_code == 200
     assert res.json()["user"]["username"] == data["name"]
-    assert res.json()["user"]["email"] == data["email"]
+
+
+def test_get_acs_history_group_by_date_true():
+    pk = 1
+    url = URL + f"profile/{pk}/acs_history/"
+    res = requests.get(
+        url,
+        params={"group_by_date": "tRUe"},
+        headers={"Authorization": "Token " + token},
+    )
+    print(res.json())
+    assert res.status_code == 200
+
+
+def test_get_acs_history_group_by_date_false():
+    pk = 1
+    url = URL + f"profile/{pk}/acs_history/"
+    res = requests.get(
+        url,
+        params={"group_by_date": "FaLSe"},
+        headers={"Authorization": "Token " + token},
+    )
+    assert res.status_code == 200
+
+
+def test_get_acs_history_group_by_date_true_user2():
+    pk = 2
+    url = URL + f"profile/{pk}/acs_history/"
+    res = requests.get(
+        url,
+        params={"group_by_date": "tRUe"},
+        headers={"Authorization": "Token " + token},
+    )
+    assert res.status_code == 200
+    assert res.json() == []

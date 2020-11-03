@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 import os
+import random
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.models.User
 # using default user class
@@ -31,8 +32,7 @@ class Profile(models.Model):
 
     @property
     def average_acs(self):
-        # TODO: implement this
-        raise NotImplementedError
+        return ACS.objects.filter(post=self).aggregate(Models.Avg("score"))
 
 
 class ProfilePicture(models.Model):
@@ -100,11 +100,11 @@ class Likes(models.Model):
 
 class ACS(models.Model):
     score = models.IntegerField()
-    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sports = models.ForeignKey("Sport", on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ["user", "sports", "score"]
+        unique_together = ["profile", "sports"]
 
 
 # For trivia
@@ -118,7 +118,9 @@ class TriviaQuestion(models.Model):
 
 # For trivia
 class TriviaAnswer(models.Model):
-    parent_question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
+    parent_question = models.ForeignKey(
+        "TriviaQuestion", on_delete=models.CASCADE, null=True
+    )
     content = models.CharField(max_length=100, blank=False, null=False)
     # TODO: Think we should store the trivia responses in the database can be done in later sprint
 
@@ -130,7 +132,7 @@ class TriviaInstance(models.Model):
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    is_completed = models.BooleanField(default=False)
+    score = models.CharField(max_length=100, blank=True)
     other_user = models.ForeignKey(
         "Profile",
         related_name="other_user",
@@ -140,38 +142,71 @@ class TriviaInstance(models.Model):
     )
 
     def select_questions(self):
-        # randomly select the question set and form the many_to_many relationships
-        raise NotImplementedError
+        questions = TriviaQuestion.objects.filter(related_to_sport=self.sport)
+        random_questions = random.sample(list(questions), 11)
+        for q in random_questions:
+            self.questions.add(q)
+            self.save()
 
 
 class TriviaResponse(models.Model):
     trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
     question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
     answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE)
+    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    start_time = models.DateTimeField(blank=False)
+    submission_time = models.DateTimeField(blank=False)
 
     @property
     def is_correct(self):
-        # true if answer is correct
-        # false otherwise
-        raise NotImplementedError
+        return self.question.correct_answer == self.answer
 
 
 class BaseAcsHistory(models.Model):
     # you never actually call this this is just the abstract class
     delta = models.IntegerField()
-    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    sport = models.ForeignKey("Sport", on_delete=models.CASCADE)
+    score = models.IntegerField(null=True)
 
     def update_acs(self):
-        # updates actual acs score from ACS able
+        # updates actual acs score from ACS table
         # either implement a generic function here
         # or override it in the subclass
-        raise NotImplementedError
+
+        # Check whether or not the combination or user & sport is in the table.
+        try:
+            acs = ACS.objects.get(profile=self.profile, sports=self.sport)
+            acs.score = acs.score + self.delta
+            if acs.score < 0:
+                acs.score = 0
+            acs.save()
+            self.score = acs.score
+            self.save()
+        except:
+            acs = ACS.objects.create(
+                profile=self.profile, sports=self.sport, score=self.delta
+            )
+            if acs.score < 0:
+                acs.score = 0
+            acs.save()
+            self.score = acs.score
+            self.save()
+
+    @classmethod
+    # Note: profile is a profile object and sport is a sport object.
+    def create(cls, delta, profile, sport):
+        acs_history = cls.objects.create(delta=delta, profile=profile, sport=sport)
+        acs_history.update_acs()
+        return acs_history
 
 
 class TriviaAcsHistory(BaseAcsHistory):
-    history_type = "T"
-    trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
+    source_type = "T"
+    trivia_instance = models.ForeignKey(
+        "TriviaInstance", on_delete=models.CASCADE, null=True
+    )
 
 
 class Sport(models.Model):
