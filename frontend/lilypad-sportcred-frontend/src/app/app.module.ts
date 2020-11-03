@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.modules';
 import { LoginModule } from './login/login.module';
 import { appReducers } from './store/reducer';
 import { ZoneModule } from './zone/zone.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [

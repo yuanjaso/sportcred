@@ -5,7 +5,6 @@ import { PicksModule } from './subpages/picks/picks.module';
 import { TriviaModule } from './subpages/trivia/trivia.module';
 import { ZoneHomeRoutingModule } from './zone-home-routing.module';
 import { ZoneHomeComponent } from './zone-home.component';
-
 @NgModule({
   declarations: [ZoneHomeComponent],
   imports: [

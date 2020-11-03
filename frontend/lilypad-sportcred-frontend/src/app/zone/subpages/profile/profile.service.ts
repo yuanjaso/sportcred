@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
-import { Profile, UpdateProfilePayload } from './profile.types';
+import { ACSHistory, Profile, UpdateProfilePayload } from './profile.types';
 
 @Injectable()
 export class ProfileService {
   constructor(private httpClient: HttpClientWrapper) {}
 
+  $hotProfile = new Subject<Profile>();
+  $hotACSHistory = new Subject<ACSHistory[]>();
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
-      .get<Profile>('profile', { user_id: userId })
+      .get<Profile>(profileURL, { user_id: userId })
       .pipe(
         // ! temporary solution to get right payload
         map((profile) => ({
@@ -27,7 +30,13 @@ export class ProfileService {
       );
   }
 
+  getACSHistory(userId: number): Observable<ACSHistory[]> {
+    return this.httpClient.get<ACSHistory[]>(profileACSHistoryURL(userId), {
+      group_by_date: true,
+    });
+  }
+
   updateProfile(profile: UpdateProfilePayload): Observable<Profile> {
-    return this.httpClient.patch('profile', profile);
+    return this.httpClient.patch(profileURL, profile);
   }
 }

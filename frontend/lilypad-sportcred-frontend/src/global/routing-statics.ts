@@ -14,6 +14,10 @@ const register: pageConfig = {
   url: 'register',
   title: 'SPORTCRED - Register',
 };
+const zonehome: pageConfig = {
+  url: 'home',
+  title: 'SPORTCRED - Zone',
+};
 const zone: pageConfig = {
   url: 'zone',
   title: 'SPORTCRED - Zone',
@@ -57,6 +61,7 @@ export const all_routes = {
   profile,
   login,
   register,
+  zonehome,
   zone,
   trivia,
   debate,
