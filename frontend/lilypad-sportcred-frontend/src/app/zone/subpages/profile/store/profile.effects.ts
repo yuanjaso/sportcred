@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs/operators';
+import { mergeMap, switchMap } from 'rxjs/operators';
 import { ProfileService } from '../profile.service';
-import { getProfile, setProfile, updateProfile } from './profile.actions';
+import { getProfile, updateProfile } from './profile.actions';
 
 @Injectable()
 export class ProfileEffects {
@@ -10,7 +10,10 @@ export class ProfileEffects {
     this.actions$.pipe(
       ofType(getProfile),
       switchMap((action) => this.profileService.getProfile(action.userId)),
-      map((profile) => setProfile({ profile }))
+      mergeMap((profile) => {
+        this.profileService.$hotProfile.next(profile);
+        return [];
+      })
     )
   );
 

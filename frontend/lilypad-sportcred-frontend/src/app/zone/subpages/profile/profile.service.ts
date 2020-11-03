@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import { Profile, UpdateProfilePayload } from './profile.types';
@@ -7,6 +7,8 @@ import { Profile, UpdateProfilePayload } from './profile.types';
 @Injectable()
 export class ProfileService {
   constructor(private httpClient: HttpClientWrapper) {}
+
+  $hotProfile = new Subject<Profile>();
 
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient

@@ -6,7 +6,6 @@ import { first, tap } from 'rxjs/operators';
 import { all_routes } from '../../../global/routing-statics';
 import { selectUserInfo } from '../../auth/store/selectors';
 import { AppState } from '../../store/reducer';
-import { getProfile } from '../subpages/profile/store/profile.actions';
 import { LiveDialogComponent } from './live-dialog/live-dialog.component';
 
 interface Tab {
@@ -61,12 +60,9 @@ export class ToolbarComponent implements OnInit {
 
   navigate(e) {
     if (e.index >= this.pages.length) return;
-    if (this.pages[e.index]?.link == all_routes.profile.url) {
-      //todo i beleive this dispatch should be done in profile page instead (single resp principle)
-      this.store.dispatch(getProfile({ userId: this.userId }));
-    }
     this.router.navigate([this.pages[e.index]?.link], {
       relativeTo: this.route,
+      queryParams: { userId: this.userId },
     });
   }
 }

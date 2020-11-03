@@ -6,7 +6,10 @@ import * as echarts from 'echarts';
   styleUrls: ['./echarts.component.scss'],
 })
 export class AreaEchartsComponent implements OnInit {
-  @Input() data;
+  //dataList[12] should be the datapoint of date[12]
+  @Input() dataList;
+  @Input() dateList;
+
   @Input() yName: string;
 
   options;
@@ -17,20 +20,6 @@ export class AreaEchartsComponent implements OnInit {
   }
 
   build() {
-    var base = +new Date(1968, 9, 3);
-    var oneDay = 24 * 3600 * 1000;
-    var date = [];
-
-    var data = [Math.random() * 300];
-
-    for (var i = 1; i < 20000; i++) {
-      var now = new Date((base += oneDay));
-      date.push(
-        [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/')
-      );
-      data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
-    }
-
     this.options = {
       tooltip: {
         trigger: 'axis',
@@ -41,7 +30,7 @@ export class AreaEchartsComponent implements OnInit {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: date,
+        data: this.dateList,
       },
       yAxis: {
         type: 'value',
@@ -87,7 +76,7 @@ export class AreaEchartsComponent implements OnInit {
               },
             ]),
           },
-          data: data,
+          data: this.dataList,
         },
       ],
     };

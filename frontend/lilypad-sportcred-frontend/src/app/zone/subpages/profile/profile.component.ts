@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 import { Observable, of, Subscription } from 'rxjs';
@@ -7,9 +8,9 @@ import { filter, first, map, tap } from 'rxjs/operators';
 import { all_routes } from '../../../../global/routing-statics';
 import { selectUserInfo } from '../../../auth/store/selectors';
 import { AppState } from '../../../store/reducer';
+import { ProfileService } from './profile.service';
 import { Profile } from './profile.types';
 import { updateProfile } from './store/profile.actions';
-import { selectProfile } from './store/profile.selectors';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,10 @@ import { selectProfile } from './store/profile.selectors';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  @Input() userId: number;
+
+  trueUserId;
+
   profile: Profile;
 
   editStatusMode = false;
@@ -33,14 +38,22 @@ export class ProfileComponent implements OnInit {
 
   private subscription = new Subscription();
 
-  constructor(private title: Title, private store: Store<AppState>) {}
+  constructor(
+    private title: Title,
+    private store: Store<AppState>,
+    private profileService: ProfileService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.title.setTitle(all_routes.profile.title);
 
+    //allow the userId to come in from @Input() OR route navigate
+    this.trueUserId = this.userId ?? this.route.snapshot.queryParams.userId;
+
     this.subscription.add(
-      this.store
-        .select(selectProfile)
+      this.profileService
+        .getProfile(this.trueUserId)
         .pipe(
           filter((profile) => profile !== undefined),
           map((profile) => cloneDeep(profile)),

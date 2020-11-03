@@ -1,7 +1,7 @@
-import { createSelector } from '@ngrx/store';
-import { selectFeatureProfile } from '../../../../store/selectors';
+// import { createSelector } from '@ngrx/store';
+// import { selectFeatureProfile } from '../../../../store/selectors';
 
-export const selectProfile = createSelector(
-  selectFeatureProfile,
-  (state) => state.profile
-);
+// // export const selectProfile = createSelector(
+// //   selectFeatureProfile,
+// //   (state) => state.profile
+// // );
