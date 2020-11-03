@@ -8,8 +8,8 @@
     mkdir -p tmp
 
     python3 manage.py migrate --run-syncdb
-    python3 manage.py shell -c "from django.contrib.auth.models import User; u = User.objects.create_superuser('poop', 'admin@example.com', '.');from rest_framework.authtoken.models import Token; Token.objects.create(user=u);"
-    python3 manage.py shell -c "from django.contrib.auth.models import User; u = User.objects.create_user('bbb', 'test@example.com', '.'); from rest_framework.authtoken.models import Token; Token.objects.create(user=u); from sportscred.models import Profile; Profile.objects.create(user=u);"   
+    python3 manage.py shell -c "from django.contrib.auth.models import User; u = User.objects.create_superuser('super_user', 'admin@example.com', '.');from rest_framework.authtoken.models import Token; Token.objects.create(user=u);"
+    python3 manage.py shell -c "from django.contrib.auth.models import User; u = User.objects.create_user('user', 'test@example.com', '.'); from rest_framework.authtoken.models import Token; Token.objects.create(user=u); from sportscred.models import Profile; Profile.objects.create(user=u);"   
     echo "Database resynched"
     
     echo "importing questionnaire"

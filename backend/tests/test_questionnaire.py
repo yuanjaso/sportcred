@@ -10,7 +10,7 @@ URL = "http://127.0.0.1:8000/api/v1/"
 
 @fixture
 def token():
-    res = auth_user("poop", ".")
+    res = auth_user("super_user", ".")
     return res.json()["token"]
 
 
