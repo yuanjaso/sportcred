@@ -31,6 +31,5 @@ import { ZoneComponent } from './zone.component';
     AdminModule,
     ZoneHomeModule,
   ],
-  exports: [ToolbarComponent, HeaderComponent],
 })
 export class ZoneModule {}
