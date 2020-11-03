@@ -1,3 +1,5 @@
+from datetime import date
+
 from yaml import load
 from django.contrib.auth.models import User
 
@@ -18,9 +20,11 @@ class Command(BaseCommand):
                 data = load(f.read())
             base_acs_history = data["baseacshistory"]
             for item in base_acs_history:
-                b = TriviaAcsHistory.create(  # Attach a trivia instance
+                history = TriviaAcsHistory.create(  # Attach a trivia instance
                     delta=item["delta"],
                     profile=User.objects.get(pk=item["profile_id"]).profile,
                     sport=Sport.objects.get(pk=item["sport_id"]),
                 )
-                b.save()
+                new_date = date(item["year"], item["month"], item["day"])
+                history.date = new_date
+                history.save()

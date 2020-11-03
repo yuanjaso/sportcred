@@ -179,21 +179,19 @@ class BaseAcsHistory(models.Model):
         try:
             acs = ACS.objects.get(profile=self.profile, sports=self.sport)
             acs.score = acs.score + self.delta
-            self.score = acs.score + self.delta
             if acs.score < 0:
                 acs.score = 0
-                self.score = 0
             acs.save()
+            self.score = acs.score
             self.save()
         except:
             acs = ACS.objects.create(
                 profile=self.profile, sports=self.sport, score=self.delta
             )
-            self.score = self.delta
             if acs.score < 0:
                 acs.score = 0
-                self.score = 0
             acs.save()
+            self.score = acs.score
             self.save()
 
     @classmethod

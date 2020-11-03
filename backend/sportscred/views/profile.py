@@ -150,7 +150,19 @@ class ProfileViewSet(viewsets.ViewSet):
 
             return_list = []
             if group_by_date.lower() == "true":
-                result = acs.values("date", "sport").annotate(delta=Sum("delta"))
+                history = acs.values("date", "sport").annotate(delta=Sum("delta"))
+                result = []
+                for acs in history:
+                    qs = (
+                        BaseAcsHistory.objects.filter(
+                            date=acs["date"], profile_id=pk, sport_id=acs["sport"]
+                        )
+                        .order_by("-id")
+                        .values()
+                    )
+                    print(qs)
+                    acs["score"] = qs[0]["score"]
+                    result.append(acs)
                 return Response(result)
             elif group_by_date.lower() == "false":
                 for item in acs.values():
@@ -160,7 +172,7 @@ class ProfileViewSet(viewsets.ViewSet):
                     ] = TriviaAcsHistory.source_type  # Adds source type
                     sports_id = item.pop("sport_id")
 
-                    item["Sports_id"] = {
+                    item["sport"] = {
                         "id": sports_id,
                         "name": Sport.objects.filter(id=sports_id).values("name")[0][
                             "name"
