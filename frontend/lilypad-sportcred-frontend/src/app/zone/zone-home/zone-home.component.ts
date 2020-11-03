@@ -1,5 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { all_routes } from '../../../global/routing-statics';
 import { ZoneService } from '../zone.service';
@@ -21,8 +22,11 @@ export class ZoneHomeComponent implements OnInit, OnDestroy {
   ];
   constructor(
     private zoneService: ZoneService,
-    private breakpointObserver: BreakpointObserver
-  ) {}
+    private breakpointObserver: BreakpointObserver,
+    private title: Title
+  ) {
+    this.title.setTitle(all_routes.zone.title);
+  }
 
   ngOnInit(): void {
     this.subcriptions.add(
