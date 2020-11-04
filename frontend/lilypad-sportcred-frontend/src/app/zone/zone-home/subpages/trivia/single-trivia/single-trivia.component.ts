@@ -30,7 +30,7 @@ export class SingleTriviaComponent implements OnInit {
   timerQuestionSubscriber: Subscription;
 
   triviaInstance$: Observable<TriviaInstance>;
-  triviaInstanceId: any;
+  triviaInstanceId: number;
   questions: TriviaQuestion[];
   questionStartTime = new Date().toISOString();
   questionSubmitTime = new Date().toISOString();
@@ -158,8 +158,6 @@ export class SingleTriviaComponent implements OnInit {
 
   isCorrect(questionIndex: number, answerId: number): boolean {
     const actualAnswerId = this.questions[questionIndex].correct_answer.id;
-    console.log(answerId);
-    console.log(this.questions[questionIndex].correct_answer.id);
     return actualAnswerId === answerId;
   }
 
@@ -206,7 +204,6 @@ export class SingleTriviaComponent implements OnInit {
     const sub = this.acs$
       .pipe(first((instances) => instances !== undefined))
       .subscribe((val) => {
-        console.log(val.average);
         this.displayContent =
           'Score: ' + this.totalScore + ' / ' + this.numberOfQuestions;
         this.finalACS = 'Updated ACS: ' + val.average;
