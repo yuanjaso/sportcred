@@ -141,4 +141,8 @@ export class ProfileComponent implements OnInit {
       updateProfile({ profile: { favourite_sports: this.favouriteSports } })
     );
   }
+
+  uploadNewPhoto() {
+    //todo implement
+  }
 }

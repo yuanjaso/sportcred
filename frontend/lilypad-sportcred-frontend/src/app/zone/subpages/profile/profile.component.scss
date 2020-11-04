@@ -68,14 +68,17 @@
       position: absolute;
       border-radius: 0.5rem;
       object-fit: cover;
-      z-index: 2;
-      opacity: 1;
-      transition: 0.3s;
-      cursor: pointer;
 
-      &:hover {
-        opacity: 0.3;
-        z-index: 0;
+      &#editable {
+        z-index: 2;
+        opacity: 1;
+        transition: 0.3s;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.3;
+          z-index: 0;
+        }
       }
     }
     #text {

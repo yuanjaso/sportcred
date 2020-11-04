@@ -6,10 +6,17 @@
     </div>
 
     <div class="row xy-center">
-      <div id="picture">
-        <img [src]="profile.profilepicture" />
-        <div id="text">Click to Change Profile Picture</div>
-      </div>
+      <ng-container *ngIf="(userId$ | async) === profile.user.id; else unEditableImage ">
+        <div id="picture" (click)="uploadNewPhoto()">
+          <img id="editable"[src]="profile.profilepicture" />
+          <div id="text">Click to Change Profile Picture</div>
+        </div>
+      </ng-container>
+      <ng-template #unEditableImage>
+        <div id="picture">
+          <img [src]="profile.profilepicture" />
+        </div>
+      </ng-template>
 
       <div id="acs" class="column xy-center">
         <p class="font-secondary white-font">ACS</p>
