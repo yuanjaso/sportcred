@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { AreaEchartsComponent } from './echarts/area-echart.component';
+import { BarEchartsComponent } from './echarts/bar-echart.component';
 
-const modules = [AreaEchartsComponent];
+const modules = [AreaEchartsComponent, BarEchartsComponent];
 
 @NgModule({
   declarations: [...modules],

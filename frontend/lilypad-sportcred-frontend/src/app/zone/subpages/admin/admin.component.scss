@@ -1,0 +1,30 @@
+@import "../../../../global/fonts.scss";
+
+:host {
+  min-height: calc(100% - 4rem);
+  padding: 2rem;
+  background-color: $darkgrey;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.seach-box {
+  width: 100%;
+
+  .header {
+    @extend .white-font;
+    @extend .font-tertiary;
+    padding-bottom: 1rem;
+  }
+  mat-form-field {
+    width: 100%;
+    background-color: $white;
+  }
+}
+.charting {
+  margin-top: 2rem;
+  width: 100%;
+}
