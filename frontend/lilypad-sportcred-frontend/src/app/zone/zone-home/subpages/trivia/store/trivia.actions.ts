@@ -3,13 +3,18 @@ import { ACS } from '../../../../subpages/profile/profile.types';
 import {
   TriviaInstance,
   TriviaQuestions,
-  TriviaResults,
+  TriviaResults
 } from '../trivia.types';
 
 export const getTriviaQuestions = createAction('[Trivia] Get Trivia Questions');
 export const setTriviaQuestions = createAction(
   '[Trivia] Set Trivia Questions',
   props<{ triviaQuestions: TriviaQuestions[] }>()
+);
+
+export const createTriviaInstance = createAction(
+  '[Trivia] Create Trivia Instance',
+  props<{ sportId: number; opponentUserId: number | null }>()
 );
 
 export const setTriviaInstance = createAction(
