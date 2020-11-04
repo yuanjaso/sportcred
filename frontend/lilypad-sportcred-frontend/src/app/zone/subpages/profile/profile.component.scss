@@ -1,4 +1,4 @@
-@import "../../../../global/colors.scss";
+@import "../../../../global/fonts.scss";
 
 :host {
   min-height: 100%;
@@ -58,11 +58,34 @@
   }
 
   div#picture {
+    width: 10rem;
+    height: 10rem;
+    display: flex;
+    position: relative;
     img {
       width: 10rem;
       height: 10rem;
+      position: absolute;
       border-radius: 0.5rem;
       object-fit: cover;
+      z-index: 2;
+      opacity: 1;
+      transition: 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.3;
+        z-index: 0;
+      }
+    }
+    #text {
+      pointer-events: none;
+      padding: 1rem;
+      align-self: center;
+      justify-self: center;
+      z-index: 1;
+      @extend .font-tertiary;
+      @extend .white-font;
     }
   }
 
@@ -102,6 +125,10 @@
     flex-direction: column;
     & div#left {
       padding-right: 0rem;
+      padding-bottom: 2rem;
+    }
+    & div#right {
+      width: 100%;
     }
   }
 }
