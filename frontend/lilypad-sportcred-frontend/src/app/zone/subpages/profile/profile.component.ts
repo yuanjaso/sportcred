@@ -145,12 +145,12 @@ export class ProfileComponent implements OnInit {
       .subscribe();
   }
 
-  addToRadar(): void {
-
+  addToRadar(userId: number): void {
+    this.store.dispatch(addUserToRadarList({ userId }));
   }
 
-  removeFromRadar(): void {
-    
+  removeFromRadar(userId: number): void {
+    this.store.dispatch(removeUserFromRadarList({ userId }));
   }
 
   showRadarList(

@@ -2,8 +2,20 @@
   <div id="left">
     <div id="follow" class="row xy-center">
       <ng-container *ngIf="(userId$ | async) !== profile.user.id">
-        <button *ngIf="showAddToRadarButton" (click)="addToRadar()">Add to Radar</button>
-        <button *ngIf="!showAddToRadarButton" (click)="removeFromRadar()">Remove from Radar</button>
+        <button
+          mat-raised-button
+          *ngIf="showAddToRadarButton"
+          (click)="addToRadar(profile.user.id)"
+        >
+          Add to Radar
+        </button>
+        <button
+          mat-raised-button
+          *ngIf="!showAddToRadarButton"
+          (click)="removeFromRadar(profile.user.id)"
+        >
+          Remove from Radar
+        </button>
       </ng-container>
 
       <button
