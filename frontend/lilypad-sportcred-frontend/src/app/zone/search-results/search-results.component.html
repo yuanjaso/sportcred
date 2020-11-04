@@ -1,0 +1,19 @@
+<div id="users">
+  <p class="font-secondary">Users</p>
+
+  <div class="user font-tertiary" *ngFor="let user of (results$ | async).users">
+    {{ user.username }}
+  </div>
+
+  <p class="font-tertiary" *ngIf="(results$ | async).users.length === 0">
+    No users found with that search. Try again.
+  </p>
+</div>
+
+<!-- <div id="posts">
+  <p class="font-secondary">Posts</p>
+
+  <div class="font-tertiary" *ngFor="let post of (results$ | async).posts">
+    {{ post.title }}
+  </div>
+</div> -->
