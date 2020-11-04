@@ -1,6 +1,11 @@
 <ng-container *ngIf="profile !== undefined; else loading">
   <div id="left">
     <div id="follow" class="row xy-center">
+      <ng-container *ngIf="(userId$ | async) !== profile.user.id">
+        <button *ngIf="showAddToRadarButton" (click)="addToRadar()">Add to Radar</button>
+        <button *ngIf="!showAddToRadarButton" (click)="removeFromRadar()">Remove from Radar</button>
+      </ng-container>
+
       <button
         mat-raised-button
         (click)="showRadarList('following', followingList)"

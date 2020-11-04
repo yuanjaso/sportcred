@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 import { Observable, of, Subscription } from 'rxjs';
-import { filter, first, map, tap } from 'rxjs/operators';
+import { filter, first, map, tap, withLatestFrom } from 'rxjs/operators';
 import { all_routes } from '../../../../global/routing-statics';
 import { selectUserInfo } from '../../../auth/store/selectors';
 import { FormatedChartData } from '../../../shared-components/echarts/echart.types';
@@ -45,6 +45,8 @@ export class ProfileComponent implements OnInit {
   followersList: RadarUser[];
   followingList: RadarUser[];
 
+  showAddToRadarButton: boolean;
+
   private subscription = new Subscription();
 
   constructor(
@@ -56,6 +58,11 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userId$ = this.store.select(selectUserInfo).pipe(
+      first(),
+      map((user) => user.user_id)
+    );
+
     this.title.setTitle(all_routes.profile.title);
 
     const routeChanges$ = this.route.queryParams
@@ -74,11 +81,24 @@ export class ProfileComponent implements OnInit {
           // need to some how ignore the previous persons ACS
           const radarList$ = this.profileService.radarList$.pipe(
             first(),
-            tap((radarList) => {
+            withLatestFrom(this.userId$),
+            tap(([radarList, currentUserId]) => {
               this.followers = radarList.followers.length;
               this.following = radarList.following.length;
               this.followersList = radarList.followers;
               this.followingList = radarList.following;
+
+              // execute this logic if we are looking at a different person's profile
+              if (radarList.id !== currentUserId) {
+                // check if the followers list contains the logged in person's user id
+                // if true then show the remove from radar button
+                // if false then show the add to radar button
+                if (this.followersList.find((el) => el.id === currentUserId)) {
+                  this.showAddToRadarButton = false;
+                } else {
+                  this.showAddToRadarButton = true;
+                }
+              }
             })
           );
           radarList$.subscribe();
@@ -113,11 +133,6 @@ export class ProfileComponent implements OnInit {
         .subscribe()
     );
 
-    this.userId$ = this.store.select(selectUserInfo).pipe(
-      first(),
-      map((user) => user.user_id)
-    );
-
     // ! hardcoded
     of([
       { id: 1, name: 'Basketball' },
@@ -128,6 +143,14 @@ export class ProfileComponent implements OnInit {
     ])
       .pipe(tap((sports) => (this.sports = sports)))
       .subscribe();
+  }
+
+  addToRadar(): void {
+
+  }
+
+  removeFromRadar(): void {
+    
   }
 
   showRadarList(
