@@ -1,20 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { all_routes } from '../../../../../global/routing-statics';
 import { AppState } from '../../../../store/reducer';
+import { selectSports } from '../../../store/selectors';
 import { ACS } from '../../../subpages/profile/profile.types';
+import { Sport } from '../../../zone.types';
 import {
-  getTriviaQuestions,
-  setTriviaInstance,
-  setTriviaQuestions,
-  submitTriviaResults,
+  createTriviaInstance,
+  submitTriviaResults
 } from './store/trivia.actions';
-import {
-  selectTriviaInstance,
-  selectUpdatedACS,
-} from './store/trivia.selectors';
-import { TriviaInstance } from './trivia.types';
+import { selectUpdatedACS } from './store/trivia.selectors';
+import { User } from './trivia.types';
 
 @Component({
   selector: 'app-trivia',
@@ -27,88 +24,16 @@ import { TriviaInstance } from './trivia.types';
 export class TriviaComponent implements OnInit {
   // ! temporary variable just to show that displaying updated ACS works
   acs$: Observable<ACS>;
-  triviaInstance$: Observable<TriviaInstance>;
 
   singleLink = `/zone/home/${all_routes.trivia.url}/${all_routes.single_trivia.url}`;
 
+  selectedSportId: number;
+  selectedOpponentUserId: number | null = null;
+
+  sports$: Observable<Sport[]>;
+  users$: Observable<User[]>;
+
   constructor(private store: Store<AppState>) {}
-
-  ngOnInit(): void {
-    this.example();
-    this.exampleForPullingTriviaData();
-
-    this.store.dispatch(getTriviaQuestions());
-    this.store.dispatch(
-      setTriviaQuestions({
-        triviaQuestions: [
-          { answers: ['', 234, null], question: 'asdf', correctAnswer: 'asdf' },
-        ],
-      })
-    );
-  }
-
-  exampleForPullingTriviaData(): void {
-    this.triviaInstance$ = this.store.select(selectTriviaInstance);
-
-    this.store.dispatch(
-      setTriviaInstance({
-        triviaInstance: {
-          date: new Date().toISOString(),
-          id: 3,
-          is_completed: false,
-          sport: { id: 3, name: 'Basketball' },
-          questions: [
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'Kobe' },
-                { id: 5, answer_content: 'Jordan' },
-                { id: 6, answer_content: 'LeBron' },
-                { id: 7, answer_content: 'Harden' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT?',
-            },
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'Kobe' },
-                { id: 5, answer_content: 'Jordan' },
-                { id: 6, answer_content: 'LeBron' },
-                { id: 7, answer_content: 'Harden' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT?',
-            },
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'Kobe' },
-                { id: 5, answer_content: 'Jordan' },
-                { id: 6, answer_content: 'LeBron' },
-                { id: 7, answer_content: 'Harden' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT?',
-            },
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'Kobe' },
-                { id: 5, answer_content: 'Jordan' },
-                { id: 6, answer_content: 'LeBron' },
-                { id: 7, answer_content: 'Harden' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT?',
-            },
-          ],
-          user: { id: 4, username: 'LeBron' },
-          other_user: { id: 45, username: 'Jordan' },
-        },
-      })
-    );
-  }
 
   // ! temporary function just to show that displaying updated ACS works
   example(): void {
@@ -134,5 +59,26 @@ export class TriviaComponent implements OnInit {
         },
       })
     );
+  }
+
+  /**
+   * Send request to backend to initiate a trivia instance
+   */
+  onCreateGame(): void {
+    this.store.dispatch(
+      createTriviaInstance({
+        sportId: this.selectedSportId,
+        opponentUserId: this.selectedOpponentUserId,
+      })
+    );
+  }
+
+  ngOnInit(): void {
+    this.sports$ = this.store.select(selectSports);
+    // ! HACK
+    this.users$ = of([
+      { id: 1, username: 'LeBron' },
+      { id: 2, username: 'Jordan' },
+    ]);
   }
 }
