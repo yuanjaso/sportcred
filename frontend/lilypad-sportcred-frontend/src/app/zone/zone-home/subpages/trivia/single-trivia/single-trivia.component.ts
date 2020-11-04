@@ -3,7 +3,12 @@ import { Store } from '@ngrx/store';
 import { interval, Observable, Subscription, timer } from 'rxjs';
 import { first, take } from 'rxjs/operators';
 import { AppState } from 'src/app/store/reducer';
-import { selectTriviaInstance } from '../store/trivia.selectors';
+import { ACS } from 'src/app/zone/subpages/profile/profile.types';
+import { submitTriviaResults } from '../store/trivia.actions';
+import {
+  selectTriviaInstance,
+  selectUpdatedACS
+} from '../store/trivia.selectors';
 import { Answer, TriviaInstance, TriviaQuestion } from '../trivia.types';
 
 @Component({
@@ -16,13 +21,21 @@ export class SingleTriviaComponent implements OnInit {
   numberOfQuestions = 10;
   currentQuestion = 0;
   displayTimer = '00:00';
-  displayElementId = 'main-display';
+  displayContent = '';
+  finalACS = ''
+  gameStartTime = new Date().toISOString();
+  totalScore = 0;
 
   timerTickSubscriber: Subscription;
   timerQuestionSubscriber: Subscription;
 
   triviaInstance$: Observable<TriviaInstance>;
+  triviaInstanceId: any;
   questions: TriviaQuestion[];
+  questionStartTime = new Date().toISOString();
+  questionSubmitTime = new Date().toISOString();
+
+  acs$: Observable<ACS>;
 
   triviaAnswers: Answer[] = [
     { id: 0, content: '' },
@@ -31,17 +44,20 @@ export class SingleTriviaComponent implements OnInit {
     { id: 0, content: '' },
   ];
 
+  triviaQuestionSubmissions = [];
+
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.timerTickSubscriber = this.tickTimer();
     this.timerQuestionSubscriber = this.questionTimer();
-
     this.pullingTriviaData();
     this.triviaInstance$
       .pipe(first((instances) => instances !== undefined))
       .subscribe((val) => {
+        console.log(val.questions);
         this.questions = val.questions;
+        this.triviaInstanceId = val.id;
         this.displayQuestion(0);
       });
   }
@@ -51,10 +67,9 @@ export class SingleTriviaComponent implements OnInit {
   }
 
   displayQuestion(index: number) {
+    this.questionStartTime = new Date().toISOString();
     // Question
-    document.getElementById(this.displayElementId).innerHTML = this.questions[
-      index
-    ].content;
+    this.displayContent = this.questions[index].content;
     // Answers
     this.triviaAnswers = this.questions[index].answers;
   }
@@ -85,31 +100,48 @@ export class SingleTriviaComponent implements OnInit {
     const subscriber = questionTimer$.subscribe((val) => {
       // The user has ran out of time and has not clicked on an answer
       console.log('question timer up');
+      this.questionSubmitTime = new Date().toISOString();
       // Update score
+      this.submitQuestion(
+        this.questions[this.currentQuestion].id,
+        null,
+        this.questionStartTime,
+        this.questionSubmitTime
+      );
       // Next question
       this.currentQuestion += 1;
       if (this.currentQuestion < this.numberOfQuestions) {
         this.displayQuestion(this.currentQuestion);
         this.restartTimers();
+      } else {
+        // Show final results
+        this.showResults();
       }
     });
     return subscriber;
   }
 
   onClickAnswer(answerId: number) {
+    this.questionSubmitTime = new Date().toISOString();
     if (
       !this.timerTickSubscriber.closed &&
       !this.timerQuestionSubscriber.closed &&
       this.currentQuestion < this.numberOfQuestions
     ) {
       // Stop timers
-      this.timerTickSubscriber.unsubscribe();
-      this.timerQuestionSubscriber.unsubscribe();
+      this.stopTimers();
       // Check if correct answer
       if (this.isCorrect(this.currentQuestion, answerId)) {
         console.log('Correct!');
+        this.totalScore += 1;
       }
-      // Add to final score
+      // Add to final results
+      this.submitQuestion(
+        this.questions[this.currentQuestion].id,
+        answerId,
+        this.questionStartTime,
+        this.questionSubmitTime
+      );
       // Go to next question
       this.currentQuestion += 1;
       this.displayQuestion(this.currentQuestion);
@@ -117,19 +149,79 @@ export class SingleTriviaComponent implements OnInit {
       this.restartTimers();
     }
 
-    if (this.currentQuestion > this.numberOfQuestions) {
+    if (this.currentQuestion >= this.numberOfQuestions) {
       // Show final results
-      console.log('show Results');
+      this.stopTimers();
+      this.displayTimer = '00:00';
+      this.showResults();
     }
   }
 
   isCorrect(questionIndex: number, answerId: number): boolean {
-    const actualAnswerId = this.questions[questionIndex].correct_answer.id;
-    return actualAnswerId == answerId;
+    // ! Backend seems to be returning correct answer as number instead of Answer?
+    const actualAnswerId = this.questions[questionIndex].correct_answer as unknown as number;
+    console.log(answerId);
+    console.log(this.questions[questionIndex].correct_answer);
+    return actualAnswerId === answerId;
+  }
+
+  /**
+   * Add to results per question submission
+   */
+  submitQuestion(
+    id: number,
+    submission_answer: number,
+    start_time: string,
+    submission_time: string
+  ) {
+    const submission = {
+      id: id,
+      submission_answer: submission_answer,
+      start_time: start_time,
+      submission_time: submission_time,
+    };
+    this.triviaQuestionSubmissions[this.currentQuestion] = submission;
+    console.log(this.triviaQuestionSubmissions);
+  }
+
+  /**
+   * Final TriviaResults submission
+   */
+  submitResults() {
+    this.acs$ = this.store.select(selectUpdatedACS);
+    this.store.dispatch(
+      submitTriviaResults({
+        results: {
+          questions: this.triviaQuestionSubmissions,
+          start_time: this.gameStartTime,
+          trivia_instance: this.triviaInstanceId,
+        },
+      })
+    );
+  }
+
+  showResults() {
+    // Clear displays
+    this.displayContent = "Calculating Results...";
+    this.triviaAnswers = [];
+    console.log('show Results');
+    this.submitResults();
+    const sub = this.acs$
+      .pipe(first((instances) => instances !== undefined))
+      .subscribe((val) => {
+        console.log(val.average);
+        this.displayContent = "Score: "+ this.totalScore + " / " + this.numberOfQuestions;
+        this.finalACS = "Updated ACS: " + val.average;
+      });
   }
 
   restartTimers() {
     this.timerTickSubscriber = this.tickTimer();
     this.timerQuestionSubscriber = this.questionTimer();
+  }
+
+  stopTimers() {
+    this.timerTickSubscriber.unsubscribe();
+    this.timerQuestionSubscriber.unsubscribe();
   }
 }
