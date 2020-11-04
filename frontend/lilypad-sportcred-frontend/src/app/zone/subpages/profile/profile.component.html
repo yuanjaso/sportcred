@@ -1,8 +1,16 @@
 <ng-container *ngIf="profile !== undefined; else loading">
   <div id="left">
     <div id="follow" class="row xy-center">
-      <button mat-raised-button>My Radar List: {{ following }}</button>
-      <button mat-raised-button>
+      <button
+        mat-raised-button
+        (click)="showRadarList('following', followingList)"
+      >
+        My Radar List: {{ following }}
+      </button>
+      <button
+        mat-raised-button
+        (click)="showRadarList('followers', followersList)"
+      >
         People that have me on their Radar List: {{ followers }}
       </button>
     </div>

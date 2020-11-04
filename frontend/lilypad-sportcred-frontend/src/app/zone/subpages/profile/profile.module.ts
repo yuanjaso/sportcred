@@ -8,11 +8,12 @@ import { SharedModule } from '../../../shared-components/shared-components.modul
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ProfileService } from './profile.service';
+import { RadarListComponent } from './radar-list/radar-list.component';
 import { ProfileEffects } from './store/profile.effects';
 import { profileFeatureKey, profileReducer } from './store/profile.reducer';
 
 @NgModule({
-  declarations: [ProfileComponent],
+  declarations: [ProfileComponent, RadarListComponent],
   imports: [
     MaterialModule,
     FormsModule,

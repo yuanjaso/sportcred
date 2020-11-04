@@ -25,8 +25,13 @@ export type UpdateProfilePayload = Partial<
   }
 >;
 
+export interface RadarUser {
+  id: number;
+  username: string;
+}
+
 export interface RadarList {
   id: number;
-  followers: number[];
-  following: number[];
+  followers: RadarUser[];
+  following: RadarUser[];
 }

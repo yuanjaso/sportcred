@@ -51,8 +51,15 @@ export class ProfileService {
     return this.httpClient.get(`profile/${userId}/radar`).pipe(
       mapTo({
         id: 1,
-        followers: [1, 4, 6, 7, 8],
-        following: [2, 4, 6],
+        followers: [
+          { id: 1, username: 'Jhon' },
+          { id: 2, username: 'Jhon' },
+          { id: 3, username: 'Jordan' },
+        ],
+        following: [
+          { id: 1, username: 'Bron' },
+          { id: 1, username: 'Dwade' },
+        ],
       })
     );
   }

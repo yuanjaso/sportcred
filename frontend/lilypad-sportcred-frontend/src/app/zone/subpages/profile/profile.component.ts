@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -12,6 +13,7 @@ import { alignHistoryToFormat } from '../../../shared-components/echarts/echart.
 import { AppState } from '../../../store/reducer';
 import { ProfileService } from './profile.service';
 import { Profile } from './profile.types';
+import { RadarListComponent } from './radar-list/radar-list.component';
 import {
   getACSHistory,
   getProfile,
@@ -40,9 +42,13 @@ export class ProfileComponent implements OnInit {
   sports: { id: number; name: string }[];
   favouriteSports: number[];
 
+  followersList: RadarUser[];
+  followingList: RadarUser[];
+
   private subscription = new Subscription();
 
   constructor(
+    private matDialog: MatDialog,
     private title: Title,
     private store: Store<AppState>,
     private profileService: ProfileService,
@@ -71,6 +77,8 @@ export class ProfileComponent implements OnInit {
             tap((radarList) => {
               this.followers = radarList.followers.length;
               this.following = radarList.following.length;
+              this.followersList = radarList.followers;
+              this.followingList = radarList.following;
             })
           );
           radarList$.subscribe();
@@ -120,6 +128,17 @@ export class ProfileComponent implements OnInit {
     ])
       .pipe(tap((sports) => (this.sports = sports)))
       .subscribe();
+  }
+
+  showRadarList(
+    type: 'following' | 'followers',
+    list: { id: number; username: string }[]
+  ): void {
+    this.matDialog.open(RadarListComponent, {
+      width: '15rem',
+      height: '20rem',
+      data: {},
+    });
   }
 
   beginEditStatus(): void {
