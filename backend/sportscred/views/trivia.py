@@ -225,6 +225,9 @@ class TriviaViewSet(viewsets.ViewSet):
                 )
                 user_acs_history.trivia_instance = instance
                 user_acs_history.save()
+                print("1")
+                TriviaSerializer(instance).data
+                print("2")
                 return Response(TriviaSerializer(instance).data)
         except Exception as e:
             print(e)
