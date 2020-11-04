@@ -108,9 +108,11 @@ class FollowSerializer(serializers.ModelSerializer):
         fields = ["followers", "following"]
 
     def get_following(self, profile):
-        return Profile.objects.filter(followers=profile).values_list(
-            "user__pk", flat=True
-        )
+
+        return UserSerializer(
+            User.objects.filter(profile__followers=profile),
+            many=True,
+        ).data
 
 
 class TriviaAnswersSerializer(serializers.ModelSerializer):
