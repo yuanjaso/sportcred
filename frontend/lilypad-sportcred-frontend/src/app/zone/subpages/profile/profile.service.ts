@@ -48,36 +48,6 @@ export class ProfileService {
   }
 
   getRadarList(userId: number): Observable<RadarList> {
-    return this.httpClient.get(`profile/${userId}/radar`).pipe(
-      map(() => {
-        if (userId % 2) {
-          return {
-            id: 1,
-            followers: [
-              { id: 1, username: 'Jhon' },
-              { id: 2, username: 'Jhon' },
-              { id: 3, username: 'Jordan' },
-            ],
-            following: [
-              { id: 1, username: 'Bron' },
-              { id: 14, username: 'Dwade' },
-            ],
-          };
-        } else {
-          return {
-            id: 1,
-            followers: [
-              { id: 1, username: 'Bron' },
-              { id: 2, username: 'Kyrie' },
-              { id: 3, username: 'Steph' },
-            ],
-            following: [
-              { id: 1, username: 'Klay' },
-              { id: 14, username: 'MJ' },
-            ],
-          };
-        }
-      })
-    );
+    return this.httpClient.get(`profile/${userId}/radar`);
   }
 }
