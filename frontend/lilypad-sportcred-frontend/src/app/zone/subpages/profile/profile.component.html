@@ -93,9 +93,12 @@
     <div id="acs-history" class="column">
       <p class="font-secondary">ACS History</p>
       <ng-container *ngIf="formattedACSHistory !== undefined; else loading">
-        <app-area-echarts yName="Basketball ACS" [dataList]="formattedACSHistory.data" [dateList]="formattedACSHistory.dates" ></app-area-echarts>
+        <app-area-echarts
+          yName="Basketball ACS"
+          [dataList]="formattedACSHistory.data"
+          [dateList]="formattedACSHistory.dates"
+        ></app-area-echarts>
       </ng-container>
-
     </div>
   </div>
 
