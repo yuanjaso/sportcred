@@ -19,7 +19,7 @@ export class AuthEffects {
           mergeMap((payload: User) => {
             return [
               {
-                //we set the login token
+                //we set the user information
                 type: actions.setUserInfo.type,
                 payload,
               },

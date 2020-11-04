@@ -1,0 +1,20 @@
+<mat-slide-toggle 
+[(ngModel)]="sidenavExpanded"
+> </mat-slide-toggle>
+<mat-drawer-container>
+    <mat-drawer mode="side"  [(opened)]="sidenavExpanded">
+        <div class="home-layout">
+
+            <div *ngFor="let card of cardList">
+                <mat-card [routerLink]="card.url"fxLayoutAlign="center"  style="background-image: url({{card.dashImgLink}});">
+                    <mat-card-content>
+                      {{card.dashTitle}}
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </mat-drawer>
+    <mat-drawer-content>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

@@ -21,13 +21,13 @@ user_id = auth_user_res.json()["user_id"]
 
 @fixture
 def token():
-    res = auth_user("bbb", ".")
+    res = auth_user("user", ".")
     return res.json()["token"]
 
 
 @fixture
 def own_id():
-    res = auth_user("bbb", ".")
+    res = auth_user("user", ".")
     return res.json()["user_id"]
 
 

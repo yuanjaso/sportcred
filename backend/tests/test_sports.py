@@ -4,7 +4,7 @@ from pytest import fixture
 
 @fixture
 def token():
-    res = auth_user("bbb", ".")
+    res = auth_user("user", ".")
     return res.json()["token"]
 
 

@@ -75,11 +75,12 @@ const apiRequirements: API[] = [
       // if group by date is true, then return just date object and no id or source
       response: [
         {
-          date: "2020-10-25T19:13:12Z",
+          date: "2020-10-25",
           delta: -5,
-          source_type: "T", // just T for now
-          user_id: 3
-          sports: {sports_id (int) : sports_name (str)}
+          score: 1300,
+          //source_type: "T", // just T for now this only shows if group_by is false
+          user_id: 3,
+          sports: 1
         },
       ],
     },
