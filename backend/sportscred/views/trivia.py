@@ -51,19 +51,19 @@ class TriviaViewSet(viewsets.ViewSet):
         """
         This method creates a trivia instance
         """
-        if request.data["other_user"] == None or request.data["sport"] == None:
+        if request.data["sport"] == None:
             return Response(
                 {"details": "bad input not found"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            other_user = User.objects.get(pk=request.data["other_user"]).profile
+
             sport = Sport.objects.get(pk=request.data["sport"])
             user = request.user.profile
-            instance = TriviaInstance.objects.create(
-                other_user=other_user, user=user, sport=sport
-            )
-
+            instance = TriviaInstance.objects.create(user=user, sport=sport)
+            if "other_user" in request.data:
+                other_user = User.objects.get(pk=request.data["other_user"]).profile
+                instance.other_user = other_user
             instance.select_questions()
             instance.save()
             return Response(TriviaSerializer(instance).data)
