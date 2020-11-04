@@ -1,5 +1,6 @@
-
-
+<mat-slide-toggle 
+[(ngModel)]="sidenavExpanded"
+> </mat-slide-toggle>
 <mat-drawer-container>
     <mat-drawer mode="side"  [(opened)]="sidenavExpanded">
         <div class="home-layout">
@@ -16,8 +17,4 @@
     <mat-drawer-content>
         <router-outlet></router-outlet>
     </mat-drawer-content>
-  </mat-drawer-container>
-  <mat-slide-toggle 
-  [(ngModel)]="sidenavExpanded"
-  > </mat-slide-toggle>
-
+</mat-drawer-container>

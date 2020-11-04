@@ -1,4 +1,4 @@
-<mat-tab-group  mat-align-tabs="center" (selectedTabChange)="navigate($event)">
+<mat-tab-group  mat-align-tabs="center" (selectedTabChange)="navigate($event)" [(selectedIndex)]="tabIndex">
   <mat-tab *ngFor="let page of pages">
     <ng-template mat-tab-label>
       <i class="material-icons">

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../../../global/material/material.module';
+import { SharedModule } from '../../../shared-components/shared-components.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ProfileService } from './profile.service';
@@ -19,6 +20,7 @@ import { profileFeatureKey, profileReducer } from './store/profile.reducer';
     EffectsModule.forFeature([ProfileEffects]),
     CommonModule,
     ProfileRoutingModule,
+    SharedModule,
   ],
   providers: [ProfileService],
 })

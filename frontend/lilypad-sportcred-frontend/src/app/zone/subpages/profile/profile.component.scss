@@ -1,8 +1,8 @@
 @import "../../../../global/colors.scss";
 
 :host {
-  height: 100%;
-  width: 100%;
+  min-height: 100%;
+  padding: 2rem;
   background-color: $darkgrey;
 
   display: flex;
@@ -19,8 +19,9 @@
   }
 
   div#left {
-    margin-right: 2.5rem;
-
+    width: 100%;
+    max-width: 90vw;
+    padding-right: 2rem;
     > *:not(:last-child) {
       margin-bottom: 1rem;
     }
@@ -28,7 +29,6 @@
 
   div#right {
     height: 50%;
-
     p {
       color: $white;
     }
@@ -54,13 +54,15 @@
   div#acs-history {
     background-color: $white;
     padding: 1rem;
+    min-height: 20rem;
   }
 
   div#picture {
     img {
       width: 10rem;
       height: 10rem;
-      border-radius: 2.5rem;
+      border-radius: 0.5rem;
+      object-fit: cover;
     }
   }
 
@@ -71,6 +73,7 @@
 
     p {
       width: 20rem;
+      max-width: 60vw;
       background-color: $white;
       padding: 1rem;
     }
@@ -87,6 +90,18 @@
       padding: 1rem;
       background-color: $white;
       resize: none;
+      width: calc(100% - 2rem);
+    }
+  }
+}
+.spinner {
+  align-self: center;
+}
+@media only screen and (max-width: 800px) {
+  :host {
+    flex-direction: column;
+    & div#left {
+      padding-right: 0rem;
     }
   }
 }

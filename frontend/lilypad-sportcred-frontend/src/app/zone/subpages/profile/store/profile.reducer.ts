@@ -1,19 +1,10 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import { Profile } from '../profile.types';
-import { setProfile } from './profile.actions';
+import { Action, createReducer } from '@ngrx/store';
 
-export interface ProfileState {
-  profile: Profile;
-}
+export interface ProfileState {}
 
-export const initialState: ProfileState = {
-  profile: undefined,
-};
+export const initialState: ProfileState = {};
 
-const reducer = createReducer<ProfileState>(
-  initialState,
-  on(setProfile, (state, { profile }) => ({ ...state, profile }))
-);
+const reducer = createReducer<ProfileState>(initialState);
 
 export function profileReducer(
   state: ProfileState,
