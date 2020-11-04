@@ -15,7 +15,7 @@ import { Profile } from './profile.types';
 import {
   getACSHistory,
   getProfile,
-  updateProfile,
+  updateProfile
 } from './store/profile.actions';
 
 @Component({
@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
   formattedACSHistory: FormatedChartData;
   editStatusMode = false;
   editAboutMode = false;
+
+  acsScores: { name: string; score: number }[];
 
   userId$: Observable<number>;
 
@@ -72,6 +74,10 @@ export class ProfileComponent implements OnInit {
           map((profile) => cloneDeep(profile)),
           tap((profile) => {
             this.profile = profile;
+            this.acsScores = Object.keys(profile.ACS).map((key) => ({
+              name: key,
+              score: profile.ACS[key],
+            }));
             this.favouriteSports = profile.favourite_sports.map((el) => el.id);
           })
         )
