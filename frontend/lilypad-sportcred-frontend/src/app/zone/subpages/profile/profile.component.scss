@@ -62,6 +62,9 @@
     height: 10rem;
     display: flex;
     position: relative;
+    #upload {
+      display: none;
+    }
     img {
       width: 10rem;
       height: 10rem;

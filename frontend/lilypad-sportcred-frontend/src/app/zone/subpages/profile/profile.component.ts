@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -24,6 +24,7 @@ import {
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild('fileUpload') fileUpload: ElementRef;
   @Input() userId: number;
 
   profile: Profile;
@@ -142,7 +143,13 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  uploadNewPhoto() {
-    //todo implement
+  onClickUploadNewPhoto() {
+    this.fileUpload.nativeElement.click();
+  }
+  uploadNewPhoto(event) {
+    const image = event?.target?.files[0];
+    if (image) {
+      console.log(image);
+    }
   }
 }

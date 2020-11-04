@@ -7,9 +7,12 @@
 
     <div class="row xy-center">
       <ng-container *ngIf="(userId$ | async) === profile.user.id; else unEditableImage ">
-        <div id="picture" (click)="uploadNewPhoto()">
+
+        <div id="picture" (click)="onClickUploadNewPhoto()">
+          <input #fileUpload type="file" name="file" id="upload" (change)="uploadNewPhoto($event)" />
           <img id="editable"[src]="profile.profilepicture" />
           <div id="text">Click to Change Profile Picture</div>
+
         </div>
       </ng-container>
       <ng-template #unEditableImage>
@@ -148,3 +151,4 @@
 <ng-template #loading>
   <mat-spinner class="spinner"></mat-spinner>
 </ng-template>
+
