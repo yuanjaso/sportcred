@@ -54,7 +54,7 @@ class Command(BaseCommand):
             for answer in answers:
                 user = User.objects.get(pk=answer["user_id"]).profile
                 sport = Sport.objects.get(pk=answer["sport"])
-                response = QuestionaireUserResponse(
+                response = QuestionaireUserResponse.objects.create(
                     user=user,
                     question=sport_question,
                     sport=sport,
@@ -63,7 +63,7 @@ class Command(BaseCommand):
             age_question = QuestionaireQuestion.objects.get(pk=age["id"])
             for answer in answers:
                 user = User.objects.get(pk=answer["user_id"]).profile
-                response = QuestionaireUserResponse(
+                response = QuestionaireUserResponse.objects.create(
                     user=user,
                     question=age_question,
                     quantitative_response=answer["age"],
@@ -72,27 +72,26 @@ class Command(BaseCommand):
             play_question = QuestionaireQuestion.objects.get(pk=play["id"])
             for answer in answers:
                 user = User.objects.get(pk=answer["user_id"]).profile
-                sport = Sport.objects.get(pk=answer["answer"])
-                response = QuestionaireUserResponse(
+                response = QuestionaireUserResponse.objects.create(
                     user=user,
                     question=play_question,
-                    sport=sport,
+                    custom_answer_id=answer["answer"],
                 )
             answers = team["answers"]
             team_question = QuestionaireQuestion.objects.get(pk=team["id"])
             for answer in answers:
                 user = User.objects.get(pk=answer["user_id"]).profile
                 team = Team.objects.get(pk=answer["team"])
-                response = QuestionaireUserResponse(
+                response = QuestionaireUserResponse.objects.create(
                     user=user,
-                    question_id=team_question,
-                    team_id=team,
+                    question=team_question,
+                    team=team,
                 )
             answers = tell["answers"]
             tell_question = QuestionaireQuestion.objects.get(pk=tell["id"])
             for answer in answers:
                 user = User.objects.get(pk=answer["user_id"]).profile
-                response = QuestionaireUserResponse(
+                response = QuestionaireUserResponse.objects.create(
                     user=user,
                     question=tell_question,
                     qualitative_response=answer["answer"],
