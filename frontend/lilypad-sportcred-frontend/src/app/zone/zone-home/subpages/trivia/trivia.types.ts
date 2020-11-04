@@ -40,6 +40,7 @@ export interface TriviaResults {
   questions: {
     id: number;
     submission_answer: number;
+    start_time: string;
     submission_time: string;
   }[];
 }
