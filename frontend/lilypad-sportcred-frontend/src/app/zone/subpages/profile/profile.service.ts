@@ -58,7 +58,7 @@ export class ProfileService {
         ],
         following: [
           { id: 1, username: 'Bron' },
-          { id: 1, username: 'Dwade' },
+          { id: 14, username: 'Dwade' },
         ],
       })
     );
