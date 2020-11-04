@@ -12,7 +12,7 @@ import { FormatedChartData } from '../../../shared-components/echarts/echart.typ
 import { alignHistoryToFormat } from '../../../shared-components/echarts/echart.util';
 import { AppState } from '../../../store/reducer';
 import { ProfileService } from './profile.service';
-import { Profile } from './profile.types';
+import { Profile, RadarUser } from './profile.types';
 import { RadarListComponent } from './radar-list/radar-list.component';
 import {
   getACSHistory,
