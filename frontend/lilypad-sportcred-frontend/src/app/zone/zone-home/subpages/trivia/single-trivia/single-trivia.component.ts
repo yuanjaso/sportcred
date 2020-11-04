@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { interval, Observable, Subscription, timer } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { AppState } from 'src/app/store/reducer';
-import { setTriviaInstance } from '../store/trivia.actions';
 import { selectTriviaInstance } from '../store/trivia.selectors';
-import { TriviaInstance, TriviaQuestion } from '../trivia.types';
+import { Answer, TriviaInstance, TriviaQuestion } from '../trivia.types';
 
 @Component({
   selector: 'app-single-trivia',
@@ -25,11 +24,11 @@ export class SingleTriviaComponent implements OnInit {
   triviaInstance$: Observable<TriviaInstance>;
   questions: TriviaQuestion[];
 
-  triviaAnswers: { id: number; answer_content: string }[] = [
-    { id: 0, answer_content: '' },
-    { id: 0, answer_content: '' },
-    { id: 0, answer_content: '' },
-    { id: 0, answer_content: '' },
+  triviaAnswers: Answer[] = [
+    { id: 0, content: '' },
+    { id: 0, content: '' },
+    { id: 0, content: '' },
+    { id: 0, content: '' },
   ];
 
   constructor(private store: Store<AppState>) {}
@@ -39,81 +38,23 @@ export class SingleTriviaComponent implements OnInit {
     this.timerQuestionSubscriber = this.questionTimer();
 
     this.pullingTriviaData();
-    this.triviaInstance$.subscribe((val) => {
-      this.questions = val.questions;
-      this.displayQuestion(0);
-    });
+    this.triviaInstance$
+      .pipe(first((instances) => instances !== undefined))
+      .subscribe((val) => {
+        this.questions = val.questions;
+        this.displayQuestion(0);
+      });
   }
 
-  // TODO: replace hardcode with backend
   pullingTriviaData(): void {
     this.triviaInstance$ = this.store.select(selectTriviaInstance);
-
-    this.store.dispatch(
-      setTriviaInstance({
-        triviaInstance: {
-          date: new Date().toISOString(),
-          id: 3,
-          is_completed: false,
-          sport: { id: 3, name: 'Basketball' },
-          questions: [
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'Kobe' },
-                { id: 5, answer_content: 'Jordan' },
-                { id: 6, answer_content: 'LeBron' },
-                { id: 7, answer_content: 'Harden' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT?',
-            },
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'LeBron' },
-                { id: 5, answer_content: 'Jordan' },
-                { id: 6, answer_content: 'LeBron' },
-                { id: 7, answer_content: 'LeBron' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT? 2',
-            },
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'Kobe' },
-                { id: 5, answer_content: 'Jordan' },
-                { id: 6, answer_content: 'LeBron' },
-                { id: 7, answer_content: 'LeBron' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT? 3',
-            },
-            {
-              id: 4,
-              answers: [
-                { id: 4, answer_content: 'Kobe' },
-                { id: 5, answer_content: 'Kobe' },
-                { id: 6, answer_content: 'Kobe' },
-                { id: 7, answer_content: 'Harden' },
-              ],
-              correct_answer: { id: 4, answer_content: 'Kobe' },
-              question_content: 'Who is the GOAT? 4',
-            },
-          ],
-          user: { id: 4, username: 'LeBron' },
-          other_user: { id: 45, username: 'Jordan' },
-        },
-      })
-    );
   }
 
   displayQuestion(index: number) {
     // Question
     document.getElementById(this.displayElementId).innerHTML = this.questions[
       index
-    ].question_content;
+    ].content;
     // Answers
     this.triviaAnswers = this.questions[index].answers;
   }

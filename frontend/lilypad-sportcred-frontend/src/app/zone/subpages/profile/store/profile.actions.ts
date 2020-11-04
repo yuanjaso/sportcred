@@ -13,3 +13,5 @@ export const updateProfile = createAction(
   '[Profile] Update Profile',
   props<{ profile: UpdateProfilePayload }>()
 );
+
+export const getAllUsers = createAction('[Profile] Get All Users');
