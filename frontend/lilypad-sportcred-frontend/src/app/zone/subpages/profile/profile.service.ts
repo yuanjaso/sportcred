@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mapTo } from 'rxjs/operators';
 import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
-import { ACSHistory, Profile, UpdateProfilePayload } from './profile.types';
+import {
+  ACSHistory,
+  Profile,
+  RadarList,
+  UpdateProfilePayload
+} from './profile.types';
 
 @Injectable()
 export class ProfileService {
+  radarList$ = new Subject<RadarList>();
+
   constructor(private httpClient: HttpClientWrapper) {}
 
   $hotProfile = new Subject<Profile>();
@@ -38,5 +45,15 @@ export class ProfileService {
 
   updateProfile(profile: UpdateProfilePayload): Observable<Profile> {
     return this.httpClient.patch(profileURL, profile);
+  }
+
+  getRadarList(userId: number): Observable<RadarList> {
+    return this.httpClient.get(`profile/${userId}/radar`).pipe(
+      mapTo({
+        id: 1,
+        followers: [1, 4, 6, 7, 8],
+        following: [2, 4, 6],
+      })
+    );
   }
 }

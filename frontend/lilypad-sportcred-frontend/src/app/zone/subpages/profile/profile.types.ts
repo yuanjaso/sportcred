@@ -24,3 +24,9 @@ export type UpdateProfilePayload = Partial<
     favourite_sports: number[];
   }
 >;
+
+export interface RadarList {
+  id: number;
+  followers: number[];
+  following: number[];
+}

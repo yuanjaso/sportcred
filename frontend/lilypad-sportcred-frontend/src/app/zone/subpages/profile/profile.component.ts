@@ -15,6 +15,7 @@ import { Profile } from './profile.types';
 import {
   getACSHistory,
   getProfile,
+  getRadarList,
   updateProfile
 } from './store/profile.actions';
 
@@ -33,9 +34,8 @@ export class ProfileComponent implements OnInit {
 
   userId$: Observable<number>;
 
-  // ! hardcoded
-  followers = 59;
-  following = 104;
+  followers: number;
+  following: number;
 
   sports: { id: number; name: string }[];
   favouriteSports: number[];
@@ -65,6 +65,16 @@ export class ProfileComponent implements OnInit {
               userId,
             })
           );
+          // need to some how ignore the previous persons ACS
+          const radarList$ = this.profileService.radarList$.pipe(
+            first(),
+            tap((radarList) => {
+              this.followers = radarList.followers.length;
+              this.following = radarList.following.length;
+            })
+          );
+          radarList$.subscribe();
+          this.store.dispatch(getRadarList({ userId: Number(userId) }));
         })
       )
       .subscribe();
