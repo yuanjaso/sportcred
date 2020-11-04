@@ -4,11 +4,13 @@ import { Observable, of } from 'rxjs';
 import { all_routes } from '../../../../../global/routing-statics';
 import { AppState } from '../../../../store/reducer';
 import { selectSports } from '../../../store/selectors';
+import { ProfileService } from '../../../subpages/profile/profile.service';
 import { ACS } from '../../../subpages/profile/profile.types';
+import { getAllUsers } from '../../../subpages/profile/store/profile.actions';
 import { Sport } from '../../../zone.types';
 import {
   createTriviaInstance,
-  submitTriviaResults
+  submitTriviaResults,
 } from './store/trivia.actions';
 import { selectUpdatedACS } from './store/trivia.selectors';
 import { User } from './trivia.types';
@@ -33,7 +35,10 @@ export class TriviaComponent implements OnInit {
   sports$: Observable<Sport[]>;
   users$: Observable<User[]>;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private profileService: ProfileService
+  ) {}
 
   // ! temporary function just to show that displaying updated ACS works
   example(): void {
@@ -80,5 +85,8 @@ export class TriviaComponent implements OnInit {
       { id: 1, username: 'LeBron' },
       { id: 2, username: 'Jordan' },
     ]);
+    this.users$ = this.profileService.users$;
+
+    this.store.dispatch(getAllUsers());
   }
 }

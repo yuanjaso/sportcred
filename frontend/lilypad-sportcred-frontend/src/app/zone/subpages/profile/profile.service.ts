@@ -3,14 +3,16 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
+import { User } from '../../zone-home/subpages/trivia/trivia.types';
 import { ACSHistory, Profile, UpdateProfilePayload } from './profile.types';
 
 @Injectable()
 export class ProfileService {
   constructor(private httpClient: HttpClientWrapper) {}
-
+  
   $hotProfile = new Subject<Profile>();
   $hotACSHistory = new Subject<ACSHistory[]>();
+  users$ = new Subject<User[]>();
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
       .get<Profile>(profileURL, { user_id: userId })
@@ -38,5 +40,9 @@ export class ProfileService {
 
   updateProfile(profile: UpdateProfilePayload): Observable<Profile> {
     return this.httpClient.patch(profileURL, profile);
+  }
+
+  getAllUsers(): Observable<User[]> {
+    return this.httpClient.get('users');
   }
 }
