@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { map, mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import {
@@ -49,17 +49,34 @@ export class ProfileService {
 
   getRadarList(userId: number): Observable<RadarList> {
     return this.httpClient.get(`profile/${userId}/radar`).pipe(
-      mapTo({
-        id: 1,
-        followers: [
-          { id: 1, username: 'Jhon' },
-          { id: 2, username: 'Jhon' },
-          { id: 3, username: 'Jordan' },
-        ],
-        following: [
-          { id: 1, username: 'Bron' },
-          { id: 14, username: 'Dwade' },
-        ],
+      map(() => {
+        if (userId % 2) {
+          return {
+            id: 1,
+            followers: [
+              { id: 1, username: 'Jhon' },
+              { id: 2, username: 'Jhon' },
+              { id: 3, username: 'Jordan' },
+            ],
+            following: [
+              { id: 1, username: 'Bron' },
+              { id: 14, username: 'Dwade' },
+            ],
+          };
+        } else {
+          return {
+            id: 1,
+            followers: [
+              { id: 1, username: 'Bron' },
+              { id: 2, username: 'Kyrie' },
+              { id: 3, username: 'Steph' },
+            ],
+            following: [
+              { id: 1, username: 'Klay' },
+              { id: 14, username: 'MJ' },
+            ],
+          };
+        }
       })
     );
   }
