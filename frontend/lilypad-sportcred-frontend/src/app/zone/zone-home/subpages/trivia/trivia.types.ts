@@ -5,7 +5,7 @@ export interface TriviaQuestions {
   correctAnswer: any;
 }
 
-interface User {
+export interface User {
   id: number;
   username: string;
 }
@@ -18,15 +18,17 @@ export interface TriviaInstance {
   date: string;
   sport: { id: number; name: string };
   questions: TriviaQuestion[];
+  score: string;
+  creation_date: string;
 }
 
 export interface Answer {
   id: number;
-  answer_content: string;
+  content: string;
 }
 export interface TriviaQuestion {
   id: number;
-  question_content: string;
+  content: string;
   correct_answer: Answer;
   answers: Answer[];
 }
@@ -38,6 +40,7 @@ export interface TriviaResults {
   questions: {
     id: number;
     submission_answer: number;
+    start_time: string;
     submission_time: string;
   }[];
 }
