@@ -14,6 +14,7 @@ export class BarEchartsComponent implements OnInit {
   options;
   constructor() {}
 
+  //todo update to be in line with area-echart when jason merges
   ngOnInit(): void {
     this.build();
   }

@@ -24,7 +24,6 @@ export class AdminComponent implements OnInit {
     rawdata: undefined,
     question: undefined,
   };
-
   constructor(
     private store: Store<AppState>,
     private adminService: AdminService
@@ -33,7 +32,6 @@ export class AdminComponent implements OnInit {
   }
 
   questionControl;
-
   $questionnaires: Observable<Question[]>;
   ngOnInit(): void {
     //load in questionnaires if we didnt yet

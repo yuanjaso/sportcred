@@ -17,7 +17,7 @@ import { QuestionnaireResponse } from '../admin.types';
   styleUrls: ['./admin-echarts.component.scss'],
 })
 export class AdminEchartsComponent implements OnInit, OnChanges {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('pag') paginator: MatPaginator;
 
   @Input() question: Question;
   @Input() rawData: QuestionnaireResponse;
@@ -26,6 +26,12 @@ export class AdminEchartsComponent implements OnInit, OnChanges {
 
   dataList;
   dataAxis;
+
+  //-----------table vars---------------
+  valueAccessors = [(a) => a.user.id, (a) => a.user.username, (a) => a.answer];
+  headers = ['UserId', 'User Name', 'Answer'];
+  //------------------------------------
+
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.rawData?.currentValue !== undefined) {
@@ -90,6 +96,7 @@ export class AdminEchartsComponent implements OnInit, OnChanges {
         });
         break;
       case QuestionType.qualitative:
+        console.log(this.paginator);
         this.dataList.paginator = this.paginator;
         this.dataList = [
           {
