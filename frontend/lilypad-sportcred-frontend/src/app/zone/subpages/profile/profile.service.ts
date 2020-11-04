@@ -14,10 +14,11 @@ import {
 export class ProfileService {
   radarList$ = new Subject<RadarList>();
 
-  constructor(private httpClient: HttpClientWrapper) {}
-
   $hotProfile = new Subject<Profile>();
   $hotACSHistory = new Subject<ACSHistory[]>();
+
+  constructor(private httpClient: HttpClientWrapper) {}
+
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
       .get<Profile>(profileURL, { user_id: userId })
@@ -48,6 +49,19 @@ export class ProfileService {
   }
 
   getRadarList(userId: number): Observable<RadarList> {
-    return this.httpClient.get(`profile/${userId}/radar`);
+    return this.httpClient.get<RadarList>(`profile/${userId}/radar`).pipe(
+      map((response) => ({
+        ...response,
+        id: Number(response.id),
+      }))
+    );
+  }
+
+  addUserToRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.put(`profile/${userId}/radar`, null);
+  }
+
+  removeUserFromRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.delete(`profile/${userId}/radar`, null);
   }
 }
