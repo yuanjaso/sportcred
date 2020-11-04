@@ -1,6 +1,10 @@
+@import "../../../global/fonts.scss";
 table {
   width: 100%;
 }
 td {
   max-width: 0rem;
+}
+* {
+  @extend .font-tertiary;
 }
