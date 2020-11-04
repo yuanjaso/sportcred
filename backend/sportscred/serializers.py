@@ -126,6 +126,7 @@ class ACSSerializer(serializers.ModelSerializer):
     def get_name(self, acs):
         return acs.sports.name
 
+
 class TriviaAnswersSerializer(serializers.ModelSerializer):
     class Meta:
         model = TriviaAnswer
@@ -148,7 +149,9 @@ class TriviaQuestionsSerializer(serializers.ModelSerializer):
 class TriviaSerializer(serializers.ModelSerializer):
     questions = TriviaQuestionsSerializer(many=True)
     user = serializers.SerializerMethodField()
-    other_user = serializers.SerializerMethodField()
+    other_user = serializers.SerializerMethodField(
+        allow_null=True, default=None, required=False
+    )
 
     class Meta:
         model = TriviaInstance
