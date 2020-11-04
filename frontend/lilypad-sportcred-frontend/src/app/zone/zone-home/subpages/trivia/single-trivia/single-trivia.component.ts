@@ -22,7 +22,7 @@ export class SingleTriviaComponent implements OnInit {
   currentQuestion = 0;
   displayTimer = '00:00';
   displayContent = '';
-  finalACS = ''
+  finalACS = '';
   gameStartTime = new Date().toISOString();
   totalScore = 0;
 
@@ -99,7 +99,6 @@ export class SingleTriviaComponent implements OnInit {
     // Show next question after singleQuestionTime seconds is up
     const subscriber = questionTimer$.subscribe((val) => {
       // The user has ran out of time and has not clicked on an answer
-      console.log('question timer up');
       this.questionSubmitTime = new Date().toISOString();
       // Update score
       this.submitQuestion(
@@ -158,10 +157,9 @@ export class SingleTriviaComponent implements OnInit {
   }
 
   isCorrect(questionIndex: number, answerId: number): boolean {
-    // ! Backend seems to be returning correct answer as number instead of Answer?
-    const actualAnswerId = this.questions[questionIndex].correct_answer as unknown as number;
+    const actualAnswerId = this.questions[questionIndex].correct_answer.id;
     console.log(answerId);
-    console.log(this.questions[questionIndex].correct_answer);
+    console.log(this.questions[questionIndex].correct_answer.id);
     return actualAnswerId === answerId;
   }
 
@@ -181,20 +179,20 @@ export class SingleTriviaComponent implements OnInit {
       submission_time: submission_time,
     };
     this.triviaQuestionSubmissions[this.currentQuestion] = submission;
-    console.log(this.triviaQuestionSubmissions);
   }
 
   /**
    * Final TriviaResults submission
    */
   submitResults() {
+    console.log(this.triviaQuestionSubmissions);
     this.acs$ = this.store.select(selectUpdatedACS);
     this.store.dispatch(
       submitTriviaResults({
         results: {
-          questions: this.triviaQuestionSubmissions,
           start_time: this.gameStartTime,
           trivia_instance: this.triviaInstanceId,
+          questions: this.triviaQuestionSubmissions,
         },
       })
     );
@@ -202,16 +200,16 @@ export class SingleTriviaComponent implements OnInit {
 
   showResults() {
     // Clear displays
-    this.displayContent = "Calculating Results...";
+    this.displayContent = 'Calculating Results...';
     this.triviaAnswers = [];
-    console.log('show Results');
     this.submitResults();
     const sub = this.acs$
       .pipe(first((instances) => instances !== undefined))
       .subscribe((val) => {
         console.log(val.average);
-        this.displayContent = "Score: "+ this.totalScore + " / " + this.numberOfQuestions;
-        this.finalACS = "Updated ACS: " + val.average;
+        this.displayContent =
+          'Score: ' + this.totalScore + ' / ' + this.numberOfQuestions;
+        this.finalACS = 'Updated ACS: ' + val.average;
       });
   }
 
