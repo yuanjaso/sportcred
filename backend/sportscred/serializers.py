@@ -126,6 +126,7 @@ class ACSSerializer(serializers.ModelSerializer):
     def get_name(self, acs):
         return acs.sports.name
 
+
 class TriviaAnswersSerializer(serializers.ModelSerializer):
     class Meta:
         model = TriviaAnswer
@@ -137,6 +138,7 @@ class TriviaQuestionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TriviaQuestion
+        depth = 2
         fields = ["id", "correct_answer", "content", "answers"]
 
     def get_answers(self, question):
@@ -152,6 +154,7 @@ class TriviaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TriviaInstance
+        depth = 3
         fields = [
             "id",
             "user",
