@@ -15,7 +15,7 @@ import { Profile } from './profile.types';
 import {
   getACSHistory,
   getProfile,
-  updateProfile
+  updateProfile,
 } from './store/profile.actions';
 
 @Component({
