@@ -25,11 +25,11 @@ export class SingleTriviaComponent implements OnInit {
   triviaInstance$: Observable<TriviaInstance>;
   questions: TriviaQuestion[];
 
-  triviaAnswers: { id: number; answer_content: string }[] = [
-    { id: 0, answer_content: '' },
-    { id: 0, answer_content: '' },
-    { id: 0, answer_content: '' },
-    { id: 0, answer_content: '' },
+  triviaAnswers: Answer[] = [
+    { id: 0, content: '' },
+    { id: 0, content: '' },
+    { id: 0, content: '' },
+    { id: 0, content: '' },
   ];
 
   constructor(private store: Store<AppState>) {}
@@ -113,7 +113,7 @@ export class SingleTriviaComponent implements OnInit {
     // Question
     document.getElementById(this.displayElementId).innerHTML = this.questions[
       index
-    ].question_content;
+    ].content;
     // Answers
     this.triviaAnswers = this.questions[index].answers;
   }
