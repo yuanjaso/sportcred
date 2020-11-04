@@ -135,9 +135,9 @@ export class ProfileComponent implements OnInit {
     list: { id: number; username: string }[]
   ): void {
     this.matDialog.open(RadarListComponent, {
-      width: '15rem',
-      height: '20rem',
-      data: {},
+      width: '20rem',
+      height: '30rem',
+      data: { type, list },
     });
   }
 
