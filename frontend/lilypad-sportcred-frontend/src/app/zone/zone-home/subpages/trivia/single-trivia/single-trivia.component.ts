@@ -18,7 +18,7 @@ import { Answer, TriviaInstance, TriviaQuestion } from '../trivia.types';
 })
 export class SingleTriviaComponent implements OnInit {
   singleQuestionTime = 14;
-  numberOfQuestions = 10;
+  numberOfQuestions = 0;
   currentQuestion = 0;
   displayTimer = '00:00';
   displayContent = '';
@@ -57,6 +57,7 @@ export class SingleTriviaComponent implements OnInit {
       .subscribe((val) => {
         console.log(val.questions);
         this.questions = val.questions;
+        this.numberOfQuestions = this.questions.length;
         this.triviaInstanceId = val.id;
         this.displayQuestion(0);
       });
@@ -67,11 +68,13 @@ export class SingleTriviaComponent implements OnInit {
   }
 
   displayQuestion(index: number) {
-    this.questionStartTime = new Date().toISOString();
-    // Question
-    this.displayContent = this.questions[index].content;
-    // Answers
-    this.triviaAnswers = this.questions[index].answers;
+    if (this.questions[index] !== undefined) {
+      this.questionStartTime = new Date().toISOString();
+      // Question
+      this.displayContent = this.questions[index].content;
+      // Answers
+      this.triviaAnswers = this.questions[index].answers;
+    }
   }
 
   /**
