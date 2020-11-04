@@ -1,7 +1,11 @@
 <div id="users">
   <p class="font-secondary">Users</p>
 
-  <div class="user font-tertiary" *ngFor="let user of (results$ | async).users">
+  <div
+    class="user font-tertiary"
+    *ngFor="let user of (results$ | async).users"
+    (click)="goToProfile(user.id)"
+  >
     {{ user.username }}
   </div>
 

@@ -15,7 +15,7 @@ import { Profile } from './profile.types';
 import {
   getACSHistory,
   getProfile,
-  updateProfile,
+  updateProfile
 } from './store/profile.actions';
 
 @Component({
@@ -52,18 +52,23 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.title.setTitle(all_routes.profile.title);
 
-    //allow the userId to come in from @Input() OR route navigate
-    let trueId = this.userId ?? this.route.snapshot.queryParams.userId;
-    this.store.dispatch(
-      getProfile({
-        userId: trueId,
-      })
-    );
-    this.store.dispatch(
-      getACSHistory({
-        userId: trueId,
-      })
-    );
+    const routeChanges$ = this.route.queryParams
+      .pipe(
+        tap(({ userId }) => {
+          this.store.dispatch(
+            getProfile({
+              userId,
+            })
+          );
+          this.store.dispatch(
+            getACSHistory({
+              userId,
+            })
+          );
+        })
+      )
+      .subscribe();
+    this.subscription.add(routeChanges$);
 
     this.subscription.add(
       this.profileService.$hotProfile
