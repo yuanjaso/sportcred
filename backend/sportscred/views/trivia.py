@@ -61,7 +61,6 @@ class TriviaViewSet(viewsets.ViewSet):
             user = request.user.profile
             instance = TriviaInstance.objects.create(user=user, sport=sport)
             if "other_user" in request.data:
-                print("ehere")
                 if request.data["other_user"] is not None:
                     other_user = User.objects.get(pk=request.data["other_user"]).profile
                     instance.other_user = other_user
@@ -77,7 +76,6 @@ class TriviaViewSet(viewsets.ViewSet):
             return Response(result)
         except Exception as e:
             print(e)
-            print("hjere3")
             return Response(
                 {"details": "Profile not found"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -204,12 +202,13 @@ class TriviaViewSet(viewsets.ViewSet):
                 other_acs_history.trivia_instance = instance
                 other_acs_history.save()
 
-            if instance.other_user:
+            if instance.other_user is None:
                 # Multiplayer return nothing
                 return Response()
             else:
                 # return acs average and sport
                 # calculate number of correct questions
+                print("here")
                 sum = 0
                 for res in user_response:
                     if res.is_correct:
@@ -225,9 +224,6 @@ class TriviaViewSet(viewsets.ViewSet):
                 )
                 user_acs_history.trivia_instance = instance
                 user_acs_history.save()
-                print("1")
-                TriviaSerializer(instance).data
-                print("2")
                 return Response(TriviaSerializer(instance).data)
         except Exception as e:
             print(e)
