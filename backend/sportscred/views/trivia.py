@@ -62,8 +62,9 @@ class TriviaViewSet(viewsets.ViewSet):
             user = request.user.profile
             instance = TriviaInstance.objects.create(user=user, sport=sport)
             if "other_user" in request.data:
-                other_user = User.objects.get(pk=request.data["other_user"]).profile
-                instance.other_user = other_user
+                if request.data["other_user"]:
+                    other_user = User.objects.get(pk=request.data["other_user"]).profile
+                    instance.other_user = other_user
             instance.select_questions()
             instance.save()
             return Response(TriviaSerializer(instance).data)
