@@ -15,9 +15,11 @@ import { ProfileService } from './profile.service';
 import { Profile, RadarUser } from './profile.types';
 import { RadarListComponent } from './radar-list/radar-list.component';
 import {
+  addUserToRadarList,
   getACSHistory,
   getProfile,
   getRadarList,
+  removeUserFromRadarList,
   updateProfile
 } from './store/profile.actions';
 
