@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import {
   profileACSHistoryURL,
   profilePictureURL,
@@ -26,19 +27,20 @@ export class ProfileService {
 
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
-      .get<Profile>(profileURL, { user_id: userId })
+      .get<any>(profileURL, { user_id: userId })
       .pipe(
         // ! temporary solution to get right payload
         map((profile) => ({
           ...profile,
+          profilepicture: environment.backendUrl + profile.profilepicture.url,
+
+          //todo --------mock data-------------
           acs: 945,
           favourite_sports: [
             { id: 1, name: 'Basketball' },
             { id: 2, name: 'Football' },
             { id: 3, name: 'Soccer' },
           ],
-          profilepicture:
-            'https://miro.medium.com/max/3288/1*Eu8NZH76BTABlaSOac6Tyg.jpeg',
         }))
       );
   }
@@ -54,7 +56,9 @@ export class ProfileService {
   }
   updateProfilePicture(picture: File): Observable<Profile> {
     console.log(picture);
-    return this.httpClient.get(profilePictureURL);
+    let formData = new FormData();
+    formData.append('media', picture);
+    return this.httpClient.put(profilePictureURL, formData);
   }
   getRadarList(userId: number): Observable<RadarList> {
     return this.httpClient

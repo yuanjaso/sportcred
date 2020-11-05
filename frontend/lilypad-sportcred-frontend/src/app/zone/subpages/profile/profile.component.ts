@@ -216,7 +216,8 @@ export class ProfileComponent implements OnInit {
   }
   uploadNewPhoto(event) {
     const picture = event?.target?.files[0];
-    if (picture) {
+    const validFile = ['image/jpeg', 'image/png'].includes(picture?.type);
+    if (picture && validFile) {
       this.store.dispatch(updateProfilePicture({ picture }));
     }
   }
