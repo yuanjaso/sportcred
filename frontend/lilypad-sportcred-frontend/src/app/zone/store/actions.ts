@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Team, Player, Sport } from '../zone.types';
+import { Player, Sport, Team } from '../zone.types';
 
 export const getAllSportsTeams = createAction('[Zone] Get All Sports Teams');
 export const setAllSportsTeams = createAction(
@@ -23,4 +23,9 @@ export const setAllSports = createAction(
 
 export const clearAllZoneData = createAction(
   '[Zone] clear All Players And Teams'
+);
+
+export const searchForResults = createAction(
+  '[Zone] Search For Results',
+  props<{ search: string }>()
 );

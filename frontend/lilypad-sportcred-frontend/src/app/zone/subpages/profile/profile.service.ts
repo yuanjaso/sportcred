@@ -2,17 +2,26 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
+import { User } from '../../../auth/auth.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
-import { User } from '../../zone-home/subpages/trivia/trivia.types';
-import { ACSHistory, Profile, UpdateProfilePayload } from './profile.types';
+import {
+  ACSHistory,
+  Profile,
+  RadarList,
+  UpdateProfilePayload
+} from './profile.types';
 
 @Injectable()
 export class ProfileService {
-  constructor(private httpClient: HttpClientWrapper) {}
-  
+  users$ = new Subject<User[]>();
+  radarList$ = new Subject<RadarList>();
+  refreshRadarList$ = new Subject<void>();
+
   $hotProfile = new Subject<Profile>();
   $hotACSHistory = new Subject<ACSHistory[]>();
-  users$ = new Subject<User[]>();
+
+  constructor(private httpClient: HttpClientWrapper) {}
+
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
       .get<Profile>(profileURL, { user_id: userId })
@@ -43,5 +52,29 @@ export class ProfileService {
 
   getAllUsers(): Observable<User[]> {
     return this.httpClient.get('users');
+  }
+
+  getRadarList(userId: number): Observable<RadarList> {
+    return this.httpClient
+      .get<{
+        id: string;
+        followers: { user: { id: number; username: string } }[];
+        following: { id: number; username: string }[];
+      }>(`profile/${userId}/radar`)
+      .pipe(
+        map((response) => ({
+          ...response,
+          followers: response.followers.map((el) => el.user),
+          id: Number(response.id),
+        }))
+      );
+  }
+
+  addUserToRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.put(`profile/${userId}/radar`, null);
+  }
+
+  removeUserFromRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.delete(`profile/${userId}/radar`);
   }
 }

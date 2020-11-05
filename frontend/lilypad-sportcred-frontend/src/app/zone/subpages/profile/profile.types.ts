@@ -29,3 +29,14 @@ export interface ACS {
   average: { score__avg: number };
   [sport: string]: any;
 }
+
+export interface RadarUser {
+  id: number;
+  username: string;
+}
+
+export interface RadarList {
+  id: number;
+  followers: RadarUser[];
+  following: RadarUser[];
+}

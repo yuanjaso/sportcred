@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap, switchMapTo, tap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, switchMapTo, tap } from 'rxjs/operators';
 import { ProfileService } from '../profile.service';
 import {
+  addUserToRadarList,
   getACSHistory,
   getAllUsers,
   getProfile,
+  getRadarList,
+  removeUserFromRadarList,
   updateProfile
 } from './profile.actions';
 
@@ -17,6 +20,40 @@ export class ProfileEffects {
         ofType(getAllUsers),
         switchMapTo(this.profileService.getAllUsers()),
         tap((users) => this.profileService.users$.next(users))
+      ),
+    { dispatch: false }
+  );
+
+  addUserToRadarList$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(addUserToRadarList),
+        mergeMap(({ userId }) =>
+          this.profileService.addUserToRadarList(userId)
+        ),
+        tap(() => this.profileService.refreshRadarList$.next())
+      ),
+    { dispatch: false }
+  );
+
+  removeUserFromRadarList$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(removeUserFromRadarList),
+        mergeMap(({ userId }) =>
+          this.profileService.removeUserFromRadarList(userId)
+        ),
+        tap(() => this.profileService.refreshRadarList$.next())
+      ),
+    { dispatch: false }
+  );
+
+  getRadarList$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(getRadarList),
+        switchMap(({ userId }) => this.profileService.getRadarList(userId)),
+        tap((radarList) => this.profileService.radarList$.next(radarList))
       ),
     { dispatch: false }
   );

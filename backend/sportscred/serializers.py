@@ -102,17 +102,31 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["user", "status", "highlights", "about", "profilepicture"]
 
 
+class ProfiletoUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ["user"]
+
+
 class FollowSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = ["followers", "following"]
 
     def get_following(self, profile):
-        return Profile.objects.filter(followers=profile).values_list(
-            "user__pk", flat=True
-        )
+
+        return UserSerializer(
+            User.objects.filter(profile__followers=profile),
+            many=True,
+        ).data
+
+    def get_followers(self, profile):
+        return ProfiletoUserSerializer(profile.followers, many=True).data
 
 
 class ACSSerializer(serializers.ModelSerializer):
