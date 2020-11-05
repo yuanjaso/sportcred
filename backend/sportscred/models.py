@@ -32,7 +32,7 @@ class Profile(models.Model):
 
     @property
     def average_acs(self):
-        return ACS.objects.filter(user=self).aggregate(Models.Avg("score"))
+        return ACS.objects.filter(profile=self).aggregate(Models.Avg("score"))
 
 
 class ProfilePicture(models.Model):

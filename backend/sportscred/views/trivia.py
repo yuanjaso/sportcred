@@ -145,7 +145,6 @@ class TriviaViewSet(viewsets.ViewSet):
                 trivia_instance=instance, user=instance.other_user
             )
             if user_response.exists() and instance.other_user is None:
-                print("is it the right path")
                 sum = 0
                 for res in user_response:
                     if res.is_correct:
@@ -155,25 +154,20 @@ class TriviaViewSet(viewsets.ViewSet):
                 else:
                     user_score = TRIVIA_DELTA
 
-                print("did it break here")
                 user_acs_history = TriviaAcsHistory.create(
                     delta=-TRIVIA_DELTA,
                     profile=instance.user,
                     sport=instance.sport,
                 )
-                print("no it didnt break there")
                 user_acs_history.trivia_instance = instance
                 user_acs_history.save()
                 response = {}
                 response[instance.sport.name] = user_acs_history.score
-                print("maybe here")
                 response["average"] = instance.user.average_acs
-                print("here")
                 return Response(response)
 
             # calculate score and store in trivia instance
             if user_response.exists() and other_user_response.exists():
-                print("its the wrong path")
                 user_score = 0
                 other_user_score = 0
                 # if both are correct for the same question
