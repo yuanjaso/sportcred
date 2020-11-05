@@ -1,17 +1,34 @@
 <ng-container *ngIf="profile !== undefined; else loading">
   <div id="left">
     <div id="follow" class="row xy-center">
+      <ng-container *ngIf="(userId$ | async) !== profile.user.id">
+        <button
+          mat-raised-button
+          *ngIf="showAddToRadarButton"
+          (click)="addToRadar(profile.user.id)"
+        >
+          Add to Radar
+        </button>
+        <button
+          mat-raised-button
+          *ngIf="!showAddToRadarButton"
+          (click)="removeFromRadar(profile.user.id)"
+        >
+          Remove from Radar
+        </button>
+      </ng-container>
+
       <button
         mat-raised-button
         (click)="showRadarList('following', followingList)"
       >
-        My Radar List: {{ following }}
+        Radar List: {{ following }}
       </button>
       <button
         mat-raised-button
         (click)="showRadarList('followers', followersList)"
       >
-        People that have me on their Radar List: {{ followers }}
+        People that have this profile on their Radar List: {{ followers }}
       </button>
     </div>
 

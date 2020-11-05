@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { map, mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import {
@@ -13,11 +13,13 @@ import {
 @Injectable()
 export class ProfileService {
   radarList$ = new Subject<RadarList>();
-
-  constructor(private httpClient: HttpClientWrapper) {}
+  refreshRadarList$ = new Subject<void>();
 
   $hotProfile = new Subject<Profile>();
   $hotACSHistory = new Subject<ACSHistory[]>();
+
+  constructor(private httpClient: HttpClientWrapper) {}
+
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
       .get<Profile>(profileURL, { user_id: userId })
@@ -48,19 +50,19 @@ export class ProfileService {
   }
 
   getRadarList(userId: number): Observable<RadarList> {
-    return this.httpClient.get(`profile/${userId}/radar`).pipe(
-      mapTo({
-        id: 1,
-        followers: [
-          { id: 1, username: 'Jhon' },
-          { id: 2, username: 'Jhon' },
-          { id: 3, username: 'Jordan' },
-        ],
-        following: [
-          { id: 1, username: 'Bron' },
-          { id: 1, username: 'Dwade' },
-        ],
-      })
+    return this.httpClient.get<RadarList>(`profile/${userId}/radar`).pipe(
+      map((response) => ({
+        ...response,
+        id: Number(response.id),
+      }))
     );
+  }
+
+  addUserToRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.put(`profile/${userId}/radar`, null);
+  }
+
+  removeUserFromRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.delete(`profile/${userId}/radar`, null);
   }
 }
