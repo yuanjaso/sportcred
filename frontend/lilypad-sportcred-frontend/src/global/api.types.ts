@@ -7,4 +7,5 @@ export const teamsURL = 'teams';
 export const playersURL = 'players';
 export const sportsURL = 'sports';
 export const profileURL = 'profile';
-export const profileACSHistoryURL = (id) => `${profileURL}/${id}/acs_history`; //tell  me if there is an alternative
+export const profileACSHistoryURL = (id) => `${profileURL}/${id}/acs_history`;
+export const profilePictureURL = `${profileURL}/picture`;

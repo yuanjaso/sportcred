@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { EMPTY } from 'rxjs';
+import {
+  catchError,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { selectUserInfo } from 'src/app/auth/store/selectors';
+import { AppState } from 'src/app/store/reducer';
 import { ProfileService } from '../profile.service';
 import {
   addUserToRadarList,
@@ -8,7 +19,8 @@ import {
   getProfile,
   getRadarList,
   removeUserFromRadarList,
-  updateProfile
+  updateProfile,
+  updateProfilePicture,
 } from './profile.actions';
 
 @Injectable()
@@ -73,9 +85,27 @@ export class ProfileEffects {
       ),
     { dispatch: false }
   );
+  updateProfilePicture$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateProfilePicture),
+      mergeMap((action) =>
+        this.profileService.updateProfilePicture(action.picture).pipe(
+          withLatestFrom(this.store.select(selectUserInfo)),
+          map(
+            ([_, user]) => ({
+              type: getProfile.type,
+              userId: user.user_id,
+            }),
+            catchError(() => EMPTY)
+          )
+        )
+      )
+    )
+  );
 
   constructor(
     private actions$: Actions,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private store: Store<AppState>
   ) {}
 }

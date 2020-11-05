@@ -65,7 +65,6 @@ export class AdminEchartsComponent implements OnInit, OnChanges {
       case QuestionType.players:
       case QuestionType.teams:
       case QuestionType.custom:
-        console.log(data);
         let intermediate = {};
 
         data.forEach((answer) => {

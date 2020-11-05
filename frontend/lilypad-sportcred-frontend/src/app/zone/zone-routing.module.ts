@@ -38,7 +38,6 @@ const routes: Routes = [
           ),
         canActivate: [AuthGuardService],
       },
-      //todo add picks in here] },
     ],
   },
 ];
