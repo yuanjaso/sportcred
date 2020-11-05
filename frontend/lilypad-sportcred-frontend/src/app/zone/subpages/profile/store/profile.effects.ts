@@ -17,7 +17,10 @@ export class ProfileEffects {
     () =>
       this.actions$.pipe(
         ofType(addUserToRadarList),
-        mergeMap(({ userId }) => this.profileService.addUserToRadarList(userId))
+        mergeMap(({ userId }) =>
+          this.profileService.addUserToRadarList(userId)
+        ),
+        tap(() => this.profileService.refreshRadarList$.next())
       ),
     { dispatch: false }
   );
@@ -28,7 +31,8 @@ export class ProfileEffects {
         ofType(removeUserFromRadarList),
         mergeMap(({ userId }) =>
           this.profileService.removeUserFromRadarList(userId)
-        )
+        ),
+        tap(() => this.profileService.refreshRadarList$.next())
       ),
     { dispatch: false }
   );

@@ -13,6 +13,7 @@ import {
 @Injectable()
 export class ProfileService {
   radarList$ = new Subject<RadarList>();
+  refreshRadarList$ = new Subject<void>();
 
   $hotProfile = new Subject<Profile>();
   $hotACSHistory = new Subject<ACSHistory[]>();
