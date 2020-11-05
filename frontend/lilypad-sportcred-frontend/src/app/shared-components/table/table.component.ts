@@ -23,8 +23,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   constructor() {}
   ngAfterViewInit(): void {
     this.data = new MatTableDataSource(this.data);
-
-    console.log(this.data, this.paginator);
     this.data.paginator = this.paginator;
   }
 

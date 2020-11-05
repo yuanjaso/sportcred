@@ -13,3 +13,7 @@ export const updateProfile = createAction(
   '[Profile] Update Profile',
   props<{ profile: UpdateProfilePayload }>()
 );
+export const updateProfilePicture = createAction(
+  '[Profile] Update Profile Picture',
+  props<{ picture: File }>()
+);

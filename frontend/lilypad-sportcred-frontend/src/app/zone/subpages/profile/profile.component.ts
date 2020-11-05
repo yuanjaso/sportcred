@@ -16,6 +16,7 @@ import {
   getACSHistory,
   getProfile,
   updateProfile,
+  updateProfilePicture,
 } from './store/profile.actions';
 
 @Component({
@@ -147,9 +148,9 @@ export class ProfileComponent implements OnInit {
     this.fileUpload.nativeElement.click();
   }
   uploadNewPhoto(event) {
-    const image = event?.target?.files[0];
-    if (image) {
-      console.log(image);
+    const picture = event?.target?.files[0];
+    if (picture) {
+      this.store.dispatch(updateProfilePicture({ picture }));
     }
   }
 }

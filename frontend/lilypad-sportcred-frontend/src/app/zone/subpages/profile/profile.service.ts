@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
+import {
+  profileACSHistoryURL,
+  profilePictureURL,
+  profileURL,
+} from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import { ACSHistory, Profile, UpdateProfilePayload } from './profile.types';
 
@@ -38,5 +42,9 @@ export class ProfileService {
 
   updateProfile(profile: UpdateProfilePayload): Observable<Profile> {
     return this.httpClient.patch(profileURL, profile);
+  }
+  updateProfilePicture(picture: File): Observable<Profile> {
+    console.log(picture);
+    return this.httpClient.get(profilePictureURL);
   }
 }
