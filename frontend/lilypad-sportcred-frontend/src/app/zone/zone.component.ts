@@ -9,6 +9,7 @@ import { QuestionaireRegistrationDialogComponent } from '../login/questionaire-r
 import { AppState } from '../store/reducer';
 import * as actions from './store/actions';
 import * as selectors from './store/selectors';
+
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',

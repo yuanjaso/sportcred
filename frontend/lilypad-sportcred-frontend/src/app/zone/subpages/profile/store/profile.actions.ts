@@ -18,6 +18,7 @@ export const updateProfilePicture = createAction(
   props<{ picture: File }>()
 );
 
+export const getAllUsers = createAction('[Profile] Get All Users');
 export const getRadarList = createAction(
   '[Profile] Get Radar List',
   props<{ userId: number }>()

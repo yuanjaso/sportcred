@@ -56,6 +56,11 @@ const admin: pageConfig = {
   title: 'SPORTCRED - Admin',
 };
 
+const single_trivia: pageConfig = {
+  url: 'single',
+  title: 'SPORTCRED - Trivia',
+};
+
 export const all_routes = {
   admin,
   profile,
@@ -67,4 +72,5 @@ export const all_routes = {
   debate,
   predictions,
   open_court,
+  single_trivia,
 };

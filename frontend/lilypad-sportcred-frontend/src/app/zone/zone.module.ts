@@ -15,6 +15,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ZoneHomeModule } from './zone-home/zone-home.module';
 import { ZoneRoutingModule } from './zone-routing.module';
 import { ZoneComponent } from './zone.component';
+
 @NgModule({
   declarations: [
     ZoneComponent,

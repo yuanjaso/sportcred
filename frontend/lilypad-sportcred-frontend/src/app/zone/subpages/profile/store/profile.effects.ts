@@ -7,8 +7,9 @@ import {
   map,
   mergeMap,
   switchMap,
+  switchMapTo,
   tap,
-  withLatestFrom,
+  withLatestFrom
 } from 'rxjs/operators';
 import { selectUserInfo } from 'src/app/auth/store/selectors';
 import { AppState } from 'src/app/store/reducer';
@@ -16,15 +17,26 @@ import { ProfileService } from '../profile.service';
 import {
   addUserToRadarList,
   getACSHistory,
+  getAllUsers,
   getProfile,
   getRadarList,
   removeUserFromRadarList,
   updateProfile,
-  updateProfilePicture,
+  updateProfilePicture
 } from './profile.actions';
 
 @Injectable()
 export class ProfileEffects {
+  getAllUsers$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(getAllUsers),
+        switchMapTo(this.profileService.getAllUsers()),
+        tap((users) => this.profileService.users$.next(users))
+      ),
+    { dispatch: false }
+  );
+
   addUserToRadarList$ = createEffect(
     () =>
       this.actions$.pipe(

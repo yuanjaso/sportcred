@@ -26,7 +26,7 @@ const apiRequirements: API[] = [
         ACS: {
           average: 1234,
           basketball: 1234,
-        }
+        },
       },
     },
   },
@@ -57,7 +57,7 @@ const apiRequirements: API[] = [
         ACS: {
           average: 1234,
           basketball: 1234,
-        }
+        },
       },
     },
   },
@@ -80,7 +80,7 @@ const apiRequirements: API[] = [
           score: 1300,
           //source_type: "T", // just T for now this only shows if group_by is false
           user_id: 3,
-          sports: 1
+          sports: 1,
         },
       ],
     },

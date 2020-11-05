@@ -50,7 +50,9 @@
 
       <div id="acs" class="column xy-center">
         <p class="font-secondary white-font">ACS</p>
-        <p class="font-secondary white-font">{{ profile.acs }}</p>
+        <p class="font-tertiary white-font" *ngFor="let acsScore of acsScores">
+          {{ acsScore.name + ": " + acsScore.score }}
+        </p>
       </div>
     </div>
 

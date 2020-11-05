@@ -4,7 +4,7 @@ export interface Profile {
     username: string;
     is_superuser: boolean;
   };
-  acs: number;
+  ACS: ACSProfile;
   status: string;
   profilepicture: string;
   about: string;
@@ -24,6 +24,16 @@ export type UpdateProfilePayload = Partial<
     favourite_sports: number[];
   }
 >;
+
+export interface ACSProfile {
+  average: number;
+  [sport: string]: number;
+}
+
+export interface ACS {
+  average: { score__avg: number };
+  [sport: string]: any;
+}
 
 export interface RadarUser {
   id: number;

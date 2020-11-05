@@ -9,7 +9,7 @@ import {
 import {
   triviaFeatureKey,
   TriviaState,
-} from '../zone/zone-home/subpages/trivia/store/reducer';
+} from '../zone/zone-home/subpages/trivia/store/trivia.reducer';
 import { AppState } from './reducer';
 
 export const selectFeatureTrivia = createFeatureSelector<AppState, TriviaState>(

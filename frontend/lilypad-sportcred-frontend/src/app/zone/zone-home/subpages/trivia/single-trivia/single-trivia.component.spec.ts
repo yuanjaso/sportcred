@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LiveDialogComponent } from './live-dialog.component';
+import { SingleTriviaComponent } from './single-trivia.component';
 
-describe('LiveDialogComponent', () => {
-  let component: LiveDialogComponent;
-  let fixture: ComponentFixture<LiveDialogComponent>;
+describe('SingleTriviaComponent', () => {
+  let component: SingleTriviaComponent;
+  let fixture: ComponentFixture<SingleTriviaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LiveDialogComponent],
+      declarations: [SingleTriviaComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LiveDialogComponent);
+    fixture = TestBed.createComponent(SingleTriviaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

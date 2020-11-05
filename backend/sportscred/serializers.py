@@ -152,6 +152,7 @@ class TriviaQuestionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TriviaQuestion
+        depth = 2
         fields = ["id", "correct_answer", "content", "answers"]
 
     def get_answers(self, question):
@@ -163,10 +164,13 @@ class TriviaQuestionsSerializer(serializers.ModelSerializer):
 class TriviaSerializer(serializers.ModelSerializer):
     questions = TriviaQuestionsSerializer(many=True)
     user = serializers.SerializerMethodField()
-    other_user = serializers.SerializerMethodField()
+    other_user = serializers.SerializerMethodField(
+        allow_null=True, default=None, required=False
+    )
 
     class Meta:
         model = TriviaInstance
+        depth = 3
         fields = [
             "id",
             "user",
