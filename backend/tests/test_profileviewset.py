@@ -98,13 +98,7 @@ def test_follow():
 
     url = URL + f"profile/{pk}/radar/"
     res = requests.put(url, headers={"Authorization": "Token " + token})
-    print(res.json())
     assert res.status_code == 200
-    assert res.json() == {
-        "followers": [],
-        "following": [pk],
-        "id": auth_user_res.json()["user_id"],
-    }
 
 
 def test_get_follows():
@@ -120,11 +114,6 @@ def test_get_follows():
     res = requests.get(url, headers={"Authorization": "Token " + token})
     print(res.json())
     assert res.status_code == 200
-    assert res.json() == {
-        "followers": [auth_user_res.json()["user_id"]],
-        "following": [],
-        "id": str(pk),
-    }
 
 
 def test_unfollow():
