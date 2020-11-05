@@ -106,7 +106,8 @@ export class SingleTriviaComponent implements OnInit {
       // Update score
       this.submitQuestion(
         this.questions[this.currentQuestion].id,
-        null,
+        // ! temporary fix cuz backend doesn't accept null or invalid answer ids
+        1,
         this.questionStartTime,
         this.questionSubmitTime
       );
