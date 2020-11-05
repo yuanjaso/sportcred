@@ -36,7 +36,13 @@ export class ProfileService {
           ],
           profilepicture:
             'https://miro.medium.com/max/3288/1*Eu8NZH76BTABlaSOac6Tyg.jpeg',
-        }))
+        })),
+        map((profile) => {
+          if (profile.ACS.average === null) {
+            profile.ACS.average = 0;
+          }
+          return profile;
+        })
       );
   }
 
