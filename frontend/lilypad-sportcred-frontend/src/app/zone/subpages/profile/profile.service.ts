@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { profileACSHistoryURL, profileURL } from 'src/global/api.types';
-import { User } from '../../../auth/auth.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
+import { User } from '../../zone-home/subpages/trivia/trivia.types';
 import {
   ACSHistory,
   Profile,

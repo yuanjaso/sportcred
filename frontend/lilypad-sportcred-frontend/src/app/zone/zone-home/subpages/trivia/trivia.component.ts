@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { all_routes } from '../../../../../global/routing-statics';
 import { AppState } from '../../../../store/reducer';
 import { selectSports } from '../../../store/selectors';
@@ -50,11 +50,6 @@ export class TriviaComponent implements OnInit {
 
   ngOnInit(): void {
     this.sports$ = this.store.select(selectSports);
-    // ! HACK
-    this.users$ = of([
-      { id: 1, username: 'LeBron' },
-      { id: 2, username: 'Jordan' },
-    ]);
     this.users$ = this.profileService.users$;
 
     this.store.dispatch(getAllUsers());
