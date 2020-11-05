@@ -102,8 +102,17 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["user", "status", "highlights", "about", "profilepicture"]
 
 
+class ProfiletoUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ["user"]
+
+
 class FollowSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -116,6 +125,9 @@ class FollowSerializer(serializers.ModelSerializer):
             many=True,
         ).data
 
+    def get_followers(self, profile):
+        return ProfiletoUserSerializer(profile.followers, many=True).data
+
 
 class ACSSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
@@ -127,6 +139,7 @@ class ACSSerializer(serializers.ModelSerializer):
 
     def get_name(self, acs):
         return acs.sports.name
+
 
 class TriviaAnswersSerializer(serializers.ModelSerializer):
     class Meta:
