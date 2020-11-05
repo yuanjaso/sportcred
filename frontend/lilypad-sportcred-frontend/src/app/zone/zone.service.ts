@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { playersURL, sportsURL, teamsURL } from '../../global/api.types';
 import { HttpClientWrapper } from '../http/http-client-wrapper';
@@ -9,6 +9,7 @@ import { PostSearch, SearchResults, UserSearch } from './zone.types';
 })
 export class ZoneService {
   searchResults$ = new BehaviorSubject<SearchResults>({ users: [], posts: [] });
+  sideNavToggle$ = new Subject<boolean>();
 
   constructor(private http: HttpClientWrapper) {}
 
