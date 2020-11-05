@@ -6,6 +6,15 @@ export enum QuestionType {
   players = 'P',
   custom = 'C',
 }
+export enum QuestionName {
+  QN = 'Quantitative',
+  QL = 'Qualitative',
+  S = 'Sports',
+  T = 'Teams',
+  P = 'Players',
+  C = 'Custom',
+}
+
 export interface Question {
   id: number;
   question_content: string;
