@@ -168,6 +168,7 @@ class TriviaViewSet(viewsets.ViewSet):
                 response[instance.sport.name] = user_acs_history.score
                 print("maybe here")
                 response["average"] = instance.user.average_acs
+                print("here")
                 return Response(response)
 
             # calculate score and store in trivia instance
