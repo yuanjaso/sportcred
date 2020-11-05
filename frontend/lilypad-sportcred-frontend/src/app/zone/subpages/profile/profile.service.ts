@@ -32,7 +32,9 @@ export class ProfileService {
         // ! temporary solution to get right payload
         map((profile) => ({
           ...profile,
-          profilepicture: environment.backendUrl + profile.profilepicture.url,
+          profilepicture: profile?.profilepicture?.url
+            ? environment.backendUrl + profile.profilepicture.url
+            : 'https://startupheretoronto.com/wp-content/uploads/2019/07/default-user-image.png',
 
           //todo --------mock data-------------
           acs: 945,
