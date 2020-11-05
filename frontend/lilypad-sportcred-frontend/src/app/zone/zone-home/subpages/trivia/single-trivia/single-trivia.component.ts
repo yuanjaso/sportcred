@@ -134,7 +134,6 @@ export class SingleTriviaComponent implements OnInit {
       this.stopTimers();
       // Check if correct answer
       if (this.isCorrect(this.currentQuestion, answerId)) {
-        console.log('Correct!');
         this.totalScore += 1;
       }
       // Add to final results
@@ -204,12 +203,12 @@ export class SingleTriviaComponent implements OnInit {
     this.displayContent = 'Calculating Results...';
     this.triviaAnswers = [];
     this.submitResults();
-    const sub = this.acs$
-      .pipe(first((instances) => instances !== undefined))
+    this.acs$
+      .pipe(first((average) => average !== undefined))
       .subscribe((val) => {
         this.displayContent =
           'Score: ' + this.totalScore + ' / ' + this.numberOfQuestions;
-        this.finalACS = 'Updated ACS: ' + val.average;
+        this.finalACS = 'Updated ACS: ' + val.average.score__avg;
       });
   }
 
