@@ -9,6 +9,6 @@ Your mark: 2
 Working software: 8 marks if features work flawlessly as described in Jira, take away 1 mark for each problem you spot until the mark hits zero.
 Your mark: 8
 
-Great jobs!
+Great job!
 
 Total demo mark: 10/10
