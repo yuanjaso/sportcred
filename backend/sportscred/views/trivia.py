@@ -155,15 +155,18 @@ class TriviaViewSet(viewsets.ViewSet):
                 else:
                     user_score = TRIVIA_DELTA
 
+                print("did it break here")
                 user_acs_history = TriviaAcsHistory.create(
                     delta=-TRIVIA_DELTA,
                     profile=instance.user,
                     sport=instance.sport,
                 )
+                print("no it didnt break there")
                 user_acs_history.trivia_instance = instance
                 user_acs_history.save()
                 response = {}
                 response[instance.sport.name] = user_acs_history.score
+                print("maybe here")
                 response["average"] = instance.user.average_acs
                 return Response(response)
 
