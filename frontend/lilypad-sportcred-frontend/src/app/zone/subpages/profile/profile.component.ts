@@ -67,49 +67,30 @@ export class ProfileComponent implements OnInit {
       map((user) => user.user_id)
     );
 
+    const routeChanges$ = this.route.queryParams.pipe(
+      map(({ userId }) => Number(userId)),
+      tap((userId) => {
+        this.store.dispatch(
+          getProfile({
+            userId,
+          })
+        );
+        this.store.dispatch(
+          getACSHistory({
+            userId,
+          })
+        );
+        this.refreshRadarList(userId);
+      })
+    );
+    this.subscription.add(routeChanges$.subscribe());
 
-    const routeChanges$ = this.route.queryParams
+    this.profileService.refreshRadarList$
       .pipe(
-        tap(({ userId }) => {
-          this.store.dispatch(
-            getProfile({
-              userId,
-            })
-          );
-          this.store.dispatch(
-            getACSHistory({
-              userId,
-            })
-          );
-          // need to some how ignore the previous persons ACS
-          const radarList$ = this.profileService.radarList$.pipe(
-            first(),
-            withLatestFrom(this.userId$),
-            tap(([radarList, currentUserId]) => {
-              this.followers = radarList.followers.length;
-              this.following = radarList.following.length;
-              this.followersList = radarList.followers;
-              this.followingList = radarList.following;
-
-              // execute this logic if we are looking at a different person's profile
-              if (radarList.id !== currentUserId) {
-                // check if the followers list contains the logged in person's user id
-                // if true then show the remove from radar button
-                // if false then show the add to radar button
-                if (this.followersList.find((el) => el.id === currentUserId)) {
-                  this.showAddToRadarButton = false;
-                } else {
-                  this.showAddToRadarButton = true;
-                }
-              }
-            })
-          );
-          radarList$.subscribe();
-          this.store.dispatch(getRadarList({ userId: Number(userId) }));
-        })
+        withLatestFrom(routeChanges$),
+        tap(([, userId]) => this.refreshRadarList(userId))
       )
       .subscribe();
-    this.subscription.add(routeChanges$);
 
     this.subscription.add(
       this.profileService.$hotProfile
@@ -146,6 +127,33 @@ export class ProfileComponent implements OnInit {
     ])
       .pipe(tap((sports) => (this.sports = sports)))
       .subscribe();
+  }
+
+  refreshRadarList(userId: number): void {
+    const radarList$ = this.profileService.radarList$.pipe(
+      first(),
+      withLatestFrom(this.userId$),
+      tap(([radarList, currentUserId]) => {
+        this.followers = radarList.followers.length;
+        this.following = radarList.following.length;
+        this.followersList = radarList.followers;
+        this.followingList = radarList.following;
+
+        // execute this logic if we are looking at a different person's profile
+        if (radarList.id !== currentUserId) {
+          // check if the followers list contains the logged in person's user id
+          // if true then show the remove from radar button
+          // if false then show the add to radar button
+          if (this.followersList.find((el) => el.id === currentUserId)) {
+            this.showAddToRadarButton = false;
+          } else {
+            this.showAddToRadarButton = true;
+          }
+        }
+      })
+    );
+    radarList$.subscribe();
+    this.store.dispatch(getRadarList({ userId }));
   }
 
   addToRadar(userId: number): void {
