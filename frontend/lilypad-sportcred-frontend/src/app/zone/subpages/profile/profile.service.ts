@@ -50,12 +50,19 @@ export class ProfileService {
   }
 
   getRadarList(userId: number): Observable<RadarList> {
-    return this.httpClient.get<RadarList>(`profile/${userId}/radar`).pipe(
-      map((response) => ({
-        ...response,
-        id: Number(response.id),
-      }))
-    );
+    return this.httpClient
+      .get<{
+        id: string;
+        followers: { user: { id: number; username: string } }[];
+        following: { id: number; username: string }[];
+      }>(`profile/${userId}/radar`)
+      .pipe(
+        map((response) => ({
+          ...response,
+          followers: response.followers.map((el) => el.user),
+          id: Number(response.id),
+        }))
+      );
   }
 
   addUserToRadarList(userId: number): Observable<unknown> {
