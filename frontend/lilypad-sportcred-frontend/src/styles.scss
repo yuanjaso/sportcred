@@ -34,28 +34,26 @@ body {
   }
 }
 
-/*CUSTOM MATERIAL STYLING*/
-
-.mat-form-field-wrapper {
-  margin-bottom: -1.25em !important;
-}
-
-// //this styling allows the error message to be multilined, without this styling, the error message wil be overlapped and hidden
-mat-form-field .mat-form-field {
-  &-underline {
-    position: relative;
-    bottom: auto;
-  }
-  &-subscript-wrapper {
-    position: static;
-  }
-}
 //makes sure all swiper cards are filling the max height
 .swiper-slide {
   height: auto !important;
 }
 /*COMPONENT SPECIFIC STYLING*/
 .login-component {
+  /*CUSTOM MATERIAL STYLING*/
+  .mat-form-field-wrapper {
+    margin-bottom: -1.25rem !important;
+  }
+  // //this styling allows the error message to be multilined, without this styling, the error message wil be overlapped and hidden
+  mat-form-field .mat-form-field {
+    &-underline {
+      position: relative;
+      bottom: auto;
+    }
+    &-subscript-wrapper {
+      position: static;
+    }
+  }
   .button {
     width: 100%;
     & button {
