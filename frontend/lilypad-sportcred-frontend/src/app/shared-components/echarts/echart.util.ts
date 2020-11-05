@@ -19,8 +19,7 @@ export function alignHistoryToFormat(history: ACSHistory[]): FormatedChartData {
   let propagatingPoint = 0;
   for (let i = 0; i < dates.length; i++) {
     if (rawIndex < history.length && dates[i] === history[rawIndex].date) {
-      //todo remove this check once api is in
-      propagatingPoint = history[rawIndex]?.score ?? propagatingPoint;
+      propagatingPoint = history[rawIndex].score;
       rawIndex++;
     }
     data[i] = propagatingPoint;
