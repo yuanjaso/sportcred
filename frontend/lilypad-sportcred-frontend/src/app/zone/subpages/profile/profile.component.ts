@@ -60,12 +60,13 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.title.setTitle(all_routes.profile.title);
+
     this.userId$ = this.store.select(selectUserInfo).pipe(
       first(),
       map((user) => user.user_id)
     );
 
-    this.title.setTitle(all_routes.profile.title);
 
     const routeChanges$ = this.route.queryParams
       .pipe(
