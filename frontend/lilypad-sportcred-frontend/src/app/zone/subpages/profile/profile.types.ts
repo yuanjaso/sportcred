@@ -26,6 +26,6 @@ export type UpdateProfilePayload = Partial<
 >;
 
 export interface ACS {
-  average: number;
-  [sport: string]: number;
+  average: { score__avg: number };
+  [sport: string]: any;
 }

@@ -8,11 +8,7 @@ import { ProfileService } from '../../../subpages/profile/profile.service';
 import { ACS } from '../../../subpages/profile/profile.types';
 import { getAllUsers } from '../../../subpages/profile/store/profile.actions';
 import { Sport } from '../../../zone.types';
-import {
-  createTriviaInstance,
-  submitTriviaResults,
-} from './store/trivia.actions';
-import { selectUpdatedACS } from './store/trivia.selectors';
+import { createTriviaInstance } from './store/trivia.actions';
 import { User } from './trivia.types';
 
 @Component({
@@ -39,32 +35,6 @@ export class TriviaComponent implements OnInit {
     private store: Store<AppState>,
     private profileService: ProfileService
   ) {}
-
-  // ! temporary function just to show that displaying updated ACS works
-  example(): void {
-    this.acs$ = this.store.select(selectUpdatedACS);
-
-    this.store.dispatch(
-      submitTriviaResults({
-        results: {
-          questions: [
-            {
-              id: 4,
-              submission_answer: 5,
-              submission_time: new Date().toISOString(),
-            },
-            {
-              id: 5,
-              submission_answer: 2,
-              submission_time: new Date().toISOString(),
-            },
-          ],
-          start_time: new Date().toISOString(),
-          trivia_instance: 1,
-        },
-      })
-    );
-  }
 
   /**
    * Send request to backend to initiate a trivia instance

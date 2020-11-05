@@ -61,7 +61,6 @@ class TriviaViewSet(viewsets.ViewSet):
             user = request.user.profile
             instance = TriviaInstance.objects.create(user=user, sport=sport)
             if "other_user" in request.data:
-                print("ehere")
                 if request.data["other_user"] is not None:
                     other_user = User.objects.get(pk=request.data["other_user"]).profile
                     instance.other_user = other_user
@@ -77,7 +76,6 @@ class TriviaViewSet(viewsets.ViewSet):
             return Response(result)
         except Exception as e:
             print(e)
-            print("hjere3")
             return Response(
                 {"details": "Profile not found"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -146,6 +144,26 @@ class TriviaViewSet(viewsets.ViewSet):
             other_user_response = TriviaResponse.objects.filter(
                 trivia_instance=instance, user=instance.other_user
             )
+            if user_response.exists() and instance.other_user is None:
+                sum = 0
+                for res in user_response:
+                    if res.is_correct:
+                        sum += 1
+                    else:
+                        sum -= 1
+
+                user_acs_history = TriviaAcsHistory.create(
+                    delta=sum,
+                    profile=instance.user,
+                    sport=instance.sport,
+                )
+                user_acs_history.trivia_instance = instance
+                user_acs_history.save()
+                response = {}
+                response[instance.sport.name] = user_acs_history.score
+                response["average"] = instance.user.average_acs
+                return Response(response)
+
             # calculate score and store in trivia instance
             if user_response.exists() and other_user_response.exists():
                 user_score = 0
@@ -204,7 +222,7 @@ class TriviaViewSet(viewsets.ViewSet):
                 other_acs_history.trivia_instance = instance
                 other_acs_history.save()
 
-            if instance.other_user:
+            if not other_user_response.exists():
                 # Multiplayer return nothing
                 return Response()
             else:

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
 import { ACS } from '../../../subpages/profile/profile.types';
 import { TriviaInstance, TriviaResults } from './trivia.types';
@@ -24,8 +23,6 @@ export class TriviaService {
    * @param results
    */
   submitTriviaResults(results: TriviaResults): Observable<ACS | null> {
-    // return this.httpClient.post('trivia/answers', results);
-    // ! hardcoded, waiting for backend to implement
-    return of({ average: 455, basketball: 12 }).pipe(delay(1500));
+    return this.httpClient.post('trivia/answers', results);
   }
 }
