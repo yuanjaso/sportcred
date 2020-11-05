@@ -20,7 +20,6 @@ export class ProfileService {
         // ! temporary solution to get right payload
         map((profile) => ({
           ...profile,
-          acs: 945,
           favourite_sports: [
             { id: 1, name: 'Basketball' },
             { id: 2, name: 'Football' },

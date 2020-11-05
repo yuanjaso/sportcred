@@ -4,7 +4,7 @@ export interface Profile {
     username: string;
     is_superuser: boolean;
   };
-  acs: number;
+  ACS: ACS;
   status: string;
   profilepicture: string;
   about: string;
