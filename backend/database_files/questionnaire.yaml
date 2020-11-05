@@ -11,8 +11,7 @@ QuestionnaireQuestion:
     question_type: "S"
   - content: "Favourite sports team?"
     question_type: "T"
-
-  - content: "What's your favourite color?"
+  - content: "Tell me a bit about yourself?"
     question_type: "QL"
 QuestionnaireAnswer:
   # for custom enumeration
@@ -24,3 +23,58 @@ QuestionnaireAnswer:
     answer: "Universtity"
   - original_question: "Highest level of sport play?"
     answer: "Professional"
+QuestionnareResponse:
+  favourite_sport:
+    id: 1
+    answers:
+      - user_id: 3
+        sport: 1
+      - user_id: 4
+        sport: 1
+      - user_id: 5
+        sport: 1
+  age:
+    id: 2
+    answers:
+      - user_id: 3
+        age: 14
+      - user_id: 4
+        age: 25
+      - user_id: 5
+        age: 17
+  play:
+    id: 3
+    answers:
+      - user_id: 3
+        answer: 1
+      - user_id: 4
+        answer: 3
+      - user_id: 5
+        answer: 3
+  learn:
+    id: 4
+    answers:
+      - user_id: 3
+        sport: 2
+      - user_id: 4
+        sport: 3
+      - user_id: 5
+        sport: 2
+  team:
+    id: 5
+    answers:
+      - user_id: 3
+        team: 2
+      - user_id: 4
+        team: 3
+      - user_id: 5
+        team: 3
+  tell:
+    id: 6
+    answers:
+      - user_id: 3
+        answer: "I love basketball"
+      - user_id: 4
+        answer: "i dont love baseball"
+      - user_id: 5
+        answer: "i wanna be a sports analyst"
