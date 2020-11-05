@@ -63,6 +63,6 @@ export class ProfileService {
   }
 
   removeUserFromRadarList(userId: number): Observable<unknown> {
-    return this.httpClient.delete(`profile/${userId}/radar`, null);
+    return this.httpClient.delete(`profile/${userId}/radar`);
   }
 }
