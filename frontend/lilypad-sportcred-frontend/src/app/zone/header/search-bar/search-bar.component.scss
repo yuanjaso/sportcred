@@ -1,0 +1,11 @@
+@import "../../../../global/colors.scss";
+
+:host {
+  display: flex;
+  flex-direction: row;
+  background-color: $white;
+
+  ::ng-deep span.mat-button-wrapper {
+    display: flex;
+  }
+}

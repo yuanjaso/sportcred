@@ -76,12 +76,34 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   navigate(e) {
     if (e.index >= this.pages.length) return;
-    this.router.navigate([this.pages[e.index]?.url], {
-      relativeTo: this.route,
-      queryParams: { userId: this.userId },
-    });
+
+    let target = [this.pages[e.index]?.url];
+    if (!this.route.snapshot['_routerState'].url.includes(target))
+      this.router.navigate(target, {
+        relativeTo: this.route,
+        queryParams: { userId: this.userId },
+      });
+    // // the tab might change but are already at the correct route,
+    // // this might happen when we route through the search results dialog
+    // // in this case that has priority over the routing here
+
+    // // if the current route is already profile and the proposed route is also profile stop
+    // // we don't want the current user's user id to be in the url, we want whatever is in the search result
+
+    // const proposedRoute = this.pages[e.index]?.url;
+    // if (!this.isTryingToGoToProfileTwice(proposedRoute)) {
+
+    // }
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
+
+  // private isTryingToGoToProfileTwice(proposedRoute: string): boolean {
+  //   const profileRoute = `${all_routes.profile.url}`;
+  //   return (
+  //     this.router.url.includes(profileRoute) &&
+  //     proposedRoute.includes(profileRoute)
+  //   );
+  // }
 }

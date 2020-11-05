@@ -1,11 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import * as echarts from 'echarts';
 @Component({
   selector: 'app-area-echarts',
   templateUrl: './echarts.component.html',
   styleUrls: ['./echarts.component.scss'],
 })
-export class AreaEchartsComponent implements OnInit {
+export class AreaEchartsComponent implements OnInit, OnChanges {
   //dataList[12] should be the datapoint of date[12]
   @Input() dataList;
   @Input() dateList;
@@ -15,10 +21,10 @@ export class AreaEchartsComponent implements OnInit {
   options;
   constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges) {
     this.build();
   }
-
   build() {
     this.options = {
       tooltip: {
