@@ -75,13 +75,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   navigate(e) {
+    if (e.index >= this.pages.length) return;
+
     let target = [this.pages[e.index]?.url];
     if (!this.route.snapshot['_routerState'].url.includes(target))
       this.router.navigate(target, {
         relativeTo: this.route,
         queryParams: { userId: this.userId },
       });
-    // if (e.index >= this.pages.length) return;
     // // the tab might change but are already at the correct route,
     // // this might happen when we route through the search results dialog
     // // in this case that has priority over the routing here
