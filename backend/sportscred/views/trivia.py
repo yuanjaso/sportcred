@@ -152,10 +152,10 @@ class TriviaViewSet(viewsets.ViewSet):
                 if sum > 5:
                     user_score = TRIVIA_DELTA
                 else:
-                    user_score = TRIVIA_DELTA
+                    user_score = -TRIVIA_DELTA
 
                 user_acs_history = TriviaAcsHistory.create(
-                    delta=-TRIVIA_DELTA,
+                    delta=user_score,
                     profile=instance.user,
                     sport=instance.sport,
                 )
