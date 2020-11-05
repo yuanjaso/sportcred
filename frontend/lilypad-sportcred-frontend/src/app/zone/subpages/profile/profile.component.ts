@@ -144,11 +144,9 @@ export class ProfileComponent implements OnInit {
           // check if the followers list contains the logged in person's user id
           // if true then show the remove from radar button
           // if false then show the add to radar button
-          if (this.followersList.find((el) => el.id === currentUserId)) {
-            this.showAddToRadarButton = false;
-          } else {
-            this.showAddToRadarButton = true;
-          }
+          this.showAddToRadarButton = !this.followersList.find(
+            (el) => el.id === currentUserId
+          );
         }
       })
     );
@@ -171,6 +169,7 @@ export class ProfileComponent implements OnInit {
     this.matDialog.open(RadarListComponent, {
       width: '20rem',
       height: '30rem',
+      maxWidth: '40vw',
       data: { type, list },
     });
   }
