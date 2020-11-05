@@ -76,10 +76,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   navigate(e) {
     if (e.index >= this.pages.length) return;
-    this.router.navigate([this.pages[e.index]?.url], {
-      relativeTo: this.route,
-      queryParams: { userId: this.userId },
-    });
+
+    let target = [this.pages[e.index]?.url];
+    if (!this.route.snapshot['_routerState'].url.includes(target))
+      this.router.navigate(target, {
+        relativeTo: this.route,
+        queryParams: { userId: this.userId },
+      });
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

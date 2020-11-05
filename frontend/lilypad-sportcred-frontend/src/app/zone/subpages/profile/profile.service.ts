@@ -7,14 +7,23 @@ import {
   profileURL,
 } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
-import { ACSHistory, Profile, UpdateProfilePayload } from './profile.types';
+import {
+  ACSHistory,
+  Profile,
+  RadarList,
+  UpdateProfilePayload,
+} from './profile.types';
 
 @Injectable()
 export class ProfileService {
-  constructor(private httpClient: HttpClientWrapper) {}
+  radarList$ = new Subject<RadarList>();
+  refreshRadarList$ = new Subject<void>();
 
   $hotProfile = new Subject<Profile>();
   $hotACSHistory = new Subject<ACSHistory[]>();
+
+  constructor(private httpClient: HttpClientWrapper) {}
+
   getProfile(userId: number): Observable<Profile> {
     return this.httpClient
       .get<Profile>(profileURL, { user_id: userId })
@@ -46,5 +55,28 @@ export class ProfileService {
   updateProfilePicture(picture: File): Observable<Profile> {
     console.log(picture);
     return this.httpClient.get(profilePictureURL);
+  }
+  getRadarList(userId: number): Observable<RadarList> {
+    return this.httpClient
+      .get<{
+        id: string;
+        followers: { user: { id: number; username: string } }[];
+        following: { id: number; username: string }[];
+      }>(`profile/${userId}/radar`)
+      .pipe(
+        map((response) => ({
+          ...response,
+          followers: response.followers.map((el) => el.user),
+          id: Number(response.id),
+        }))
+      );
+  }
+
+  addUserToRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.put(`profile/${userId}/radar`, null);
+  }
+
+  removeUserFromRadarList(userId: number): Observable<unknown> {
+    return this.httpClient.delete(`profile/${userId}/radar`);
   }
 }

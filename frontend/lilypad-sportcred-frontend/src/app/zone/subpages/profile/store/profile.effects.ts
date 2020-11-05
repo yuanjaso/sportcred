@@ -7,19 +7,58 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { selectUserInfo } from '../../../../auth/store/selectors';
-import { AppState } from '../../../../store/reducer';
+import { selectUserInfo } from 'src/app/auth/store/selectors';
+import { AppState } from 'src/app/store/reducer';
 import { ProfileService } from '../profile.service';
 import {
+  addUserToRadarList,
   getACSHistory,
   getProfile,
+  getRadarList,
+  removeUserFromRadarList,
   updateProfile,
   updateProfilePicture,
 } from './profile.actions';
+
 @Injectable()
 export class ProfileEffects {
+  addUserToRadarList$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(addUserToRadarList),
+        mergeMap(({ userId }) =>
+          this.profileService.addUserToRadarList(userId)
+        ),
+        tap(() => this.profileService.refreshRadarList$.next())
+      ),
+    { dispatch: false }
+  );
+
+  removeUserFromRadarList$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(removeUserFromRadarList),
+        mergeMap(({ userId }) =>
+          this.profileService.removeUserFromRadarList(userId)
+        ),
+        tap(() => this.profileService.refreshRadarList$.next())
+      ),
+    { dispatch: false }
+  );
+
+  getRadarList$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(getRadarList),
+        switchMap(({ userId }) => this.profileService.getRadarList(userId)),
+        tap((radarList) => this.profileService.radarList$.next(radarList))
+      ),
+    { dispatch: false }
+  );
+
   getProfile$ = createEffect(
     () =>
       this.actions$.pipe(

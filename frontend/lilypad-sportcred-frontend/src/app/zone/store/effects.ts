@@ -1,13 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { catchError, first, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  first,
+  map,
+  mergeMap,
+  switchMap,
+  tap
+} from 'rxjs/operators';
 import { ZoneService } from '../zone.service';
+import { Player, Sport, Team } from '../zone.types';
 import * as actions from './actions';
-import { Team, Player, Sport } from '../zone.types';
 
 @Injectable()
 export class ZoneEffects {
+  searchForResults$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(actions.searchForResults),
+        switchMap(({ search }) => this.zoneService.searchForResults(search)),
+        tap((results) => {
+          this.zoneService.searchResults$.next(results);
+        })
+      ),
+    { dispatch: false }
+  );
+
   getAllSportsTeams$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.getAllSportsTeams),
