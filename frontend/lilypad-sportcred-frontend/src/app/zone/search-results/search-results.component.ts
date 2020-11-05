@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { all_routes } from '../../../global/routing-statics';
 import { ZoneService } from '../zone.service';
 import { SearchResults } from '../zone.types';
 
@@ -16,11 +16,11 @@ export class SearchResultsComponent implements OnInit {
   constructor(private zoneService: ZoneService, private router: Router) {}
 
   ngOnInit(): void {
-    this.results$ = this.zoneService.searchResults$.pipe(tap(console.log));
+    this.results$ = this.zoneService.searchResults$;
   }
 
   goToProfile(userId: number): void {
-    this.router.navigate(['zone/profile'], {
+    this.router.navigate([`${all_routes.zone.url}/${all_routes.profile.url}`], {
       queryParams: { userId },
     });
   }
