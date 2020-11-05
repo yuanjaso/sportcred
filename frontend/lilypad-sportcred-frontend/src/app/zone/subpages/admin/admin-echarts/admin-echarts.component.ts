@@ -4,9 +4,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { Question } from 'src/app/login/login.types';
 import { QuestionType } from '../../../../login/login.types';
 import { QuestionnaireResponse } from '../admin.types';
@@ -17,8 +15,6 @@ import { QuestionnaireResponse } from '../admin.types';
   styleUrls: ['./admin-echarts.component.scss'],
 })
 export class AdminEchartsComponent implements OnInit, OnChanges {
-  @ViewChild('pag') paginator: MatPaginator;
-
   @Input() question: Question;
   @Input() rawData: QuestionnaireResponse;
 
@@ -96,18 +92,7 @@ export class AdminEchartsComponent implements OnInit, OnChanges {
         });
         break;
       case QuestionType.qualitative:
-        console.log(this.paginator);
-        this.dataList.paginator = this.paginator;
-        this.dataList = [
-          {
-            user: { id: 12, username: 'bob' },
-            answer: 'asdf',
-          },
-          {
-            user: { id: 22, username: 'b2ob' },
-            answer: 'asdf222',
-          },
-        ];
+        this.dataList = data;
       default:
         break;
     }
