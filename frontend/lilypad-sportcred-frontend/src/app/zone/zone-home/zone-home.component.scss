@@ -35,3 +35,10 @@ mat-drawer-container {
   align-items: center;
   text-shadow: 5px 5px 5px black;
 }
+mat-drawer-content {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+mat-drawer {
+  border-right: 1px black solid;
+}
