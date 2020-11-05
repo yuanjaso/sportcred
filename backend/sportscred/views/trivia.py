@@ -145,6 +145,7 @@ class TriviaViewSet(viewsets.ViewSet):
                 trivia_instance=instance, user=instance.other_user
             )
             if user_response.exists() and instance.other_user is None:
+                print("is it the right path")
                 sum = 0
                 for res in user_response:
                     if res.is_correct:
@@ -168,6 +169,7 @@ class TriviaViewSet(viewsets.ViewSet):
 
             # calculate score and store in trivia instance
             if user_response.exists() and other_user_response.exists():
+                print("its the wrong path")
                 user_score = 0
                 other_user_score = 0
                 # if both are correct for the same question
