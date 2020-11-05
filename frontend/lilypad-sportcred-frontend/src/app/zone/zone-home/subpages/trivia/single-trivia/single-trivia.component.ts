@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { interval, Observable, Subscription, timer } from 'rxjs';
-import { first, take } from 'rxjs/operators';
+import { first, skip, take } from 'rxjs/operators';
 import { AppState } from 'src/app/store/reducer';
 import { ACS } from 'src/app/zone/subpages/profile/profile.types';
 import { submitTriviaResults } from '../store/trivia.actions';
@@ -187,6 +187,11 @@ export class SingleTriviaComponent implements OnInit {
   submitResults() {
     console.log(this.triviaQuestionSubmissions);
     this.acs$ = this.store.select(selectUpdatedACS);
+    this.acs$.pipe(skip(1), first()).subscribe((val) => {
+      this.displayContent =
+        'Score: ' + this.totalScore + ' / ' + this.numberOfQuestions;
+      this.finalACS = 'Updated ACS: ' + val.average.score__avg;
+    });
     this.store.dispatch(
       submitTriviaResults({
         results: {
@@ -203,13 +208,6 @@ export class SingleTriviaComponent implements OnInit {
     this.displayContent = 'Calculating Results...';
     this.triviaAnswers = [];
     this.submitResults();
-    this.acs$
-      .pipe(first((average) => average !== undefined))
-      .subscribe((val) => {
-        this.displayContent =
-          'Score: ' + this.totalScore + ' / ' + this.numberOfQuestions;
-        this.finalACS = 'Updated ACS: ' + val.average.score__avg;
-      });
   }
 
   restartTimers() {
