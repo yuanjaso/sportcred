@@ -134,17 +134,89 @@ When answering questions, then I should get a higher score if I answer questions
 
 **Priority** Low | **Estimate** 3
 
-## Open Court
+## The Zone
 
 ### Epic
 
-As a user, I want to be able to share, create, and view posts from other social medias into the open court section of the application
+As a user, I want to be able to share, create, and view posts from other social medias into the Zone section of the application
 
 ### User Story:
 
-As a user, when I log in I should be sent to the open court so that I can see everything interesting what is going on
+As a user, when I log in I should be sent to the Zone so that I can see everything interesting what is going on
 
 ### Acceptance Criteria:
 
-As an existing user, when I log in, I should be able to view the open court as soon as I log in and access every other major section of the application
+As an existing user, when I log in, I should be able to view the Zone as soon as I log in and access every other major section of the application
+**Priority** Low | **Estimate** 3
+
+
+### User Story:
+As a user, I want to be able to create posts so that I can share it to other users
+
+### Acceptance Criteria:
+Given that I'm in the open court, when I fill out a text field and click post then my message should be visible to other users
+
+**Priority** Low | **Estimate** 3
+
+### User Story:
+As a user, I want to be able to access comment sections and read or post my own comment on open court posts so that I can let others know what I think about the post
+
+### Acceptance Criteria:
+Given that I'm in the comment section of a post, when I fill out a comment and press post, then the comment section should be updated with my comment in it for all user to see
+
+**Priority** Low | **Estimate** 3
+
+### User Story:
+As a user, I want to be able to agree or disagree with posts so that I can show what I think about a post in a quick way
+
+### Acceptance Criteria:
+Given that I'm looking at a post, when I click agree, then the number of agreed users in the post should increment and decrement if I click agree
+
+**Priority** Low | **Estimate** 1
+
+
+## Analyze and Debate
+
+### Epic
+
+As a user, I want to be able to debate with others, to generate discussion and to improve my ACS score
+
+### User Story
+
+As an analyst I want to have debates with people who have a similar ACS score as me so I can ensure im having meaningful and fair debates
+
+### Acceptance Criteria
+
+There should be a room for different ratings, you should only be allowed to debate in that room if you have a high enough ACS score
+
+**Priority** Low | **Estimate** 8
+
+### User Story
+
+As a average sports fan or a new sports fan, I want to be able to view other debates so that I can learn what the experts are saying
+
+### Acceptance Criteria
+
+All debates should be public with only the participants being able to edit
+
+**Priority** Low | **Estimate** 3
+
+### User Story
+
+As a user, I want to be able to provide a rating for a debate representing how much I agree with them, so that we can see more meaningful discussions and others can raise their ACS
+
+### Acceptance Criteria
+
+When looking at a debate, I should see a slider to give a rating out of 10 how much I agree with the debate
+
+**Priority** Low | **Estimate** 3
+
+### User Story
+
+As a user, I want to be able to see the average rating for a debate so that I can see how accurate the analysis or statement is.
+
+### Acceptance Criteria
+
+When looking at debates I should see a number next to it
+
 **Priority** Low | **Estimate** 3
