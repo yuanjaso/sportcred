@@ -1,0 +1,16 @@
+@import "../../../../global/colors.scss";
+
+:host {
+  display: flex;
+  flex-direction: row;
+  background-color: $white;
+  width: 7rem;
+  margin: 2rem;
+  margin-bottom: 1rem;
+  ::ng-deep .icon.mat-button-wrapper {
+    display: flex;
+  }
+}
+mat-form-field {
+  width: 7rem;
+}

@@ -8,7 +8,10 @@ html {
   font-size: $font;
 }
 * {
-  font-family: "Staatliches", cursive;
+  &:not(.mat-icon):not(.material-icons) {
+    //here we set the global font, ignoreing mat icons to not override the family
+    font-family: "Staatliches", cursive;
+  }
   font-size: $font;
 }
 .black-font {

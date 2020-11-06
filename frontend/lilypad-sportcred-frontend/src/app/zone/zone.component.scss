@@ -1,29 +1,10 @@
-@import "../../global/fonts.scss";
-@import "../../global/colors.scss";
-.home-layout {
-    height: 100vh;
-    overflow-y: hidden;
-    background: $bg-black;
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100vh;
 }
-
-.mat-card {
-    height: 50vh;
-    margin: 3px;
-    transition: 0.5s;
-    opacity: 1;
-    cursor: pointer;
-}
-
-.mat-card:hover {
-    opacity: 0.5;
-} 
-
-.mat-card-content {
-    @extend .font-primary;
-    @extend .white-font;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-shadow: 5px 5px 5px black;
+.content {
+  flex-grow: 8;
+  overflow-y: auto;
 }

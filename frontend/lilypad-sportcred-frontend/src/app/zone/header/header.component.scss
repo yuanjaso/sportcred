@@ -1,0 +1,17 @@
+@import "../../../global/colors.scss";
+
+.icon {
+  margin-right: 1rem;
+}
+
+.mat-toolbar {
+  background: $bg-black;
+  display: flex;
+  width: 100%;
+}
+
+.logo {
+  width: 10rem;
+  height: 100%;
+  display: block;
+}

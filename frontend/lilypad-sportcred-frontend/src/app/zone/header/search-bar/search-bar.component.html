@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>Search</mat-label>
+  <input matInput [(ngModel)]="search" (keyup.enter)="searchForResults()" />
+
+  <button mat-icon-button matSuffix (click)="searchForResults()">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>

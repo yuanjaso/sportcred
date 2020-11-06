@@ -5,13 +5,16 @@ import { Store } from '@ngrx/store';
 import { EMPTY } from 'rxjs';
 import { catchError, first, map, mergeMap } from 'rxjs/operators';
 import { all_routes } from '../../../global/routing-statics';
-import { setUserInfo } from '../../auth/store/actions';
+import {
+  setUserInfo,
+  setUserQuestionnaireStatus,
+} from '../../auth/store/actions';
 import { selectUserInfo } from '../../auth/store/selectors';
 import { AppState } from '../../store/reducer';
 import { LoginService } from '../login.service';
 import {
-  generalRegistrationInfo,
-  questionaireRegistrationInfo,
+  GeneralRegistrationInfo,
+  QuestionaireRegistrationInfo,
 } from '../login.types';
 import * as actions from './actions';
 
@@ -38,7 +41,7 @@ export class LoginEffects {
   tryRegisterBasic$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.tryRegisterBasic),
-      mergeMap((info: generalRegistrationInfo) => {
+      mergeMap((info: GeneralRegistrationInfo) => {
         return this.loginService.tryRegisterBasic(info).pipe(
           mergeMap((payload) => {
             this.loginService.$registrationStatus.next(true);
@@ -65,10 +68,11 @@ export class LoginEffects {
   tryRegisterQuestionaire$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.tryRegisterQuestionaire),
-      mergeMap((info: questionaireRegistrationInfo) => {
+      mergeMap((info: QuestionaireRegistrationInfo) => {
         return this.loginService.tryRegisterQuestionaire(info).pipe(
           map(() => ({
-            type: '',
+            type: setUserQuestionnaireStatus.type,
+            payload: true,
           })),
           catchError(() => EMPTY)
         );

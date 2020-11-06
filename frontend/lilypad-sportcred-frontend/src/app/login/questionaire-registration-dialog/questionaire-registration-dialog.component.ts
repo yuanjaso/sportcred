@@ -3,10 +3,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { tryRegisterQuestionaire, getQuestionaire } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
-import { generalRegistrationInfo, question, answer } from '../login.types';
+import { Question, Answer, QuestionType } from '../login.types';
 import { selectQuestionaire } from '../store/selectors';
 import { SwiperComponent } from 'ngx-swiper-wrapper';
 import { first } from 'rxjs/operators';
+import { cloneDeep } from 'lodash';
+
 @Component({
   selector: 'app-questionaire-registration-dialog',
   templateUrl: './questionaire-registration-dialog.component.html',
@@ -20,11 +22,11 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
   swiperIndex = 0;
 
   //questions we get from the backend
-  questionaire: question[] = undefined;
+  questionaire: Question[] = undefined;
   questionairLength: number = -1;
 
   //the user's response to the questions and general info
-  questionaireResponse: answer[] = [];
+  questionaireResponse: Answer[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<QuestionaireRegistrationDialogComponent>,
@@ -41,8 +43,19 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
       .subscribe((questionaire) => {
         //get questionaire from store
 
-        this.questionaire = questionaire;
+        this.questionaire = cloneDeep(questionaire);
         this.questionairLength = this.questionaire.length;
+
+        // //TODO REMOVE
+        // //test QUESTION for PLAYERS
+        // this.questionairLength = this.questionaire.push({
+        //   id: 7,
+        //   max_int: null,
+        //   min_int: null,
+        //   question_content: 'Who is your favorite player?',
+        //   question_type: QuestionType.players,
+        // });
+        // //END TODO
       });
   }
   getAnswer(e) {
@@ -64,7 +77,6 @@ export class QuestionaireRegistrationDialogComponent implements OnInit {
     return `${i + 1}/${this.questionairLength}`;
   }
   proceedSlide() {
-    console.log('asdf');
     if (!this.swiper || !this.swiper.directiveRef) return;
     if (this.swiper.index == this.questionairLength - 1) {
       //if we are at last slide, try to register the questionaire

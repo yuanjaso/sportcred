@@ -1,0 +1,23 @@
+<div id="users">
+  <div class="font-secondary">Users</div>
+
+  <div
+    class="user font-tertiary"
+    *ngFor="let user of (results$ | async).users"
+    (click)="goToProfile(user.id)"
+  >
+    {{ user.username }}
+  </div>
+
+  <div class="font-tertiary" *ngIf="(results$ | async).users.length === 0">
+    No users found with that search. Try again.
+  </div>
+</div>
+
+<!-- <div id="posts">
+  <p class="font-secondary">Posts</p>
+
+  <div class="font-tertiary" *ngFor="let post of (results$ | async).posts">
+    {{ post.title }}
+  </div>
+</div> -->

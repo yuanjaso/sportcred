@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { all_routes } from '../../global/routing-statics';
 import { getUserInfo, clearLoginToken } from '../auth/store/actions';
 import { AppState } from '../store/reducer';
+import { clearAllZoneData } from './../zone/store/actions';
 import { MatDialog } from '@angular/material/dialog';
 import { BasicRegistrationDialogComponent } from './basic-registration-dialog/basic-registration-dialog.component';
 import { LoginService } from './login.service';
@@ -20,15 +21,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     email: new FormControl(''),
     password: new FormControl(''),
   });
-  ngOnInit(): void {}
   constructor(
     private titleService: Title,
     private store: Store<AppState>,
     private LoginService: LoginService,
     public dialog: MatDialog
   ) {
-    this.store.dispatch(clearLoginToken());
     this.titleService.setTitle(all_routes.login.title);
+  }
+  ngOnInit(): void {
+    this.clearAllStore();
     this.subscriptions.add(
       this.LoginService.$loginStatus.subscribe((status) => {
         if (!status) {
@@ -49,5 +51,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  /**
+   * when we reach the sign in screen again, this means user navigated out the site
+   * we want to clear all data in the store in the case
+   */
+  clearAllStore(): void {
+    this.store.dispatch(clearLoginToken());
+    // this.store.dispatch(clearAllZoneData());
   }
 }

@@ -11,7 +11,7 @@ from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import UserSerializer
 from sportscred.models import Profile
-from .utils import filter_paginate_request
+from .utils import filter_request
 
 
 class IndexPage(TemplateView):
@@ -33,7 +33,7 @@ class UserViewSet(viewsets.ViewSet):
     def list(self, request):
         # https://stackoverflow.com/questions/44048156/django-filter-use-paginations
 
-        return filter_paginate_request(request, UserFilter, UserSerializer)
+        return filter_request(request, UserFilter, UserSerializer)
 
     # POST
     def create(self, request):

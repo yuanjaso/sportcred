@@ -1,10 +1,12 @@
 .host {
   margin: -24px;
   max-width: 40rem;
+  height: 50vh;
 }
 .seperator {
   margin: 2rem;
   height: calc(100% - 4rem);
+  max-height: 80vh;
 }
 .mat-dialog-container {
   padding: 0px;

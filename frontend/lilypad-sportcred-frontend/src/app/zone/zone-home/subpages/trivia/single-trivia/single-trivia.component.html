@@ -1,0 +1,22 @@
+<div class="side-image-container">
+  <img id="side-image-left" src="../../../assets/trivia_selection_img.png" />
+</div>
+
+<div class="vertical-container">
+  <div class="timer-container">{{ displayTimer }}</div>
+  <div class="question-container">
+    <div class="question">{{ displayContent }}</div>
+    <div class="final-acs">{{ finalACS }}</div>
+  </div>
+  <div class="trivia-answer-container">
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <div *ngFor="let ans of triviaAnswers">
+        <mat-grid-tile>
+          <button (click)="onClickAnswer(ans.id)" mat-flat-button>
+            {{ ans.content }}
+          </button>
+        </mat-grid-tile>
+      </div>
+    </mat-grid-list>
+  </div>
+</div>

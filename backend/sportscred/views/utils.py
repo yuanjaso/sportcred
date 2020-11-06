@@ -1,10 +1,8 @@
 # Put random generic utility stuff here
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 
 
-def filter_paginate_request(request, model_filter, model_serializer):
-    paginator = PageNumberPagination()
+def filter_request(request, model_filter, model_serializer):
     filtered_set = model_filter(request.GET).qs
-    context = paginator.paginate_queryset(filtered_set, request)
-    serializer = model_serializer(context, many=True)
-    return paginator.get_paginated_response(serializer.data)
+    serializer = model_serializer(filtered_set, many=True)
+    return Response(serializer.data)
