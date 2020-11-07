@@ -29,31 +29,33 @@ Therefore this sprint we aim to introduce features such as trivia, gain/loss of 
 <b>Task Breakdown:</b>
 | Tasks                                                                                 | Assigned to   |
 | :------------------------------:                                                      | :-----------: |
-| LIL-74 (View) (Subtask of LIL-5)                                                      | Maggie Dang   | 
-| LIL-75 (get questions for view (dataflow)) (Subtask of LIL-5)                         | Jason Yuan    |
-| LIL-82 (Upload trivia answers after game is over) (Subtask of LIL-5)                  | Jason Yuan    |
-| LIL-85 (make data workflow dynamic) (Subtask of LIL-5)                                | Jason Yuan    |
-| LIL-69 (Create End points) (Subtask of LIL-6)                                         | Ohmasinh Negi | 
-| LIL-70 (Front end trivia view) (Subtask of LIL-6)                                     | Maggie Dang   | 
-| LIL-76 (create/receive trivia instance for both trivia modes) (Subtask of LIL-6)      | Jason Yuan    | 
-| LIL-83 (submit trivia answers after game is over) (Subtask of LIL-6)                  | Jason Yuan    | 
-| LIL-84 (Get trivia questions/answers for the view) (Subtask of LIL-6)                 | Jason Yuan    |
-| LIL-86 (make data workflow dynamic) (Subtask of LIL-6)                                | Jason Yuan    |
-| LIL-87 (Add ACS score when trivia game is over) (Subtask of LIL-6)                    | Ohmasinh Negi | 
+| LIL-41 (Create view) (Subtasks of LIL-40)                                             | Maggie Dang   |
+| LIL-42 (Authorization) (Subtasks of LIL-40)                                           | Michael Do    |
+| LIL-57 (Edit backend endpoint)                                                        | Qing Yu Lan   |
 | LIL-60 (Redesign Schema) (Subtasks of LIL-13)                                         | Michael Do    |
 | LIL-61 (Implement ACS history endpoint and model) (Subtasks of LIL-13)                | Qing Yu Lan   | 
 | LIL-62 (Front end view) (Subtasks of LIL-13)                                          | Zhe Fan Li    |
-| LIL-73 (frontend view) (Subtask of LIL-14)                                            | Zhe Fan Li    |
+| LIL-63 (Create mock data)                                                             | Michael Do    |
+| LIL-64 (Questionnaire registration)                                                   | Zhe Fan Li    |
 | LIL-66 (Paginated user search endpoint) (Subtasks of LIL-13)                          | Michael Do    |
 | LIL-67 (Frontend search bar) (Subtasks of LIL-13)                                     | Jason Yuan    |
-| LIL-41 (Create view) (Subtasks of LIL-40)                                             | Maggie Dang   | 
-| LIL-42 (Authorization) (Subtasks of LIL-40)                                           | Michael Do    |
-| LIL-88 (Question response endpoint) (Subtasks of LIL-40)                              | Ohmasinh Negi |
-| LIL-81 (configure dynamically on frontend) (Subtasks of LIL-45)                       | Jason Yuan    | 
+| LIL-69 (Create End points) (Subtask of LIL-6)                                         | Ohmasinh Negi | 
+| LIL-70 (Front end trivia view) (Subtask of LIL-6)                                     | Maggie Dang   |
+| LIL-73 (frontend view) (Subtask of LIL-14)                                            | Zhe Fan Li    |
+| LIL-74 (View) (Subtask of LIL-5)                                                      | Maggie Dang   | 
+| LIL-75 (get questions for view (dataflow)) (Subtask of LIL-5)                         | Jason Yuan    |
+| LIL-76 (create/receive trivia instance for both trivia modes) (Subtask of LIL-6)      | Jason Yuan    | 
 | LIL-78 (selection between (single player vs multiplayer)) (Subtasks of LIL-77)        | Maggie Dang   | 
 | LIL-79 (select friend to play with) (Subtasks of LIL-77)                              | Zhe Fan Li    |
-| LIL-64 (Questionnaire registration)                                                   | Zhe Fan Li    |
-| LIL-57 (Edit backend endpoint)                                                        | Qing Yu Lan   |
+| LIL-80 (Change pagination settings for dev settings)                                  | Michael Do    |
+| LIL-81 (configure dynamically on frontend) (Subtasks of LIL-45)                       | Jason Yuan    |
+| LIL-82 (Upload trivia answers after game is over) (Subtask of LIL-5)                  | Jason Yuan    |
+| LIL-83 (submit trivia answers after game is over) (Subtask of LIL-6)                  | Jason Yuan    | 
+| LIL-84 (Get trivia questions/answers for the view) (Subtask of LIL-6)                 | Jason Yuan    |
+| LIL-85 (make data workflow dynamic) (Subtask of LIL-5)                                | Jason Yuan    |
+| LIL-86 (make data workflow dynamic) (Subtask of LIL-6)                                | Jason Yuan    |
+| LIL-87 (Add ACS score when trivia game is over) (Subtask of LIL-6)                    | Ohmasinh Negi | 
+| LIL-88 (Question response endpoint) (Subtasks of LIL-40)                              | Ohmasinh Negi |
 
 <b>Team Capacity:</b><br>
 The team capacity for sprint 2 is 58.<br>
