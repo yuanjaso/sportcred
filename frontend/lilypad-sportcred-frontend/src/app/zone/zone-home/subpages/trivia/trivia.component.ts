@@ -9,7 +9,8 @@ import { ACS } from '../../../subpages/profile/profile.types';
 import { getAllUsers } from '../../../subpages/profile/store/profile.actions';
 import { Sport } from '../../../zone.types';
 import { createTriviaInstance } from './store/trivia.actions';
-import { User } from './trivia.types';
+import { selectTriviaInstance } from './store/trivia.selectors';
+import { TriviaInstance, User } from './trivia.types';
 
 @Component({
   selector: 'app-trivia',
@@ -30,6 +31,9 @@ export class TriviaComponent implements OnInit {
 
   sports$: Observable<Sport[]>;
   users$: Observable<User[]>;
+
+  // ! temporary variable
+  triviaInstance$: Observable<TriviaInstance>;
 
   constructor(
     private store: Store<AppState>,
@@ -53,5 +57,12 @@ export class TriviaComponent implements OnInit {
     this.users$ = this.profileService.users$;
 
     this.store.dispatch(getAllUsers());
+
+    // ! MOCK
+    this.exampleForPullingTriviaData();
+  }
+
+  exampleForPullingTriviaData(): void {
+    this.triviaInstance$ = this.store.select(selectTriviaInstance);
   }
 }
