@@ -4,8 +4,12 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { interval, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { all_routes } from '../../../global/routing-statics';
 import { AppState } from '../../store/reducer';
-import { queryForTriviaGames, setTriviaInstance } from '../zone-home/subpages/trivia/store/trivia.actions';
+import {
+  queryForTriviaGames,
+  setTriviaInstance,
+} from '../zone-home/subpages/trivia/store/trivia.actions';
 import { selectAllTriviaInstances } from '../zone-home/subpages/trivia/store/trivia.selectors';
 import { TriviaInstance } from '../zone-home/subpages/trivia/trivia.types';
 import { ZoneService } from '../zone.service';
@@ -80,6 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   playTrivia(triviaInstance: TriviaInstance): void {
     this.store.dispatch(setTriviaInstance({ triviaInstance }));
-    this.router.navigate(['trivia']);
+    const multiPlayerTriviaLink = `/${all_routes.zone.url}/${all_routes.zonehome.url}/${all_routes.trivia.url}/${all_routes.multiplayertrivia.url}`;
+    this.router.navigate([multiPlayerTriviaLink]);
   }
 }
