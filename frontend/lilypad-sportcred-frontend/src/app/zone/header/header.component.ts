@@ -13,6 +13,7 @@ import {
 import { selectAllTriviaInstances } from '../zone-home/subpages/trivia/store/trivia.selectors';
 import { TriviaInstance } from '../zone-home/subpages/trivia/trivia.types';
 import { ZoneService } from '../zone.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -25,6 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   notificationsCount: number;
   triviaInstances: TriviaInstance[];
+
+  readonly UNPLAYED_GAME = '';
 
   private subscription = new Subscription();
 
@@ -67,7 +70,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       tap((instances) => {
         // determine how many are in-completed
         this.notificationsCount = instances.filter(
-          (el) => el.score === null
+          (el) => el.score === this.UNPLAYED_GAME
         ).length;
         this.triviaInstances = instances;
       })
