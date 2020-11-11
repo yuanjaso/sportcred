@@ -21,6 +21,16 @@ export class HttpClientWrapper {
     });
   }
 
+  put<T>(
+    url: string,
+    body: any | null,
+    queryParams?: RawQueryParams
+  ): Observable<T> {
+    return this.httpClient.put<T>(environment.urlProcessor(url), body, {
+      params: this.stringifyQueryParams(queryParams),
+    });
+  }
+
   post<T>(
     url: string,
     body: any | null,

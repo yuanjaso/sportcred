@@ -19,25 +19,23 @@ const apiRequirements: API[] = [
         profilepicture:
           "/media/user/pictures/f3/0a/f30a2b6329a1bb5d867848c53d3581b5d1068d85475fa0699283a63e9f5a6c7c.png",
         about: "placeholder",
-        highlights: [
+        favourite_sports: [
           { id: 1, name: "Basketball" },
           { id: 2, name: "Baseball" },
         ],
         ACS: {
           average: 1234,
           basketball: 1234,
-        }
+        },
       },
     },
   },
   {
-    description: "Update Status/Picture/About/ or Highlights",
+    description: "Update Status,About, or Highlights",
     request: {
       requestURL: "/api/v1/profile/", // dont need id since you're only patching yourself
       requestMethod: "PATCH",
       body: {
-        // actually not sure if picture should be here
-        profilepicture: "newpic.jpg",
         status: "Hi guys, I like sportcred!", // only one of these fields need to be here. patch is partial update
         about: "placeholder",
         favourite_sports: [1, 2], // array of sports_id's
@@ -51,8 +49,6 @@ const apiRequirements: API[] = [
       response: {
         user: { id: 4, username: "michael", is_superuser: false },
         status: "Hi guys, I like sportcred!",
-        profilepicture:
-          "/media/user/pictures/f3/0a/f30a2b6329a1bb5d867848c53d3581b5d1068d85475fa0699283a63e9f5a6c7c.png",
         about: "placeholder",
         favourite_sports: [
           { id: 1, name: "Basketball" },
@@ -61,14 +57,14 @@ const apiRequirements: API[] = [
         ACS: {
           average: 1234,
           basketball: 1234,
-        }
+        },
       },
     },
   },
   {
     description: "query acs history ",
     request: {
-      requestURL: "/api/v1/profile/:id/acs_history", // dont need id since you're only patching yourself
+      requestURL: "/api/v1/profile/:id/acs_history",
       requestMethod: "GET",
       body: {},
       queryParams: { group_by_date: false },
@@ -79,10 +75,12 @@ const apiRequirements: API[] = [
       // if group by date is true, then return just date object and no id or source
       response: [
         {
-          date: "2020-10-25T19:13:12Z",
+          date: "2020-10-25",
           delta: -5,
-          source_type: "T", // just T for now
-          id: 3
+          score: 1300,
+          //source_type: "T", // just T for now this only shows if group_by is false
+          user_id: 3,
+          sports: 1,
         },
       ],
     },
@@ -100,9 +98,6 @@ const apiRequirements: API[] = [
     response: {
       statusCode: 200,
       response: {
-        name: "somethingsomething.png",
-        content_type: "image/png",
-        charset: "None",
         url:
           "/media/user/pictures/f3/0a/f30a2b6329a1bb5d867848c53d3581b5d1068d85475fa0699283a63e9f5a6c7c.png",
       },
@@ -110,9 +105,9 @@ const apiRequirements: API[] = [
   },
 
   {
-    description: "See followers, and following",
+    description: "See who I have on my radar and who has me on their radar",
     request: {
-      requestURL: "/api/v1/profile/:id/follows",
+      requestURL: "/api/v1/profile/:id/radar",
       requestMethod: "GET",
       body: null,
       queryParams: {},
@@ -127,9 +122,9 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: "follow that user_id",
+    description: "Add someone to radar with that user_id",
     request: {
-      requestURL: "/api/v1/profile/:id/follows", // the id of the person u want to follow
+      requestURL: "/api/v1/profile/:id/radar", // the id of the person u want to follow
       requestMethod: "PUT",
       queryParams: {},
       body: null,
@@ -145,9 +140,9 @@ const apiRequirements: API[] = [
   },
 
   {
-    description: "unfollow that user_id",
+    description: "remove user from radar with that user_id",
     request: {
-      requestURL: "/api/v1/profile/:id/follows", // the id of the person u want to unfollow
+      requestURL: "/api/v1/profile/:id/radar", // the id of the person u want to unfollow
       requestMethod: "DELETE",
       queryParams: {},
       body: null,

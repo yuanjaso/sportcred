@@ -1,0 +1,39 @@
+<ng-container *ngIf="rawData !== undefined; else loading">
+    <ng-container *ngIf="rawData !== []; else nodata">
+
+        <!-- if we have these types, just display a bar graph -->
+
+        <div class="chart" *ngIf="
+        question.question_type === questionTypes.players ||
+        question.question_type === questionTypes.teams ||
+        question.question_type === questionTypes.sports ||
+        question.question_type === questionTypes.quantitative ||
+        question.question_type === questionTypes.custom
+        ">
+            <app-bar-echarts [dataAxis]="dataAxis" [dataList]="dataList"></app-bar-echarts>
+        </div>
+        <div *ngIf="
+        question.question_type === questionTypes.qualitative"> 
+          <app-table
+          [data]="dataList"
+          [valueAccessors]="valueAccessors"
+          [headers]="headers" ></app-table>
+        </div>
+        <!-- qualitative answers need to be in sheet format -->
+        
+    </ng-container>
+</ng-container>
+
+<ng-template #loading>
+    <div class="error" *ngIf="question!==undefined">
+      <!-- dont load if the question is not defined -->
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+  
+<ng-template #nodata>
+    <div class="error">
+        NO DATA AVAILABLE
+    </div>
+</ng-template>
+  

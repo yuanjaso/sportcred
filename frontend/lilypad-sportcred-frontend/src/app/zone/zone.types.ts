@@ -15,3 +15,25 @@ export interface Player {
   last_name: string;
   plays_on: Team[];
 }
+
+export interface UserSearch {
+  id: number;
+  username: string;
+  profilepicture: string;
+  acs: number;
+  status: string;
+}
+
+export interface PostSearch {
+  id: number;
+  title: string;
+  author: {
+    id: number;
+    username: string;
+  };
+}
+
+export interface SearchResults {
+  users: UserSearch[];
+  posts: PostSearch[]
+}

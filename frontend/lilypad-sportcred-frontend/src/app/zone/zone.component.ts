@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import { first } from 'rxjs/operators';
+import { all_routes } from '../../global/routing-statics';
+import { selectUserInfo } from '../auth/store/selectors';
 import { QuestionaireRegistrationDialogComponent } from '../login/questionaire-registration-dialog/questionaire-registration-dialog.component';
 import { AppState } from '../store/reducer';
-import { Store } from '@ngrx/store';
-import { selectUserInfo } from '../auth/store/selectors';
-import { first } from 'rxjs/operators';
-import { Title } from '@angular/platform-browser';
-import { all_routes } from '../../global/routing-statics';
 import * as actions from './store/actions';
 import * as selectors from './store/selectors';
-import * as types from './zone.types';
+
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',

@@ -9,13 +9,12 @@ from sportscred.models import (
     QuestionaireQuestion,
     QuestionaireAnswer,
     QuestionaireUserResponse,
+    ACS,
+    BaseAcsHistory,
+    TriviaQuestion,
+    TriviaInstance,
+    TriviaAnswer,
 )
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ["user", "status", "profile_picture"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -69,10 +68,28 @@ class QuestionnaireAnswerSerializer(serializers.ModelSerializer):
 
 
 class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    question = QuestionnaireSerializer()
+    answer = serializers.SerializerMethodField()
+
     class Meta:
         model = QuestionaireUserResponse
-        fields = "__all__"
-        depth = 2
+        fields = ["user", "question", "answer"]
+
+    def get_user(self, qur):
+        return UserSerializer(qur.user.user).data
+
+    def get_answer(self, qur):
+        QUESTION_TYPE = {
+            "QN": qur.quantitative_response,
+            "QL": qur.qualitative_response,
+            "S": SportSerializer(qur.sport).data,
+            "T": TeamSerializer(qur.team).data,
+            "P": PlayerSerializer(qur.player).data,
+            "C": QuestionnaireAnswerSerializer(qur.custom_answer).data,
+        }
+        q_type = qur.question.question_type
+        return QUESTION_TYPE[q_type]
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -85,14 +102,87 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["user", "status", "highlights", "about", "profilepicture"]
 
 
+class ProfiletoUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ["user"]
+
+
 class FollowSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = ["followers", "following"]
 
     def get_following(self, profile):
-        return Profile.objects.filter(followers=profile).values_list(
-            "user__pk", flat=True
-        )
+
+        return UserSerializer(
+            User.objects.filter(profile__followers=profile),
+            many=True,
+        ).data
+
+    def get_followers(self, profile):
+        return ProfiletoUserSerializer(profile.followers, many=True).data
+
+
+class ACSSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ACS
+        fields = ["name", "score"]
+        depth = 2
+
+    def get_name(self, acs):
+        return acs.sports.name
+
+
+class TriviaAnswersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TriviaAnswer
+        fields = ["content", "id"]
+
+
+class TriviaQuestionsSerializer(serializers.ModelSerializer):
+    answers = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TriviaQuestion
+        depth = 2
+        fields = ["id", "correct_answer", "content", "answers"]
+
+    def get_answers(self, question):
+        return TriviaAnswersSerializer(
+            TriviaAnswer.objects.filter(parent_question=question), many=True
+        ).data
+
+
+class TriviaSerializer(serializers.ModelSerializer):
+    questions = TriviaQuestionsSerializer(many=True)
+    user = serializers.SerializerMethodField()
+    other_user = serializers.SerializerMethodField(
+        allow_null=True, default=None, required=False
+    )
+
+    class Meta:
+        model = TriviaInstance
+        depth = 3
+        fields = [
+            "id",
+            "user",
+            "other_user",
+            "score",
+            "creation_date",
+            "sport",
+            "questions",
+        ]
+
+    def get_user(self, instance):
+        return UserSerializer(instance.user.user).data
+
+    def get_other_user(self, instance):
+        return UserSerializer(instance.other_user.user).data

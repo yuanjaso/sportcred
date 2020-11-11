@@ -1,11 +1,11 @@
-import { API } from './restapi';
+import { API } from "./restapi";
 
 const apiRequirements: API[] = [
   {
-    description: 'Get a list of trivia_instances you are part of',
+    description: "Get a list of trivia_instances you are part of",
     request: {
-      requestURL: '/api/v1/trivia/',
-      requestMethod: 'GET',
+      requestURL: "/api/v1/trivia/",
+      requestMethod: "GET",
       body: null,
       queryParams: {},
     },
@@ -14,34 +14,35 @@ const apiRequirements: API[] = [
       response: [
         {
           id: 1,
-          user: 1,
-          other_user: 2, // can be none
-          is_completed: true,
+          user: { id: 1, username: "rick" },
+          other_user: { id: 2, username: "myco" }, // can be none
+          score: "6-5",
           date: "2020-10-25T19:13:12Z",
           sport: { id: 1, name: "Basketball" },
-          questions: [ // there will always be 11 of them
+          questions: [
+            // there will always be 11 of them
             {
               id: 1,
               question_content: "whats your favourite color",
               correct_answer: { id: 4, answer_content: "blue" },
               answers: [
                 { id: 4, answer_content: "blue" },
-                { id: 5, answer_content: "green" }
-              ]
-            }
-          ]
+                { id: 5, answer_content: "green" },
+              ],
+            },
+          ],
         },
-      ]
+      ],
     },
   },
   {
-    description: 'create trivia instance',
+    description: "create trivia instance",
     request: {
-      requestURL: '/api/v1/trivia/',
-      requestMethod: 'POST',
+      requestURL: "/api/v1/trivia/",
+      requestMethod: "POST",
       body: {
         other_user: 2, // can be none if single player battle
-        sport: 1
+        sport: 1,
       },
       queryParams: {},
     },
@@ -49,36 +50,42 @@ const apiRequirements: API[] = [
       statusCode: 200,
       response: {
         id: 1,
-        user: 1,
-        other_user: 2, // can be none
-        is_completed: true,
+        user: { id: 1, username: "rick" },
+        other_user: { id: 2, username: "myco" }, // can be none
+        score: "5-6",
         date: "2020-10-25T19:13:12Z",
         sport: { id: 1, name: "Basketball" },
-        questions: [ // there will always be 11 of them
+        questions: [
+          // there will always be 11 of them
           {
             id: 1,
             question_content: "whats your favourite color",
             correct_answer: { id: 4, answer_content: "blue" },
             answers: [
               { id: 4, answer_content: "blue" },
-              { id: 5, answer_content: "green" }
-            ]
-          }
-        ]
+              { id: 5, answer_content: "green" },
+            ],
+          },
+        ],
       },
     },
   },
   {
-    description: 'Post Trivia Answer',
+    description: "Post Trivia Answer",
     request: {
-      requestURL: '/api/v1/trivia/answers',
-      requestMethod: 'POST',
+      requestURL: "/api/v1/trivia/answers",
+      requestMethod: "POST",
       body: {
         start_time: "2020-10-25T19:13:12Z",
         trivia_instance: 1,
         questions: [
-          { id: 1, submission_answer: 1, submission_time: "2020-10-25T19:13:12Z" }
-        ]
+          {
+            id: 1,
+            submission_answer: 1,
+            start_time: "2020-10-25T19:13:11Z",
+            submission_time: "2020-10-25T19:13:12Z",
+          },
+        ],
       },
       queryParams: {},
     },
@@ -88,9 +95,10 @@ const apiRequirements: API[] = [
       // normally backend should be the authority but its fine for this case
       response: {
         // return empty response if other_user is not none
+        // only return score for sport played
         average: 1234,
         basketball: 1234,
-      }
+      },
     },
   },
 ];

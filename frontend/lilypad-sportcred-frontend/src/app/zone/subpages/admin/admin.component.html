@@ -1,0 +1,29 @@
+
+
+<ng-container *ngIf="$questionnaires | async; else loading">
+
+    <div class="seach-box">
+        <div class="header">Select Question Type</div>
+        <mat-form-field appearance="fill" >
+          <mat-select  (selectionChange)="getNewQuestionnaireResponse($event)">
+            <mat-optgroup *ngFor="let group of $questionnaires | async | formatQuestions | keyvalue" [label]="group.key">
+              <mat-option *ngFor="let question of group.value" [value]="question" >
+                {{question.question_content}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="charting">
+        <app-admin-echarts 
+        [question]="this.currentSelectedQuestion.question"
+        [rawData]="this.currentSelectedQuestion.rawdata">
+      </app-admin-echarts>
+    </div>
+    <div style="flex-grow: 9;"></div>
+</ng-container>
+
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
+  

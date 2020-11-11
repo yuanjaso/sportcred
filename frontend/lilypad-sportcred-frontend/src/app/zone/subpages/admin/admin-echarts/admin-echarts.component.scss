@@ -1,0 +1,12 @@
+@import "../../../../../global/fonts.scss";
+:host {
+  height: 100%;
+}
+.chart {
+  background-color: $white;
+}
+.error {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}

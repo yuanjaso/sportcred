@@ -1,0 +1,142 @@
+@import "../../../../global/fonts.scss";
+
+:host {
+  min-height: calc(100% - 4rem);
+  padding: 2rem;
+  background-color: $darkgrey;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  mat-icon.material-icons {
+    padding: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  div#left {
+    width: 100%;
+    max-width: 90vw;
+    padding-right: 2rem;
+    > *:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  div#right {
+    padding-top: 1rem;
+    height: 50%;
+    p {
+      color: $white;
+    }
+  }
+
+  div#acs {
+    background-color: $grey;
+    color: $black;
+
+    border-radius: 7rem;
+    height: 6.5rem;
+    width: 11.5rem;
+
+    justify-content: center;
+    align-items: center;
+
+    p {
+      margin: 0;
+      letter-spacing: 0.2rem;
+    }
+  }
+
+  div#acs-history {
+    background-color: $white;
+    padding: 1rem;
+    min-height: 20rem;
+  }
+
+  div#picture {
+    width: 10rem;
+    height: 10rem;
+    display: flex;
+    position: relative;
+    #upload {
+      display: none;
+    }
+    img {
+      width: 10rem;
+      height: 10rem;
+      position: absolute;
+      border-radius: 0.5rem;
+      object-fit: cover;
+
+      &#editable {
+        z-index: 2;
+        opacity: 1;
+        transition: 0.3s;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.3;
+          z-index: 0;
+        }
+      }
+    }
+    #text {
+      text-align: center;
+      pointer-events: none;
+      padding: 1rem;
+      align-self: center;
+      justify-self: center;
+      z-index: 1;
+      @extend .font-tertiary;
+      @extend .white-font;
+    }
+  }
+
+  div#about {
+    > * {
+      margin-bottom: 0;
+    }
+
+    p {
+      width: 20rem;
+      max-width: 60vw;
+      background-color: $white;
+      padding: 1rem;
+    }
+
+    label {
+      background-color: $grey;
+      padding: 0.5rem;
+      width: fit-content;
+      margin: 0;
+    }
+
+    textarea {
+      border: 1px solid $black;
+      padding: 1rem;
+      background-color: $white;
+      resize: none;
+      width: calc(100% - 2rem);
+    }
+  }
+}
+.spinner {
+  align-self: center;
+}
+@media only screen and (max-width: 800px) {
+  :host {
+    flex-direction: column;
+    & div#left {
+      padding-right: 0rem;
+      padding-bottom: 2rem;
+    }
+    & div#right {
+      width: 100%;
+    }
+  }
+}

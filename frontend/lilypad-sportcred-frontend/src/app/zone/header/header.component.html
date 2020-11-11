@@ -1,0 +1,9 @@
+<mat-toolbar>
+  <div id="icon">
+    <img src="../../assets/icon.png" class="logo" />
+  </div>
+  <app-search-bar></app-search-bar>
+  <div style="flex-grow: 9;"></div>
+  <mat-slide-toggle [(ngModel)]="sidenavExpanded" (change)="toggle($event)"> </mat-slide-toggle>
+
+</mat-toolbar>

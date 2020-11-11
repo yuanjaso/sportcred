@@ -1,0 +1,17 @@
+<div class="font-secondary">
+  <ng-container *ngIf="data.type === 'followers'">
+    Followers
+  </ng-container>
+
+  <ng-container *ngIf="data.type === 'following'"> Radar List </ng-container>
+</div>
+
+<mat-list>
+  <mat-list-item
+    class="list-item font-tertiary"
+    *ngFor="let user of data.list"
+    (click)="goToProfile(user.id)"
+  >
+    {{ user.username }}
+  </mat-list-item>
+</mat-list>

@@ -1,9 +1,15 @@
 import { ActionReducerMap } from '@ngrx/store';
 import { authReducer, AuthState } from '../auth/store/reducers';
 import { loginReducer, LoginState } from '../login/store/reducers';
-import { profileReducer, ProfileState } from '../profile/store/profile.reducer';
-import { triviaReducer, TriviaState } from '../trivia/store/trivia.reducer';
 import { zoneReducer, ZoneState } from '../zone/store/reducers';
+import {
+  profileReducer,
+  ProfileState,
+} from '../zone/subpages/profile/store/profile.reducer';
+import {
+  triviaReducer,
+  TriviaState,
+} from '../zone/zone-home/subpages/trivia/store/trivia.reducer';
 
 export interface AppState {
   trivia: TriviaState;
