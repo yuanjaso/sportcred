@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ACS } from '../../profile/profile.types';
+import { ACS } from '../../../../subpages/profile/profile.types';
 import { TriviaInstance, TriviaResults } from '../trivia.types';
 
 export const queryForTriviaGames = createAction(

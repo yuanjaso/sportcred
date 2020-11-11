@@ -43,6 +43,7 @@ export class TriviaService {
       ],
     };
     const a: TriviaInstance = {
+      creation_date: new Date().toISOString(),
       score: null,
       id: 4,
       date: new Date().toISOString(),
@@ -65,6 +66,7 @@ export class TriviaService {
       ],
     };
     const b: TriviaInstance = {
+      creation_date: new Date().toISOString(),
       score: '6-5',
       id: 5,
       date: new Date().toISOString(),

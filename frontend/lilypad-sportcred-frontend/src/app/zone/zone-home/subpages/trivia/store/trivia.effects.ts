@@ -9,7 +9,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AppState } from '../../store/reducer';
+import { AppState } from '../../../../../store/reducer';
 import { TriviaService } from '../trivia.service';
 import * as TriviaActions from './trivia.actions';
 import { setUpdatedACS } from './trivia.actions';
