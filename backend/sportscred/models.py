@@ -20,8 +20,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=100, blank=True)
     about = models.CharField(max_length=300, blank=True)
-    agree = models.ManyToManyField("DebatePost", through="Agrees")
-    like = models.ManyToManyField("SocialPost", through="Likes")
+    agree = models.ManyToManyField("DebateComment", through="Agrees")
     highlights = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
 
@@ -56,7 +55,7 @@ class ProfilePicture(models.Model):
 class DebatePost(models.Model):
     content = models.CharField(max_length=500, blank=False, null=False)
     title = models.CharField(max_length=100, unique=True)
-    post_date = DateTimeField
+    post_date = models.DateTimeField(auto_now_add=True)
     related_to_debate_posts = models.ManyToManyField("Sport")
     EXPERT_ANALYST = "E"
     PRO_ANALYST = "P"
@@ -78,7 +77,7 @@ class DebatePost(models.Model):
 
 class DebateComment(models.Model):
     post = models.ForeignKey("DebatePost", on_delete=models.CASCADE)
-    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    commenter = models.ForeignKey("Profile", on_delete=models.CASCADE)
     content = models.CharField(max_length=500, blank=False, null=False)
 
     @property
@@ -88,7 +87,7 @@ class DebateComment(models.Model):
 
 class Agrees(models.Model):
     agreer = models.ForeignKey("Profile", on_delete=models.CASCADE)
-    post = models.ForeignKey("DebateComment", on_delete=models.CASCADE)
+    comment = models.ForeignKey("DebateComment", on_delete=models.CASCADE)
     agreement = models.IntegerField(
         validators=[MaxValueValidator(10), MinValueValidator(1)],
         blank=False,
@@ -96,7 +95,7 @@ class Agrees(models.Model):
     )
 
     class Meta:
-        unique_together = ["agreer", "post"]
+        unique_together = ["agreer", "comment"]
 
 
 class ACS(models.Model):
@@ -207,6 +206,13 @@ class TriviaAcsHistory(BaseAcsHistory):
     source_type = "T"
     trivia_instance = models.ForeignKey(
         "TriviaInstance", on_delete=models.CASCADE, null=True
+    )
+
+
+class DebateAcsHistory(BaseAcsHistory):
+    source_type = "D"
+    debate_comment = models.ForeignKey(
+        "DebateComment", on_delete=models.CASCADE, null=True
     )
 
 
