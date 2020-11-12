@@ -1,22 +1,17 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { interval, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { interval, Observable, of, Subscription } from 'rxjs';
+import { filter, first, map, tap } from 'rxjs/operators';
 import { all_routes } from '../../../global/routing-statics';
 import { AppState } from '../../store/reducer';
 import {
   queryForTriviaGames,
-  setTriviaInstance,
+  setTriviaInstance
 } from '../zone-home/subpages/trivia/store/trivia.actions';
 import { selectAllTriviaInstances } from '../zone-home/subpages/trivia/store/trivia.selectors';
 import { TriviaInstance } from '../zone-home/subpages/trivia/trivia.types';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Observable, of, Subscription } from 'rxjs';
-import { filter } from 'rxjs/internal/operators/filter';
-import { first, map } from 'rxjs/operators';
-import { all_routes } from '../../../global/routing-statics';
 import { ZoneService } from '../zone.service';
 
 @Component({
