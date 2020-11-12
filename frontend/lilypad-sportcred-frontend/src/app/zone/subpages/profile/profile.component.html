@@ -97,7 +97,8 @@
         </div>
     </div>
     </div>
-    <div id="about" class="column">
+
+    <div id="about"[ngClass]="{'column': true, 'uncentered': (userId$ | async) === profile.user.id}">
       <div class="row">
         <label for="about-message">About</label>
 
@@ -135,7 +136,7 @@
       </textarea>
     </div>
 
-    <div id="acs-history" class="column">
+    <div id="acs-history" class="column" *ngIf="(userId$ | async) === profile.user.id">
       <p class="font-secondary">ACS History</p>
       <ng-container *ngIf="formattedACSHistory !== undefined; else loading">
         <app-area-echarts
