@@ -108,8 +108,7 @@ const apiRequirements: API[] = [
       requestURL: '/api/v1/debates/:id/comments/', //id of the debate
       requestMethod: 'GET',
       body: {},
-      // The rooms are based on ACS tiers
-      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+      queryParams: {},
     },
     response: {
       statusCode: 200,
@@ -131,7 +130,10 @@ const apiRequirements: API[] = [
     request: {
       requestURL: '/api/v1/debates/comments/', //id of the debate
       requestMethod: 'POST',
-      body: {},
+      body: {
+        debate_id: 1,
+        content: "thats why he's the goat"
+      },
       // The rooms are based on ACS tiers
       queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
     },
@@ -157,8 +159,7 @@ const apiRequirements: API[] = [
         comment_id: 1,
         rating: 10, // from 0 to 10 should be a slider on the front end
       },
-      // The rooms are based on ACS tiers
-      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+      queryParams: {},
     },
     response: {
       statusCode: 200,
