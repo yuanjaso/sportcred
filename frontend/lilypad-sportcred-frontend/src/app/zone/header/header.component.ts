@@ -26,11 +26,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // enables custom header behaviour based on page
-    // this 'of' gets route when header comp is created
+    this.setCurPage();
+
+    this.subcriptions.add(
+      this.breakpointObserver
+        .observe(['(max-width: 700px)'])
+        .subscribe((state: BreakpointState) => {
+          this.sidenavExpanded = !state.matches;
+          this.zoneService.sideNavToggle$.next(!state.matches);
+        })
+    );
+  }
+
+  /**
+   * this function sets the observer for cur page
+   * we need to split this functionality into 2
+   * 1) subscribe to the on created route
+   * 2) subscribe to everyother subsiquent route change
+   */
+  setCurPage() {
+    // 1) step
     this.curPage$ = of(this.route.snapshot['_routerState'].url);
-    // this subscription subscribes to every other route change
-    // these are seperate cases as router will not provide an initial route emit
+    // 2) step
     this.router.events
       .pipe(
         filter((r) => r instanceof NavigationEnd),
@@ -43,16 +60,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-
-    this.subcriptions.add(
-      this.breakpointObserver
-        .observe(['(max-width: 700px)'])
-        .subscribe((state: BreakpointState) => {
-          this.sidenavExpanded = !state.matches;
-          this.zoneService.sideNavToggle$.next(!state.matches);
-        })
-    );
   }
+
   toggle(e) {
     console.log(e);
     this.zoneService.sideNavToggle$.next(e.checked);
