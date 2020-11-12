@@ -1,11 +1,11 @@
-     
-
-    #!/bin/bash
+     #!/bin/bash
 
     export DJANGO_DEV=1
 
     rm -rf tmp
     mkdir -p tmp
+
+    
 
     python3 manage.py migrate --run-syncdb
     python3 manage.py shell -c "from django.contrib.auth.models import User; u = User.objects.create_superuser('super_user', 'admin@example.com', '.');from rest_framework.authtoken.models import Token; Token.objects.create(user=u);"
@@ -24,8 +24,11 @@
     echo "importing acshistory"
     python3 manage.py import_baseacshistory database_files/baseacshistory.yaml
 
-    echo "importing trivia"
-    python3 manage.py import_trivia database_files/trivia.yaml
+    if [ $# -gt 0 ]  
+        then
+        echo "importing trivia"
+        python3 manage.py import_trivia database_files/trivia.yaml
+        fi
 
 
 

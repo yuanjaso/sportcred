@@ -20,7 +20,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=100, blank=True)
     about = models.CharField(max_length=300, blank=True)
-    agree = models.ManyToManyField("DebateComment", through="Agrees")
+    agree = models.ManyToManyField("DebateComment", through="Rate")
     highlights = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
 
@@ -81,12 +81,12 @@ class DebateComment(models.Model):
     content = models.CharField(max_length=500, blank=False, null=False)
 
     @property
-    def agreementAverage(self):
-        return Agrees.objects.filter(post=self).aggregate(Models.Avg("agreement"))
+    def ratingAverage(self):
+        return Rate.objects.filter(post=self).aggregate(Models.Avg("agreement"))
 
 
-class Agrees(models.Model):
-    agreer = models.ForeignKey("Profile", on_delete=models.CASCADE)
+class Rate(models.Model):
+    rater = models.ForeignKey("Profile", on_delete=models.CASCADE)
     comment = models.ForeignKey("DebateComment", on_delete=models.CASCADE)
     agreement = models.IntegerField(
         validators=[MaxValueValidator(10), MinValueValidator(1)],
@@ -95,7 +95,7 @@ class Agrees(models.Model):
     )
 
     class Meta:
-        unique_together = ["agreer", "comment"]
+        unique_together = ["rater", "comment"]
 
 
 class ACS(models.Model):

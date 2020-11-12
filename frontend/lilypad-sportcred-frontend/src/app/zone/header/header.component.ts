@@ -12,6 +12,11 @@ import {
 } from '../zone-home/subpages/trivia/store/trivia.actions';
 import { selectAllTriviaInstances } from '../zone-home/subpages/trivia/store/trivia.selectors';
 import { TriviaInstance } from '../zone-home/subpages/trivia/trivia.types';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Observable, of, Subscription } from 'rxjs';
+import { filter } from 'rxjs/internal/operators/filter';
+import { first, map } from 'rxjs/operators';
+import { all_routes } from '../../../global/routing-statics';
 import { ZoneService } from '../zone.service';
 
 @Component({
@@ -31,14 +36,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
+  curPage$: Observable<string>;
+  all_routes = all_routes;
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private zoneService: ZoneService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.setCurPage();
+
     this.subscriptions.add(
       this.breakpointObserver
         .observe(['(max-width: 700px)'])
@@ -49,6 +59,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
 
     this.infiniteQueryForTriviaInvites();
+  }
+
+  /**
+   * this function sets the observer for cur page
+   * we need to split this functionality into 2
+   * 1) subscribe to the on created route
+   * 2) subscribe to everyother subsiquent route change
+   */
+  setCurPage() {
+    // 1) step
+    this.curPage$ = of(this.route.snapshot['_routerState'].url);
+    // 2) step
+    this.router.events
+      .pipe(
+        filter((r) => r instanceof NavigationEnd),
+        first(() => {
+          this.curPage$ = this.router.events.pipe(
+            filter((r) => r instanceof NavigationEnd),
+            map((r: NavigationEnd) => r.urlAfterRedirects)
+          );
+          return true;
+        })
+      )
+      .subscribe();
   }
 
   toggle(e) {

@@ -46,8 +46,8 @@ const predictions: dashPageConfig = {
 };
 const open_court: dashPageConfig = {
   url: 'open-court',
-  title: 'SPORTCRED - Open Court',
-  dashTitle: 'Open Court',
+  title: 'SPORTCRED - Zone',
+  dashTitle: 'The Zone',
   dashImgLink: '../../assets/dashboard_OC.png',
 };
 
