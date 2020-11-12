@@ -1,97 +1,102 @@
 <ng-container *ngIf="profile !== undefined; else loading">
   <div id="left">
-    <div id="follow" class="row xy-center">
-      <ng-container *ngIf="(userId$ | async) !== profile.user.id">
-        <button
-          mat-raised-button
-          *ngIf="showAddToRadarButton"
-          (click)="addToRadar(profile.user.id)"
-        >
-          Add to Radar
-        </button>
-        <button
-          mat-raised-button
-          *ngIf="!showAddToRadarButton"
-          (click)="removeFromRadar(profile.user.id)"
-        >
-          Remove from Radar
-        </button>
-      </ng-container>
-
-      <button
-        mat-raised-button
-        (click)="showRadarList('following', followingList)"
-      >
-        Radar List: {{ following }}
-      </button>
-      <button
-        mat-raised-button
-        (click)="showRadarList('followers', followersList)"
-      >
-        Followers: {{ followers }}
-      </button>
-    </div>
-
-    <div class="row xy-center">
-      <ng-container *ngIf="(userId$ | async) === profile.user.id; else unEditableImage ">
-
-        <div id="picture" (click)="onClickUploadNewPhoto()">
-          <input #fileUpload type="file" name="file" id="upload" (change)="uploadNewPhoto($event)" />
-          <img id="editable"[src]="profile.profilepicture" />
-          <div id="text">Click to Change Profile Picture</div>
-
+    <div class="profile">
+      <div class="right-block">
+        <div id="follow" class="row xy-center">
+          <ng-container *ngIf="(userId$ | async) !== profile.user.id">
+            <button
+              mat-raised-button
+              *ngIf="showAddToRadarButton"
+              (click)="addToRadar(profile.user.id)"
+            >
+              Add to Radar
+            </button>
+            <button
+              mat-raised-button
+              *ngIf="!showAddToRadarButton"
+              (click)="removeFromRadar(profile.user.id)"
+            >
+              Remove from Radar
+            </button>
+          </ng-container>
+    
+          <button
+            mat-raised-button
+            (click)="showRadarList('following', followingList)"
+          >
+            Radar List: {{ following }}
+          </button>
+          <button
+            mat-raised-button
+            (click)="showRadarList('followers', followersList)"
+          >
+            Followers: {{ followers }}
+          </button>
         </div>
-      </ng-container>
-      <ng-template #unEditableImage>
-        <div id="picture">
-          <img [src]="profile.profilepicture" />
+    
+        <div class="row xy-center">
+          <ng-container *ngIf="(userId$ | async) === profile.user.id; else unEditableImage ">
+    
+            <div id="picture" (click)="onClickUploadNewPhoto()">
+              <input #fileUpload type="file" name="file" id="upload" (change)="uploadNewPhoto($event)" />
+              <img id="editable"[src]="profile.profilepicture" />
+              <div id="text">Click to Change Profile Picture</div>
+    
+            </div>
+          </ng-container>
+          <ng-template #unEditableImage>
+            <div id="picture">
+              <img [src]="profile.profilepicture" />
+            </div>
+          </ng-template>
         </div>
-      </ng-template>
-
-      <div id="acs" class="column xy-center">
-        <p class="font-secondary white-font">ACS</p>
-        <p class="font-tertiary white-font" *ngFor="let acsScore of acsScores">
-          {{ acsScore.name + ": " + acsScore.score }}
-        </p>
+    
+        <div id="name" class="row xy-center">
+          <p class="font-primary white-font">{{ profile.user.username }}</p>
+        </div>
+    
+        <div id="status" class="row xy-center">
+          <p class="font-secondary white-font">Status:</p>
+    
+          <mat-form-field *ngIf="editStatusMode" appearance="fill">
+            <input matInput type="text" [(ngModel)]="profile.status" />
+          </mat-form-field>
+    
+          <p class="font-secondary white-font" *ngIf="!editStatusMode">
+            {{ profile.status }}
+          </p>
+    
+          <ng-container *ngIf="(userId$ | async) === profile.user.id">
+            <button
+              *ngIf="!editStatusMode"
+              color="accent"
+              mat-icon-button
+              (click)="beginEditStatus()"
+            >
+              <mat-icon>create</mat-icon>
+            </button>
+    
+            <button
+              *ngIf="editStatusMode"
+              color="accent"
+              mat-icon-button
+              (click)="submitNewStatus()"
+            >
+              <mat-icon>save</mat-icon>
+            </button>
+          </ng-container>
+        </div>
       </div>
+      <div class="left-block">
+        <div class="title">ACS</div>
+        <div class="score-block"*ngFor="let acsScore of acsScores">
+          <div class="name">{{ acsScore.name}}</div>
+          <div  class="score">
+            {{acsScore.score }}
+          </div>
+        </div>
     </div>
-
-    <div id="name" class="row xy-center">
-      <p class="font-primary white-font">{{ profile.user.username }}</p>
     </div>
-
-    <div id="status" class="row xy-center">
-      <p class="font-secondary white-font">Status:</p>
-
-      <mat-form-field *ngIf="editStatusMode" appearance="fill">
-        <input matInput type="text" [(ngModel)]="profile.status" />
-      </mat-form-field>
-
-      <p class="font-secondary white-font" *ngIf="!editStatusMode">
-        {{ profile.status }}
-      </p>
-
-      <ng-container *ngIf="(userId$ | async) === profile.user.id">
-        <button
-          *ngIf="!editStatusMode"
-          color="accent"
-          mat-icon-button
-          (click)="beginEditStatus()"
-        >
-          <mat-icon>create</mat-icon>
-        </button>
-
-        <button
-          *ngIf="editStatusMode"
-          color="accent"
-          mat-icon-button
-          (click)="submitNewStatus()"
-        >
-          <mat-icon>save</mat-icon>
-        </button>
-      </ng-container>
-    </div>
-
     <div id="about" class="column">
       <div class="row">
         <label for="about-message">About</label>

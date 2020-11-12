@@ -107,6 +107,12 @@ export class ProfileComponent implements OnInit {
               name: key,
               score: profile.ACS[key],
             }));
+            this.acsScores = [
+              ...this.acsScores,
+              ...this.acsScores,
+              ...this.acsScores,
+              ...this.acsScores,
+            ];
             this.favouriteSports = profile.favourite_sports.map((el) => el.id);
           })
         )
