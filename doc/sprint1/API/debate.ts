@@ -2,6 +2,11 @@ import { API } from './restapi';
 
 /*
   Logic for debates
+
+  Debates are asynchronous and happen in a forum like manner. You can only post analysises for questions
+  of your current rank. If your acs does change it will be based off people who view your analysis and give it a
+  agreement rating out of 10. There are more onto the actual details on the bottom.
+
   DebatePosts are posted by some anonymous super user so there will be no user associated with a debate post
 
   Debate comments are analyses that are replying to a debate post
@@ -27,55 +32,144 @@ import { API } from './restapi';
 
 */
 
+
+/*
+POSSIBLE ACS_RANKS
+    - ratings:
+        - expert analyst 900 +
+        - pro analyst 600-900
+        - analyst 300-600
+        - fanalyst 100-300
+
+    for the context of our API it's goiing to map like this:
+    EXPERT_ANALYST = "E"
+    PRO_ANALYST = "P"
+    ANALYST = "A"
+    FANALYST = "F"
+
+    so if i want to look for debates for fanalysts I would look for
+    acs_rank = "F"
+*/
+
 const apiRequirements: API[] = [
   {
-    description: 'Post debate',
+    description: 'Post debate only admins can post debate questions btw',
     request: {
-      requestURL: '/api/v1/debate/',
+      requestURL: '/api/v1/debates/',
       requestMethod: 'POST',
       body: {
-        debateId: 1,
-        userId: 2,
-        comment: 'This is my analysis...',
+        acs_rank: 1,
+        sport: 2,
+        content: 'we all know hes the goat but why?',
+        title: "Why is lebron the goat",
       },
-      queryParams: { roomId: 1 },
+      queryParams: {},
     },
     response: {
       statusCode: 200,
-      response: {},
+      response: {
+        id: 1,
+        acs_rank: "F",
+        sport: 1,
+        tite: "Why is lebron the goat",
+        content: 'we all know hes the goat but why?',
+        post_date: "datetime in ISO",
+        num_of_comments: 0,
+      },
     },
   },
   {
     description: 'GET Debate room info',
     request: {
-      requestURL: '/api/v1/debate/',
+      requestURL: '/api/v1/debates/',
       requestMethod: 'GET',
       body: {},
       // The rooms are based on ACS tiers
-      queryParams: { roomId: 1 },
+      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+    },
+    response: {
+      statusCode: 200,
+      response: [
+        {
+          id: 1,
+          acs_rank: "F",
+          sport: 1,
+          tite: "Why is lebron the goat",
+          content: 'we all know hes the goat but why?',
+          post_date: "datetime in ISO",
+          num_of_comments: 0,
+        },
+      ],
+    },
+  },
+  {
+    description: 'GET comments for a debate',
+    request: {
+      requestURL: '/api/v1/debates/:id/comments/', //id of the debate
+      requestMethod: 'GET',
+      body: {},
+      // The rooms are based on ACS tiers
+      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+    },
+    response: {
+      statusCode: 200,
+      response: [
+        {
+          user: { id: 1, username: "michael" },
+          comment_id: 1,
+          debate_id: 1,
+          content: "thats why he's the goat",
+          average_rating: 4.4,
+          number_of_ratings: 1,
+          comment_date: "datetime in ISO",
+        },
+      ],
+    },
+  },
+  {
+    description: 'POST comments for a debate', // only if youre in the correct rank
+    request: {
+      requestURL: '/api/v1/debates/comments/', //id of the debate
+      requestMethod: 'POST',
+      body: {},
+      // The rooms are based on ACS tiers
+      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
     },
     response: {
       statusCode: 200,
       response: {
-        debateTier: '[Only tiers of this or higher can debate]',
-        debates: [
-          {
-            debateId: 1,
-            description: 'debate 1',
-            likes: 1,
-            dislikes: 2,
-            comments: [
-              {
-                commentId: 1,
-                userId: 1,
-                userName: 'NBAFan123',
-                comment: 'I agree because...',
-                likes: 1,
-                dislikes: 1,
-              },
-            ],
-          },
-        ],
+        user: { id: 1, username: "michael" },
+        comment_id: 1,
+        debate_id: 1,
+        content: "thats why he's the goat",
+        average_rating: 4.4,
+        number_of_ratings: 1,
+        comment_date: "datetime in ISO",
+      },
+    },
+  },
+  {
+    description: 'PUT rating', // only if youre in the correct rank
+    request: {
+      requestURL: '/api/v1/debates/comments/', //id of the debate
+      requestMethod: 'PUT',
+      body: {
+        comment_id: 1,
+        rating: 10, // from 0 to 10 should be a slider on the front end
+      },
+      // The rooms are based on ACS tiers
+      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+    },
+    response: {
+      statusCode: 200,
+      response: {
+        user: { id: 1, username: "michael" },
+        comment_id: 1,
+        debate_id: 1,
+        content: "thats why he's the goat",
+        average_rating: 4.4, // this will be the main thing that changes
+        number_of_ratings: 1, // this will also change
+        comment_date: "datetime in ISO",
       },
     },
   },
