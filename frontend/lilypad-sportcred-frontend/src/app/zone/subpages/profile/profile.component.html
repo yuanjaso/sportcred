@@ -1,7 +1,8 @@
 <ng-container *ngIf="profile !== undefined; else loading">
   <div id="left">
     <div class="profile">
-      <div class="right-block">
+
+      <div class="prof-pic">
         <div id="follow" class="row xy-center">
           <ng-container *ngIf="(userId$ | async) !== profile.user.id">
             <button
@@ -89,7 +90,7 @@
           </ng-container>
         </div>
       </div>
-      <div class="left-block">
+      <div class="acs-block">
         <div class="title">ACS</div>
         <div class="score-block"*ngFor="let acsScore of acsScores">
           <div class="name">{{ acsScore.name}}</div>
@@ -97,7 +98,43 @@
             {{acsScore.score }}
           </div>
         </div>
-    </div>
+      </div>
+      
+  <div id="highlights">
+      <p class="font-secondary white-font">Highlights</p>
+
+      <div id="sports" class="column">
+        <p class="font-tertiary white-font">Sports:</p>
+        <mat-chip-list class="mat-chip-list-stacked">
+          <mat-chip *ngFor="let sport of profile.favourite_sports">
+            {{ sport.name }}
+          </mat-chip>
+        </mat-chip-list>
+
+        <ng-container *ngIf="(userId$ | async) === profile.user.id">
+          <mat-form-field color="accent" appearance="outline">
+            <mat-label>Favourite Sport</mat-label>
+            <mat-select
+              multiple
+              [(ngModel)]="favouriteSports"
+              disableOptionCentering
+            >
+              <mat-option *ngFor="let sport of sports" [value]="sport.id">
+                {{ sport.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="updateFavouriteSports()"
+          >
+            Update
+          </button>
+        </ng-container>
+      </div>
+  </div>
     </div>
 
     <div id="about"[ngClass]="{'column': true, 'uncentered': (userId$ | async) === profile.user.id}">
@@ -150,43 +187,6 @@
     </div>
   </div>
 
-  <div id="right">
-    <div id="highlights" class="column">
-      <p class="font-secondary white-font">Highlights</p>
-
-      <div id="sports" class="column">
-        <p class="font-tertiary white-font">Sports:</p>
-        <mat-chip-list class="mat-chip-list-stacked">
-          <mat-chip *ngFor="let sport of profile.favourite_sports">
-            {{ sport.name }}
-          </mat-chip>
-        </mat-chip-list>
-
-        <ng-container *ngIf="(userId$ | async) === profile.user.id">
-          <mat-form-field color="accent" appearance="outline">
-            <mat-label>Favourite Sport</mat-label>
-            <mat-select
-              multiple
-              [(ngModel)]="favouriteSports"
-              disableOptionCentering
-            >
-              <mat-option *ngFor="let sport of sports" [value]="sport.id">
-                {{ sport.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <button
-            mat-raised-button
-            color="accent"
-            (click)="updateFavouriteSports()"
-          >
-            Update
-          </button>
-        </ng-container>
-      </div>
-    </div>
-  </div>
 </ng-container>
 <ng-template #loading>
   <mat-spinner class="spinner"></mat-spinner>

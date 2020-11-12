@@ -24,15 +24,18 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    > :first-child {
+    > div {
       margin-right: 2rem;
     }
-    div.right-block {
+    > :last-child {
+      margin-right: 0rem;
+    }
+    div.prof-pic {
       > div {
         margin-bottom: 1rem;
       }
     }
-    div.left-block {
+    div.acs-block {
       border-radius: 0.5rem;
       flex-grow: 9;
       // width: 10rem;
@@ -84,12 +87,18 @@
     }
   }
 
-  div#right {
+  div#highlights {
     z-index: 1;
-    padding-top: 1rem;
-    height: 50%;
+    width: 15rem;
+    flex-direction: column;
+    display: flex;
     p {
       color: $white;
+    }
+    #sports {
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
     }
   }
 
@@ -173,19 +182,22 @@
 .spinner {
   align-self: center;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
   :host {
     flex-direction: column;
-    & div#left {
+    div#left {
       padding-right: 0rem;
-      padding-bottom: 2rem;
-    }
-    & div#right {
-      width: 100%;
     }
     & div.profile {
       flex-direction: column;
-      div.left-block {
+      & > div {
+        margin-right: 0rem;
+      }
+      & div#highlights {
+        margin-top: 1rem;
+        width: 100%;
+      }
+      div.acs-block {
         grid-template-columns: repeat(2, 1fr);
       }
     }
