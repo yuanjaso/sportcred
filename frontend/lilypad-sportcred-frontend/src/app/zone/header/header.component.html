@@ -24,14 +24,14 @@
     class="notification-item"
     mat-menu-item
     *ngFor="let instance of triviaInstances"
-    [disabled]="instance.score !== null"
+    [disabled]="instance.score !== UNPLAYED_GAME"
   >
-    <ng-container *ngIf="instance.score !== null">
+    <ng-container *ngIf="instance.score !== UNPLAYED_GAME">
       Finished game with: {{ instance.other_user.username }} | Score:
       {{ instance.score }}
     </ng-container>
 
-    <ng-container *ngIf="instance.score === null">
+    <ng-container *ngIf="instance.score === UNPLAYED_GAME">
       <span>Invite from {{ instance.other_user.username }}</span>
       <button color="primary" mat-raised-button (click)="playTrivia(instance)">
         Play
