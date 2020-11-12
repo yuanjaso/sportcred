@@ -22,6 +22,10 @@
     width: 100%;
     max-width: 90vw;
     padding-right: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     > *:not(:last-child) {
       margin-bottom: 1rem;
     }
@@ -56,6 +60,7 @@
     background-color: $white;
     padding: 1rem;
     min-height: 20rem;
+    align-self: normal;
   }
 
   div#picture {
@@ -98,6 +103,9 @@
   }
 
   div#about {
+    &.uncentered {
+      align-self: flex-start;
+    }
     > * {
       margin-bottom: 0;
     }
