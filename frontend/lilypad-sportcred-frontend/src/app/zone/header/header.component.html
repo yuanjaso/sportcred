@@ -4,6 +4,8 @@
   </div>
   <app-search-bar></app-search-bar>
   <div style="flex-grow: 9;"></div>
-  <mat-slide-toggle [(ngModel)]="sidenavExpanded" (change)="toggle($event)"> </mat-slide-toggle>
+ <div *ngIf="(curPage$ | async)?.includes(all_routes.zonehome.url)">
+  <mat-slide-toggle  [(ngModel)]="sidenavExpanded" (change)="toggle($event)"> </mat-slide-toggle>
+ </div>
 
 </mat-toolbar>
