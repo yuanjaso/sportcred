@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { all_routes } from '../../../../../global/routing-statics';
+import { selectUserInfo } from '../../../../auth/store/selectors';
 import { AppState } from '../../../../store/reducer';
 import { selectSports } from '../../../store/selectors';
 import { ProfileService } from '../../../subpages/profile/profile.service';
@@ -54,7 +56,12 @@ export class TriviaComponent implements OnInit {
 
   ngOnInit(): void {
     this.sports$ = this.store.select(selectSports);
-    this.users$ = this.profileService.users$;
+    this.users$ = this.profileService.users$.pipe(
+      withLatestFrom(this.store.select(selectUserInfo)),
+      map(([users, currentUser]) =>
+        users.filter((user) => user.id !== currentUser.user_id)
+      )
+    );
 
     this.store.dispatch(getAllUsers());
 
