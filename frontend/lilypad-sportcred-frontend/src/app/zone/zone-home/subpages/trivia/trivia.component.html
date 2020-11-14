@@ -7,7 +7,11 @@
     <mat-form-field appearance="fill">
       <mat-label>Select Sport to Play</mat-label>
       <mat-select [(ngModel)]="selectedSportId">
-        <mat-option *ngFor="let sport of sports$ | async" [value]="sport.id">
+        <mat-option
+          *ngFor="let sport of sports$ | async"
+          [value]="sport.id"
+          [disabled]="sport.name !== 'Basketball'"
+        >
           {{ sport.name }}
         </mat-option>
       </mat-select>
