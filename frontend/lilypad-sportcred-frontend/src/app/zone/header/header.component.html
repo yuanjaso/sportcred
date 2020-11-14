@@ -3,7 +3,7 @@
     <img src="../../assets/icon.png" class="logo" />
   </div>
   <app-search-bar></app-search-bar>
-  <div style="flex-grow: 9;"></div>
+  <div style="flex-grow: 9"></div>
   <button
     [matMenuTriggerFor]="notifications"
     [matBadge]="notificationsCount"
@@ -15,10 +15,10 @@
   >
     <mat-icon> notifications </mat-icon>
   </button>
- <div *ngIf="(curPage$ | async)?.includes(all_routes.zonehome.url)">
-  <mat-slide-toggle  [(ngModel)]="sidenavExpanded" (change)="toggle($event)"> </mat-slide-toggle>
- </div>
-
+  <div *ngIf="(curPage$ | async)?.includes(all_routes.zonehome.url)">
+    <mat-slide-toggle [(ngModel)]="sidenavExpanded" (change)="toggle($event)">
+    </mat-slide-toggle>
+  </div>
 </mat-toolbar>
 
 <mat-menu #notifications xPosition="before">
@@ -34,7 +34,7 @@
     </ng-container>
 
     <ng-container *ngIf="instance.score === UNPLAYED_GAME">
-      <span>Invite from {{ instance.other_user.username }}</span>
+      <span>Game with {{ instance.other_user.username }}</span>
       <button color="primary" mat-raised-button (click)="playTrivia(instance)">
         Play
       </button>
