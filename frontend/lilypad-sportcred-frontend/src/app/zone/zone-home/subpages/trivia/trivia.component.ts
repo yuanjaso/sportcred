@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
@@ -27,8 +28,9 @@ export class TriviaComponent implements OnInit {
   acs$: Observable<ACS>;
 
   singleLink = `/zone/home/${all_routes.trivia.url}/${all_routes.single_trivia.url}`;
+  multiplayerLink = `/zone/home/${all_routes.trivia.url}/${all_routes.multiplayertrivia.url}`;
 
-  selectedSportId: number;
+  selectedSportId: number | null = null;
   selectedOpponentUserId: number | null = null;
 
   sports$: Observable<Sport[]>;
@@ -38,6 +40,7 @@ export class TriviaComponent implements OnInit {
   triviaInstance$: Observable<TriviaInstance>;
 
   constructor(
+    private router: Router,
     private store: Store<AppState>,
     private profileService: ProfileService
   ) {}
@@ -45,13 +48,22 @@ export class TriviaComponent implements OnInit {
   /**
    * Send request to backend to initiate a trivia instance
    */
-  onCreateGame(): void {
+  onCreateGame(type: 'single' | 'multi'): void {
+    if (this.selectedSportId === null) {
+      return;
+    }
+    if (type === 'multi' && this.selectedOpponentUserId === null) {
+      return;
+    }
+
     this.store.dispatch(
       createTriviaInstance({
         sportId: this.selectedSportId,
         opponentUserId: this.selectedOpponentUserId,
       })
     );
+    const link = type === 'single' ? this.singleLink : this.multiplayerLink;
+    this.router.navigate([link]);
   }
 
   ngOnInit(): void {

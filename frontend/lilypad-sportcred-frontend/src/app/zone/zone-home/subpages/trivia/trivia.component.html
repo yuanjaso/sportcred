@@ -27,9 +27,11 @@
     </mat-form-field>
   </div>
   <div class="buttons-layout">
-    <button [routerLink]="singleLink" mat-flat-button (click)="onCreateGame()">
+    <button mat-flat-button (click)="onCreateGame('single')">
       Single Player
     </button>
-    <button mat-flat-button (click)="onCreateGame()">Multi Player</button>
+    <button mat-flat-button (click)="onCreateGame('multi')">
+      Multi Player
+    </button>
   </div>
 </div>
