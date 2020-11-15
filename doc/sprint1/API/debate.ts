@@ -58,7 +58,7 @@ const apiRequirements: API[] = [
       requestURL: '/api/v1/debates/',
       requestMethod: 'POST',
       body: {
-        acs_rank: 1,
+        acs_rank: "F", // One of E, P, A, F (See lines 45-48)
         sport: 2,
         content: 'we all know hes the goat but why?',
         title: "Why is lebron the goat",
@@ -92,7 +92,7 @@ const apiRequirements: API[] = [
       response: [
         {
           id: 1,
-          acs_rank: "F",
+          acs_rank: "F", // One of E, P, A, F (See lines 45-48)
           sport: 1,
           tite: "Why is lebron the goat",
           content: 'we all know hes the goat but why?',
@@ -128,14 +128,14 @@ const apiRequirements: API[] = [
   {
     description: 'POST comments for a debate', // only if youre in the correct rank
     request: {
-      requestURL: '/api/v1/debates/comments/', //id of the debate
+      requestURL: '/api/v1/debates/comments/',
       requestMethod: 'POST',
       body: {
         debate_id: 1,
         content: "thats why he's the goat"
       },
       // The rooms are based on ACS tiers
-      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+      queryParams: {},
     },
     response: {
       statusCode: 200,
@@ -151,9 +151,9 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: 'PUT rating', // only if youre in the correct rank
+    description: 'PUT rating',
     request: {
-      requestURL: '/api/v1/debates/comments/', //id of the debate
+      requestURL: '/api/v1/debates/comments/',
       requestMethod: 'PUT',
       body: {
         comment_id: 1,
