@@ -105,10 +105,10 @@ const apiRequirements: API[] = [
   {
     description: 'GET comments for a debate',
     request: {
-      requestURL: '/api/v1/debates//comments/', //id of the debate
+      requestURL: '/api/v1/debates/comments/', 
       requestMethod: 'GET',
       body: {},
-      queryParams: {comment_id=1},
+      queryParams: {comment_id=1}, //id of the debate
     },
     response: {
       statusCode: 200,
