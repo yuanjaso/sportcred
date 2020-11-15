@@ -16,10 +16,11 @@ router.register(
     r"api/v1/questionnaire", mine.QuestionnaireViewSet, basename="questionnaire"
 )
 router.register(r"api/v1/trivia", mine.TriviaViewSet, basename="trivia")
+router.register(r"api/v1/debates", mine.DebateViewSet, basename="debate")
 
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = [
-    path("", include(router.urls)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = [path("", include(router.urls))] + static(
+    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+)
