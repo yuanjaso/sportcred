@@ -152,13 +152,16 @@ class TriviaInstance(models.Model):
 class TriviaResponse(models.Model):
     trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
     question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
-    answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE)
+    answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE, null=True)
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     start_time = models.DateTimeField(blank=False)
     submission_time = models.DateTimeField(blank=False)
 
     @property
     def is_correct(self):
+        # case where there was no answer provideded
+        if self.answer == None:
+            return False
         return self.question.correct_answer == self.answer
 
 
