@@ -20,6 +20,7 @@ export interface TriviaInstance {
   questions: TriviaQuestion[];
   score: string | null;
   creation_date: string;
+  opponentName?: string;
 }
 
 export interface Answer {
