@@ -4,12 +4,14 @@
   min-height: calc(100% - 4rem);
   padding: 2rem;
   background-color: $darkgrey;
+  overflow: hidden;
 
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
+  position: relative;
+  z-index: 1;
   mat-icon.material-icons {
     padding: 0;
   }
@@ -18,37 +20,85 @@
     margin-bottom: 0;
   }
 
+  div.profile {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    > div {
+      margin-right: 2rem;
+    }
+    > :last-child {
+      margin-right: 0rem;
+    }
+    div.prof-pic {
+      > div {
+        margin-bottom: 1rem;
+      }
+    }
+    div.acs-block {
+      border-radius: 0.5rem;
+      flex-grow: 9;
+      // width: 10rem;
+      max-width: 90vw;
+      height: auto;
+      background: rgb(34, 193, 195);
+      background: linear-gradient(
+        to right,
+        rgb(242, 112, 156),
+        rgb(255, 148, 114)
+      );
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      justify-items: center;
+      align-items: center;
+      .name {
+        @extend .font-tertiary;
+      }
+      .score {
+        @extend .font-primary;
+      }
+      position: relative;
+      .title {
+        position: absolute;
+        @extend .font-secondary;
+        top: 55px;
+        left: 10px;
+        color: white;
+        font-size: 10rem;
+      }
+      .score-block {
+        margin: 1.04rem;
+        z-index: 2;
+      }
+    }
+  }
+
   div#left {
     width: 100%;
     max-width: 90vw;
     padding-right: 2rem;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     > *:not(:last-child) {
       margin-bottom: 1rem;
     }
   }
 
-  div#right {
-    padding-top: 1rem;
-    height: 50%;
+  div#highlights {
+    z-index: 1;
+    width: 15rem;
+    flex-direction: column;
+    display: flex;
     p {
       color: $white;
     }
-  }
-
-  div#acs {
-    background-color: $grey;
-    color: $black;
-
-    border-radius: 7rem;
-    height: 6.5rem;
-    width: 11.5rem;
-
-    justify-content: center;
-    align-items: center;
-
-    p {
-      margin: 0;
-      letter-spacing: 0.2rem;
+    #sports {
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
     }
   }
 
@@ -56,6 +106,7 @@
     background-color: $white;
     padding: 1rem;
     min-height: 20rem;
+    align-self: normal;
   }
 
   div#picture {
@@ -98,6 +149,9 @@
   }
 
   div#about {
+    &.uncentered {
+      align-self: flex-start;
+    }
     > * {
       margin-bottom: 0;
     }
@@ -128,15 +182,24 @@
 .spinner {
   align-self: center;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
   :host {
     flex-direction: column;
-    & div#left {
+    div#left {
       padding-right: 0rem;
-      padding-bottom: 2rem;
     }
-    & div#right {
-      width: 100%;
+    & div.profile {
+      flex-direction: column;
+      & > div {
+        margin-right: 0rem;
+      }
+      & div#highlights {
+        margin-top: 1rem;
+        width: 100%;
+      }
+      div.acs-block {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
 }
