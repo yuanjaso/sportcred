@@ -14,6 +14,8 @@ from sportscred.models import (
     TriviaQuestion,
     TriviaInstance,
     TriviaAnswer,
+    DebatePost,
+    DebateComment,
 )
 
 
@@ -186,3 +188,27 @@ class TriviaSerializer(serializers.ModelSerializer):
 
     def get_other_user(self, instance):
         return UserSerializer(instance.other_user.user).data
+
+
+class DebateSerializer(serializers.ModelSerializer):
+
+    sport = serializers.SerializerMethodField()
+    num_of_comments = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DebatePost
+        fields = [
+            "id",
+            "content",
+            "post_date",
+            "sport",
+            "title",
+            "num_of_comments",
+        ]
+
+    def get_sport(self, obj):
+        return obj.related_to_debate_posts.values_list("id", flat=True)
+
+    def get_num_of_comments(self, obj):
+        num = DebateComment.objects.filter(post=obj).count()
+        return num
