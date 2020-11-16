@@ -4,11 +4,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-add-debate-dialog',
   templateUrl: './add-debate-dialog.component.html',
-  styleUrls: ['./add-debate-dialog.component.scss']
+  styleUrls: ['./add-debate-dialog.component.scss'],
 })
 export class AddDebateDialogComponent implements OnInit {
-
-  constructor() { }
+  analystRank = [
+    { id: 'E', name: 'Expert Analyst' },
+    { id: 'P', name: 'Pro Analyst' },
+    { id: 'A', name: 'Analyst' },
+    { id: 'F', name: 'Fanalyst' },
+  ];
 
   form: FormGroup = new FormGroup({
     title: new FormControl('', [
@@ -16,16 +20,15 @@ export class AddDebateDialogComponent implements OnInit {
       Validators.minLength(1),
       Validators.maxLength(100),
     ]),
+    content: new FormControl(''),
+    rank: new FormControl('', Validators.required),
   });
 
-  ngOnInit(): void {
-  }
+  constructor() {}
+
+  ngOnInit(): void {}
 
   submitNewDebate() {
-    console.log("clicked done");
     if (this.form.status === 'INVALID') return;
-
   }
-
-  
 }
