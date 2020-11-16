@@ -6,3 +6,8 @@ export const setDebateTopics = createAction(
   '[Trivia] Set Debate Topics',
   props<{ topics: DebateTopic[] }>()
 );
+
+export const getDebateDiscussion = createAction(
+  '[Debate] Get Debate Discussion',
+  props<{ topics_id: number }>()
+);

@@ -9,3 +9,5 @@ export const sportsURL = 'sports';
 export const profileURL = 'profile';
 export const profileACSHistoryURL = (id) => `${profileURL}/${id}/acs_history`;
 export const profilePictureURL = `${profileURL}/picture`;
+export const debateURL = 'debates';
+export const debateDiscussion = (id) => `${debateURL}/${id}/comments`;

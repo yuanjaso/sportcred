@@ -1,17 +1,7 @@
 import { createSelector } from '@ngrx/store';
-import { selectFeatureTrivia } from '../../../../../store/selectors';
+import { selectFeatureDebate } from '../../../../../store/selectors';
 
-export const selectTriviaQuestions = createSelector(
-  selectFeatureTrivia,
-  (state) => state.triviaQuestions
-);
-
-export const selectUpdatedACS = createSelector(
-  selectFeatureTrivia,
-  (state) => state.updatedACS
-);
-
-export const selectTriviaInstance = createSelector(
-  selectFeatureTrivia,
-  (state) => state.triviaInstance
+export const selectDebateTopics = createSelector(
+  selectFeatureDebate,
+  (state) => state.debateTopics //can maybe do filtering /  sorting here in the future
 );
