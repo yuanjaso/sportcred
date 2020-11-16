@@ -63,7 +63,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggle(e) {
-    console.log(e);
     this.zoneService.sideNavToggle$.next(e.checked);
   }
   ngOnDestroy() {

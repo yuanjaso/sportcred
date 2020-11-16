@@ -13,7 +13,7 @@ const reducer = createReducer<DebateState>(
   initialState,
   on(setDebateTopics, (state, { topics }) => ({
     ...state,
-    registration_questionaire: topics,
+    debateTopics: topics,
   }))
 );
 

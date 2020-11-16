@@ -18,7 +18,7 @@ export class DebateEffects {
       mergeMap(() => {
         return this.debateService.getAllDebates().pipe(
           map((topics: DebateTopic[]) => ({
-            ...actions.setDebateTopics,
+            type: actions.setDebateTopics.type,
             topics,
           })),
           catchError(() => EMPTY)

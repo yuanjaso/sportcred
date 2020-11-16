@@ -5,7 +5,7 @@ export enum playerRank {
   FANALYST = 'F',
 }
 export interface DebateTopic {
-  id: boolean;
+  id: number;
   acs_rank: playerRank;
   sport: number;
   tite: string;

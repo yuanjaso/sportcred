@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from '../../../../store/reducer';
 import * as types from './debate.types';
+import { DebateTopic } from './debate.types';
 import { getDebateTopics } from './store/debate.actions';
 import * as selectors from './store/debate.selectors';
 
@@ -25,7 +26,28 @@ export class DebateComponent implements OnInit, OnDestroy {
         .select(selectors.selectDebateTopics)
         .pipe(filter((a) => !!a))
         .subscribe((a: types.DebateTopic[]) => {
-          this.topics = a;
+          /**MOCK DATA */
+          let mock: DebateTopic = {
+            id: 1,
+            acs_rank: types.playerRank.PRO_ANALYST,
+            sport: 1,
+            tite: 'mock title',
+            content: 'mock content',
+            post_date: new Date().getTime().toString(),
+            num_of_comments: 32,
+          };
+          this.topics = [mock, mock];
+          this.topics = [
+            ...this.topics,
+            ...this.topics,
+            ...this.topics,
+            ...this.topics,
+            ...this.topics,
+            ...this.topics,
+            ...this.topics,
+          ];
+
+          console.log(a);
         })
     );
   }

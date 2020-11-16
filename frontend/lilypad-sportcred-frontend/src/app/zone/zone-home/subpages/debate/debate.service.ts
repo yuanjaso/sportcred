@@ -10,7 +10,7 @@ export class DebateService {
   hotDebateDiscussion$ = new Subject<DebateDiscussion>();
 
   getAllDebates() {
-    return this.httpClient.get(apis.debateURL);
+    return this.httpClient.get(apis.debateURL, { sport_id: 1, acs_rank: 'E' });
   }
 
   getDebateDiscussion(id: number) {
