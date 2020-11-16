@@ -79,10 +79,11 @@ class DebateComment(models.Model):
     post = models.ForeignKey("DebatePost", on_delete=models.CASCADE)
     commenter = models.ForeignKey("Profile", on_delete=models.CASCADE)
     content = models.CharField(max_length=500, blank=False, null=False)
+    time = models.DateTimeField(auto_now_add=True)
 
     @property
     def ratingAverage(self):
-        return Rate.objects.filter(post=self).aggregate(Models.Avg("agreement"))
+        return Rate.objects.filter(comment=self).aggregate(models.Avg("agreement"))
 
 
 class Rate(models.Model):
@@ -95,7 +96,7 @@ class Rate(models.Model):
     )
 
     class Meta:
-        unique_together = ["rater", "comment"]
+        unique_together = ["rater", "comment", "agreement"]
 
 
 class ACS(models.Model):
