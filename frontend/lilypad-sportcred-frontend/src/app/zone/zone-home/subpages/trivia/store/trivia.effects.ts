@@ -44,20 +44,11 @@ export class TriviaEffects {
       ofType(TriviaActions.queryForTriviaGames),
       // using mergeMapTo because the HTTP request requires no parameters and thus is 'constant'
       mergeMapTo(this.triviaService.queryForTriviaGames()),
-      withLatestFrom(this.store.select(selectAllTriviaInstances)),
-      map(([newTriviaInstances, currentTriviaInstances]) => {
-        // there is high probability that the new response is the exact same as before
-        // if so, stop the data stream right here otherwise proceed
-        if (
-          currentTriviaInstances === undefined ||
-          currentTriviaInstances.length !== newTriviaInstances.length
-        ) {
-          return TriviaActions.setAllTriviaInstances({
-            allTriviaInstances: newTriviaInstances,
-          });
-        }
-      }),
-      filter((action) => action !== undefined)
+      map((newTriviaInstances) =>
+        TriviaActions.setAllTriviaInstances({
+          allTriviaInstances: newTriviaInstances,
+        })
+      )
     )
   );
 
