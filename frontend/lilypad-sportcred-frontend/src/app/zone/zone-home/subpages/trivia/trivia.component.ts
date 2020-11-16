@@ -55,6 +55,9 @@ export class TriviaComponent implements OnInit {
     if (type === 'multi' && this.selectedOpponentUserId === null) {
       return;
     }
+    if (type === 'single') {
+      this.selectedOpponentUserId = null;
+    }
 
     this.store.dispatch(
       createTriviaInstance({
