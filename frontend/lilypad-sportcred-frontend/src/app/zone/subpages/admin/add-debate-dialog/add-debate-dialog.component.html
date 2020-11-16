@@ -1,0 +1,17 @@
+<form class="dialog" [formGroup]="form" (ngSubmit)="submitNewDebate()">
+  <div class="header">Add New Debate Topic</div>
+  <div class="fields">
+    <mat-form-field class="formField" appearance="outline">
+      <mat-label>Debate Title</mat-label>
+      <input matInput placeholder="TITLE" formControlName="title" />
+    </mat-form-field>
+  </div>
+  <button
+    class="submitBtn"
+    type="submit"
+    [disabled]="this.form.status === 'INVALID'"
+    mat-raised-button
+    color="accent">
+    POST NEW DEBATE
+  </button>
+</form>

@@ -3,6 +3,11 @@
 <ng-container *ngIf="$questionnaires | async; else loading">
 
     <div class="seach-box">
+      <div class="header">View Active Debates</div>
+      <button class="addDebateButton" (click)="addNewDebate()" mat-raised-button color="accent"> + Add New Debate </button>
+      <div class="charting">
+          <!-- TODO: Show list of active debates -->
+      </div>
         <div class="header">Select Question Type</div>
         <mat-form-field appearance="fill" >
           <mat-select  (selectionChange)="getNewQuestionnaireResponse($event)">

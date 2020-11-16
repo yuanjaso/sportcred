@@ -1,0 +1,33 @@
+@import "../../../../../global/fonts.scss";
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40rem;
+    max-width: 100%;
+}
+
+.header {
+    @extend .font-secondary;
+    padding-bottom: 1.5rem;
+    width: 100%;
+}
+
+.fields {
+    width: 100%;
+    .formField {
+        width: 100%;
+    }
+}
+
+.submitBtn {
+    @extend .font-secondary;
+    width: 100%;
+    transition: 0.5s;
+    opacity: 0.8;
+}
+
+.submitBtn:hover {
+    opacity: 1;
+}

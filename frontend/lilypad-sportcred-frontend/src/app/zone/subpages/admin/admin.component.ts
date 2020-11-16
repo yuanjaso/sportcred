@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
@@ -7,9 +8,11 @@ import { Question } from 'src/app/login/login.types';
 import { getQuestionaire } from '../../../login/store/actions';
 import { selectQuestionaire } from '../../../login/store/selectors';
 import { AppState } from '../../../store/reducer';
+import { AddDebateDialogComponent } from './add-debate-dialog/add-debate-dialog.component';
 import { AdminService } from './admin.service';
 import { QuestionnaireResponse } from './admin.types';
 import { getQuestionnaireResponse } from './store/admin.actions';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -26,7 +29,8 @@ export class AdminComponent implements OnInit {
   };
   constructor(
     private store: Store<AppState>,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private dialog: MatDialog
   ) {
     this.clearQuestionnaireData();
   }
@@ -67,5 +71,9 @@ export class AdminComponent implements OnInit {
       rawdata: undefined,
       question: undefined,
     };
+  }
+
+  addNewDebate() {
+    const dialog = this.dialog.open(AddDebateDialogComponent);
   }
 }
