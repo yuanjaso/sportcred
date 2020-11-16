@@ -1,4 +1,4 @@
-import { API } from './restapi';
+import { API } from "./restapi";
 
 /*
   Logic for debates
@@ -32,7 +32,6 @@ import { API } from './restapi';
 
 */
 
-
 /*
 POSSIBLE ACS_RANKS
     - ratings:
@@ -53,14 +52,14 @@ POSSIBLE ACS_RANKS
 
 const apiRequirements: API[] = [
   {
-    description: 'Post debate only admins can post debate questions btw',
+    description: "Post debate only admins can post debate questions btw",
     request: {
-      requestURL: '/api/v1/debates/',
-      requestMethod: 'POST',
+      requestURL: "/api/v1/debates/",
+      requestMethod: "POST",
       body: {
-        acs_rank: 1,
+        acs_rank: "F", // One of E, P, A, F (See lines 45-48)
         sport: 2,
-        content: 'we all know hes the goat but why?',
+        content: "we all know hes the goat but why?",
         title: "Why is lebron the goat",
       },
       queryParams: {},
@@ -70,32 +69,32 @@ const apiRequirements: API[] = [
       response: {
         id: 1,
         acs_rank: "F",
-        sport: 1,
+        sport: [1],
         tite: "Why is lebron the goat",
-        content: 'we all know hes the goat but why?',
+        content: "we all know hes the goat but why?",
         post_date: "datetime in ISO",
         num_of_comments: 0,
       },
     },
   },
   {
-    description: 'GET Debate room info',
+    description: "GET Debate room info",
     request: {
-      requestURL: '/api/v1/debates/',
-      requestMethod: 'GET',
+      requestURL: "/api/v1/debates/",
+      requestMethod: "GET",
       body: {},
       // The rooms are based on ACS tiers
-      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+      queryParams: { sport_id: 1, acs_rank: "F" }, // you dont need to use both id and name // Ohm: Only using Id, updated this doc regarding it
     },
     response: {
       statusCode: 200,
       response: [
         {
           id: 1,
-          acs_rank: "F",
-          sport: 1,
+          acs_rank: "F", // One of E, P, A, F (See lines 45-48)
+          sport: [1],
           tite: "Why is lebron the goat",
-          content: 'we all know hes the goat but why?',
+          content: "we all know hes the goat but why?",
           post_date: "datetime in ISO",
           num_of_comments: 0,
         },
@@ -103,12 +102,12 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: 'GET comments for a debate',
+    description: "GET comments for a debate",
     request: {
-      requestURL: '/api/v1/debates/:id/comments/', //id of the debate
+      requestURL: '/api/v1/debates/comments/', 
       requestMethod: 'GET',
       body: {},
-      queryParams: {},
+      queryParams: {comment_id=1}, //id of the debate
     },
     response: {
       statusCode: 200,
@@ -126,16 +125,16 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: 'POST comments for a debate', // only if youre in the correct rank
+    description: "POST comments for a debate", // only if youre in the correct rank
     request: {
-      requestURL: '/api/v1/debates/comments/', //id of the debate
-      requestMethod: 'POST',
+      requestURL: "/api/v1/debates/comments/",
+      requestMethod: "POST",
       body: {
         debate_id: 1,
-        content: "thats why he's the goat"
+        content: "thats why he's the goat",
       },
       // The rooms are based on ACS tiers
-      queryParams: { sport_id: 1, sport_name: "basketball", acs_rank: "F" }, // you dont need to use both id and name 
+      queryParams: {},
     },
     response: {
       statusCode: 200,
@@ -151,10 +150,10 @@ const apiRequirements: API[] = [
     },
   },
   {
-    description: 'PUT rating', // only if youre in the correct rank
+    description: "PUT rating",
     request: {
-      requestURL: '/api/v1/debates/comments/', //id of the debate
-      requestMethod: 'PUT',
+      requestURL: "/api/v1/debates/comments/",
+      requestMethod: "PUT",
       body: {
         comment_id: 1,
         rating: 10, // from 0 to 10 should be a slider on the front end
