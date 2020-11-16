@@ -22,6 +22,38 @@ def tokens():
     ]
 
 
+def test_create_dabate(tokens):
+    url = URL + "debates/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        data={
+            "acs_rank": "F",
+            "sport": 1,  # basketball
+            "content": "we all know hes the goat but why?",
+            "title": "Why is lebron the goat",
+        },
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 200
+
+
+def test_get_dabate(tokens):
+    url = URL + "debates/"
+    res = requests.get(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        params={
+            "acs_rank": "F",
+            "sport_id": 1,  # basketball
+        },
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 200
+
+
 def test_update_comments_1(tokens):
     url = URL + "debates/comments/"
     res = requests.put(

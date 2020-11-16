@@ -29,3 +29,10 @@ class QuestionnaireSuper(BasePermission):
         if view.action == "responses":
             return request.user.is_superuser
         return True
+
+
+class DebateSuper(BasePermission):
+    def has_permission(self, request, view):
+        if view.action == "create":
+            return request.user.is_superuser
+        return True

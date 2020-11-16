@@ -4,12 +4,14 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from sportscred.permissions import DebateSuper
 from django.db.models import Count
 
 from ..serializers import (
     QuestionnaireSerializer,
     QuestionnaireAnswerSerializer,
     QuestionaireUserResponseSerializer,
+    DebateSerializer,
 )
 from sportscred.models import (
     DebateComment,
@@ -22,12 +24,66 @@ from sportscred.models import (
 
 
 class DebateViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated, DebateSuper]
+
+    def create(self, request):
+        try:
+            body = {
+                "title": request.data["title"],
+                "sport": request.data["sport"],
+                "content": request.data["content"],
+                "acs_rank": request.data["acs_rank"].upper(),
+            }
+            for x in body:
+                if body[x] == None:
+                    return Response(
+                        {"details": " Invalid input"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+            sport = Sport.objects.get(pk=body["sport"])
+            post = DebatePost.objects.create(
+                title=body["title"],
+                content=body["content"],
+                acs_rank=body["acs_rank"],
+            )
+            post.related_to_debate_posts.add(sport)
+            post.save()
+            return Response(DebateSerializer(post).data)
+        except Exception as e:
+            print(e)
+            return Response(
+                {"details": "Failed to create a debate post"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
     def list(self, request):
-        for item in request.data:
-            print(item)
-        return Response(
-            {"details": "Profile not found"}, status=status.HTTP_400_BAD_REQUEST
-        )
+        # Gets the comment id and rating
+        try:
+            ##### validation of data coming in
+            body = {
+                "sport_id": request.query_params["sport_id"],
+                "acs_rank": request.query_params["acs_rank"].upper(),
+            }
+            for x in body:
+                if body[x] == None:
+                    return Response(
+                        {"details": " Invalid input"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+            ##### validation of data coming in
+            sport = Sport.objects.get(pk=body["sport_id"])
+            post = DebatePost.objects.filter(
+                related_to_debate_posts=sport,
+                acs_rank=body["acs_rank"],
+            )
+
+            return Response(DebateSerializer(post, many=True).data)
+        except Exception as e:
+            print(e)
+            return Response(
+                {"details": "Failed to create a debate post"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     # Updates the ratings for the comments.
     @action(detail=False, methods=["put"])
@@ -137,11 +193,9 @@ class DebateViewSet(viewsets.ViewSet):
         debate_acs_rank = DebatePost.objects.filter(id=debate_id).values()[0][
             "acs_rank"
         ]  # Gets the acs rank
-        debate_acs_sport_id = DebatePost.objects.first().related_to_debate_posts.values()[
-            0
-        ][
-            "id"
-        ]  # Gets the sport id
+        debate_acs_sport_id = (
+            DebatePost.objects.first().related_to_debate_posts.values()[0]["id"]
+        )  # Gets the sport id
 
         # Gets the ACS score of the user for the same sport.
         user_acs_score = ACS.objects.filter(
@@ -216,4 +270,3 @@ class DebateViewSet(viewsets.ViewSet):
             return Response(
                 {"details": "The id is invalid."}, status=status.HTTP_400_BAD_REQUEST
             )
-
