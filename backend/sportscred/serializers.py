@@ -97,11 +97,11 @@ class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     profilepicture = ProfilePictureSerializer()
-    highlights = SportSerializer(many=True)
+    favourite_sports = SportSerializer(many=True)
 
     class Meta:
         model = Profile
-        fields = ["user", "status", "highlights", "about", "profilepicture"]
+        fields = ["user", "status", "favourite_sports", "about", "profilepicture"]
 
 
 class ProfiletoUserSerializer(serializers.ModelSerializer):
@@ -123,8 +123,7 @@ class FollowSerializer(serializers.ModelSerializer):
     def get_following(self, profile):
 
         return UserSerializer(
-            User.objects.filter(profile__followers=profile),
-            many=True,
+            User.objects.filter(profile__followers=profile), many=True
         ).data
 
     def get_followers(self, profile):

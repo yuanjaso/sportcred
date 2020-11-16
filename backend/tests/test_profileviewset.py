@@ -50,13 +50,13 @@ def test_update_about():
     assert res.status_code == 200
 
 
-def test_update_highlights():
+def test_update_favourite_sports():
     url = URL + "profile/"
 
     res = requests.patch(
         url,
         headers={"Authorization": "Token " + token, "Content-Type": "application/json"},
-        data=json.dumps({"highlights": [1]}),
+        data=json.dumps({"favourite_sports": [1]}),
         verify=False,
     )
     assert res.status_code == 200
@@ -66,7 +66,7 @@ def test_update_highlights():
     res = requests.patch(
         url,
         headers={"Authorization": "Token " + token, "Content-Type": "application/json"},
-        data=json.dumps({"highlights": ["adasdasdl"]}),
+        data=json.dumps({"favourite_sports": ["adasdasdl"]}),
         verify=False,
     )
     assert res.status_code == 400
