@@ -45,6 +45,23 @@ def test_create_dabate(tokens):
     assert res.status_code == 200
 
 
+def test_create_dabate2(tokens):
+    url = URL + "debates/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        data={
+            "acs_rank": "P",
+            "sport": 1,  # basketball
+            "content": "we all know hes the goat but why?",
+            "title": "Why is lebron not the goat",
+        },
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 200
+
+
 def test_get_dabate(tokens):
     url = URL + "debates/"
     res = requests.get(
@@ -58,6 +75,76 @@ def test_get_dabate(tokens):
     )
     print(res.json())
     assert res.status_code == 200
+
+
+def test_post_comments_1(tokens):
+    url = URL + "debates/comments/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        data={"debate_id": 1, "content": "test1"},
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 200
+
+
+def test_post_comments_2(tokens):
+    url = URL + "debates/comments/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        data={"debate_id": 1, "x": "test1"},
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 400
+
+
+def test_post_comments_3(tokens):
+    url = URL + "debates/comments/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        data={"x": 1, "content": "test1"},
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 400
+
+
+def test_post_comments_4(tokens):
+    url = URL + "debates/comments/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        data={"debate_id": 2, "content": "test2"},
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 400
+
+
+def test_get_comments_1(tokens):
+    url = URL + "debates/comments/"
+    res = requests.get(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        params={"comment_id": "1"},
+        verify=False,
+    )
+    assert res.status_code == 200
+
+
+def test_get_comments_2(tokens):
+    url = URL + "debates/comments/"
+    res = requests.get(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        params={"comment_ids": "1"},
+        verify=False,
+    )
+    assert res.status_code == 400
 
 
 def test_update_comments_1(tokens):
@@ -178,73 +265,3 @@ def test_update_comments_8(tokens):
     #         verify=False,
     #     )
     #     assert res.status_code == 200
-
-
-def test_post_comments_1(tokens):
-    url = URL + "debates/comments/"
-    res = requests.post(
-        url,
-        headers={"Authorization": "Token " + tokens[0]},
-        data={"debate_id": 1, "content": "test1"},
-        verify=False,
-    )
-    print(res.json())
-    assert res.status_code == 200
-
-
-def test_post_comments_2(tokens):
-    url = URL + "debates/comments/"
-    res = requests.post(
-        url,
-        headers={"Authorization": "Token " + tokens[0]},
-        data={"debate_id": 1, "x": "test1"},
-        verify=False,
-    )
-    print(res.json())
-    assert res.status_code == 400
-
-
-def test_post_comments_3(tokens):
-    url = URL + "debates/comments/"
-    res = requests.post(
-        url,
-        headers={"Authorization": "Token " + tokens[0]},
-        data={"x": 1, "content": "test1"},
-        verify=False,
-    )
-    print(res.json())
-    assert res.status_code == 400
-
-
-def test_post_comments_4(tokens):
-    url = URL + "debates/comments/"
-    res = requests.post(
-        url,
-        headers={"Authorization": "Token " + tokens[0]},
-        data={"debate_id": 2, "content": "test2"},
-        verify=False,
-    )
-    print(res.json())
-    assert res.status_code == 400
-
-
-def test_get_comments_1(tokens):
-    url = URL + "debates/comments/"
-    res = requests.get(
-        url,
-        headers={"Authorization": "Token " + tokens[0]},
-        params={"comment_id": "1"},
-        verify=False,
-    )
-    assert res.status_code == 200
-
-
-def test_get_comments_2(tokens):
-    url = URL + "debates/comments/"
-    res = requests.get(
-        url,
-        headers={"Authorization": "Token " + tokens[0]},
-        params={"comment_ids": "1"},
-        verify=False,
-    )
-    assert res.status_code == 400
