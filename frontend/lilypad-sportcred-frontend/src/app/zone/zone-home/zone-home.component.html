@@ -5,7 +5,7 @@
         <mat-card
           [routerLink]="card.url"
           fxLayoutAlign="center"
-          style="background-image: url({{ card.dashImgLink }});"
+          [style]=" 'background-image: url(' + card.dashImgLink + ')' "
         >
           <mat-card-content>
             {{ card.dashTitle }}
