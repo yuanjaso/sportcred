@@ -185,9 +185,6 @@ class DebateViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # From comment id, we can find the sports id of the debate post.
-        # print(DebateComment.objects.get())  # Need to talk to Michael about commenter_id
-
         # Gets the ACS score of the user for the same sport as the debate.
         user_id = request.user.id
         debate_acs_rank = DebatePost.objects.filter(id=debate_id).values()[0][
