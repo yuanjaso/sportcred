@@ -184,9 +184,13 @@ class TriviaSerializer(serializers.ModelSerializer):
         ]
 
     def get_user(self, instance):
+        if instance.user == None:
+            return None
         return UserSerializer(instance.user.user).data
 
     def get_other_user(self, instance):
+        if instance.other_user == None:
+            return None
         return UserSerializer(instance.other_user.user).data
 
 
