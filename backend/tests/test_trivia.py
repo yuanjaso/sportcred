@@ -54,6 +54,7 @@ def test_get_instance(token):
     assert res.status_code == 200
 
 
+# to test if submitting none works then replace q["answers"][0]["id"] with None
 def test_user_submit_answers(token):
     url = URL + "trivia/"
     res = requests.get(
@@ -90,6 +91,7 @@ def test_user_submit_answers(token):
     assert res.status_code == 200
 
 
+# to test if submitting none works then replace q["answers"][0]["id"] with None
 def test_other_user_submit_answers(token):
     url = URL + "trivia/"
     res = requests.get(
@@ -97,13 +99,16 @@ def test_other_user_submit_answers(token):
         headers={"Authorization": "Token " + token_2},
         verify=False,
     )
+
     instance = res.json()[0]
     submit = []
 
     for q in instance["questions"]:
+        ans = q["answers"][0]["id"]
+
         a = {
             "id": q["id"],
-            "submission_answer": q["answers"][0]["id"],
+            "submission_answer": ans,
             "start_time": datetime.datetime.now().isoformat(),
             "submission_time": datetime.datetime.now().isoformat(),
         }
@@ -123,6 +128,67 @@ def test_other_user_submit_answers(token):
                 "start_time": datetime.datetime.now().isoformat(),
             }
         ),
+        verify=False,
+    )
+
+    assert res.status_code == 200
+
+
+def test_create_instance_single_player(token, own_id):
+    url = URL + "trivia/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + token},
+        data={"other_user": None, "sport": 1},
+        verify=False,
+    )
+
+    assert res.status_code == 200
+
+
+def test_user_submit_answers_single(token):
+    url = URL + "trivia/"
+    res = requests.get(
+        url,
+        headers={"Authorization": "Token " + token},
+        verify=False,
+    )
+    print(res.json())
+    instance = res.json()[0]
+    submit = []
+
+    for q in instance["questions"]:
+        a = {
+            "id": q["id"],
+            "submission_answer": q["answers"][0]["id"],
+            "start_time": datetime.datetime.now().isoformat(),
+            "submission_time": datetime.datetime.now().isoformat(),
+        }
+        print(q["id"])
+        submit.append(a)
+    print(instance["id"])
+    url = URL + "trivia/answers/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + token, "Content-Type": "application/json"},
+        data=json.dumps(
+            {
+                "trivia_instance": instance["id"],
+                "questions": submit,
+                "start_time": datetime.datetime.now().isoformat(),
+            }
+        ),
+        verify=False,
+    )
+    assert res.status_code == 200
+
+
+def test_get_instance_single_player(token, own_id):
+    url = URL + "trivia/"
+    res = requests.post(
+        url,
+        headers={"Authorization": "Token " + token},
+        data={"other_user": user_id, "sport": 1},
         verify=False,
     )
     assert res.status_code == 200

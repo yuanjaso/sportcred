@@ -34,7 +34,6 @@ class TriviaViewSet(viewsets.ViewSet):
             trivia_instances = TriviaInstance.objects.filter(user=profile).union(
                 TriviaInstance.objects.filter(other_user=profile)
             )
-
             return Response(
                 TriviaSerializer(
                     trivia_instances.order_by("-creation_date"), many=True
@@ -127,7 +126,9 @@ class TriviaViewSet(viewsets.ViewSet):
             # create response
             for q in questions:
                 question_model = TriviaQuestion.objects.get(id=q["id"])
-                answer_model = TriviaAnswer.objects.get(id=q["submission_answer"])
+                answer_model = None
+                if q["submission_answer"] != None:
+                    answer_model = TriviaAnswer.objects.get(id=q["submission_answer"])
                 t = TriviaResponse.objects.create(
                     trivia_instance=instance,
                     question=question_model,
@@ -136,6 +137,7 @@ class TriviaViewSet(viewsets.ViewSet):
                     start_time=parser.parse(q["start_time"]),
                     submission_time=parser.parse(q["submission_time"]),
                 )
+
                 t.save()
             # check if both users uploaded their answers
             user_response = TriviaResponse.objects.filter(
@@ -144,6 +146,7 @@ class TriviaViewSet(viewsets.ViewSet):
             other_user_response = TriviaResponse.objects.filter(
                 trivia_instance=instance, user=instance.other_user
             )
+            # single player trivia
             if user_response.exists() and instance.other_user is None:
                 sum = 0
                 for res in user_response:
@@ -164,6 +167,7 @@ class TriviaViewSet(viewsets.ViewSet):
                 response["average"] = instance.user.average_acs
                 return Response(response)
 
+            # Multiplayer Trivia
             # calculate score and store in trivia instance
             if user_response.exists() and other_user_response.exists():
                 user_score = 0
@@ -194,10 +198,13 @@ class TriviaViewSet(viewsets.ViewSet):
                             user_score += 1
                         else:
                             other_user_score += 1
-                    elif res.is_correct:
+                    elif res.is_correct and not other_user_res.is_correct:
                         user_score += 1
-                    elif other_user_res.is_correct:
+                    elif other_user_res.is_correct and not res.is_correct:
                         other_user_score += 1
+                    else:
+                        # both wrong no increment
+                        pass
                 instance.score = str(user_score) + "-" + str(other_user_score)
                 instance.save()
                 if user_score > other_user_score:
