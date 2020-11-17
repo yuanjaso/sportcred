@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { questionaireResponseURL } from 'src/global/api.types';
+import * as apis from '../../../../global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import { PostDebate, QuestionnaireResponse } from './admin.types';
 
@@ -20,6 +21,6 @@ export class AdminService {
   }
 
   submitDebatePost(submission: PostDebate): Observable<null> {
-    return this.httpClient.post('debates', submission);
+    return this.httpClient.post(apis.debateURL, submission);
   }
 }

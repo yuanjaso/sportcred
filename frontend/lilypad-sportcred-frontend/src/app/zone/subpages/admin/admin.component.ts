@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { Question } from 'src/app/login/login.types';
 import { getQuestionaire } from '../../../login/store/actions';
 import { selectQuestionaire } from '../../../login/store/selectors';
 import { AppState } from '../../../store/reducer';
+import * as types from '../../zone-home/subpages/debate/debate.types';
+import { getDebateTopics } from '../../zone-home/subpages/debate/store/debate.actions';
+import { selectAllDebateTopics } from '../../zone-home/subpages/debate/store/debate.selectors';
 import { AddDebateDialogComponent } from './add-debate-dialog/add-debate-dialog.component';
 import { AdminService } from './admin.service';
 import { QuestionnaireResponse } from './admin.types';
@@ -37,6 +42,13 @@ export class AdminComponent implements OnInit {
 
   questionControl;
   $questionnaires: Observable<Question[]>;
+
+  topics: types.DebateTopic[] = undefined;
+  debateTableData;
+  debateTableColumns = ['id', 'title', 'num_of_comments'];
+
+  @ViewChild(MatPaginator) pages: MatPaginator;
+
   ngOnInit(): void {
     //load in questionnaires if we didnt yet
     this.store
@@ -53,6 +65,20 @@ export class AdminComponent implements OnInit {
           this.currentSelectedQuestion.rawdata = response;
         }
       )
+    );
+    // Load active debate topics
+    this.store.dispatch(getDebateTopics());
+    this.subscriptions.add(
+      this.store
+        .select(selectAllDebateTopics)
+        .pipe(filter((a) => !!a && (a as any)?.length))
+        .subscribe((a: types.DebateTopic[]) => {
+          this.topics = a;
+          this.debateTableData = new MatTableDataSource<types.DebateTopic>(
+            this.topics
+          );
+          this.debateTableData.paginator = this.pages;
+        })
     );
   }
 

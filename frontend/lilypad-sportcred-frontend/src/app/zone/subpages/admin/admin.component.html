@@ -5,8 +5,24 @@
     <div class="seach-box">
       <div class="header">View Active Debates</div>
       <button class="addDebateButton" (click)="addNewDebate()" mat-raised-button color="accent"> + Add New Debate </button>
-      <div class="charting">
-          <!-- TODO: Show list of active debates -->
+      <div class="debate-table">
+          <table class="debate-mat-table" mat-table [dataSource]="debateTableData">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> id </th>
+              <td mat-cell *matCellDef="let topic"> {{topic.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef> title </th>
+              <td mat-cell *matCellDef="let topic"> {{topic.title}} </td>
+            </ng-container>
+            <ng-container matColumnDef="num_of_comments">
+              <th mat-header-cell *matHeaderCellDef> # Of Comments </th>
+              <td mat-cell *matCellDef="let topic"> {{topic.num_of_comments}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="debateTableColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: debateTableColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 50]" showFirstLastButtons></mat-paginator>
       </div>
         <div class="header">Select Question Type</div>
         <mat-form-field appearance="fill" >
