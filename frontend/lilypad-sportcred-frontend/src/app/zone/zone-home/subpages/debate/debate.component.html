@@ -1,13 +1,13 @@
 <ng-container *ngIf="topics !== undefined; else loading">
     <div class="host">
         <div class="debate-row" *ngFor="let topic of topics">
-            <div class="title" (click)="navToDebate(topic.id)">
+            <a [routerLink]="" [queryParams]="{debateId: topic.id}" class="title">
                 {{topic.tite}}
-            </div>
+            </a>
             <div class="time-posted">
                 {{topic.post_date}}
             </div>
-            <div class="comment-number" (click)="navToDebate(topic.id)">    
+            <div class="comment-number">    
                 {{topic.num_of_comments}} {{" comments"}}
             </div>
         </div>

@@ -46,7 +46,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.events
         .pipe(filter((r) => r instanceof NavigationEnd))
         .subscribe((r: NavigationEnd) => {
-          console.log(r);
           this.curPage = r.url;
         })
     );

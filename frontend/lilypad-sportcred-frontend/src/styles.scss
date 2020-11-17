@@ -41,12 +41,16 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: $white;
+  background: $grey;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $grey;
+  background: $white;
+}
+
+.mat-dialog-container {
+  padding: 0rem !important;
 }
 
 //makes sure all swiper cards are filling the max height

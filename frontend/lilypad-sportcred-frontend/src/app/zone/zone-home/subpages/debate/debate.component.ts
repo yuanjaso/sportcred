@@ -1,7 +1,9 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { cloneDeep } from 'lodash';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from '../../../../store/reducer';
@@ -33,36 +35,45 @@ export class DebateComponent implements OnInit, OnDestroy {
         .select(selectDebateTopics)
         .pipe(filter((a) => !!a))
         .subscribe((a: types.DebateTopic[]) => {
-          /**MOCK DATA */
-          let mock: types.DebateTopic = {
-            id: 1,
-            acs_rank: types.playerRank.PRO_ANALYST,
-            sport: 1,
-            tite: 'mock title',
-            content: 'mock content',
-            post_date: new Date().getTime().toString(),
-            num_of_comments: 32,
-          };
-          this.topics = [mock, mock];
+          this.topics = cloneDeep(a);
+          /**todo MOCK DATA */
           this.topics = [
-            ...this.topics,
-            ...this.topics,
-            ...this.topics,
-            ...this.topics,
-            ...this.topics,
-            ...this.topics,
-            ...this.topics,
+            {
+              id: 1,
+              acs_rank: types.playerRank.PRO_ANALYST,
+              sport: 1,
+              tite: 'mock title',
+              content: 'mock content',
+              post_date: new Date().getTime().toString(),
+              num_of_comments: 32,
+            },
+            {
+              id: 1,
+              acs_rank: types.playerRank.PRO_ANALYST,
+              sport: 1,
+              tite: 'mock title',
+              content: 'mock content',
+              post_date: new Date().getTime().toString(),
+              num_of_comments: 32,
+            },
+            {
+              id: 1,
+              acs_rank: types.playerRank.PRO_ANALYST,
+              sport: 1,
+              tite: 'mock title',
+              content: 'mock content',
+              post_date: new Date().getTime().toString(),
+              num_of_comments: 32,
+            },
           ];
+          this.topics.forEach((element) => {
+            //this is to test a:visited tag
+            element.id = Math.floor(Math.random() * (100000 - 1 + 1) + 1);
+          });
+          //END MOCK
         })
     );
   }
-  navToDebate(debateId: number) {
-    this.router.navigate([], {
-      queryParams: { debateId },
-      relativeTo: this.route,
-    });
-  }
-
   listenForNav() {
     this.route.queryParams.subscribe((params) => {
       this.openDebateDiscussion(params);
@@ -73,7 +84,7 @@ export class DebateComponent implements OnInit, OnDestroy {
     if (params?.debateId) {
       const dialogRef = this.dialog.open(DebateDiscussionDialogComponent, {
         width: '90vw',
-        height: '97vh',
+        height: '95vh',
         data: { debateId: parseInt(params.debateId) },
       });
 

@@ -14,6 +14,12 @@ export interface DebateTopic {
   num_of_comments: number;
 }
 
-export interface DebateDiscussion {
-  todo: any;
+export interface DebateComment {
+  user: { id: number; username: string };
+  comment_id: number;
+  debate_id: number;
+  content: string;
+  average_rating: number;
+  number_of_ratings: number;
+  comment_date: string;
 }

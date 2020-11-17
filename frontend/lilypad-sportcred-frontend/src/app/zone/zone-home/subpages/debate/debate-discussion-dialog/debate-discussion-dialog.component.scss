@@ -1,7 +1,41 @@
-.spinner {
-  width: 100%;
-  height: 100%;
+@import "../debate.component.scss";
+.host {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+}
+.debate-row {
+  > div.title {
+    @extend .font-primary;
+    cursor: unset;
+  }
+  > .comment-number {
+    cursor: unset;
+  }
+}
+
+.comment-box {
+  overflow: auto;
+  overflow-x: hidden;
+}
+.comment-row {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  background: $black;
+  @extend .white-font;
+
+  .header {
+    display: flex;
+    .username,
+    .time {
+      color: $darkgreen;
+      @extend .font-tertiary;
+      padding-right: 1rem;
+    }
+  }
+  .content {
+    @extend .font-tertiary;
+    padding: 0.5rem 0;
+  }
 }

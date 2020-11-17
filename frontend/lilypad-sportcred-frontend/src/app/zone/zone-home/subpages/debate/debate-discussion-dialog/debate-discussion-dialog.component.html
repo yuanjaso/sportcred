@@ -1,6 +1,33 @@
-<ng-container *ngIf="discussion !== undefined; else loading">
-
-
+<ng-container *ngIf="discussion !== undefined && debateTopic !== undefined ; else loading">
+    <div class="host">
+        <div class="debate-row" >
+            <div class="title">
+                {{debateTopic.tite}}
+            </div>
+            <div class="time-posted">
+                {{debateTopic.post_date}}
+            </div>
+            <div class="comment-number" >    
+                {{debateTopic.num_of_comments}} {{" comments"}}
+            </div>
+        </div>
+        <!-- todo comment box here-->
+        <div class="comment-box">
+            <div class="comment-row" *ngFor="let comment of discussion">
+                <div class="header">
+                    <div class="username">
+                        {{comment.user.username}}
+                    </div>
+                    <div class="time">
+                        {{comment.comment_date}}
+                    </div>
+                </div>
+                <div class="content">
+                    {{comment.content}}
+                </div>
+            </div>
+        </div>
+    </div>
 </ng-container>
     <ng-template #loading>
     <div class="spinner">

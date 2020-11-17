@@ -10,25 +10,31 @@
   height: 100%;
   overflow-y: scroll;
   background-color: $darkgrey;
+  overflow: auto;
 }
 .debate-row {
   margin: 0.5rem;
   padding: 0.5rem;
-  background-color: $white;
+  background-color: $grey;
   display: flex;
   flex-direction: column;
-  > div {
-    @extend .black-font;
+  > * {
+    @extend .white-font;
   }
   > .title {
+    color: $green;
     @extend .font-secondary;
     cursor: pointer;
+    &:visited {
+      color: $darkgrey;
+    }
+    text-decoration: none;
   }
+
   > .time-posted {
     @extend .font-footer;
   }
   > .comment-number {
-    cursor: pointer;
     @extend .font-tertiary;
   }
 }

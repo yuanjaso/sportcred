@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DebateService } from '../debate.service';
-import { DebateDiscussion, DebateTopic } from '../debate.types';
+import { DebateComment, DebateTopic } from '../debate.types';
 import * as actions from './debate.actions';
 @Injectable()
 export class DebateEffects {
@@ -33,7 +33,7 @@ export class DebateEffects {
         ofType(actions.getDebateDiscussion),
         mergeMap((id: { topic_id: number }) => {
           return this.debateService.getDebateDiscussion(id.topic_id).pipe(
-            map((discussion: DebateDiscussion) =>
+            map((discussion: DebateComment[]) =>
               this.debateService.hotDebateDiscussion$.next(discussion)
             ),
             catchError(() => EMPTY)
