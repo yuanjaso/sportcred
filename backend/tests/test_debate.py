@@ -28,7 +28,7 @@ def tokens():
     ]
 
 
-def test_create_dabate(tokens):
+def test_create_debate(tokens):
     url = URL + "debates/"
     res = requests.post(
         url,
@@ -45,7 +45,7 @@ def test_create_dabate(tokens):
     assert res.status_code == 200
 
 
-def test_create_dabate2(tokens):
+def test_create_debate2(tokens):
     url = URL + "debates/"
     res = requests.post(
         url,
@@ -67,10 +67,7 @@ def test_get_debate(tokens):
     res = requests.get(
         url,
         headers={"Authorization": "Token " + tokens[0]},
-        params={
-            "acs_rank": "F",
-            "sport_id": 1,  # basketball
-        },
+        params={"acs_rank": "F", "sport_id": 1},  # basketball
         verify=False,
     )
     print(res.json())
@@ -80,9 +77,7 @@ def test_get_debate(tokens):
 def test_get_debate2(tokens):
     url = URL + "debates/"
     res = requests.get(
-        url,
-        headers={"Authorization": "Token " + tokens[0]},
-        verify=False,
+        url, headers={"Authorization": "Token " + tokens[0]}, verify=False
     )
     print(res.json())
     assert res.status_code == 200
@@ -93,10 +88,7 @@ def test_get_debate3(tokens):
     res = requests.get(
         url,
         headers={"Authorization": "Token " + tokens[0]},
-        params={
-            "acs_rank": "F",
-            "sport_name": "basketball",  # basketball
-        },
+        params={"acs_rank": "F", "sport_name": "basketball"},  # basketball
         verify=False,
     )
     print(res.json())
@@ -144,10 +136,9 @@ def test_post_comments_4(tokens):
     res = requests.post(
         url,
         headers={"Authorization": "Token " + tokens[0]},
-        data={"debate_id": 2, "content": "test2"},
+        data={"debate_id": 9, "content": "test2"},
         verify=False,
     )
-    print(res.json())
     assert res.status_code == 400
 
 
@@ -156,9 +147,10 @@ def test_get_comments_1(tokens):
     res = requests.get(
         url,
         headers={"Authorization": "Token " + tokens[0]},
-        params={"comment_id": "1"},
+        params={"debate_id": "1"},
         verify=False,
     )
+    print(res.json())
     assert res.status_code == 200
 
 
@@ -168,6 +160,17 @@ def test_get_comments_2(tokens):
         url,
         headers={"Authorization": "Token " + tokens[0]},
         params={"comment_ids": "1"},
+        verify=False,
+    )
+    assert res.status_code == 400
+
+
+def test_get_comments_3(tokens):
+    url = URL + "debates/comments/"
+    res = requests.get(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        params={"debate_ids": "1"},
         verify=False,
     )
     assert res.status_code == 400
@@ -261,33 +264,3 @@ def test_update_comments_8(tokens):
         verify=False,
     )
     assert res.status_code == 200
-
-    # def test_update_comments_9(tokens):
-    #     url = URL + "debates/comments/"
-    #     res = requests.put(
-    #         url,
-    #         headers={"Authorization": "Token " + tokens[0]},
-    #         data={"comment_id": 1, "rating": 0},
-    #         verify=False,
-    #     )
-    #     assert res.status_code == 200
-
-    # def test_update_comments_10(tokens):
-    #     url = URL + "debates/comments/"
-    #     res = requests.put(
-    #         url,
-    #         headers={"Authorization": "Token " + tokens[1]},
-    #         data={"comment_id": 1, "rating": 0},
-    #         verify=False,
-    #     )
-    #     assert res.status_code == 200
-
-    # def test_update_comments_11(tokens):
-    #     url = URL + "debates/comments/"
-    #     res = requests.put(
-    #         url,
-    #         headers={"Authorization": "Token " + tokens[2]},
-    #         data={"comment_id": 1, "rating": 0},
-    #         verify=False,
-    #     )
-    #     assert res.status_code == 200
