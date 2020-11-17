@@ -13,7 +13,11 @@
     id="notifications"
     mat-icon-button
   >
-    <mat-icon> notifications </mat-icon>
+    <mat-icon
+      [ngStyle]="{ color: notificationsCount === undefined ? 'grey ' : 'red' }"
+    >
+      notifications
+    </mat-icon>
   </button>
   <div *ngIf="(curPage$ | async)?.includes(all_routes.zonehome.url)">
     <mat-slide-toggle [(ngModel)]="sidenavExpanded" (change)="toggle($event)">

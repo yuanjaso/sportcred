@@ -8,7 +8,7 @@ import { all_routes } from '../../../global/routing-statics';
 import { AppState } from '../../store/reducer';
 import {
   queryForTriviaGames,
-  setTriviaInstance
+  setTriviaInstance,
 } from '../zone-home/subpages/trivia/store/trivia.actions';
 import { selectAllTriviaInstances } from '../zone-home/subpages/trivia/store/trivia.selectors';
 import { TriviaInstance } from '../zone-home/subpages/trivia/trivia.types';
@@ -101,6 +101,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.notificationsCount = instances.filter(
           (el) => el.score === this.UNPLAYED_GAME
         ).length;
+
+        if (this.notificationsCount === 0) {
+          // setting as undefined looks better on the view than showing a 0
+          this.notificationsCount = undefined;
+        }
         this.triviaInstances = instances;
       })
     );
