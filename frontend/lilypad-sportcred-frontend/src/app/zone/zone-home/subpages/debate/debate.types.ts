@@ -8,7 +8,7 @@ export interface DebateTopic {
   id: number;
   acs_rank: playerRank;
   sport: number;
-  tite: string;
+  title: string;
   content: string;
   post_date: string;
   num_of_comments: number;

@@ -2,7 +2,7 @@
     <div class="host">
         <div class="debate-row" *ngFor="let topic of topics">
             <a [routerLink]="" [queryParams]="{debateId: topic.id}" class="title">
-                {{topic.tite}}
+                {{topic.title}}
             </a>
             <div class="time-posted">
                 {{topic.post_date}}

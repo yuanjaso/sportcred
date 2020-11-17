@@ -10,7 +10,7 @@ import { AppState } from '../../../../store/reducer';
 import { DebateDiscussionDialogComponent } from './debate-discussion-dialog/debate-discussion-dialog.component';
 import * as types from './debate.types';
 import { getDebateTopics } from './store/debate.actions';
-import { selectDebateTopics } from './store/debate.selectors';
+import { selectAllDebateTopics } from './store/debate.selectors';
 @Component({
   selector: 'app-debate',
   templateUrl: './debate.component.html',
@@ -27,50 +27,16 @@ export class DebateComponent implements OnInit, OnDestroy {
 
   topics: types.DebateTopic[] = undefined;
   ngOnInit(): void {
+    console.log('init');
     //setup listener and dispatch for data
     this.listenForNav();
     this.store.dispatch(getDebateTopics());
     this.subscriptions.add(
       this.store
-        .select(selectDebateTopics)
-        .pipe(filter((a) => !!a))
+        .select(selectAllDebateTopics)
+        .pipe(filter((a) => !!a && (a as any)?.length))
         .subscribe((a: types.DebateTopic[]) => {
-          this.topics = cloneDeep(a);
-          /**todo MOCK DATA */
-          this.topics = [
-            {
-              id: 1,
-              acs_rank: types.playerRank.PRO_ANALYST,
-              sport: 1,
-              tite: 'mock title',
-              content: 'mock content',
-              post_date: new Date().getTime().toString(),
-              num_of_comments: 32,
-            },
-            {
-              id: 1,
-              acs_rank: types.playerRank.PRO_ANALYST,
-              sport: 1,
-              tite: 'mock title',
-              content: 'mock content',
-              post_date: new Date().getTime().toString(),
-              num_of_comments: 32,
-            },
-            {
-              id: 1,
-              acs_rank: types.playerRank.PRO_ANALYST,
-              sport: 1,
-              tite: 'mock title',
-              content: 'mock content',
-              post_date: new Date().getTime().toString(),
-              num_of_comments: 32,
-            },
-          ];
-          this.topics.forEach((element) => {
-            //this is to test a:visited tag
-            element.id = Math.floor(Math.random() * (100000 - 1 + 1) + 1);
-          });
-          //END MOCK
+          this.topics = a;
         })
     );
   }

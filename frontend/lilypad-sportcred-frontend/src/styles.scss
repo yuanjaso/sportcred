@@ -46,11 +46,12 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $white;
+  background: whitesmoke;
 }
 
 .mat-dialog-container {
   padding: 0rem !important;
+  overflow: hidden !important;
 }
 
 //makes sure all swiper cards are filling the max height

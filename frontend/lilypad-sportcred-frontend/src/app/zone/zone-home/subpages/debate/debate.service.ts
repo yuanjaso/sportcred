@@ -10,11 +10,10 @@ export class DebateService {
   hotDebateDiscussion$ = new Subject<DebateComment[]>();
 
   getAllDebates() {
-    //todo remove mock
-    return this.httpClient.get(apis.debateURL, { sport_id: 1, acs_rank: 'E' });
+    return this.httpClient.get(apis.debateURL);
   }
 
   getDebateDiscussion(id: number) {
-    return this.httpClient.get(apis.debateDiscussion(id));
+    return this.httpClient.get(apis.debateDiscussion, { comment_id: id });
   }
 }

@@ -5,7 +5,9 @@ import { Subscription } from 'rxjs';
 import { AppState } from '../../../../../store/reducer';
 import { DebateComment, playerRank } from '../debate.types';
 import { getDebateDiscussion } from '../store/debate.actions';
-import { selectDebateTopics } from '../store/debate.selectors';
+import { selectDebateTopic } from '../store/debate.selectors';
+import { DebateService } from '../debate.service';
+import { first } from 'rxjs/operators';
 export interface DiscussionDialogData {
   debateId: number;
 }
@@ -22,53 +24,22 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<DiscussionDialogData>,
     private store: Store<AppState>,
-    @Inject(MAT_DIALOG_DATA) public data: DiscussionDialogData
+    @Inject(MAT_DIALOG_DATA) public data: DiscussionDialogData,
+    private debateService: DebateService
   ) {
     this.store.dispatch(getDebateDiscussion({ topic_id: data.debateId }));
+    this.store
+      .select(selectDebateTopic, { debateId: data.debateId })
+      .pipe(first((a) => !!a))
+      .subscribe((debate) => {
+        // todo filter invalid ids
+        this.debateTopic = debate;
+      });
     this.subscriptions.add(
-      this.store
-        .select(selectDebateTopics, { debateId: data.debateId })
-        .subscribe((debate) => {
-          // todo filter invalid ids
-          this.debateTopic = debate;
-        })
+      debateService.hotDebateDiscussion$.subscribe((discussion) => {
+        this.discussion = discussion;
+      })
     );
-    //todo remove mock
-    this.discussion = [
-      {
-        user: { id: 1, username: 'michael' },
-        comment_id: 1,
-        debate_id: 1,
-        content: "thats why he's the goat",
-        average_rating: 4.4,
-        number_of_ratings: 1,
-        comment_date: 'datetime in ISO',
-      },
-    ];
-    this.discussion = [
-      ...this.discussion,
-      ...this.discussion,
-      ...this.discussion,
-      ...this.discussion,
-      ...this.discussion,
-    ];
-    this.discussion = [
-      ...this.discussion,
-      ...this.discussion,
-      ...this.discussion,
-      ...this.discussion,
-      ...this.discussion,
-    ];
-    this.debateTopic = {
-      id: 1,
-      acs_rank: playerRank.PRO_ANALYST,
-      sport: 1,
-      tite: 'mock title',
-      content: 'mock content',
-      post_date: new Date().getTime().toString(),
-      num_of_comments: 32,
-    };
-    //END MOCK
   }
 
   ngOnInit(): void {}

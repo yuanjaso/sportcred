@@ -11,7 +11,6 @@ export class AdminService {
 
   $freshQuestionnairResponses = new Subject<QuestionnaireResponse>();
 
-  //todo type this
   getQuestionnaireResponses(
     questionId: number
   ): Observable<QuestionnaireResponse> {
