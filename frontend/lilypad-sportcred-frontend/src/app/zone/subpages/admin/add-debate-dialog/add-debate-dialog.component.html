@@ -6,12 +6,20 @@
       <input matInput placeholder="TITLE" formControlName="title" />
     </mat-form-field>
     <mat-form-field class="formField" appearance="outline">
-        <mat-label>Post Content</mat-label>
-        <textarea matInput formControlName="content"></textarea>
+      <mat-label>Post Content</mat-label>
+      <textarea matInput formControlName="content"></textarea>
+    </mat-form-field>
+    <mat-form-field class="formField" appearance="outline">
+      <mat-label>Sport</mat-label>
+      <mat-select formControlName="sport">
+        <div *ngFor="let sport of $sports | async">
+          <mat-option value="{{ sport.id }}">{{ sport.name }}</mat-option>
+        </div>
+      </mat-select>
     </mat-form-field>
     <mat-form-field class="formField" appearance="outline">
       <mat-label>Analyst Rank</mat-label>
-      <mat-select formControlName="rank">
+      <mat-select formControlName="acs_rank">
         <div *ngFor="let rank of analystRank">
           <mat-option value="{{ rank.id }}">{{ rank.name }}</mat-option>
         </div>

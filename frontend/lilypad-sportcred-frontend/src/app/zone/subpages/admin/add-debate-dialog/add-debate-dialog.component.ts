@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState } from 'src/app/store/reducer';
+import { selectSports } from 'src/app/zone/store/selectors';
+import { Sport } from 'src/app/zone/zone.types';
 
 @Component({
   selector: 'app-add-debate-dialog',
@@ -21,12 +26,18 @@ export class AddDebateDialogComponent implements OnInit {
       Validators.maxLength(100),
     ]),
     content: new FormControl(''),
-    rank: new FormControl('', Validators.required),
+    sport: new FormControl('', Validators.required),
+    acs_rank: new FormControl('', Validators.required),
   });
 
-  constructor() {}
+  $sports: Observable<Sport[]>;
 
-  ngOnInit(): void {}
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit(): void {
+    // Get list of sports
+    this.$sports = this.store.select(selectSports);
+  }
 
   submitNewDebate() {
     if (this.form.status === 'INVALID') return;

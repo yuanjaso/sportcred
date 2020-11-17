@@ -25,9 +25,9 @@
     @extend .font-secondary;
     width: 100%;
     transition: 0.5s;
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .submitBtn:hover {
-    opacity: 1;
+    opacity: 0.8;
 }
