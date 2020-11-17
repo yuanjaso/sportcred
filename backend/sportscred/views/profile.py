@@ -89,19 +89,26 @@ class ProfileViewSet(viewsets.ViewSet):
                 if item in request.data.keys():
                     setattr(profile, item, request.data[item])
                     profile.save()
-            if "highlights" in request.data.keys():
+            if "favourite_sports" in request.data.keys():
                 # expecting a list
-                highlights = request.data["highlights"]
-                for highlight in highlights:
-                    try:
-                        s = Sport.objects.get(id=highlight)
-                        profile.highlights.add(s)
-                        profile.save()
-                    except Sport.DoesNotExist:
-                        return Response(
-                            {"details": "bad highlights"},
-                            status=status.HTTP_400_BAD_REQUEST,
-                        )
+                # highlights is also known as favourite_sports
+                highlights = request.data["favourite_sports"]
+                try:
+                    for highlight in highlights:
+                        try:
+                            s = Sport.objects.get(id=highlight)
+                            profile.favourite_sports.add(s)
+                            profile.save()
+                        except:
+                            return Response(
+                                {"details": "The id does not exist."},
+                                status=status.HTTP_400_BAD_REQUEST,
+                            )
+                except:
+                    return Response(
+                        {"details": "You did not give an array."},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
 
             # Don't need query params.
             profile = User.objects.get(pk=request.user.id).profile
@@ -119,8 +126,9 @@ class ProfileViewSet(viewsets.ViewSet):
                 ACS_Score[item["name"]] = item["score"]
 
             profile_info = ProfileSerializer(profile).data
-            profile_info["favourite_sports"] = profile_info.pop("highlights")
+            profile_info["favourite_sports"] = profile_info["favourite_sports"]
             profile_info["ACS"] = ACS_Score
+
             return Response(profile_info)
         except Exception as e:
             print(e)
@@ -282,7 +290,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 ACS_Score[item["name"]] = item["score"]
 
             profile_info = ProfileSerializer(profile).data
-            profile_info["favourite_sports"] = profile_info.pop("highlights")
+            profile_info["favourite_sports"] = profile_info["favourite_sports"]
             profile_info["ACS"] = ACS_Score
             return Response(profile_info)
 

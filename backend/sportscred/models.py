@@ -21,7 +21,7 @@ class Profile(models.Model):
     status = models.CharField(max_length=100, blank=True)
     about = models.CharField(max_length=300, blank=True)
     agree = models.ManyToManyField("DebateComment", through="Rate")
-    highlights = models.ManyToManyField("Sport")
+    favourite_sports = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
 
     @property
@@ -79,10 +79,11 @@ class DebateComment(models.Model):
     post = models.ForeignKey("DebatePost", on_delete=models.CASCADE)
     commenter = models.ForeignKey("Profile", on_delete=models.CASCADE)
     content = models.CharField(max_length=500, blank=False, null=False)
+    time = models.DateTimeField(auto_now_add=True)
 
     @property
     def ratingAverage(self):
-        return Rate.objects.filter(post=self).aggregate(Models.Avg("agreement"))
+        return Rate.objects.filter(comment=self).aggregate(models.Avg("agreement"))
 
 
 class Rate(models.Model):
@@ -95,7 +96,7 @@ class Rate(models.Model):
     )
 
     class Meta:
-        unique_together = ["rater", "comment"]
+        unique_together = ["rater", "comment", "agreement"]
 
 
 class ACS(models.Model):
@@ -179,8 +180,8 @@ class BaseAcsHistory(models.Model):
         try:
             acs = ACS.objects.get(profile=self.profile, sports=self.sport)
             acs.score = acs.score + self.delta
-            if acs.score < 0:
-                acs.score = 0
+            if acs.score < 100:
+                acs.score = 100
             acs.save()
             self.score = acs.score
             self.save()
@@ -188,8 +189,8 @@ class BaseAcsHistory(models.Model):
             acs = ACS.objects.create(
                 profile=self.profile, sports=self.sport, score=self.delta
             )
-            if acs.score < 0:
-                acs.score = 0
+            if acs.score < 100:
+                acs.score = 100
             acs.save()
             self.score = acs.score
             self.save()
