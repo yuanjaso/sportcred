@@ -58,32 +58,24 @@ class DebateViewSet(viewsets.ViewSet):
 
     def list(self, request):
         # Gets the comment id and rating
-        try:
-            ##### validation of data coming in
-            body = {
-                "sport_id": request.query_params["sport_id"],
-                "acs_rank": request.query_params["acs_rank"].upper(),
-            }
-            for x in body:
-                if body[x] == None:
-                    return Response(
-                        {"details": " Invalid input"},
-                        status=status.HTTP_400_BAD_REQUEST,
-                    )
-            ##### validation of data coming in
-            sport = Sport.objects.get(pk=body["sport_id"])
-            post = DebatePost.objects.filter(
-                related_to_debate_posts=sport,
-                acs_rank=body["acs_rank"],
-            )
-
-            return Response(DebateSerializer(post, many=True).data)
-        except Exception as e:
-            print(e)
-            return Response(
-                {"details": "Failed to create a debate post"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        posts = DebatePost.objects.all()
+        if "sport_id" in request.query_params:
+            sport = Sport.objects.get(pk=request.query_params["sport_id"])
+            posts = posts.filter(related_to_debate_posts=sport)
+        elif "sport_name" in request.query_params:
+            try:
+                sport = Sport.objects.get(
+                    name__iexact=request.query_params["sport_name"]
+                )
+            except:
+                return Response(
+                    {"details": "thats not a sport"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            posts = posts.filter(related_to_debate_posts=sport)
+        if "acs_rank" in request.query_params:
+            posts.filter(acs_rank=request.query_params["acs_rank"])
+        return Response(DebateSerializer(posts, many=True).data)
 
     # Updates the ratings for the comments.
     @action(detail=False, methods=["put"])
