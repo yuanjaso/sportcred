@@ -42,9 +42,7 @@ class DebateViewSet(viewsets.ViewSet):
                     )
             sport = Sport.objects.get(pk=body["sport"])
             post = DebatePost.objects.create(
-                title=body["title"],
-                content=body["content"],
-                acs_rank=body["acs_rank"],
+                title=body["title"], content=body["content"], acs_rank=body["acs_rank"]
             )
             post.related_to_debate_posts.add(sport)
             post.save()
@@ -69,8 +67,7 @@ class DebateViewSet(viewsets.ViewSet):
                 )
             except:
                 return Response(
-                    {"details": "thats not a sport"},
-                    status=status.HTTP_400_BAD_REQUEST,
+                    {"details": "thats not a sport"}, status=status.HTTP_400_BAD_REQUEST
                 )
             posts = posts.filter(related_to_debate_posts=sport)
         if "acs_rank" in request.query_params:
@@ -179,12 +176,23 @@ class DebateViewSet(viewsets.ViewSet):
 
         # Gets the ACS score of the user for the same sport as the debate.
         user_id = request.user.id
-        debate_acs_rank = DebatePost.objects.filter(id=debate_id).values()[0][
-            "acs_rank"
-        ]  # Gets the acs rank
-        debate_acs_sport_id = (
-            DebatePost.objects.first().related_to_debate_posts.values()[0]["id"]
-        )  # Gets the sport id
+
+        # Checks if the given debate_id is in the db
+        try:
+            debate_acs_rank = DebatePost.objects.filter(id=debate_id).values()[0][
+                "acs_rank"
+            ]  # Gets the acs rank
+            debate_acs_sport_id = DebatePost.objects.first().related_to_debate_posts.values()[
+                0
+            ][
+                "id"
+            ]  # Gets the sport id
+        except Exception as e:
+            print(e)
+            return Response(
+                {"details": "You debate id does not exist."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         # Gets the ACS score of the user for the same sport.
         user_acs_score = ACS.objects.filter(
@@ -236,21 +244,20 @@ class DebateViewSet(viewsets.ViewSet):
     @comments.mapping.get
     def get_comments(self, request):
         try:
-            comment_id = request.query_params["comment_id"]
-            print(comment_id)
+            debate_id = request.query_params["debate_id"]
             # Gets the response info
             result = {}
-            result["comment_id"] = comment_id  # Gets the comment_id
+            result["debate_id"] = debate_id  # Gets the debate_id
 
-            comment_info = DebateComment.objects.filter(id=comment_id).values()
-            comment_info2 = DebateComment.objects.filter(id=comment_id)
-            result["debate_id"] = comment_info[0]["post_id"]
-            result["commenter_id"] = comment_info[0]["commenter_id"]
-            result["content"] = comment_info[0]["content"].strip()
-            result["comment_date"] = comment_info[0]["time"]
-            result["average_rating"] = comment_info2[0].ratingAverage["agreement__avg"]
+            debate_info = DebateComment.objects.filter(post_id=debate_id).values()
+            debate_info2 = DebateComment.objects.filter(post_id=debate_id)
+            result["comment_id"] = debate_info[0]["id"]
+            result["commenter_id"] = debate_info[0]["commenter_id"]
+            result["content"] = debate_info[0]["content"].strip()
+            result["comment_date"] = debate_info[0]["time"]
+            result["average_rating"] = debate_info2[0].ratingAverage["agreement__avg"]
             result["number_of_ratings"] = Rate.objects.filter(
-                comment_id=comment_id
+                comment_id=debate_info[0]["id"]
             ).aggregate(Count("comment_id"))["comment_id__count"]
             result["user"] = {"id": request.user.id, "username": request.user.username}
             return Response(result)
