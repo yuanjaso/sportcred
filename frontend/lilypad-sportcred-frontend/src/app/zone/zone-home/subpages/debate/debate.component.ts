@@ -75,9 +75,11 @@ export class DebateComponent implements OnInit, OnDestroy {
     );
   }
   listenForNav() {
-    this.route.queryParams.subscribe((params) => {
-      this.openDebateDiscussion(params);
-    });
+    this.subscriptions.add(
+      this.route.queryParams.subscribe((params) => {
+        this.openDebateDiscussion(params);
+      })
+    );
   }
 
   openDebateDiscussion(params: any) {

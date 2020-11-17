@@ -29,6 +29,7 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
       this.store
         .select(selectDebateTopics, { debateId: data.debateId })
         .subscribe((debate) => {
+          // todo filter invalid ids
           this.debateTopic = debate;
         })
     );
