@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import * as models from '../login.types';
 
-export const login = createAction('[Login] login');
+export const login = createAction(
+  '[Login] login',
+  props<{ returnUrl: string }>()
+);
 export const tryRegisterBasic = createAction(
   '[Login] Try Register Basic',
   props<models.GeneralRegistrationInfo>()

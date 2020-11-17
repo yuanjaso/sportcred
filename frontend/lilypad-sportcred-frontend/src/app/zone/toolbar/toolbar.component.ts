@@ -55,19 +55,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-    this.subscriptions.add(
-      this.router.events
-        .pipe(filter((r) => r instanceof NavigationEnd))
-        .subscribe((navEvent: NavigationEnd) => {
-          //fixes tab behaviour when we are navigating using browser forward and back buttons
-          for (let i = 0; i < this.pages.length; i++) {
-            if (navEvent.urlAfterRedirects.includes(this.pages[i].url)) {
-              this.tabIndex = i;
-              break;
-            }
-          }
-        })
-    );
+    this.setCorrectIndex();
   }
 
   onClickLive() {
@@ -83,6 +71,28 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         relativeTo: this.route,
         queryParams: { userId: this.userId },
       });
+  }
+
+  setCorrectIndex() {
+    for (let i = 0; i < this.pages.length; i++) {
+      if (this.route.snapshot['_routerState'].url.includes(this.pages[i].url)) {
+        this.tabIndex = i;
+        break;
+      }
+    }
+    this.subscriptions.add(
+      this.router.events
+        .pipe(filter((r) => r instanceof NavigationEnd))
+        .subscribe((navEvent: NavigationEnd) => {
+          //fixes tab behaviour when we are navigating using browser forward and back buttons
+          for (let i = 0; i < this.pages.length; i++) {
+            if (navEvent.urlAfterRedirects.includes(this.pages[i].url)) {
+              this.tabIndex = i;
+              break;
+            }
+          }
+        })
+    );
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

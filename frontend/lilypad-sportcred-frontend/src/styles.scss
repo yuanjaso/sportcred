@@ -34,6 +34,21 @@ body {
   }
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $grey;
+}
+
 //makes sure all swiper cards are filling the max height
 .swiper-slide {
   height: auto !important;
