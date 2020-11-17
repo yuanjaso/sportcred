@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { first, map, skip, tap, withLatestFrom } from 'rxjs/operators';
 import { all_routes } from '../../../../../global/routing-statics';
 import { selectUserInfo } from '../../../../auth/store/selectors';
 import { AppState } from '../../../../store/reducer';
@@ -59,14 +59,25 @@ export class TriviaComponent implements OnInit {
       this.selectedOpponentUserId = null;
     }
 
+    this.store
+      .select(selectTriviaInstance)
+      .pipe(
+        skip(1),
+        first(),
+        tap(() => {
+          const link =
+            type === 'single' ? this.singleLink : this.multiplayerLink;
+          this.router.navigate([link]);
+        })
+      )
+      .subscribe();
+
     this.store.dispatch(
       createTriviaInstance({
         sportId: this.selectedSportId,
         opponentUserId: this.selectedOpponentUserId,
       })
     );
-    const link = type === 'single' ? this.singleLink : this.multiplayerLink;
-    this.router.navigate([link]);
   }
 
   ngOnInit(): void {
