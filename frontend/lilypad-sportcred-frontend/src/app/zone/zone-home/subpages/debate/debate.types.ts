@@ -13,6 +13,7 @@ export interface DebateTopic {
   post_date: string;
   num_of_comments: number;
 }
+
 export interface DebateDiscussion {
   todo: any;
 }

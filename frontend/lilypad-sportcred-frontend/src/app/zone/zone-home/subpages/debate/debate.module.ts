@@ -7,9 +7,10 @@ import { DebateComponent } from './debate.component';
 import { DebateService } from './debate.service';
 import { DebateEffects } from './store/debate.effects';
 import { debateFeatureKey, debateReducer } from './store/debate.reducer';
+import { DebateDiscussionDialogComponent } from './debate-discussion-dialog/debate-discussion-dialog.component';
 
 @NgModule({
-  declarations: [DebateComponent],
+  declarations: [DebateComponent, DebateDiscussionDialogComponent],
   imports: [
     StoreModule.forFeature(debateFeatureKey, debateReducer),
     EffectsModule.forFeature([DebateEffects]),

@@ -14,7 +14,7 @@ import { ZoneService } from '../zone.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  subcriptions = new Subscription();
+  subscriptions = new Subscription();
   sidenavExpanded;
   curPage: string;
   all_routes = all_routes;
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setCurPage();
 
-    this.subcriptions.add(
+    this.subscriptions.add(
       this.breakpointObserver
         .observe(['(max-width: 700px)'])
         .subscribe((state: BreakpointState) => {
@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   setCurPage() {
     //init route
     this.curPage = this.route.snapshot['_routerState'].url;
-    this.subcriptions.add(
+    this.subscriptions.add(
       //then listen to every subsiquent route change
       this.router.events
         .pipe(filter((r) => r instanceof NavigationEnd))
@@ -56,6 +56,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.zoneService.sideNavToggle$.next(e.checked);
   }
   ngOnDestroy() {
-    this.subcriptions.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }

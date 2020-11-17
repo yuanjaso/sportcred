@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from '../../../../store/reducer';
+import { DebateDiscussionDialogComponent } from './debate-discussion-dialog/debate-discussion-dialog.component';
 import * as types from './debate.types';
 import { getDebateTopics } from './store/debate.actions';
 import { selectDebateTopics } from './store/debate.selectors';
@@ -13,10 +16,17 @@ import { selectDebateTopics } from './store/debate.selectors';
 })
 export class DebateComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    public router: Router,
+    private route: ActivatedRoute,
+    public dialog: MatDialog
+  ) {}
 
   topics: types.DebateTopic[] = undefined;
   ngOnInit(): void {
+    //setup listener and dispatch for data
+    this.listenForNav();
     this.store.dispatch(getDebateTopics());
     this.subscriptions.add(
       this.store
@@ -43,13 +53,40 @@ export class DebateComponent implements OnInit, OnDestroy {
             ...this.topics,
             ...this.topics,
           ];
-
-          console.log(a);
         })
     );
   }
-  onOpenDebate(id: number) {
-    console.log(id);
+  navToDebate(debateId: number) {
+    this.router.navigate([], {
+      queryParams: { debateId },
+      relativeTo: this.route,
+    });
+  }
+
+  listenForNav() {
+    this.route.queryParams.subscribe((params) => {
+      this.openDebateDiscussion(params);
+    });
+  }
+
+  openDebateDiscussion(params: any) {
+    if (params?.debateId) {
+      const dialogRef = this.dialog.open(DebateDiscussionDialogComponent, {
+        width: '90vw',
+        height: '97vh',
+        data: { debateId: parseInt(params.debateId) },
+      });
+
+      dialogRef.afterClosed().subscribe(() => {
+        this.router.navigate([], {
+          relativeTo: this.route,
+        });
+      });
+    } else {
+      this.router.navigate([], {
+        relativeTo: this.route,
+      });
+    }
   }
 
   ngOnDestroy(): void {

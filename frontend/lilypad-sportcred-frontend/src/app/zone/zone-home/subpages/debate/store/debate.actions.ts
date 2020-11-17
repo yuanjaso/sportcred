@@ -9,5 +9,5 @@ export const setDebateTopics = createAction(
 
 export const getDebateDiscussion = createAction(
   '[Debate] Get Debate Discussion',
-  props<{ topics_id: number }>()
+  props<{ topic_id: number }>()
 );

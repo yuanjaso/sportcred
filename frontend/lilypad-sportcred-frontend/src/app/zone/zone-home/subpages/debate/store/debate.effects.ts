@@ -31,8 +31,8 @@ export class DebateEffects {
     () =>
       this.actions$.pipe(
         ofType(actions.getDebateDiscussion),
-        mergeMap((id: { topics_id: number }) => {
-          return this.debateService.getDebateDiscussion(id.topics_id).pipe(
+        mergeMap((id: { topic_id: number }) => {
+          return this.debateService.getDebateDiscussion(id.topic_id).pipe(
             map((discussion: DebateDiscussion) =>
               this.debateService.hotDebateDiscussion$.next(discussion)
             ),
