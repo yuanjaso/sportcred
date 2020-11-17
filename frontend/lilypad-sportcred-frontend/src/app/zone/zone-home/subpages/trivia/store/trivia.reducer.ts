@@ -1,24 +1,31 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { ACS } from '../../../../subpages/profile/profile.types';
-import { TriviaInstance } from '../trivia.types';
+import { TriviaAnswersResponse, TriviaInstance } from '../trivia.types';
 import * as TriviaActions from './trivia.actions';
 
 export interface TriviaState {
   // all historical games + unplayed invites
   allTriviaInstances: TriviaInstance[];
-  updatedACS: ACS;
+  updatedACS: TriviaAnswersResponse;
   // active game
   triviaInstance: TriviaInstance;
 }
 
 export const initialState: TriviaState = {
   allTriviaInstances: undefined,
-  updatedACS: undefined,
+  // must be set to null instead of undefined, for the skip(2) to work in single trivia
+  // and because of how we reset this to undefined on submitTriviaResults
+  updatedACS: null,
   triviaInstance: undefined,
 };
 
 const reducer = createReducer<TriviaState>(
   initialState,
+  // reset the acs score no need to cache anymore as it will get override
+  // also need to do this because we can get consecutive values of null but the selector won't realize it
+  on(TriviaActions.submitTriviaResults, (state) => ({
+    ...state,
+    updatedACS: undefined,
+  })),
   on(TriviaActions.setAllTriviaInstances, (state, { allTriviaInstances }) => ({
     ...state,
     allTriviaInstances,
