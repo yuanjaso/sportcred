@@ -36,9 +36,6 @@ export class TriviaComponent implements OnInit {
   sports$: Observable<Sport[]>;
   users$: Observable<User[]>;
 
-  // ! temporary variable
-  triviaInstance$: Observable<TriviaInstance>;
-
   constructor(
     private router: Router,
     private store: Store<AppState>,
@@ -90,12 +87,5 @@ export class TriviaComponent implements OnInit {
     );
 
     this.store.dispatch(getAllUsers());
-
-    // ! MOCK
-    this.exampleForPullingTriviaData();
-  }
-
-  exampleForPullingTriviaData(): void {
-    this.triviaInstance$ = this.store.select(selectTriviaInstance);
   }
 }
