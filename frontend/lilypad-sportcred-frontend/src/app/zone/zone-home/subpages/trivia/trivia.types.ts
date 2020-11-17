@@ -1,3 +1,5 @@
+import { ACS } from '../../../subpages/profile/profile.types';
+
 // @deprecated
 export interface TriviaQuestions {
   question: any;
@@ -45,3 +47,5 @@ export interface TriviaResults {
     submission_time: string;
   }[];
 }
+
+export type TriviaAnswersResponse = ACS | TriviaInstance | null;
