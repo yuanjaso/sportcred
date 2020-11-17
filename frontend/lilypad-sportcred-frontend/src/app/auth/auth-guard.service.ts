@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import {
+  Router,
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { all_routes } from '../../global/routing-statics';
 import { AppState } from '../store/reducer';
 import { Store } from '@ngrx/store';
@@ -17,14 +22,19 @@ import { first } from 'rxjs/operators';
 export class AuthGuardService implements CanActivate {
   constructor(public router: Router, private store: Store<AppState>) {}
 
-  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+  async canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<boolean> {
     const userInfo = await this.store
       .select(selectUserInfo)
       .pipe(first())
       .toPromise();
 
     if (!!!userInfo?.token) {
-      this.router.navigate([all_routes.login.url]);
+      this.router.navigate([all_routes.login.url], {
+        queryParams: { returnUrl: state.url },
+      });
       return false;
     }
     return true;

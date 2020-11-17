@@ -1,0 +1,40 @@
+@import "../../../../../global/fonts.scss";
+.spinner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.host {
+  height: 100%;
+  overflow-y: scroll;
+  background-color: $darkgrey;
+  overflow: auto;
+}
+.debate-row {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: $grey;
+  display: flex;
+  flex-direction: column;
+  > * {
+    @extend .white-font;
+  }
+  > .title {
+    color: $green;
+    @extend .font-secondary;
+    cursor: pointer;
+    &:visited {
+      color: $darkgrey;
+    }
+    text-decoration: none;
+  }
+
+  > .time-posted {
+    @extend .font-footer;
+  }
+  > .comment-number {
+    @extend .font-tertiary;
+  }
+}

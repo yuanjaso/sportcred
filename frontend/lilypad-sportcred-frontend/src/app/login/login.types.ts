@@ -48,4 +48,7 @@ export interface QuestionaireRegistrationInfo {
 export interface LoginInfo {
   username: string;
   password: string;
+  // returnUrl specifies the users intended page,
+  // for example if theyre trying to navigate directly to a debate post
+  returnUrl?: string;
 }

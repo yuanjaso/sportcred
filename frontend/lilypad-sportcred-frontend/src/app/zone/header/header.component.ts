@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter } from 'rxjs/internal/operators/filter';
-import { first, map } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { all_routes } from '../../../global/routing-statics';
 import { ZoneService } from '../zone.service';
 
@@ -14,9 +14,9 @@ import { ZoneService } from '../zone.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  subcriptions = new Subscription();
+  subscriptions = new Subscription();
   sidenavExpanded;
-  curPage$: Observable<string>;
+  curPage: string;
   all_routes = all_routes;
   constructor(
     private zoneService: ZoneService,
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setCurPage();
 
-    this.subcriptions.add(
+    this.subscriptions.add(
       this.breakpointObserver
         .observe(['(max-width: 700px)'])
         .subscribe((state: BreakpointState) => {
@@ -38,35 +38,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * this function sets the observer for cur page
-   * we need to split this functionality into 2
-   * 1) subscribe to the on created route
-   * 2) subscribe to everyother subsiquent route change
-   */
   setCurPage() {
-    // 1) step
-    this.curPage$ = of(this.route.snapshot['_routerState'].url);
-    // 2) step
-    this.router.events
-      .pipe(
-        filter((r) => r instanceof NavigationEnd),
-        first(() => {
-          this.curPage$ = this.router.events.pipe(
-            filter((r) => r instanceof NavigationEnd),
-            map((r: NavigationEnd) => r.urlAfterRedirects)
-          );
-          return true;
+    //init route
+    this.curPage = this.route.snapshot['_routerState'].url;
+    this.subscriptions.add(
+      //then listen to every subsiquent route change
+      this.router.events
+        .pipe(filter((r) => r instanceof NavigationEnd))
+        .subscribe((r: NavigationEnd) => {
+          this.curPage = r.url;
         })
-      )
-      .subscribe();
+    );
   }
 
   toggle(e) {
-    console.log(e);
     this.zoneService.sideNavToggle$.next(e.checked);
   }
   ngOnDestroy() {
-    this.subcriptions.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }
