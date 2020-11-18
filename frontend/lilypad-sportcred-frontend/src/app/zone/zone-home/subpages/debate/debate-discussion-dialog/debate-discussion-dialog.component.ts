@@ -1,22 +1,22 @@
 import {
   Component,
-  OnInit,
   Inject,
   OnDestroy,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { AppState } from '../../../../../store/reducer';
-import { DebateComment, playerRank } from '../debate.types';
+import { DebateService } from '../debate.service';
+import { DebateComment } from '../debate.types';
 import {
   getDebateDiscussion,
   postDebateComment,
 } from '../store/debate.actions';
 import { selectDebateTopic } from '../store/debate.selectors';
-import { DebateService } from '../debate.service';
-import { filter } from 'rxjs/operators';
 export interface DiscussionDialogData {
   debateId: number;
 }
@@ -33,6 +33,7 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   debateTopic = undefined;
   timedout = false;
 
+  protected hasValidRankToComment = true;
   protected debateAnswer = '';
 
   constructor(
@@ -58,6 +59,8 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
       })
     );
     this.store.dispatch(getDebateDiscussion({ topic_id: this.data.debateId }));
+
+    // TODO: set the correct rank for `hasValidRankToComment`
   }
 
   //init timer for `timeout` ms, if discussion is still not loaded, show timeout
