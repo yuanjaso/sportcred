@@ -29,3 +29,9 @@ export type DebatePostCommentPayload = Pick<
   DebateComment,
   'debate_id' | 'content'
 >;
+
+export type Rating = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+export interface DebateRating {
+  comment_id: number;
+  rating: Rating;
+}

@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import * as apis from '../../../../../global/api.types';
 import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
-import { DebateComment, DebatePostCommentPayload } from './debate.types';
+import {
+  DebateComment,
+  DebatePostCommentPayload,
+  DebateRating,
+} from './debate.types';
 
 @Injectable()
 export class DebateService {
@@ -21,5 +25,9 @@ export class DebateService {
     payload: DebatePostCommentPayload
   ): Observable<DebateComment> {
     return this.httpClient.post(apis.debateDiscussion, payload);
+  }
+
+  rateDebate(payload: DebateRating): Observable<DebateComment> {
+    return this.httpClient.put(apis.debateDiscussion, payload);
   }
 }

@@ -1,5 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { DebatePostCommentPayload, DebateTopic } from './../debate.types';
+import {
+  DebatePostCommentPayload,
+  DebateRating,
+  DebateTopic,
+} from './../debate.types';
 
 export const getDebateTopics = createAction('[Debate] Get Debate Topics');
 export const setDebateTopics = createAction(
@@ -15,4 +19,9 @@ export const getDebateDiscussion = createAction(
 export const postDebateComment = createAction(
   '[Debate] Post Debate Comment',
   props<{ payload: DebatePostCommentPayload }>()
+);
+
+export const rateDebate = createAction(
+  '[Debate] Rate Debate',
+  props<{ payload: DebateRating }>()
 );
