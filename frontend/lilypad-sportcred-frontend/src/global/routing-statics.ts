@@ -61,6 +61,12 @@ const single_trivia: pageConfig = {
   title: 'SPORTCRED - Trivia',
 };
 
+const multiplayertrivia: pageConfig = {
+  // ! change this later, this is temporary because we don't have multi player route
+  url: 'multiplayer',
+  title: 'SPORTCRED - Trivia',
+};
+
 export const all_routes = {
   admin,
   profile,
@@ -73,4 +79,5 @@ export const all_routes = {
   predictions,
   open_court,
   single_trivia,
+  multiplayertrivia,
 };

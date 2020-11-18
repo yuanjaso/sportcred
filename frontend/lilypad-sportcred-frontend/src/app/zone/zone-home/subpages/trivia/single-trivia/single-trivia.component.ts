@@ -7,9 +7,14 @@ import { ACS } from 'src/app/zone/subpages/profile/profile.types';
 import { submitTriviaResults } from '../store/trivia.actions';
 import {
   selectTriviaInstance,
-  selectUpdatedACS
+  selectUpdatedACS,
 } from '../store/trivia.selectors';
-import { Answer, TriviaInstance, TriviaQuestion } from '../trivia.types';
+import {
+  Answer,
+  TriviaAnswersResponse,
+  TriviaInstance,
+  TriviaQuestion,
+} from '../trivia.types';
 
 @Component({
   selector: 'app-single-trivia',
@@ -35,7 +40,7 @@ export class SingleTriviaComponent implements OnInit {
   questionStartTime = new Date().toISOString();
   questionSubmitTime = new Date().toISOString();
 
-  acs$: Observable<ACS>;
+  submitTriviaAnswersResponse$: Observable<TriviaAnswersResponse>;
 
   triviaAnswers: Answer[] = [
     { id: 0, content: '' },
@@ -49,22 +54,23 @@ export class SingleTriviaComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.timerTickSubscriber = this.tickTimer();
-    this.timerQuestionSubscriber = this.questionTimer();
     this.pullingTriviaData();
-    this.triviaInstance$
-      .pipe(first((instances) => instances !== undefined))
-      .subscribe((val) => {
-        console.log(val.questions);
-        this.questions = val.questions;
-        this.numberOfQuestions = this.questions.length;
-        this.triviaInstanceId = val.id;
-        this.displayQuestion(0);
-      });
   }
 
   pullingTriviaData(): void {
-    this.triviaInstance$ = this.store.select(selectTriviaInstance);
+    this.triviaInstance$ = this.store
+      .select(selectTriviaInstance)
+      .pipe(first());
+
+    this.triviaInstance$.subscribe((val) => {
+      console.log(val.questions);
+      this.questions = val.questions;
+      this.numberOfQuestions = this.questions.length;
+      this.triviaInstanceId = val.id;
+      this.timerTickSubscriber = this.tickTimer();
+      this.timerQuestionSubscriber = this.questionTimer();
+      this.displayQuestion(0);
+    });
   }
 
   displayQuestion(index: number) {
@@ -106,8 +112,7 @@ export class SingleTriviaComponent implements OnInit {
       // Update score
       this.submitQuestion(
         this.questions[this.currentQuestion].id,
-        // ! temporary fix cuz backend doesn't accept null or invalid answer ids
-        1,
+        null,
         this.questionStartTime,
         this.questionSubmitTime
       );
@@ -185,14 +190,31 @@ export class SingleTriviaComponent implements OnInit {
   /**
    * Final TriviaResults submission
    */
-  submitResults() {
-    console.log(this.triviaQuestionSubmissions);
-    this.acs$ = this.store.select(selectUpdatedACS);
-    this.acs$.pipe(skip(1), first()).subscribe((val) => {
-      this.displayContent =
-        'Score: ' + this.totalScore + ' / ' + this.numberOfQuestions;
-      this.finalACS = 'Updated ACS: ' + val.average.score__avg;
+  submitResults(): void {
+    this.displayContent =
+      'Correct / Total Questions: ' +
+      this.totalScore +
+      ' / ' +
+      this.numberOfQuestions;
+
+    this.submitTriviaAnswersResponse$ = this.store
+      .select(selectUpdatedACS)
+      // skip the cached value, then skip the undefined value that is set from the submitTriviaResults dispatch
+      .pipe(skip(2), first());
+    this.submitTriviaAnswersResponse$.subscribe((submitAnswersResponse) => {
+      if (this.isSinglePlayerGame(submitAnswersResponse)) {
+        this.finalACS =
+          'Updated ACS: ' + (submitAnswersResponse as ACS).average.score__avg;
+      } else if (this.bothPlayersHaveSubmitted(submitAnswersResponse)) {
+        this.finalACS = 'Final score: ' + submitAnswersResponse.score;
+      } else {
+        // only one player has finished
+        this.finalACS =
+          'ACS will update after both players have finished the game';
+      }
     });
+
+    // will update the acs
     this.store.dispatch(
       submitTriviaResults({
         results: {
@@ -201,6 +223,25 @@ export class SingleTriviaComponent implements OnInit {
           questions: this.triviaQuestionSubmissions,
         },
       })
+    );
+  }
+
+  private isSinglePlayerGame(
+    submitAnswersResponse: TriviaAnswersResponse
+  ): boolean {
+    // both may be null so we explicitly have to check
+    return (
+      submitAnswersResponse !== null &&
+      (submitAnswersResponse as ACS).average !== undefined
+    );
+  }
+
+  private bothPlayersHaveSubmitted(
+    submitAnswersResponse: TriviaAnswersResponse
+  ): boolean {
+    return (
+      submitAnswersResponse !== null &&
+      (submitAnswersResponse as TriviaInstance).score !== ''
     );
   }
 
