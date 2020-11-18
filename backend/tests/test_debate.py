@@ -62,7 +62,7 @@ def test_create_dabate2(tokens):
     assert res.status_code == 200
 
 
-def test_get_dabate(tokens):
+def test_get_debate(tokens):
     url = URL + "debates/"
     res = requests.get(
         url,
@@ -70,6 +70,32 @@ def test_get_dabate(tokens):
         params={
             "acs_rank": "F",
             "sport_id": 1,  # basketball
+        },
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 200
+
+
+def test_get_debate2(tokens):
+    url = URL + "debates/"
+    res = requests.get(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        verify=False,
+    )
+    print(res.json())
+    assert res.status_code == 200
+
+
+def test_get_debate3(tokens):
+    url = URL + "debates/"
+    res = requests.get(
+        url,
+        headers={"Authorization": "Token " + tokens[0]},
+        params={
+            "acs_rank": "F",
+            "sport_name": "basketball",  # basketball
         },
         verify=False,
     )

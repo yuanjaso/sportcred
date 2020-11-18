@@ -21,7 +21,7 @@ class Profile(models.Model):
     status = models.CharField(max_length=100, blank=True)
     about = models.CharField(max_length=300, blank=True)
     agree = models.ManyToManyField("DebateComment", through="Rate")
-    highlights = models.ManyToManyField("Sport")
+    favourite_sports = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
 
     @property
@@ -183,8 +183,8 @@ class BaseAcsHistory(models.Model):
         try:
             acs = ACS.objects.get(profile=self.profile, sports=self.sport)
             acs.score = acs.score + self.delta
-            if acs.score < 0:
-                acs.score = 0
+            if acs.score < 100:
+                acs.score = 100
             acs.save()
             self.score = acs.score
             self.save()
@@ -192,8 +192,8 @@ class BaseAcsHistory(models.Model):
             acs = ACS.objects.create(
                 profile=self.profile, sports=self.sport, score=self.delta
             )
-            if acs.score < 0:
-                acs.score = 0
+            if acs.score < 100:
+                acs.score = 100
             acs.save()
             self.score = acs.score
             self.save()
