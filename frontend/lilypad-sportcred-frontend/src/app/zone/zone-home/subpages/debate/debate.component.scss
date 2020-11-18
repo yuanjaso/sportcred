@@ -36,6 +36,7 @@
 
   > .time-posted {
     @extend .font-footer;
+    color: $bg-black;
   }
   > .comment-number {
     @extend .font-tertiary;

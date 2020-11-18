@@ -45,9 +45,12 @@
     display: flex;
     .username,
     .time {
-      color: $darkgreen;
+      color: $green;
       @extend .font-tertiary;
       padding-right: 1rem;
+    }
+    .time {
+      color: $grey;
     }
   }
   .content {
