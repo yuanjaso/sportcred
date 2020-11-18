@@ -20,8 +20,7 @@
                             <div class="username">
                                 {{comment.user.username}}
                             </div>
-                            <div class="time">
-                                {{comment.comment_date}}
+                            <div class="time" [innerHTML]="comment.comment_date | parseDate">
                             </div>
                         </div>
                         <div class="content" [innerHTML]="comment.content | urlify">
