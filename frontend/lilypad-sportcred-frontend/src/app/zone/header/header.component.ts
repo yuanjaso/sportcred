@@ -121,7 +121,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   playTrivia(triviaInstance: TriviaInstance): void {
     this.store.dispatch(setTriviaInstance({ triviaInstance }));
-    const multiPlayerTriviaLink = `/${all_routes.zone.url}/${all_routes.zonehome.url}/${all_routes.trivia.url}/${all_routes.multiplayertrivia.url}`;
-    this.router.navigate([multiPlayerTriviaLink]);
+
+    this.router.navigate([
+      all_routes.zone.url,
+      all_routes.zonehome.url,
+      all_routes.trivia.url,
+      all_routes.multiplayertrivia.url,
+    ]);
   }
 }
