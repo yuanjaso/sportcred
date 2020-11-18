@@ -1,19 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import {
-  filter,
-  map,
-  mergeMap,
-  mergeMapTo,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { AppState } from '../../../../../store/reducer';
+import { map, mergeMap, mergeMapTo, switchMap } from 'rxjs/operators';
 import { TriviaService } from '../trivia.service';
 import * as TriviaActions from './trivia.actions';
 import { setUpdatedACS } from './trivia.actions';
-import { selectAllTriviaInstances } from './trivia.selectors';
 
 @Injectable()
 export class TriviaEffects {
@@ -53,7 +43,6 @@ export class TriviaEffects {
   );
 
   constructor(
-    private store: Store<AppState>,
     private actions$: Actions,
     private triviaService: TriviaService
   ) {}
