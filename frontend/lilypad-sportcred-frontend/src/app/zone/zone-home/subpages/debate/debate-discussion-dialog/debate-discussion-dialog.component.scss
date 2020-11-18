@@ -54,6 +54,7 @@
     }
   }
   .content {
+    word-break: break-word;
     @extend .font-tertiary;
     padding: 0.5rem 0;
   }
