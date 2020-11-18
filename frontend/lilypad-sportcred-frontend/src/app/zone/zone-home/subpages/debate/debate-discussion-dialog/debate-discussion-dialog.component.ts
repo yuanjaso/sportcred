@@ -10,10 +10,13 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from '../../../../../store/reducer';
 import { DebateComment, playerRank } from '../debate.types';
-import { getDebateDiscussion } from '../store/debate.actions';
+import {
+  getDebateDiscussion,
+  postDebateComment,
+} from '../store/debate.actions';
 import { selectDebateTopic } from '../store/debate.selectors';
 import { DebateService } from '../debate.service';
-import { first } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 export interface DiscussionDialogData {
   debateId: number;
 }
@@ -29,6 +32,9 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   discussion: DebateComment[] = undefined;
   debateTopic = undefined;
   timedout = false;
+
+  protected debateAnswer = '';
+
   constructor(
     public dialogRef: MatDialogRef<DiscussionDialogData>,
     private store: Store<AppState>,
@@ -39,10 +45,9 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log(this.data.debateId);
     this.initTimer(5000);
-    this.store.dispatch(getDebateDiscussion({ topic_id: this.data.debateId }));
     this.store
       .select(selectDebateTopic, { debateId: this.data.debateId })
-      .pipe(first((a) => !!a))
+      .pipe(filter((a) => !!a))
       .subscribe((debate) => {
         this.debateTopic = debate;
       });
@@ -52,6 +57,7 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
         this.discussion = discussion;
       })
     );
+    this.store.dispatch(getDebateDiscussion({ topic_id: this.data.debateId }));
   }
 
   //init timer for `timeout` ms, if discussion is still not loaded, show timeout
@@ -68,5 +74,18 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  /**
+   * @param answer same value as `this.debateAnswer` but I passed it in so that the relationship is explicitly defined for readability
+   */
+  submitDebateAnswer(answer: string): void {
+    this.store.dispatch(
+      postDebateComment({
+        payload: { content: answer, debate_id: this.data.debateId },
+      })
+    );
+    // clear the answer
+    this.debateAnswer = '';
   }
 }

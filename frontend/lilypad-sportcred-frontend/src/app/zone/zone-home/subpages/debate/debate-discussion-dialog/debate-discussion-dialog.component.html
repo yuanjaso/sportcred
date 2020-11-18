@@ -13,6 +13,20 @@
             </div>
             <!-- todo comment box here-->
     
+            <div id="add-comment-form" class="row">
+              <mat-form-field appearance="fill">
+                <input matInput type="text" [(ngModel)]="debateAnswer" />
+              </mat-form-field>
+              <button
+                mat-raised-button
+                color="accent"
+                (click)="submitDebateAnswer(debateAnswer)"
+                [disabled]="debateAnswer.length === 0"
+                >
+                Add Answer
+              </button>
+            </div>
+
             <ng-container *ngIf="discussion?.length > 0; else nocomments">
                 <div class="comment-box">
                     <div class="comment-row" *ngFor="let comment of discussion">
