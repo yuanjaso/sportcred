@@ -44,7 +44,7 @@ class DebateViewSet(viewsets.ViewSet):
             post = DebatePost.objects.create(
                 title=body["title"], content=body["content"], acs_rank=body["acs_rank"]
             )
-            post.related_to_debate_posts.add(sport)
+            post.sport = sport
             post.save()
             return Response(DebateSerializer(post).data)
         except Exception as e:
@@ -186,11 +186,9 @@ class DebateViewSet(viewsets.ViewSet):
             debate_acs_rank = DebatePost.objects.filter(id=debate_id).values()[0][
                 "acs_rank"
             ]  # Gets the acs rank
-            debate_acs_sport_id = DebatePost.objects.first().related_to_debate_posts.values()[
-                0
-            ][
-                "id"
-            ]  # Gets the sport id
+            debate_acs_sport_id = (
+                DebatePost.objects.first().related_to_debate_posts.values()[0]["id"]
+            )  # Gets the sport id
         except Exception as e:
             print(e)
             return Response(
@@ -246,43 +244,6 @@ class DebateViewSet(viewsets.ViewSet):
 
     @comments.mapping.get
     def get_comments(self, request):
-        try:
-            debate_id = request.query_params["debate_id"]
-            # Gets the response info
-            list_of_results = []
-            result = {}
-            result["debate_id"] = debate_id  # Gets the debate_id
-
-            debate_info = DebateComment.objects.filter(post_id=debate_id).values()
-
-            for item in debate_info:
-                result = {}
-                result["comment_id"] = item["id"]
-                result["content"] = item["content"].strip()
-                result["comment_date"] = item["time"]
-                debate_info2 = DebateComment.objects.filter(
-                    post_id=debate_id, id=item["id"]
-                )
-                result["average_rating"] = debate_info2[0].ratingAverage[
-                    "agreement__avg"
-                ]
-                result["number_of_ratings"] = Rate.objects.filter(
-                    comment_id=item["id"]
-                ).aggregate(Count("comment_id"))["comment_id__count"]
-                result["user"] = {
-                    "id": item["commenter_id"],
-                    "username": User.objects.filter(id=item["commenter_id"]).values()[
-                        0
-                    ]["username"],
-                }
-                list_of_results.append(result)
-            for item in list_of_results:
-                print(item)
-                print(" ")
-            return Response(list_of_results)
-        except Exception as e:
-            print(e)
-            return Response(
-                {"details": "The id is invalid."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
+        comments = DebateComment.objects.filter(post_id=debate_id)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
