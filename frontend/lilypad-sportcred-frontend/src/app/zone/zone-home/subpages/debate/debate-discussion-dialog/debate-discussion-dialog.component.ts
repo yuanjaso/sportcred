@@ -58,8 +58,6 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
       })
     );
     this.store.dispatch(getDebateDiscussion({ topic_id: this.data.debateId }));
-
-    // TODO: set the correct rank for `hasValidRankToComment`
   }
 
   //init timer for `timeout` ms, if discussion is still not loaded, show timeout
