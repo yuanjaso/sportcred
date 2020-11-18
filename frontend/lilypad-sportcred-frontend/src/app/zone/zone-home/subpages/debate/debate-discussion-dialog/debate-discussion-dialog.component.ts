@@ -34,6 +34,7 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   timedout = false;
 
   protected debateAnswer = '';
+  protected rating: Rating = 0;
 
   constructor(
     public dialogRef: MatDialogRef<DiscussionDialogData>,

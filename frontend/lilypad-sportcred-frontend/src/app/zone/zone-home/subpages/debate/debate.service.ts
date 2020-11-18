@@ -4,8 +4,8 @@ import * as apis from '../../../../../global/api.types';
 import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
 import {
   DebateComment,
+  DebateCommentRating,
   DebatePostCommentPayload,
-  DebateRating,
 } from './debate.types';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class DebateService {
     return this.httpClient.post(apis.debateDiscussion, payload);
   }
 
-  rateDebate(payload: DebateRating): Observable<DebateComment> {
+  rateDebateComment(payload: DebateCommentRating): Observable<DebateComment> {
     return this.httpClient.put(apis.debateDiscussion, payload);
   }
 }

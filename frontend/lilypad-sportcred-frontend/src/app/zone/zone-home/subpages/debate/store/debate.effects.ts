@@ -60,8 +60,8 @@ export class DebateEffects {
 
   rateDebate$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(actions.rateDebate),
-      mergeMap(({ payload }) => this.debateService.rateDebate(payload)),
+      ofType(actions.rateDebateComment),
+      mergeMap(({ payload }) => this.debateService.rateDebateComment(payload)),
       mergeMap((payload) =>
         from([
           // easy way to refresh comment list

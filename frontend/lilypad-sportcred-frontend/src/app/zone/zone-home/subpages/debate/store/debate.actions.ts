@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import {
+  DebateCommentRating,
   DebatePostCommentPayload,
-  DebateRating,
   DebateTopic,
 } from './../debate.types';
 
@@ -21,7 +21,7 @@ export const postDebateComment = createAction(
   props<{ payload: DebatePostCommentPayload }>()
 );
 
-export const rateDebate = createAction(
-  '[Debate] Rate Debate',
-  props<{ payload: DebateRating }>()
+export const rateDebateComment = createAction(
+  '[Debate] Rate Debate Comment',
+  props<{ payload: DebateCommentRating }>()
 );
