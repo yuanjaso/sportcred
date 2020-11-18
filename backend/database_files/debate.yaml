@@ -1,0 +1,48 @@
+debate:
+  -
+    content: Who is the greatest of all time and why is it Lebron?
+    title: Who is the greatest of all time?
+    sport: 1
+    acs_rank: "F"
+  -
+    content: Who do you think is the best team ever? Our top choice is 1995-1996 Chicago Bulls
+    title: Best team ever?
+    sport: 1
+    acs_rank: "F"
+  -
+    content: Did Kobe Bryant deserve MVP in 2006-07 over Dirk?
+    title: Kobe or Dirk
+    sport: 1
+    acs_rank: "A"
+  -
+    content: Are Lebron’s teammates really that bad or are they never credited?
+    title: Lebron and friends
+    sport: 1
+    acs_rank: "P"
+  -
+    content: What should be the criteria for the HOF? Rings or accolades?
+    title: HOF criteria
+    sport: 1
+    acs_rank: "E"
+comments:
+  -
+    post: 1
+    user: 3
+    content: https://www.youtube.com/watch?v=BL8Oe9oh7mY
+  - 
+    post: 1
+    user: 4
+    content: He's built different
+  -
+    post: 1
+    user: 5
+    content: The simple reason why LeBron James is the GOAT is his all-round dominance. Many are quick to judge LeBron James for his inferior NBA Championship record as compared to Michael Jordan. However, he leads Jordan in rebounds, assists, blocks and overall field goal percentage.
+rate:
+  -
+    user: 5
+    comment: 1
+    agreement: 10
+  -
+    user: 6
+    comment: 1
+    agreement: 8

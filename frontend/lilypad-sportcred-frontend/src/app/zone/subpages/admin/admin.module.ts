@@ -9,8 +9,9 @@ import { AdminComponent } from './admin.component';
 import { AdminService } from './admin.service';
 import { FormatQuestionsPipe } from './format-questions.pipe';
 import { AdminEffects } from './store/admin.effects';
+import { AddDebateDialogComponent } from './add-debate-dialog/add-debate-dialog.component';
 @NgModule({
-  declarations: [AdminComponent, FormatQuestionsPipe, AdminEchartsComponent],
+  declarations: [AdminComponent, FormatQuestionsPipe, AdminEchartsComponent, AddDebateDialogComponent],
   imports: [
     CommonModule,
     EffectsModule.forFeature([AdminEffects]),

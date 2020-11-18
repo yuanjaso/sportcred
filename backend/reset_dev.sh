@@ -24,6 +24,9 @@
     echo "importing acshistory"
     python3 manage.py import_baseacshistory database_files/baseacshistory.yaml
 
+    echo "importing debate"
+    python3 manage.py import_debate database_files/debate.yaml
+
     if [ $# -gt 0 ]  
         then
         echo "importing trivia"
