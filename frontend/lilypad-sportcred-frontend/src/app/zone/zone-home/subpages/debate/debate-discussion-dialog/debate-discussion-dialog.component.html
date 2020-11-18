@@ -1,37 +1,52 @@
-<ng-container *ngIf="discussion !== undefined && debateTopic !== undefined ; else loading">
-    <div class="host">
-        <div class="debate-row" >
-            <div class="title">
-                {{debateTopic.tite}}
-            </div>
-            <div class="time-posted">
-                {{debateTopic.post_date}}
-            </div>
-            <div class="comment-number" >    
-                {{debateTopic.num_of_comments}} {{" comments"}}
-            </div>
-        </div>
-        <!-- todo comment box here-->
-        <div class="comment-box">
-            <div class="comment-row" *ngFor="let comment of discussion">
-                <div class="header">
-                    <div class="username">
-                        {{comment.user.username}}
-                    </div>
-                    <div class="time">
-                        {{comment.comment_date}}
-                    </div>
+<ng-container *ngIf="!timedout; else timedoutTemp"> 
+    <ng-container *ngIf="discussion !== undefined && debateTopic !== undefined ; else loading">
+        <div class="host">
+            <div class="debate-row" >
+                <div class="title">
+                    {{debateTopic.title}}
                 </div>
-                <div class="content">
-                    {{comment.content}}
+                <div class="time-posted" [innerHTML]="debateTopic.post_date | parseDate">
+                </div>
+                <div class="comment-number" >    
+                    {{debateTopic.num_of_comments}} {{" comments"}}
                 </div>
             </div>
+            <!-- todo comment box here-->
+    
+            <ng-container *ngIf="discussion?.length > 0; else nocomments">
+                <div class="comment-box">
+                    <div class="comment-row" *ngFor="let comment of discussion">
+                        <div class="header">
+                            <div class="username">
+                                {{comment.user.username}}
+                            </div>
+                            <div class="time">
+                                {{comment.comment_date}}
+                            </div>
+                        </div>
+                        <div class="content" [innerHTML]="comment.content | urlify">
+                            <!-- NOTE: this is prob unsecure -->
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
         </div>
-    </div>
+    </ng-container>
 </ng-container>
-    <ng-template #loading>
+
+<ng-template #loading>
     <div class="spinner">
         <mat-spinner ></mat-spinner>
+    </div>
+</ng-template>
+<ng-template #nocomments>
+    <div class="nocomments">
+        <div>Nothing here yet...</div>
+    </div>
+</ng-template>
+<ng-template #timedoutTemp>
+    <div class="timedout">
+        <div>Unavailable Debate</div>
     </div>
 </ng-template>
   

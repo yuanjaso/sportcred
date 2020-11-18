@@ -1,4 +1,10 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  OnDestroy,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -16,11 +22,13 @@ export interface DiscussionDialogData {
   selector: 'app-debate-discussion-dialog',
   templateUrl: './debate-discussion-dialog.component.html',
   styleUrls: ['./debate-discussion-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
   discussion: DebateComment[] = undefined;
   debateTopic = undefined;
+  timedout = false;
   constructor(
     public dialogRef: MatDialogRef<DiscussionDialogData>,
     private store: Store<AppState>,
@@ -29,12 +37,13 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data.debateId);
+    this.initTimer(5000);
     this.store.dispatch(getDebateDiscussion({ topic_id: this.data.debateId }));
     this.store
       .select(selectDebateTopic, { debateId: this.data.debateId })
       .pipe(first((a) => !!a))
       .subscribe((debate) => {
-        // todo filter invalid ids
         this.debateTopic = debate;
       });
     this.subscriptions.add(
@@ -43,6 +52,15 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
         this.discussion = discussion;
       })
     );
+  }
+
+  //init timer for `timeout` ms, if discussion is still not loaded, show timeout
+  initTimer(timeout) {
+    setTimeout(() => {
+      if (this.debateTopic === undefined) {
+        this.timedout = true;
+      }
+    }, timeout);
   }
 
   onNoClick(): void {

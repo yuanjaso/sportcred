@@ -1,5 +1,5 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import { selectAllDebateTopics } from './store/debate.selectors';
   selector: 'app-debate',
   templateUrl: './debate.component.html',
   styleUrls: ['./debate.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DebateComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();

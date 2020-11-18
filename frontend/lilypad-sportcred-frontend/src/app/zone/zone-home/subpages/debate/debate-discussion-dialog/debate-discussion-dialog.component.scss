@@ -17,6 +17,22 @@
   overflow: auto;
   overflow-x: hidden;
 }
+.nocomments {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > div {
+    @extend .white-font;
+    @extend .font-primary;
+    margin: 0 1rem 15rem 1rem;
+  }
+}
+.timedout {
+  @extend .spinner;
+  @extend .nocomments;
+}
 .comment-row {
   display: flex;
   flex-direction: column;
@@ -37,5 +53,15 @@
   .content {
     @extend .font-tertiary;
     padding: 0.5rem 0;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .debate-row {
+    > div.title {
+      //studpid sass cant extend in media query
+      font-size: 2rem;
+      line-height: 2rem;
+    }
   }
 }

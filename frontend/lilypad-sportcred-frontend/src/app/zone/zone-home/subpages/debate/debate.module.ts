@@ -9,7 +9,7 @@ import { DebateEffects } from './store/debate.effects';
 import { debateFeatureKey, debateReducer } from './store/debate.reducer';
 import { DebateDiscussionDialogComponent } from './debate-discussion-dialog/debate-discussion-dialog.component';
 import { RouterModule } from '@angular/router';
-
+import { SharedModule } from '../../../../shared-components/shared-components.module';
 @NgModule({
   declarations: [DebateComponent, DebateDiscussionDialogComponent],
   imports: [
@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MaterialModule,
     RouterModule,
+    SharedModule,
   ],
   providers: [DebateService],
 })

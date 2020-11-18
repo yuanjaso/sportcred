@@ -4,15 +4,13 @@
             <a [routerLink]="" [queryParams]="{debateId: topic.id}" class="title">
                 {{topic.title}}
             </a>
-            <div class="time-posted">
-                {{topic.post_date}}
+            <div class="time-posted" [innerHTML]="topic.post_date | parseDate">
             </div>
             <div class="comment-number">    
                 {{topic.num_of_comments}} {{" comments"}}
             </div>
         </div>
     </div>
-
 </ng-container>
 
 <ng-template #loading>

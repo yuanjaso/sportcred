@@ -12,6 +12,12 @@
   overflow-y: scroll;
   background-color: $darkgrey;
   overflow: auto;
+  * {
+    &:visited {
+      color: $darkgrey !important;
+    }
+    text-decoration: none;
+  }
 }
 .debate-row {
   margin: 0.5rem;
@@ -26,10 +32,6 @@
     color: $green;
     @extend .font-secondary;
     cursor: pointer;
-    &:visited {
-      color: $darkgrey;
-    }
-    text-decoration: none;
   }
 
   > .time-posted {
