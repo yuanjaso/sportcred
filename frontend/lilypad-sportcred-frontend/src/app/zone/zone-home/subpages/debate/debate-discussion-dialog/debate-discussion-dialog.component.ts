@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from '../../../../../store/reducer';
 import { DebateService } from '../debate.service';
-import { DebateComment } from '../debate.types';
+import { DebateComment, DebateTopic } from '../debate.types';
 import {
   getDebateDiscussion,
   postDebateComment,
@@ -30,10 +30,9 @@ export interface DiscussionDialogData {
 export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
   discussion: DebateComment[] = undefined;
-  debateTopic = undefined;
+  debateTopic: DebateTopic = undefined;
   timedout = false;
 
-  protected hasValidRankToComment = true;
   protected debateAnswer = '';
 
   constructor(

@@ -13,7 +13,7 @@
             </div>
             <!-- todo comment box here-->
     
-            <div id="add-comment-form" class="row" *ngIf="hasValidRankToComment">
+            <div id="add-comment-form" class="row" *ngIf="debateTopic.has_valid_acs">
               <mat-form-field appearance="fill">
                 <input matInput type="text" [(ngModel)]="debateAnswer" />
               </mat-form-field>
