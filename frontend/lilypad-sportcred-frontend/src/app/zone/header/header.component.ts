@@ -2,16 +2,16 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { interval, Observable, of, Subscription } from 'rxjs';
-import { filter, first, map, tap } from 'rxjs/operators';
+import { Observable, of, Subject, Subscription } from 'rxjs';
+import { filter, first, map } from 'rxjs/operators';
 import { all_routes } from '../../../global/routing-statics';
 import { AppState } from '../../store/reducer';
+import { setTriviaInstance } from '../zone-home/subpages/trivia/store/trivia.actions';
+import { TriviaService } from '../zone-home/subpages/trivia/trivia.service';
 import {
-  queryForTriviaGames,
-  setTriviaInstance,
-} from '../zone-home/subpages/trivia/store/trivia.actions';
-import { selectAllTriviaInstances } from '../zone-home/subpages/trivia/store/trivia.selectors';
-import { TriviaInstance } from '../zone-home/subpages/trivia/trivia.types';
+  TriviaInstance,
+  TriviaNotification,
+} from '../zone-home/subpages/trivia/trivia.types';
 import { ZoneService } from '../zone.service';
 
 @Component({
@@ -22,18 +22,15 @@ import { ZoneService } from '../zone.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
-  sidenavExpanded;
+  sidenavExpanded: boolean;
 
-  notificationsCount: number;
-  triviaInstances: TriviaInstance[];
-
-  readonly UNPLAYED_GAME = '';
-
-  private subscription = new Subscription();
+  triviaNotification$: Subject<TriviaNotification>;
 
   curPage$: Observable<string>;
   all_routes = all_routes;
+
   constructor(
+    private triviaService: TriviaService,
     private store: Store<AppState>,
     private router: Router,
     private zoneService: ZoneService,
@@ -42,6 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.triviaNotification$ = this.triviaService.notificationsSubject$;
+
     this.setCurPage();
 
     this.subscriptions.add(
@@ -52,8 +51,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.zoneService.sideNavToggle$.next(!state.matches);
         })
     );
-
-    this.infiniteQueryForTriviaInvites();
   }
 
   /**
@@ -86,37 +83,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-  }
-
-  /**
-   * Every 10 seconds, this will make an API request to get the latest set of games,
-   * this user is a part of.
-   * The badge value will be how many incomplete games the user has.
-   */
-  private infiniteQueryForTriviaInvites(): void {
-    const triviaInstances$ = this.store.select(selectAllTriviaInstances).pipe(
-      filter((instances) => instances !== undefined),
-      tap((instances) => {
-        // determine how many are in-completed
-        this.notificationsCount = instances.filter(
-          (el) => el.score === this.UNPLAYED_GAME
-        ).length;
-
-        if (this.notificationsCount === 0) {
-          // setting as undefined looks better on the view than showing a 0
-          this.notificationsCount = undefined;
-        }
-        this.triviaInstances = instances;
-      })
-    );
-    const infiniteRequest$ = interval(3500).pipe(
-      tap(() => {
-        this.store.dispatch(queryForTriviaGames());
-      })
-    );
-
-    this.subscription.add(triviaInstances$.subscribe());
-    this.subscription.add(infiniteRequest$.subscribe());
   }
 
   playTrivia(triviaInstance: TriviaInstance): void {

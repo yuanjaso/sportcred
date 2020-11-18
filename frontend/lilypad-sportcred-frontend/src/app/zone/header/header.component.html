@@ -6,7 +6,7 @@
   <div style="flex-grow: 9"></div>
   <button
     [matMenuTriggerFor]="notifications"
-    [matBadge]="notificationsCount"
+    [matBadge]="(triviaNotification$ | async)?.count"
     matBadgePosition="above after"
     matBadgeSize="medium"
     [matBadgeOverlap]="true"
@@ -14,7 +14,10 @@
     mat-icon-button
   >
     <mat-icon
-      [ngStyle]="{ color: notificationsCount === undefined ? 'grey ' : 'red' }"
+      [ngStyle]="{
+        color:
+          (triviaNotification$ | async)?.count === null ? 'grey ' : 'red'
+      }"
     >
       notifications
     </mat-icon>
@@ -29,15 +32,15 @@
   <div
     class="notification-item"
     mat-menu-item
-    *ngFor="let instance of triviaInstances"
-    [disabled]="instance.score !== UNPLAYED_GAME"
+    *ngFor="let instance of (triviaNotification$ | async)?.triviaInstances"
+    [disabled]="instance.score !== ''"
   >
-    <ng-container *ngIf="instance.score !== UNPLAYED_GAME">
+    <ng-container *ngIf="instance.score !== ''">
       Finished game with: {{ instance.opponentName }} | Score:
       {{ instance.score }}
     </ng-container>
 
-    <ng-container *ngIf="instance.score === UNPLAYED_GAME">
+    <ng-container *ngIf="instance.score === ''">
       <span>Game with {{ instance.opponentName }}</span>
       <button color="primary" mat-raised-button (click)="playTrivia(instance)">
         Play

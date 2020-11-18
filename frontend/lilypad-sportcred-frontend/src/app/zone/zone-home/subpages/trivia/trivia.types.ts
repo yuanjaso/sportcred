@@ -7,6 +7,13 @@ export interface TriviaQuestions {
   correctAnswer: any;
 }
 
+export const UNPLAYED_GAME = '';
+
+export interface TriviaNotification {
+  count: number | null;
+  triviaInstances: TriviaInstance[];
+}
+
 export interface User {
   id: number;
   username: string;

@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { selectUserInfo } from '../../../../auth/store/selectors';
 import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
 import { AppState } from '../../../../store/reducer';
 import { ACS } from '../../../subpages/profile/profile.types';
-import { TriviaInstance, TriviaResults } from './trivia.types';
+import {
+  TriviaInstance,
+  TriviaNotification,
+  TriviaResults,
+} from './trivia.types';
 
 @Injectable()
 export class TriviaService {
+  notificationsSubject$ = new Subject<TriviaNotification>();
+
   constructor(
     private httpClient: HttpClientWrapper,
     private store: Store<AppState>
