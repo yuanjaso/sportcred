@@ -23,3 +23,8 @@ export interface DebateComment {
   number_of_ratings: number;
   comment_date: string;
 }
+
+export type DebatePostCommentPayload = Pick<
+  DebateComment,
+  'debate_id' | 'content'
+>;

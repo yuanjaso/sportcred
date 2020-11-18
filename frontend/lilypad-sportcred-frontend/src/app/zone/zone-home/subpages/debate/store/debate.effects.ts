@@ -42,4 +42,14 @@ export class DebateEffects {
       ),
     { dispatch: false }
   );
+
+  postDebateComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.postDebateComment),
+      mergeMap(({ payload }) => this.debateService.postDebateComment(payload)),
+      map((payload) =>
+        actions.getDebateDiscussion({ topic_id: payload.debate_id })
+      )
+    )
+  );
 }
