@@ -46,6 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.events
         .pipe(filter((r) => r instanceof NavigationEnd))
         .subscribe((r: NavigationEnd) => {
+          this.zoneService.sideNavToggle$.next(this.sidenavExpanded);
           this.curPage = r.url;
         })
     );

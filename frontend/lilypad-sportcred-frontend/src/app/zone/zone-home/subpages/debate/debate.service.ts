@@ -14,6 +14,6 @@ export class DebateService {
   }
 
   getDebateDiscussion(id: number) {
-    return this.httpClient.get(apis.debateDiscussion, { comment_id: id });
+    return this.httpClient.get(apis.debateDiscussion, { debate_id: id });
   }
 }

@@ -26,23 +26,24 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: DiscussionDialogData,
     private debateService: DebateService
-  ) {
-    this.store.dispatch(getDebateDiscussion({ topic_id: data.debateId }));
+  ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(getDebateDiscussion({ topic_id: this.data.debateId }));
     this.store
-      .select(selectDebateTopic, { debateId: data.debateId })
+      .select(selectDebateTopic, { debateId: this.data.debateId })
       .pipe(first((a) => !!a))
       .subscribe((debate) => {
         // todo filter invalid ids
         this.debateTopic = debate;
       });
     this.subscriptions.add(
-      debateService.hotDebateDiscussion$.subscribe((discussion) => {
+      this.debateService.hotDebateDiscussion$.subscribe((discussion) => {
+        console.log(discussion);
         this.discussion = discussion;
       })
     );
   }
-
-  ngOnInit(): void {}
 
   onNoClick(): void {
     this.dialogRef.close();

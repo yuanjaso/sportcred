@@ -27,14 +27,13 @@ export class DebateComponent implements OnInit, OnDestroy {
 
   topics: types.DebateTopic[] = undefined;
   ngOnInit(): void {
-    console.log('init');
     //setup listener and dispatch for data
     this.listenForNav();
     this.store.dispatch(getDebateTopics());
     this.subscriptions.add(
       this.store
         .select(selectAllDebateTopics)
-        .pipe(filter((a) => !!a && (a as any)?.length))
+        .pipe(filter((a) => !!a))
         .subscribe((a: types.DebateTopic[]) => {
           this.topics = a;
         })
