@@ -43,6 +43,8 @@
 
   .header {
     display: flex;
+    align-items: center;
+
     .username,
     .time {
       color: $green;
@@ -51,6 +53,28 @@
     }
     .time {
       color: $grey;
+    }
+
+    div.current-rating, div.num-rating {
+      margin-right: 1rem;
+    }
+
+    div.rating {
+      align-items: center;
+
+      div.slider-rating {
+        margin-right: 1rem;
+      }
+
+      mat-slider {
+        border-radius: 0.25rem;
+        background-color: $grey;
+        margin-right: 1rem;
+      }
+
+      button {
+        height: 2rem;
+      }
     }
   }
   .content {

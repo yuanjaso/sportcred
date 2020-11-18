@@ -29,12 +29,50 @@
 
             <ng-container *ngIf="discussion?.length > 0; else nocomments">
                 <div class="comment-box">
-                    <div class="comment-row" *ngFor="let comment of discussion">
+                    <div class="comment-row" *ngFor="let comment of discussion; trackBy:commentTrackBy">
                         <div class="header">
                             <div class="username">
                                 {{comment.user.username}}
                             </div>
                             <div class="time" [innerHTML]="comment.comment_date | parseDate">
+                            </div>
+
+                            <div style="flex-grow: 1"></div>
+
+                            <div class="num-rating">
+                              {{comment.number_of_ratings + ' ratings'}}
+                            </div>
+                            <div class="current-rating">
+                              Average Rating: 
+                              <ng-container *ngIf="comment.average_rating !== null; else nullRating">
+                                {{ comment.average_rating | number:'1.2-2' }}
+                              </ng-container>
+                              <ng-template #nullRating>0</ng-template>
+                            </div>
+              
+                            <div class="rating row">
+                              <mat-slider
+                                color="accent"
+                                [(ngModel)]="debateRatings[comment.comment_id]"
+                                [step]="1"
+                                [min]="0"
+                                [max]="10"
+                              >
+                              </mat-slider>
+              
+                              <div class="slider-rating">{{ debateRatings[comment.comment_id] }}</div>
+                              <button
+                                mat-raised-button
+                                color="accent"
+                                (click)="
+                                  submitRating(
+                                    comment.comment_id,
+                                    debateRatings[comment.comment_id]
+                                  )
+                                "
+                              >
+                                Rate
+                              </button>
                             </div>
                         </div>
                         <div class="content" [innerHTML]="comment.content | urlify">
