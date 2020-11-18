@@ -116,12 +116,16 @@ class DebateViewSet(viewsets.ViewSet):
         rating_avg = comment_info2[0].ratingAverage["agreement__avg"]
 
         result["debate_id"] = comment_info[0]["post_id"]
-        result["commenter_id"] = comment_info[0]["commenter_id"]
         result["content"] = comment_info[0]["content"].strip()
         result["comment_date"] = comment_info[0]["time"]
         result["average_rating"] = rating_avg
         result["number_of_ratings"] = num_ratings
-        result["user"] = {"id": request.user.id, "username": request.user.username}
+        result["user"] = {
+            "id": comment_info[0]["commenter_id"],
+            "username": User.objects.filter(
+                id=comment_info[0]["commenter_id"]
+            ).values()[0]["username"],
+        }
 
         # Updates the user's ACS score.
         try:
@@ -231,7 +235,6 @@ class DebateViewSet(viewsets.ViewSet):
         comment_info = DebateComment.objects.filter(id=comment.pk).values()
         comment_info2 = DebateComment.objects.filter(id=comment.pk)
         result["debate_id"] = debate_id
-        result["commenter_id"] = user_id
         result["content"] = content
         result["comment_date"] = comment_info[0]["time"]
         result["average_rating"] = comment_info2[0].ratingAverage["agreement__avg"]
@@ -246,23 +249,40 @@ class DebateViewSet(viewsets.ViewSet):
         try:
             debate_id = request.query_params["debate_id"]
             # Gets the response info
+            list_of_results = []
             result = {}
             result["debate_id"] = debate_id  # Gets the debate_id
 
             debate_info = DebateComment.objects.filter(post_id=debate_id).values()
-            debate_info2 = DebateComment.objects.filter(post_id=debate_id)
-            result["comment_id"] = debate_info[0]["id"]
-            result["commenter_id"] = debate_info[0]["commenter_id"]
-            result["content"] = debate_info[0]["content"].strip()
-            result["comment_date"] = debate_info[0]["time"]
-            result["average_rating"] = debate_info2[0].ratingAverage["agreement__avg"]
-            result["number_of_ratings"] = Rate.objects.filter(
-                comment_id=debate_info[0]["id"]
-            ).aggregate(Count("comment_id"))["comment_id__count"]
-            result["user"] = {"id": request.user.id, "username": request.user.username}
-            return Response(result)
+
+            for item in debate_info:
+                result = {}
+                result["comment_id"] = item["id"]
+                result["content"] = item["content"].strip()
+                result["comment_date"] = item["time"]
+                debate_info2 = DebateComment.objects.filter(
+                    post_id=debate_id, id=item["id"]
+                )
+                result["average_rating"] = debate_info2[0].ratingAverage[
+                    "agreement__avg"
+                ]
+                result["number_of_ratings"] = Rate.objects.filter(
+                    comment_id=item["id"]
+                ).aggregate(Count("comment_id"))["comment_id__count"]
+                result["user"] = {
+                    "id": item["commenter_id"],
+                    "username": User.objects.filter(id=item["commenter_id"]).values()[
+                        0
+                    ]["username"],
+                }
+                list_of_results.append(result)
+            for item in list_of_results:
+                print(item)
+                print(" ")
+            return Response(list_of_results)
         except Exception as e:
             print(e)
             return Response(
                 {"details": "The id is invalid."}, status=status.HTTP_400_BAD_REQUEST
             )
+
