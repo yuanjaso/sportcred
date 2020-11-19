@@ -24,21 +24,28 @@
   padding: 0.5rem;
   background-color: $grey;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   > * {
     @extend .white-font;
   }
-  > .title {
-    color: $green;
-    @extend .font-secondary;
-    cursor: pointer;
-  }
 
-  > .time-posted {
-    @extend .font-footer;
-    color: $bg-black;
+  .info {
+    display: flex;
+    flex-direction: column;
+    > .title {
+      color: $green;
+      @extend .font-secondary;
+      cursor: pointer;
+    }
+
+    > .time-posted {
+      @extend .font-footer;
+      color: $bg-black;
+    }
+    > .comment-number {
+      @extend .font-tertiary;
+    }
   }
-  > .comment-number {
-    @extend .font-tertiary;
+  .acs {
   }
 }

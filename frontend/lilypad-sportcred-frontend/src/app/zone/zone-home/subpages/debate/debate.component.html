@@ -1,14 +1,21 @@
 <ng-container *ngIf="topics !== undefined; else loading">
     <div class="host">
         <div class="debate-row" *ngFor="let topic of topics">
-            <a [routerLink]="" [queryParams]="{debateId: topic.id}" class="title">
-                {{topic.title}}
-            </a>
-            <div class="time-posted" [innerHTML]="topic.post_date | parseDate">
+            <div class="info">
+                <a [routerLink]="" [queryParams]="{debateId: topic.id}" class="title">
+                    {{topic.title}}
+                </a>
+                <div class="time-posted" [innerHTML]="topic.post_date | parseDate">
+                </div>
+                <div class="comment-number">    
+                    {{topic.num_of_comments}} {{" comments"}}
+                </div>
             </div>
-            <div class="comment-number">    
-                {{topic.num_of_comments}} {{" comments"}}
+            <div class="acs">
+                {{topic.acs_rank}}
+                {{topic.has_valid_acs}}
             </div>
+
         </div>
     </div>
 </ng-container>
