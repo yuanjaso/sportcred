@@ -18,6 +18,13 @@ class Command(BaseCommand):
             super_user = Profile.objects.create(
                 user_id=1, status="not much", about="not much"
             )
+            user = Profile.objects.get(pk=2)
+            history = TriviaAcsHistory.create(  # Attach a trivia instance
+                delta=200,
+                profile=user,
+                sport=Sport.objects.get(pk=1),
+            )
+            history.save()
             with open(input_file, "r") as f:
                 data = load(f.read())
             profile = data["profile"]

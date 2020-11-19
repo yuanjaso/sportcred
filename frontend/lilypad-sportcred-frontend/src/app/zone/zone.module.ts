@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../global/material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { SearchBarComponent } from './header/search-bar/search-bar.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { ZoneEffects } from './store/effects';
 import { zoneFeatureKey, zoneReducer } from './store/reducers';
@@ -24,6 +25,7 @@ import { ZoneComponent } from './zone.component';
     LiveDialogComponent,
     SearchBarComponent,
     SearchResultsComponent,
+    NotificationsComponent,
   ],
   imports: [
     StoreModule.forFeature(zoneFeatureKey, zoneReducer),

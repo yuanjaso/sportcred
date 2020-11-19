@@ -195,11 +195,11 @@ class TriviaSerializer(serializers.ModelSerializer):
 
 class DebateSerializer(serializers.ModelSerializer):
 
-    sport = serializers.SerializerMethodField()
     num_of_comments = serializers.SerializerMethodField()
 
     class Meta:
         model = DebatePost
+        depth = 2
         fields = [
             "id",
             "content",
@@ -207,10 +207,8 @@ class DebateSerializer(serializers.ModelSerializer):
             "sport",
             "title",
             "num_of_comments",
+            "acs_rank",
         ]
-
-    def get_sport(self, obj):
-        return obj.related_to_debate_posts.values_list("id", flat=True)
 
     def get_num_of_comments(self, obj):
         num = DebateComment.objects.filter(post=obj).count()

@@ -1,17 +1,16 @@
 import { createAction, props } from '@ngrx/store';
 import { ACS } from '../../../../subpages/profile/profile.types';
-import {
-  TriviaInstance,
-  TriviaQuestions,
-  TriviaResults
-} from '../trivia.types';
+import { TriviaInstance, TriviaResults } from '../trivia.types';
 
-export const getTriviaQuestions = createAction('[Trivia] Get Trivia Questions');
-export const setTriviaQuestions = createAction(
-  '[Trivia] Set Trivia Questions',
-  props<{ triviaQuestions: TriviaQuestions[] }>()
+export const queryForTriviaGames = createAction(
+  '[Trivia] Query For Trivia Games'
+);
+export const setAllTriviaInstances = createAction(
+  '[Trivia] Set All Trivia Instances',
+  props<{ allTriviaInstances: TriviaInstance[] }>()
 );
 
+// dispatch this action after the trivia instance is created for either single/multi player games
 export const createTriviaInstance = createAction(
   '[Trivia] Create Trivia Instance',
   props<{ sportId: number; opponentUserId: number | null }>()
