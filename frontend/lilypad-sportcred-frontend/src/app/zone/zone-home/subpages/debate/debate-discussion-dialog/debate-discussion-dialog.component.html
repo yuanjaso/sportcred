@@ -11,24 +11,24 @@
                     {{debateTopic.num_of_comments}} {{" comments"}}
                 </div>
             </div>
-            <!-- todo comment box here-->
-    
-            <div id="add-comment-form" class="row" *ngIf="debateTopic.has_valid_acs">
-              <mat-form-field appearance="fill">
-                <textarea matInput type="text" [(ngModel)]="debateAnswer" rows="10"></textarea>
-              </mat-form-field>
-              <button
-                mat-raised-button
-                color="accent"
-                (click)="submitDebateAnswer(debateAnswer)"
-                [disabled]="debateAnswer.length === 0"
-                >
-                Add Answer
-              </button>
-            </div>
 
             <ng-container *ngIf="discussion?.length > 0; else nocomments">
                 <div class="comment-box">
+
+                    <div id="add-comment-form" class="row"  *ngIf="debateTopic.has_valid_acs">
+                        <mat-form-field appearance="fill">
+                          <textarea matInput type="text" [(ngModel)]="debateAnswer" rows="5"></textarea>
+                        </mat-form-field>
+                        <button
+                          mat-raised-button
+                          color="accent"
+                          (click)="submitDebateAnswer(debateAnswer)"
+                          [disabled]="debateAnswer.length === 0"
+                          >
+                          Submit
+                        </button>
+                      </div>
+
                     <div class="comment-row" *ngFor="let comment of discussion">
                         <div class="header">
                             <div class="username">

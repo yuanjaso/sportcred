@@ -62,17 +62,16 @@
 
 div#add-comment-form {
   padding: 0.5rem;
-
-  > button {
-    align-self: center;
-    height: 5rem;
-  }
+  display: flex;
 
   > mat-form-field {
-    color: $white;
-    background-color: $black;
+    @extend .black-font;
+    background-color: $white;
     flex-grow: 1;
-    margin-right: 0.5rem;
+    margin-right: 1rem;
+    > .mat-form-field-wrapper {
+      margin: 1rem 1rem 0 1rem;
+    }
   }
 }
 
