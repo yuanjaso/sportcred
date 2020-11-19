@@ -19,6 +19,7 @@ import {
   rateDebateComment,
 } from '../store/debate.actions';
 import { selectDebateTopic } from '../store/debate.selectors';
+
 export interface DiscussionDialogData {
   debateId: number;
 }
@@ -41,7 +42,7 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   protected commentTrackBy: TrackByFunction<DebateComment> = (
     index: number,
     el
-  ) => el.comment_id
+  ) => el.comment_id;
 
   constructor(
     public dialogRef: MatDialogRef<DiscussionDialogData>,
@@ -61,7 +62,6 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
       });
     this.subscriptions.add(
       this.debateService.hotDebateDiscussion$.subscribe((discussion) => {
-        console.log(discussion);
         this.discussion = discussion;
         discussion.forEach((comment) => {
           if (this.debateRatings[comment.comment_id] === undefined) {
@@ -82,13 +82,6 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
     }, timeout);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
   /**
    * @param answer same value as `this.debateAnswer` but I passed it in so that the relationship is explicitly defined for readability
    */
@@ -105,5 +98,12 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line: variable-name
   submitRating(comment_id: number, rating: Rating): void {
     this.store.dispatch(rateDebateComment({ payload: { rating, comment_id } }));
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
