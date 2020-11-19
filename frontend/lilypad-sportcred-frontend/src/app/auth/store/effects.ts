@@ -27,6 +27,7 @@ export class AuthEffects {
                 //also dispatch the login action, which sole purpose
                 // is to wait for the token in the store to change, then routing accordingly
                 type: login.type,
+                returnUrl: info.returnUrl,
               },
             ];
           }),

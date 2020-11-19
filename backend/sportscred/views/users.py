@@ -87,6 +87,7 @@ class UserViewSet(viewsets.ViewSet):
                 {
                     "token": token.key,
                     "user_id": user.pk,
+                    "username": user.username,
                     "is_superuser": user.is_superuser,
                     "questionaire_registered": user.profile.questionaire_registered,
                 }
@@ -107,6 +108,7 @@ class UserViewSet(viewsets.ViewSet):
                     {
                         "token": token.key,
                         "user_id": user.pk,
+                        "username": user.username,
                         "is_superuser": user.is_superuser,
                         "questionaire_registered": user.profile.questionaire_registered,
                     }

@@ -23,10 +23,9 @@ import { ZoneService } from '../zone.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
   sidenavExpanded: boolean;
-
+  curPage: string;
   triviaNotification$: Subject<TriviaNotification>;
 
-  curPage$: Observable<string>;
   all_routes = all_routes;
 
   constructor(
@@ -53,32 +52,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * this function sets the observer for cur page
-   * we need to split this functionality into 2
-   * 1) subscribe to the on created route
-   * 2) subscribe to everyother subsiquent route change
-   */
   setCurPage() {
-    // 1) step
-    this.curPage$ = of(this.route.snapshot['_routerState'].url);
-    // 2) step
-    this.router.events
-      .pipe(
-        filter((r) => r instanceof NavigationEnd),
-        first(() => {
-          this.curPage$ = this.router.events.pipe(
-            filter((r) => r instanceof NavigationEnd),
-            map((r: NavigationEnd) => r.urlAfterRedirects)
-          );
-          return true;
+    //init route
+    this.curPage = this.route.snapshot['_routerState'].url;
+    this.subscriptions.add(
+      //then listen to every subsiquent route change
+      this.router.events
+        .pipe(filter((r) => r instanceof NavigationEnd))
+        .subscribe((r: NavigationEnd) => {
+          this.zoneService.sideNavToggle$.next(this.sidenavExpanded);
+          this.curPage = r.url;
         })
-      )
-      .subscribe();
+    );
   }
 
   toggle(e) {
-    console.log(e);
     this.zoneService.sideNavToggle$.next(e.checked);
   }
   ngOnDestroy() {

@@ -5,11 +5,11 @@ import { Store } from '@ngrx/store';
 import { all_routes } from '../../global/routing-statics';
 import { getUserInfo, clearLoginToken } from '../auth/store/actions';
 import { AppState } from '../store/reducer';
-import { clearAllZoneData } from './../zone/store/actions';
 import { MatDialog } from '@angular/material/dialog';
 import { BasicRegistrationDialogComponent } from './basic-registration-dialog/basic-registration-dialog.component';
 import { LoginService } from './login.service';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private store: Store<AppState>,
     private LoginService: LoginService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute
   ) {
     this.titleService.setTitle(all_routes.login.title);
   }
@@ -44,7 +45,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (!this.form.valid) return;
     const email = this.form.controls.email.value;
     const password = this.form.controls.password.value;
-    this.store.dispatch(getUserInfo({ username: email, password }));
+    this.store.dispatch(
+      getUserInfo({
+        username: email,
+        password,
+        returnUrl: this.route.snapshot.queryParams['returnUrl'],
+      })
+    );
   }
   register(): void {
     const dialogRef = this.dialog.open(BasicRegistrationDialogComponent);

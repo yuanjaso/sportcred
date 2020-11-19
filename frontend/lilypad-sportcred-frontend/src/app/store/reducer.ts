@@ -7,12 +7,17 @@ import {
   ProfileState,
 } from '../zone/subpages/profile/store/profile.reducer';
 import {
+  debateReducer,
+  DebateState,
+} from '../zone/zone-home/subpages/debate/store/debate.reducer';
+import {
   triviaReducer,
   TriviaState,
 } from '../zone/zone-home/subpages/trivia/store/trivia.reducer';
 
 export interface AppState {
   trivia: TriviaState;
+  debate: DebateState;
   auth: AuthState;
   login: LoginState;
   profile: ProfileState;
@@ -21,6 +26,7 @@ export interface AppState {
 
 export const appReducers: ActionReducerMap<AppState> = {
   trivia: triviaReducer,
+  debate: debateReducer,
   auth: authReducer,
   login: loginReducer,
   profile: profileReducer,

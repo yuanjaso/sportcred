@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import {
   profileACSHistoryURL,
   profilePictureURL,
-  profileURL
+  profileURL,
 } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import { User } from '../../zone-home/subpages/trivia/trivia.types';
@@ -13,7 +13,7 @@ import {
   ACSHistory,
   Profile,
   RadarList,
-  UpdateProfilePayload
+  UpdateProfilePayload,
 } from './profile.types';
 
 @Injectable()
@@ -62,7 +62,6 @@ export class ProfileService {
   }
 
   updateProfilePicture(picture: File): Observable<Profile> {
-    console.log(picture);
     let formData = new FormData();
     formData.append('media', picture);
     return this.httpClient.put(profilePictureURL, formData);
