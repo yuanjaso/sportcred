@@ -16,6 +16,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ZoneHomeModule } from './zone-home/zone-home.module';
 import { ZoneRoutingModule } from './zone-routing.module';
 import { ZoneComponent } from './zone.component';
+import { SharedModule } from '../shared-components/shared-components.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ZoneComponent } from './zone.component';
     ProfileModule,
     AdminModule,
     ZoneHomeModule,
+    SharedModule,
   ],
 })
 export class ZoneModule {}

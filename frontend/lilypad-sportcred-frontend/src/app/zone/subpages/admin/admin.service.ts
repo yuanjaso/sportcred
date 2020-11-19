@@ -4,7 +4,8 @@ import { Subject } from 'rxjs/internal/Subject';
 import { questionaireResponseURL } from 'src/global/api.types';
 import * as apis from '../../../../global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
-import { PostDebate, QuestionnaireResponse } from './admin.types';
+import { PostDebate } from '../../zone-home/subpages/debate/debate.types';
+import { QuestionnaireResponse } from './admin.types';
 
 @Injectable()
 export class AdminService {

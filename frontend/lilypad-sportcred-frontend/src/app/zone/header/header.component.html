@@ -22,7 +22,7 @@
       notifications
     </mat-icon>
   </button>
-  <div *ngIf="curPage?.includes(all_routes.zonehome.url)">
+  <div *ngIf="curPage | includesPipe : all_routes.zonehome.url">
     <mat-slide-toggle  [(ngModel)]="sidenavExpanded" (change)="toggle($event)"> </mat-slide-toggle>
    </div>
 </mat-toolbar>

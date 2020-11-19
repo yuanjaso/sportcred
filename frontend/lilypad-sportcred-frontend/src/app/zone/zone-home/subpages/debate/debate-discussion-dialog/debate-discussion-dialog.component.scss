@@ -11,6 +11,11 @@
   > .comment-number {
     cursor: unset;
   }
+  > .topic-content {
+    margin: 0.5rem 0;
+    background: $bg-black;
+    padding: 0.5rem;
+  }
 }
 
 .comment-box {
@@ -56,6 +61,7 @@
   .content {
     @extend .font-tertiary;
     padding: 0.5rem 0;
+    word-break: break-word;
   }
 }
 

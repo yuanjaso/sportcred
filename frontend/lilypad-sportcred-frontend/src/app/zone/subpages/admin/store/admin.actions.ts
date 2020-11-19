@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PostDebate } from '../admin.types';
+import { PostDebate } from 'src/app/zone/zone-home/subpages/debate/debate.types';
 
 export const getQuestionnaireResponse = createAction(
   '[Profile] Get Questionnaire Response',

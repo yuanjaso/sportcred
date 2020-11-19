@@ -26,10 +26,3 @@ export interface QuestionnaireResponse {
       }
     | { id: number; name: string };
 }
-
-export interface PostDebate {
-  title: string;
-  content: string;
-  sport: number;
-  acs_rank: string;
-}

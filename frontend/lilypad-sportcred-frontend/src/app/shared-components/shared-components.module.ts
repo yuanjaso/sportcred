@@ -7,6 +7,7 @@ import { BarEchartsComponent } from './echarts/bar-echart.component';
 import { TableComponent } from './table/table.component';
 import { UrlifyPipe } from './urlify.pipe';
 import { ParseDatePipe } from './parse-date.pipe';
+import { IncludesPipePipe } from './includes-pipe.pipe';
 
 const modules = [
   AreaEchartsComponent,
@@ -14,6 +15,7 @@ const modules = [
   TableComponent,
   UrlifyPipe,
   ParseDatePipe,
+  IncludesPipePipe,
 ];
 
 @NgModule({

@@ -9,7 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from '../../../../../store/reducer';
-import { DebateComment, playerRank } from '../debate.types';
+import { DebateComment, DebateTopic } from '../debate.types';
 import { getDebateDiscussion } from '../store/debate.actions';
 import { selectDebateTopic } from '../store/debate.selectors';
 import { DebateService } from '../debate.service';
@@ -27,7 +27,7 @@ export interface DiscussionDialogData {
 export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
   discussion: DebateComment[] = undefined;
-  debateTopic = undefined;
+  debateTopic: DebateTopic = undefined;
   timedout = false;
   constructor(
     public dialogRef: MatDialogRef<DiscussionDialogData>,
@@ -43,7 +43,7 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
     this.store
       .select(selectDebateTopic, { debateId: this.data.debateId })
       .pipe(first((a) => !!a))
-      .subscribe((debate) => {
+      .subscribe((debate: DebateTopic) => {
         this.debateTopic = debate;
       });
     this.subscriptions.add(

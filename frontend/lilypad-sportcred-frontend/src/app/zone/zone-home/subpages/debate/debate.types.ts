@@ -1,4 +1,4 @@
-export enum playerRank {
+export enum PlayerRank {
   EXPERT_ANALYST = 'E',
   PRO_ANALYST = 'P',
   ANALYST = 'A',
@@ -6,7 +6,7 @@ export enum playerRank {
 }
 export interface DebateTopic {
   id: number;
-  acs_rank: playerRank;
+  acs_rank: PlayerRank;
   sport: number;
   title: string;
   content: string;
@@ -22,4 +22,10 @@ export interface DebateComment {
   average_rating: number;
   number_of_ratings: number;
   comment_date: string;
+}
+export interface PostDebate {
+  title: string;
+  content: string;
+  sport: number;
+  acs_rank: string;
 }
