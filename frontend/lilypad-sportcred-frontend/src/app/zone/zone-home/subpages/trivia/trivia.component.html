@@ -7,7 +7,11 @@
     <mat-form-field appearance="fill">
       <mat-label>Select Sport to Play</mat-label>
       <mat-select [(ngModel)]="selectedSportId">
-        <mat-option *ngFor="let sport of sports$ | async" [value]="sport.id">
+        <mat-option
+          *ngFor="let sport of sports$ | async"
+          [value]="sport.id"
+          [disabled]="sport.name !== 'Basketball'"
+        >
           {{ sport.name }}
         </mat-option>
       </mat-select>
@@ -23,9 +27,11 @@
     </mat-form-field>
   </div>
   <div class="buttons-layout">
-    <button [routerLink]="singleLink" mat-flat-button (click)="onCreateGame()">
+    <button mat-flat-button (click)="onCreateGame('single')">
       Single Player
     </button>
-    <button mat-flat-button (click)="onCreateGame()">Multi Player</button>
+    <button mat-flat-button (click)="onCreateGame('multi')">
+      Multi Player
+    </button>
   </div>
 </div>

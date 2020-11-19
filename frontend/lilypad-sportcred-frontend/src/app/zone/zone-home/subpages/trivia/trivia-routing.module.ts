@@ -7,6 +7,8 @@ import { TriviaComponent } from './trivia.component';
 const routes: Routes = [
   { path: '', component: TriviaComponent },
   { path: all_routes.single_trivia.url, component: SingleTriviaComponent },
+  // ! change this component
+  { path: all_routes.multiplayertrivia.url, component: SingleTriviaComponent },
 ];
 
 @NgModule({

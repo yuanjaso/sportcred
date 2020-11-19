@@ -44,7 +44,7 @@ class DebateViewSet(viewsets.ViewSet):
             post = DebatePost.objects.create(
                 title=body["title"], content=body["content"], acs_rank=body["acs_rank"]
             )
-            post.related_to_debate_posts.add(sport)
+            post.sport = sport
             post.save()
             return Response(DebateSerializer(post).data)
         except Exception as e:
@@ -57,9 +57,14 @@ class DebateViewSet(viewsets.ViewSet):
     def list(self, request):
         # Gets the comment id and rating
         posts = DebatePost.objects.all()
+        profile = request.user.profile
+        # hard coded for basketball for now
+        sport = Sport.objects.get(pk=1)
+        score = ACS.objects.get(profile=profile, sports=sport).score
+
         if "sport_id" in request.query_params:
             sport = Sport.objects.get(pk=request.query_params["sport_id"])
-            posts = posts.filter(related_to_debate_posts=sport)
+            posts = posts.filter(sport=sport)
         elif "sport_name" in request.query_params:
             try:
                 sport = Sport.objects.get(
@@ -69,10 +74,23 @@ class DebateViewSet(viewsets.ViewSet):
                 return Response(
                     {"details": "thats not a sport"}, status=status.HTTP_400_BAD_REQUEST
                 )
-            posts = posts.filter(related_to_debate_posts=sport)
+            posts = posts.filter(sport=sport)
         if "acs_rank" in request.query_params:
             posts.filter(acs_rank=request.query_params["acs_rank"])
-        return Response(DebateSerializer(posts, many=True).data)
+        debates = DebateSerializer(posts, many=True).data
+        result = []
+        for post in debates:
+            if post["acs_rank"] == "E" and score > 899:
+                post["has_valid_acs"] = True
+            elif post["acs_rank"] == "P" and score > 599:
+                post["has_valid_acs"] = True
+            elif post["acs_rank"] == "A" and score > 299:
+                post["has_valid_acs"] = True
+            elif post["acs_rank"] == "F" and score > 99:
+                post["has_valid_acs"] = True
+            else:
+                post["has_valid_acs"] = False
+        return Response(result)
 
     # Updates the ratings for the comments.
     @action(detail=False, methods=["put"])
@@ -135,11 +153,7 @@ class DebateViewSet(viewsets.ViewSet):
                     profile=User.objects.get(
                         pk=comment_info[0]["commenter_id"]
                     ).profile,
-                    sport=Sport.objects.get(
-                        pk=DebatePost.objects.first().related_to_debate_posts.values()[
-                            0
-                        ]["id"]
-                    ),
+                    sport=Sport.objects.get(pk=1),
                 )
                 debate.debate_comment = DebateComment.objects.get(id=comment_id)
                 debate.save()
@@ -149,11 +163,7 @@ class DebateViewSet(viewsets.ViewSet):
                     profile=User.objects.get(
                         pk=comment_info[0]["commenter_id"]
                     ).profile,
-                    sport=Sport.objects.get(
-                        pk=DebatePost.objects.first().related_to_debate_posts.values()[
-                            0
-                        ]["id"]
-                    ),
+                    sport=Sport.objects.get(pk=1),
                 )
                 debate.debate_comment = DebateComment.objects.get(id=comment_id)
                 debate.save()
@@ -186,11 +196,7 @@ class DebateViewSet(viewsets.ViewSet):
             debate_acs_rank = DebatePost.objects.filter(id=debate_id).values()[0][
                 "acs_rank"
             ]  # Gets the acs rank
-            debate_acs_sport_id = DebatePost.objects.first().related_to_debate_posts.values()[
-                0
-            ][
-                "id"
-            ]  # Gets the sport id
+            debate_acs_sport_id = 1  # hard code basketball for now
         except Exception as e:
             print(e)
             return Response(
@@ -203,6 +209,7 @@ class DebateViewSet(viewsets.ViewSet):
             profile_id=user_id, sports_id=debate_acs_sport_id
         ).values()[0]["score"]
 
+        print(user_acs_score)
         # Gets the user's ACS tier for that sport.
         user_acs_tier = ""
         if 100 <= user_acs_score <= 300:
@@ -213,6 +220,9 @@ class DebateViewSet(viewsets.ViewSet):
             user_acs_tier = "P"
         else:
             user_acs_tier = "E"
+
+        print(user_acs_tier)
+        print(debate_acs_rank)
 
         if not (user_acs_tier == debate_acs_rank):
             return Response(
@@ -285,4 +295,3 @@ class DebateViewSet(viewsets.ViewSet):
             return Response(
                 {"details": "The id is invalid."}, status=status.HTTP_400_BAD_REQUEST
             )
-

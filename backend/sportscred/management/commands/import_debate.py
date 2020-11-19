@@ -25,7 +25,7 @@ class Command(BaseCommand):
                     title=item["title"],
                     acs_rank=item["acs_rank"],
                 )
-                debate.related_to_debate_posts.add(sport)
+                debate.sport = sport
                 debate.save()
             comment = data["comments"]
             for item in comment:
