@@ -29,27 +29,29 @@ def test_user_creation():
 
 def test_login():
     # username works
-    res = auth_user("michael", "doughs")
+    res = auth_user("myco", "doughs")
     assert res.status_code == 200
     assert list(res.json().keys()) == [
         "token",
         "user_id",
+        "username",
         "is_superuser",
         "questionaire_registered",
     ]
 
     # email also works
-    res = auth_user("michael_doughs@gmail.com", "doughs")
+    res = auth_user("myco_doughs@gmail.com", "doughs")
     assert res.status_code == 200
     assert list(res.json().keys()) == [
         "token",
         "user_id",
+        "username",
         "is_superuser",
         "questionaire_registered",
     ]
 
     # fails on bad passwords
-    res = auth_user("michael_doughs@gmail.com", "doughse")
+    res = auth_user("myco_doughs@gmail.com", "doughse")
     assert res.status_code == 401
 
     # fails on bad username/email
@@ -58,7 +60,7 @@ def test_login():
 
 
 def test_query_user():
-    res = auth_user("michael_doughs@gmail.com", "doughs")
+    res = auth_user("myco_doughs@gmail.com", "doughs")
     token = res.json()["token"]
     res = get_users(token)
     assert res.status_code == 200
