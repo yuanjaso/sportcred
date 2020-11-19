@@ -1,8 +1,17 @@
+import { ACS } from '../../../subpages/profile/profile.types';
+
 // @deprecated
 export interface TriviaQuestions {
   question: any;
   answers: any[];
   correctAnswer: any;
+}
+
+export const UNPLAYED_GAME = '';
+
+export interface TriviaNotification {
+  count: number | null;
+  triviaInstances: TriviaInstance[];
 }
 
 export interface User {
@@ -18,8 +27,9 @@ export interface TriviaInstance {
   date: string;
   sport: { id: number; name: string };
   questions: TriviaQuestion[];
-  score: string;
+  score: string | null;
   creation_date: string;
+  opponentName?: string;
 }
 
 export interface Answer {
@@ -44,3 +54,5 @@ export interface TriviaResults {
     submission_time: string;
   }[];
 }
+
+export type TriviaAnswersResponse = ACS | TriviaInstance | null;
