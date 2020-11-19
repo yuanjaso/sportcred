@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
+import { EMPTY, from } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DebateService } from '../debate.service';
 import { DebateComment, DebateTopic } from '../debate.types';
@@ -41,5 +41,33 @@ export class DebateEffects {
         })
       ),
     { dispatch: false }
+  );
+
+  postDebateComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.postDebateComment),
+      mergeMap(({ payload }) => this.debateService.postDebateComment(payload)),
+      mergeMap((payload) =>
+        from([
+          // easy way to refresh comment list
+          actions.getDebateDiscussion({ topic_id: payload.debate_id }),
+          // refresh the main component for fields like # of comments
+          actions.getDebateTopics(),
+        ])
+      )
+    )
+  );
+
+  rateDebate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.rateDebateComment),
+      mergeMap(({ payload }) => this.debateService.rateDebateComment(payload)),
+      mergeMap((payload) =>
+        from([
+          // easy way to refresh comment list
+          actions.getDebateDiscussion({ topic_id: payload.debate_id }),
+        ])
+      )
+    )
   );
 }
