@@ -90,6 +90,7 @@ class DebateViewSet(viewsets.ViewSet):
                 post["has_valid_acs"] = True
             else:
                 post["has_valid_acs"] = False
+            result.append(post)
         return Response(result)
 
     # Updates the ratings for the comments.
