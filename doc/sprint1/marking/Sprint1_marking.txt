@@ -104,7 +104,7 @@ Tracking on Jira:  (Max 20 marks)
   [4=pull request for 1 or more tasks not made from own separate branch]
   [5=pull request for each task made from own separate branch]
   
-2/2
+5/5
 
 - Is the git commit message clear?
   [0=majority of commit message do not begin with the ticket number of the task followed by a short description of commit changes]
