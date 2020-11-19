@@ -94,6 +94,7 @@ class ProfileViewSet(viewsets.ViewSet):
                 # highlights is also known as favourite_sports
                 highlights = request.data["favourite_sports"]
                 try:
+                    profile.favourite_sports.clear()
                     for highlight in highlights:
                         try:
                             s = Sport.objects.get(id=highlight)
