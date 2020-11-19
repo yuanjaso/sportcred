@@ -1,9 +1,9 @@
 import { createSelector } from '@ngrx/store';
 import { selectFeatureTrivia } from '../../../../../store/selectors';
 
-export const selectTriviaQuestions = createSelector(
+export const selectAllTriviaInstances = createSelector(
   selectFeatureTrivia,
-  (state) => state.triviaQuestions
+  (state) => state.allTriviaInstances
 );
 
 export const selectUpdatedACS = createSelector(

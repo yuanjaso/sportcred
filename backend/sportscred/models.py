@@ -56,7 +56,7 @@ class DebatePost(models.Model):
     content = models.CharField(max_length=500, blank=False, null=False)
     title = models.CharField(max_length=100, unique=True)
     post_date = models.DateTimeField(auto_now_add=True)
-    related_to_debate_posts = models.ManyToManyField("Sport")
+    sport = models.ForeignKey("Sport", on_delete=models.CASCADE, blank=True, null=True)
     EXPERT_ANALYST = "E"
     PRO_ANALYST = "P"
     ANALYST = "A"
