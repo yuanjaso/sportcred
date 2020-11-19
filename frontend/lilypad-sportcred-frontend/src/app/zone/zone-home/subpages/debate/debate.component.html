@@ -1,0 +1,32 @@
+<ng-container *ngIf="topics !== undefined; else loading">
+    <div class="host">
+        <div class="debate-row" *ngFor="let topic of topics">
+            <div class="info">
+                <a [routerLink]="" [queryParams]="{debateId: topic.id}" class="title">
+                    {{topic.title}}
+                </a>
+                <div class="time-posted" [innerHTML]="topic.post_date | parseDate">
+                </div>
+                <div class="comment-number">    
+                    {{topic.num_of_comments}} {{" comments"}}
+                </div>
+            </div>
+            <div style="flex-grow: 9;"></div>
+            <div class="acs">
+                <div class="box access" [class.access]="topic.has_valid_acs"
+                >
+                    {{translateRank[topic.acs_rank]}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #loading>
+    <div class="spinner">
+        <mat-spinner ></mat-spinner>
+    </div>
+</ng-template>
+  
+  

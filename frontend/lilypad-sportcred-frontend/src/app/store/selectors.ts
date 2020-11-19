@@ -7,6 +7,10 @@ import {
   ProfileState,
 } from '../zone/subpages/profile/store/profile.reducer';
 import {
+  debateFeatureKey,
+  DebateState,
+} from '../zone/zone-home/subpages/debate/store/debate.reducer';
+import {
   triviaFeatureKey,
   TriviaState,
 } from '../zone/zone-home/subpages/trivia/store/trivia.reducer';
@@ -14,6 +18,10 @@ import { AppState } from './reducer';
 
 export const selectFeatureTrivia = createFeatureSelector<AppState, TriviaState>(
   triviaFeatureKey
+);
+
+export const selectFeatureDebate = createFeatureSelector<AppState, DebateState>(
+  debateFeatureKey
 );
 
 export const selectFeatureAuth = createFeatureSelector<AppState, AuthState>(
