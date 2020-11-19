@@ -4,6 +4,12 @@ export enum PlayerRank {
   ANALYST = 'A',
   FANALYST = 'F',
 }
+export enum PlayerRankInverted {
+  E = 'EXPERT ANALYST',
+  P = 'PRO ANALYST',
+  A = 'ANALYST',
+  F = 'FANALYST',
+}
 export interface DebateTopic {
   id: number;
   acs_rank: PlayerRank;

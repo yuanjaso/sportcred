@@ -41,12 +41,7 @@
       // width: 10rem;
       max-width: 90vw;
       height: auto;
-      background: rgb(34, 193, 195);
-      background: linear-gradient(
-        to right,
-        rgb(242, 112, 156),
-        rgb(255, 148, 114)
-      );
+      background: $bg-gradient;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       justify-items: center;

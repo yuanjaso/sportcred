@@ -11,9 +11,12 @@
                     {{topic.num_of_comments}} {{" comments"}}
                 </div>
             </div>
+            <div style="flex-grow: 9;"></div>
             <div class="acs">
-                {{topic.acs_rank}}
-                {{topic.has_valid_acs}}
+                <div class="box access" [class.access]="topic.has_valid_acs"
+                >
+                    {{translateRank[topic.acs_rank]}}
+                </div>
             </div>
 
         </div>

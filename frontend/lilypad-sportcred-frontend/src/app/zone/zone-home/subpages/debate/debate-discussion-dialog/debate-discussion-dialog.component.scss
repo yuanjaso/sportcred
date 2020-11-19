@@ -3,7 +3,9 @@
   display: flex;
   flex-direction: column;
 }
-.debate-row {
+.header-debate-row {
+  @extend .debate-row;
+  flex-direction: column;
   > div.title {
     @extend .font-primary;
     cursor: unset;
@@ -84,7 +86,7 @@
           border-radius: 1.25rem;
           background-color: $white;
           margin-right: 1rem;
-          padding: 0 1rem;
+          padding: 0 0.5rem;
           height: 1.2rem;
           display: flex;
           align-items: center;

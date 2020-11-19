@@ -47,5 +47,23 @@
     }
   }
   .acs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.5rem;
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.5;
+      background-color: $darkgrey;
+      border-radius: 10px;
+      height: 100%;
+      width: 8rem;
+      &.access {
+        opacity: 1;
+        background: $bg-gradient;
+      }
+    }
   }
 }

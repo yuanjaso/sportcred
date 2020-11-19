@@ -19,6 +19,7 @@ import { selectAllDebateTopics } from './store/debate.selectors';
 })
 export class DebateComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
+  translateRank = types.PlayerRankInverted;
   constructor(
     private store: Store<AppState>,
     public router: Router,
