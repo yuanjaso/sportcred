@@ -15,6 +15,7 @@
             <ng-container *ngIf="discussion?.length > 0; else nocomments">
                 <div class="comment-box">
 
+
                     <div id="add-comment-form" class="row"  *ngIf="debateTopic.has_valid_acs">
                         <mat-form-field appearance="fill">
                           <textarea matInput type="text" [(ngModel)]="debateAnswer" rows="5"></textarea>
@@ -29,13 +30,55 @@
                         </button>
                       </div>
 
-                    <div class="comment-row" *ngFor="let comment of discussion">
+                      <div class="comment-row" *ngFor="let comment of discussion; trackBy:commentTrackBy">
                         <div class="header">
-                            <div class="username">
-                                {{comment.user.username}}
+                            <div class="info">
+                                <div class="username">
+                                    {{comment.user.username}}
+                                </div>
+                                <div class="time" [innerHTML]="comment.comment_date | parseDate">
+                                </div>
                             </div>
-                            <div class="time" [innerHTML]="comment.comment_date | parseDate">
+                            <div style="flex-grow: 1"></div>
+
+                            <div class="rating-stat">                             
+                                <div class="num-rating">
+                                {{comment.number_of_ratings + ' ratings'}}
+                              </div>
+                              <div class="current-rating">
+                                Avg Rating: 
+                                <ng-container *ngIf="comment.average_rating !== null; else nullRating">
+                                  {{ comment.average_rating | number:'1.2-2' }}
+                                </ng-container>
+                                <ng-template #nullRating>0</ng-template>
+                              </div>
+                              <div class="rating row">
+                                  <div class="slider-container">
+                                      <mat-slider
+                                      color="accent"
+                                      [(ngModel)]="debateRatings[comment.comment_id]"
+                                      [step]="1"
+                                      [min]="0"
+                                      [max]="10"
+                                    >
+                                    </mat-slider>
+                                  </div>
+                                <div class="slider-rating">{{ debateRatings[comment.comment_id] }}</div>
+                                <button
+                                  mat-raised-button
+                                  color="accent"
+                                  (click)="
+                                    submitRating(
+                                      comment.comment_id,
+                                      debateRatings[comment.comment_id]
+                                    )
+                                  "
+                                >
+                                  Rate
+                                </button>
+                              </div>
                             </div>
+                   
                         </div>
                         <div class="content" [innerHTML]="comment.content | urlify">
                             <!-- NOTE: this is prob unsecure -->

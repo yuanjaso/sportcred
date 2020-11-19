@@ -57,4 +57,17 @@ export class DebateEffects {
       )
     )
   );
+
+  rateDebate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.rateDebateComment),
+      mergeMap(({ payload }) => this.debateService.rateDebateComment(payload)),
+      mergeMap((payload) =>
+        from([
+          // easy way to refresh comment list
+          actions.getDebateDiscussion({ topic_id: payload.debate_id }),
+        ])
+      )
+    )
+  );
 }

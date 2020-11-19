@@ -3,6 +3,7 @@ import {
   Inject,
   OnDestroy,
   OnInit,
+  TrackByFunction,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,10 +12,11 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from '../../../../../store/reducer';
 import { DebateService } from '../debate.service';
-import { DebateComment, DebateTopic } from '../debate.types';
+import { DebateComment, DebateTopic, Rating } from '../debate.types';
 import {
   getDebateDiscussion,
   postDebateComment,
+  rateDebateComment,
 } from '../store/debate.actions';
 import { selectDebateTopic } from '../store/debate.selectors';
 
@@ -35,6 +37,12 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
   timedout = false;
 
   protected debateAnswer = '';
+  protected debateRatings: { [commentId: number]: number } = {};
+  // this track by is needed as the comments will get updated each time there is a rating change + new comment
+  protected commentTrackBy: TrackByFunction<DebateComment> = (
+    index: number,
+    el
+  ) => el.comment_id;
 
   constructor(
     public dialogRef: MatDialogRef<DiscussionDialogData>,
@@ -55,6 +63,11 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.debateService.hotDebateDiscussion$.subscribe((discussion) => {
         this.discussion = discussion;
+        discussion.forEach((comment) => {
+          if (this.debateRatings[comment.comment_id] === undefined) {
+            this.debateRatings[comment.comment_id] = 0;
+          }
+        });
       })
     );
     this.store.dispatch(getDebateDiscussion({ topic_id: this.data.debateId }));
@@ -80,6 +93,11 @@ export class DebateDiscussionDialogComponent implements OnInit, OnDestroy {
     );
     // clear the answer
     this.debateAnswer = '';
+  }
+
+  // tslint:disable-next-line: variable-name
+  submitRating(comment_id: number, rating: Rating): void {
+    this.store.dispatch(rateDebateComment({ payload: { rating, comment_id } }));
   }
 
   onNoClick(): void {

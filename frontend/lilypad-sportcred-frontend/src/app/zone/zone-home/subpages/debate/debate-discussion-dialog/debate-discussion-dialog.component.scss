@@ -43,16 +43,56 @@
 
   .header {
     display: flex;
-    .username,
-    .time {
-      color: $green;
-      @extend .font-tertiary;
-      padding-right: 1rem;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px $white solid;
+    .info {
+      display: flex;
+      .username,
+      .time {
+        color: $green;
+        @extend .font-tertiary;
+        padding-right: 1rem;
+      }
+      .time {
+        color: $grey;
+      }
     }
-    .time {
-      color: $grey;
+    .rating-stat {
+      display: flex;
+      align-items: center;
+      div.current-rating,
+      div.num-rating {
+        margin-right: 1rem;
+      }
+
+      div.rating {
+        align-items: center;
+        flex-wrap: wrap;
+
+        div.slider-rating {
+          margin-right: 1rem;
+        }
+
+        div.slider-container {
+          border-radius: 1.25rem;
+          background-color: $white;
+          margin-right: 1rem;
+          padding: 0 1rem;
+          height: 1.2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        button {
+          height: 2rem;
+        }
+      }
     }
   }
+
   .content {
     word-break: break-word;
     @extend .font-tertiary;
@@ -81,6 +121,13 @@ div#add-comment-form {
       //studpid sass cant extend in media query
       font-size: 2rem;
       line-height: 2rem;
+    }
+  }
+  .comment-row .header {
+    flex-direction: column;
+    align-items: flex-start;
+    .info {
+      margin-bottom: 0.5rem;
     }
   }
 }
