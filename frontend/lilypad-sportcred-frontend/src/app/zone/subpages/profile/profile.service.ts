@@ -37,12 +37,6 @@ export class ProfileService {
           profilepicture: profile?.profilepicture?.url
             ? environment.backendUrl + profile.profilepicture.url
             : 'https://startupheretoronto.com/wp-content/uploads/2019/07/default-user-image.png',
-          //todo --------mock data-------------
-          favourite_sports: [
-            { id: 1, name: 'Basketball' },
-            { id: 2, name: 'Football' },
-            { id: 3, name: 'Soccer' },
-          ],
         })),
         map((profile) => {
           if (profile.ACS.average === null) {

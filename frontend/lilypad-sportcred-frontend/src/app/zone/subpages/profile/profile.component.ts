@@ -4,13 +4,14 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, first, map, tap, withLatestFrom } from 'rxjs/operators';
 import { all_routes } from '../../../../global/routing-statics';
 import { selectUserInfo } from '../../../auth/store/selectors';
 import { FormatedChartData } from '../../../shared-components/echarts/echart.types';
 import { alignHistoryToFormat } from '../../../shared-components/echarts/echart.util';
 import { AppState } from '../../../store/reducer';
+import { selectSports } from '../../store/selectors';
 import { ProfileService } from './profile.service';
 import { Profile, RadarUser } from './profile.types';
 import { RadarListComponent } from './radar-list/radar-list.component';
@@ -21,7 +22,7 @@ import {
   getRadarList,
   removeUserFromRadarList,
   updateProfile,
-  updateProfilePicture,
+  updateProfilePicture
 } from './store/profile.actions';
 
 @Component({
@@ -124,16 +125,13 @@ export class ProfileComponent implements OnInit {
         )
         .subscribe()
     );
-
-    // ! hardcoded
-    of([
-      { id: 1, name: 'Basketball' },
-      { id: 2, name: 'Football' },
-      { id: 3, name: 'Soccer' },
-      { id: 10, name: 'Baseball' },
-      { id: 56, name: 'Golf' },
-    ])
-      .pipe(tap((sports) => (this.sports = sports)))
+    this.store
+      .select(selectSports)
+      .pipe(
+        tap((sports) => {
+          this.sports = sports;
+        })
+      )
       .subscribe();
   }
 
