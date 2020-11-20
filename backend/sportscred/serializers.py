@@ -14,6 +14,8 @@ from sportscred.models import (
     TriviaQuestion,
     TriviaInstance,
     TriviaAnswer,
+    DebatePost,
+    DebateComment,
 )
 
 
@@ -95,11 +97,11 @@ class QuestionaireUserResponseSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     profilepicture = ProfilePictureSerializer()
-    highlights = SportSerializer(many=True)
+    favourite_sports = SportSerializer(many=True)
 
     class Meta:
         model = Profile
-        fields = ["user", "status", "highlights", "about", "profilepicture"]
+        fields = ["user", "status", "favourite_sports", "about", "profilepicture"]
 
 
 class ProfiletoUserSerializer(serializers.ModelSerializer):
@@ -121,8 +123,7 @@ class FollowSerializer(serializers.ModelSerializer):
     def get_following(self, profile):
 
         return UserSerializer(
-            User.objects.filter(profile__followers=profile),
-            many=True,
+            User.objects.filter(profile__followers=profile), many=True
         ).data
 
     def get_followers(self, profile):
@@ -182,7 +183,33 @@ class TriviaSerializer(serializers.ModelSerializer):
         ]
 
     def get_user(self, instance):
+        if instance.user == None:
+            return None
         return UserSerializer(instance.user.user).data
 
     def get_other_user(self, instance):
+        if instance.other_user == None:
+            return None
         return UserSerializer(instance.other_user.user).data
+
+
+class DebateSerializer(serializers.ModelSerializer):
+
+    num_of_comments = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DebatePost
+        depth = 2
+        fields = [
+            "id",
+            "content",
+            "post_date",
+            "sport",
+            "title",
+            "num_of_comments",
+            "acs_rank",
+        ]
+
+    def get_num_of_comments(self, obj):
+        num = DebateComment.objects.filter(post=obj).count()
+        return num

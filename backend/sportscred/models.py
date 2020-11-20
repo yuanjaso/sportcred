@@ -20,9 +20,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     status = models.CharField(max_length=100, blank=True)
     about = models.CharField(max_length=300, blank=True)
-    agree = models.ManyToManyField("DebatePost", through="Agrees")
-    like = models.ManyToManyField("SocialPost", through="Likes")
-    highlights = models.ManyToManyField("Sport")
+    agree = models.ManyToManyField("DebateComment", through="Rate")
+    favourite_sports = models.ManyToManyField("Sport")
     followers = models.ManyToManyField("Profile")
 
     @property
@@ -45,20 +44,51 @@ class ProfilePicture(models.Model):
     profile = models.OneToOneField("Profile", on_delete=models.CASCADE, blank=True)
 
 
-class Post(models.Model):
-    content = models.CharField(max_length=100, blank=False, null=False)
-    parent_post = models.ForeignKey(
-        "self", null=True, blank=True, on_delete=models.CASCADE, default=None
-    )
-    user = models.ForeignKey("Profile", on_delete=models.CASCADE)
-    attached_files = models.FileField(
-        upload_to="user_id/files"
-    )  # Add upload argument (Make a folder named after each user)
+# class Post(models.Model):
+#     content = models.CharField(max_length=100, blank=False, null=False)
+#     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
+#     attached_files = models.FileField(
+#         upload_to="user_id/files"
+#     )  # Add upload argument (Make a folder named after each user)
 
 
-class Agrees(models.Model):
-    agreer = models.ForeignKey("Profile", on_delete=models.CASCADE)
+class DebatePost(models.Model):
+    content = models.CharField(max_length=500, blank=False, null=False)
+    title = models.CharField(max_length=100, unique=True)
+    post_date = models.DateTimeField(auto_now_add=True)
+    sport = models.ForeignKey("Sport", on_delete=models.CASCADE, blank=True, null=True)
+    EXPERT_ANALYST = "E"
+    PRO_ANALYST = "P"
+    ANALYST = "A"
+    FANALYST = "F"
+    ACS_RANK = [
+        (EXPERT_ANALYST, "Expert Analyst"),
+        (PRO_ANALYST, "Pro Analyst"),
+        (ANALYST, "Analyst"),
+        (FANALYST, "Fanalyst"),
+    ]
+    acs_rank = models.CharField(
+        max_length=1, choices=ACS_RANK, default=FANALYST
+    )  #     attached_files = models.FileField(
+    #         upload_to="user_id/files"
+    #     )  # Add upload argument (Make a folder named after each user)
+    # its not an actual requirement so we'll try to make it for another sprint
+
+
+class DebateComment(models.Model):
     post = models.ForeignKey("DebatePost", on_delete=models.CASCADE)
+    commenter = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    content = models.CharField(max_length=500, blank=False, null=False)
+    time = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def ratingAverage(self):
+        return Rate.objects.filter(comment=self).aggregate(models.Avg("agreement"))
+
+
+class Rate(models.Model):
+    rater = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    comment = models.ForeignKey("DebateComment", on_delete=models.CASCADE)
     agreement = models.IntegerField(
         validators=[MaxValueValidator(10), MinValueValidator(1)],
         blank=False,
@@ -66,36 +96,7 @@ class Agrees(models.Model):
     )
 
     class Meta:
-        unique_together = ["agreer", "post"]
-
-
-class DebatePost(Post):
-    title = models.CharField(max_length=300, unique=True)
-    related_to_debate_posts = models.ManyToManyField("Sport")
-
-    @property
-    def agreementAverage(self):
-        return Agrees.objects.filter(post=self).aggregate(Models.Avg("agreement"))
-
-
-class SocialPost(Post):
-    @property
-    def sum_likes(self):
-        return Likes.objects.filter(post=self).aggregate(Models.Sum("liked_or_dislike"))
-
-
-class Likes(models.Model):
-    liker = models.ForeignKey("Profile", on_delete=models.CASCADE)
-    post = models.ForeignKey("SocialPost", on_delete=models.CASCADE)
-    # Got this from
-    # https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
-    # A like = 1, a dislike = -1 and ignore = 0
-    liked_or_dislike = models.IntegerField(
-        default=0, validators=[MaxValueValidator(1), MinValueValidator(-1)]
-    )
-
-    class Meta:
-        unique_together = ["liker", "post"]
+        unique_together = ["rater", "comment", "agreement"]
 
 
 class ACS(models.Model):
@@ -152,13 +153,16 @@ class TriviaInstance(models.Model):
 class TriviaResponse(models.Model):
     trivia_instance = models.ForeignKey("TriviaInstance", on_delete=models.CASCADE)
     question = models.ForeignKey("TriviaQuestion", on_delete=models.CASCADE)
-    answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE)
+    answer = models.ForeignKey("TriviaAnswer", on_delete=models.CASCADE, null=True)
     user = models.ForeignKey("Profile", on_delete=models.CASCADE)
     start_time = models.DateTimeField(blank=False)
     submission_time = models.DateTimeField(blank=False)
 
     @property
     def is_correct(self):
+        # case where there was no answer provideded
+        if self.answer == None:
+            return False
         return self.question.correct_answer == self.answer
 
 
@@ -179,8 +183,8 @@ class BaseAcsHistory(models.Model):
         try:
             acs = ACS.objects.get(profile=self.profile, sports=self.sport)
             acs.score = acs.score + self.delta
-            if acs.score < 0:
-                acs.score = 0
+            if acs.score < 100:
+                acs.score = 100
             acs.save()
             self.score = acs.score
             self.save()
@@ -188,8 +192,8 @@ class BaseAcsHistory(models.Model):
             acs = ACS.objects.create(
                 profile=self.profile, sports=self.sport, score=self.delta
             )
-            if acs.score < 0:
-                acs.score = 0
+            if acs.score < 100:
+                acs.score = 100
             acs.save()
             self.score = acs.score
             self.save()
@@ -206,6 +210,13 @@ class TriviaAcsHistory(BaseAcsHistory):
     source_type = "T"
     trivia_instance = models.ForeignKey(
         "TriviaInstance", on_delete=models.CASCADE, null=True
+    )
+
+
+class DebateAcsHistory(BaseAcsHistory):
+    source_type = "D"
+    debate_comment = models.ForeignKey(
+        "DebateComment", on_delete=models.CASCADE, null=True
     )
 
 

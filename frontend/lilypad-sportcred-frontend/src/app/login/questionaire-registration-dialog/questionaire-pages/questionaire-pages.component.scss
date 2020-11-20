@@ -3,6 +3,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  * {
+    color: $white;
+  }
 }
 mat-selection-list {
   overflow-y: scroll;

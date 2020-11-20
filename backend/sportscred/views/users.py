@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from ..filters import UserFilter
 from ..permissions import AnonCreateAndUpdateOwnerOnly
 from ..serializers import UserSerializer
-from sportscred.models import Profile
+from sportscred.models import BaseAcsHistory, TriviaAcsHistory, Sport, Profile
 from .utils import filter_request
 
 
@@ -62,6 +62,14 @@ class UserViewSet(viewsets.ViewSet):
             "is_superuser": u.is_superuser,
             "questionaire_registered": profile.questionaire_registered,
         }
+
+        # Sets the delta to +200 whenever a new account is created.
+        history = TriviaAcsHistory.create(  # Attach a trivia instance
+            delta=200,
+            profile=User.objects.get(pk=u.pk).profile,
+            sport=Sport.objects.get(pk=1),
+        )
+
         return Response(response)
 
     @action(detail=False, methods=["post"])
@@ -79,6 +87,7 @@ class UserViewSet(viewsets.ViewSet):
                 {
                     "token": token.key,
                     "user_id": user.pk,
+                    "username": user.username,
                     "is_superuser": user.is_superuser,
                     "questionaire_registered": user.profile.questionaire_registered,
                 }
@@ -99,6 +108,7 @@ class UserViewSet(viewsets.ViewSet):
                     {
                         "token": token.key,
                         "user_id": user.pk,
+                        "username": user.username,
                         "is_superuser": user.is_superuser,
                         "questionaire_registered": user.profile.questionaire_registered,
                     }

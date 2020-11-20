@@ -25,6 +25,14 @@ const routes: Routes = [
           ),
         canActivate: [AuthGuardService],
       },
+      {
+        path: all_routes.debate.url,
+        loadChildren: () =>
+          import('./subpages/debate/debate-routing.module').then(
+            (m) => m.DebateRoutingModule
+          ),
+        canActivate: [AuthGuardService],
+      },
     ],
   },
 ];

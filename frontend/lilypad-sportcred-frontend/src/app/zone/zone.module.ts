@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../global/material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { SearchBarComponent } from './header/search-bar/search-bar.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { ZoneEffects } from './store/effects';
 import { zoneFeatureKey, zoneReducer } from './store/reducers';
@@ -15,6 +16,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ZoneHomeModule } from './zone-home/zone-home.module';
 import { ZoneRoutingModule } from './zone-routing.module';
 import { ZoneComponent } from './zone.component';
+import { SharedModule } from '../shared-components/shared-components.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { ZoneComponent } from './zone.component';
     LiveDialogComponent,
     SearchBarComponent,
     SearchResultsComponent,
+    NotificationsComponent,
   ],
   imports: [
     StoreModule.forFeature(zoneFeatureKey, zoneReducer),
@@ -34,6 +37,7 @@ import { ZoneComponent } from './zone.component';
     ProfileModule,
     AdminModule,
     ZoneHomeModule,
+    SharedModule,
   ],
 })
 export class ZoneModule {}

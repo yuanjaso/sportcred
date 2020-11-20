@@ -23,14 +23,14 @@ export class LoginEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.login),
-      mergeMap(() => {
+      mergeMap((payload: { returnUrl: string }) => {
         //wait for token to be valid, once its valid we can reroute
         //This is done to avoid race condition, as we can NOT route before token is stored.
         // the auth guard will just kick us out to login
         return this.store.select(selectUserInfo).pipe(
           first((a) => !!a?.token),
           mergeMap(() => {
-            this.router.navigate([all_routes.zone.url]);
+            this.router.navigateByUrl(payload.returnUrl ?? all_routes.zone.url);
             return [];
           })
         );

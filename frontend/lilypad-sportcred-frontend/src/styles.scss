@@ -34,6 +34,33 @@ body {
   }
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 25px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $darkgrey;
+  border: solid 0.5rem transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10rem;
+  padding: 1rem;
+  margin: 1rem;
+  box-shadow: inset 0 0 10px 10px whitesmoke;
+
+  border: solid 0.5rem transparent;
+}
+
+.mat-dialog-container {
+  padding: 0rem !important;
+  overflow: hidden !important;
+}
+
 //makes sure all swiper cards are filling the max height
 .swiper-slide {
   height: auto !important;

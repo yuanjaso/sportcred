@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import {
   profileACSHistoryURL,
   profilePictureURL,
-  profileURL
+  profileURL,
 } from 'src/global/api.types';
 import { HttpClientWrapper } from '../../../http/http-client-wrapper';
 import { User } from '../../zone-home/subpages/trivia/trivia.types';
@@ -13,7 +13,7 @@ import {
   ACSHistory,
   Profile,
   RadarList,
-  UpdateProfilePayload
+  UpdateProfilePayload,
 } from './profile.types';
 
 @Injectable()
@@ -37,12 +37,6 @@ export class ProfileService {
           profilepicture: profile?.profilepicture?.url
             ? environment.backendUrl + profile.profilepicture.url
             : 'https://startupheretoronto.com/wp-content/uploads/2019/07/default-user-image.png',
-          //todo --------mock data-------------
-          favourite_sports: [
-            { id: 1, name: 'Basketball' },
-            { id: 2, name: 'Football' },
-            { id: 3, name: 'Soccer' },
-          ],
         })),
         map((profile) => {
           if (profile.ACS.average === null) {
@@ -68,7 +62,6 @@ export class ProfileService {
   }
 
   updateProfilePicture(picture: File): Observable<Profile> {
-    console.log(picture);
     let formData = new FormData();
     formData.append('media', picture);
     return this.httpClient.put(profilePictureURL, formData);

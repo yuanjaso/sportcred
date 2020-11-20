@@ -8,10 +8,14 @@
   background: $bg-black;
   display: flex;
   width: 100%;
+  overflow: hidden;
 }
 
 .logo {
   width: 10rem;
   height: 100%;
   display: block;
+}
+#notifications {
+  margin: 0 0.5rem 0.1rem;
 }

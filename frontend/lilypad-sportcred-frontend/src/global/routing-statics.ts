@@ -46,8 +46,8 @@ const predictions: dashPageConfig = {
 };
 const open_court: dashPageConfig = {
   url: 'open-court',
-  title: 'SPORTCRED - Open Court',
-  dashTitle: 'Open Court',
+  title: 'SPORTCRED - Zone',
+  dashTitle: 'The Zone',
   dashImgLink: '../../assets/dashboard_OC.png',
 };
 
@@ -58,6 +58,12 @@ const admin: pageConfig = {
 
 const single_trivia: pageConfig = {
   url: 'single',
+  title: 'SPORTCRED - Trivia',
+};
+
+const multiplayertrivia: pageConfig = {
+  // ! change this later, this is temporary because we don't have multi player route
+  url: 'multiplayer',
   title: 'SPORTCRED - Trivia',
 };
 
@@ -73,4 +79,5 @@ export const all_routes = {
   predictions,
   open_court,
   single_trivia,
+  multiplayertrivia,
 };
