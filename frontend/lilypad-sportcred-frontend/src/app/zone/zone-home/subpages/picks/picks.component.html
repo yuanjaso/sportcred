@@ -1,1 +1,14 @@
-<p>picks works!</p>
+<body class="host">
+    <mat-tab-group
+  >
+    <mat-tab *ngFor="let tab of tabs" [label]="tab.name">
+        <section class="prediction-body">
+            {{tab.contentComponent}}
+
+        </section>
+    </mat-tab>
+
+  
+  </mat-tab-group> 
+  
+</body>
