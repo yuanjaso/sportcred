@@ -8,16 +8,6 @@ import { DropdownPicksComponent } from './dropdown-picks/dropdown-picks.componen
 })
 export class PicksComponent implements OnInit {
   constructor() {}
-  tabs = [
-    //todo type this
-    {
-      name: 'Playoff Prediction',
-      contentComponent: TreePicksComponent,
-    },
-    {
-      name: 'Individual Predictions',
-      contentComponent: DropdownPicksComponent,
-    },
-  ];
+
   ngOnInit(): void {}
 }

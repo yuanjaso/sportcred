@@ -1,14 +1,14 @@
 <body class="host">
-    <mat-tab-group
-  >
-    <mat-tab *ngFor="let tab of tabs" [label]="tab.name">
-        <section class="prediction-body">
-            {{tab.contentComponent}}
-
-        </section>
-    </mat-tab>
-
-  
-  </mat-tab-group> 
-  
+    <mat-tab-group>
+        <mat-tab  label="Playoff Prediction">
+            <section class="prediction-body">
+                <app-tree-picks></app-tree-picks>
+            </section>
+        </mat-tab>
+        <mat-tab  label="Individual Prediction">
+            <section class="prediction-body">
+                <app-dropdown-picks></app-dropdown-picks>
+            </section>
+        </mat-tab>
+    </mat-tab-group> 
 </body>
