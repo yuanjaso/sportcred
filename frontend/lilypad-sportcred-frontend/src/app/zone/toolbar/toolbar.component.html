@@ -1,9 +1,10 @@
 <mat-tab-group
+
   mat-align-tabs="center"
   (selectedTabChange)="navigate($event)"
   [(selectedIndex)]="tabIndex"
 >
-  <mat-tab *ngFor="let page of pages">
+  <mat-tab *ngFor="let page of pages"  class="toolbar-tab">
     <ng-template mat-tab-label>
       <i class="material-icons">
         {{ page.icon }}
