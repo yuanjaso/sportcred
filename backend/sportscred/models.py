@@ -220,6 +220,11 @@ class DebateAcsHistory(BaseAcsHistory):
     )
 
 
+class PredictionAcsHistory(BaseAcsHistory):
+    source_type = "P"
+    prediction = models.ForeignKey("Prediction", on_delete=models.CASCADE, null=True)
+
+
 class Sport(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
@@ -283,33 +288,68 @@ class QuestionaireUserResponse(models.Model):
         unique_together = ["user", "question"]
 
 
-class PredictChoice(models.Model):
-    # TODO:
-    # Need to make sure this pulls from the database later and isnt a random string
+class PredictionChoice(models.Model):
     predicter = models.ForeignKey("Profile", on_delete=models.CASCADE)
     predicting_for = models.ForeignKey("Prediction", on_delete=models.CASCADE)
-    content = models.CharField(max_length=100, blank=True)
 
     class Meta:
         unique_together = ["predicter", "predicting_for"]
 
 
+class MvpPredictionChoice(models.Model):
+    player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class RookiePredictionChoice(models.Model):
+    player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class PlayOffPredictionChoice(models.Model):
+    team = models.ForeignKey("Team", on_delete=models.CASCADE, null=True, blank=True)
+
+
 class Prediction(models.Model):
     title = models.CharField(max_length=100, blank=True)
-    type = models.CharField(max_length=100, blank=True)
-    # TODO: Change this enumerator and CharField
-    deadline = models.DateTimeField(auto_now_add=False, blank=True)
-    depends_on = models.ManyToManyField("Prediction")
     relates_to = models.ManyToManyField("Sport")
+    year = models.CharField(
+        max_length=4
+    )  # this is the year in YYYY format. so 2020 for example
+    is_locked = models.BooleanField(default=False)
 
-    class Meta:
-        constraints = [models.UniqueConstraint(fields=["title"], name="unique_name")]
+    @staticmethod
+    def prediction_response(year, user):
+        # This should be a dictionary of the json response
+
+
+class MvpPrediction(Prediction):
+    type = "mvp"  # don't know if we'll need this
+    correct_player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class RotyPrediction(Prediction):
+    type = "rookie"  # don't know if we'll need this
+    correct_player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class PlayOffPrediction(models.Model):
+    correct_team = models.ForeignKey(
+        "Team", on_delete=models.CASCADE, null=True, blank=True
+    )
 
 
 class Player(models.Model):
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, blank=False)
     plays_on = models.ManyToManyField("Team", through="PlaysOn")
+    is_rookie = models.BooleanField(default=False)
 
 
 class PlaysOn(models.Model):
