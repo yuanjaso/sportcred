@@ -314,7 +314,7 @@ class PlayOffPredictionChoice(models.Model):
 
 class Prediction(models.Model):
     title = models.CharField(max_length=100, blank=True)
-    relates_to = models.ManyToManyField("Sport")
+    relates_to = models.ForeignKey("Sport", on_delete=models.CASCADE)
     year = models.CharField(
         max_length=4
     )  # this is the year in YYYY format. so 2020 for example
@@ -323,6 +323,7 @@ class Prediction(models.Model):
     @staticmethod
     def prediction_response(year, user):
         # This should be a dictionary of the json response
+        pass
 
 
 class MvpPrediction(Prediction):
@@ -339,7 +340,7 @@ class RotyPrediction(Prediction):
     )
 
 
-class PlayOffPrediction(models.Model):
+class PlayOffPrediction(Prediction):
     correct_team = models.ForeignKey(
         "Team", on_delete=models.CASCADE, null=True, blank=True
     )

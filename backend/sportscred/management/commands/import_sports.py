@@ -43,3 +43,12 @@ class Command(BaseCommand):
                     team=t,
                 )
                 plays_on.save()
+            p = Player.objects.create(
+                first_name="rookie", last_name="james", is_rookie=True
+            )
+            p.save()
+            plays_on = PlaysOn.objects.create(
+                player=p,
+                team=t,
+            )
+            plays_on.save()
