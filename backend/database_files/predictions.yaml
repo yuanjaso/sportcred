@@ -1,0 +1,16 @@
+playoff:
+  - east_first_round_1-8
+  - east_first_round_2-7
+  - east_first_round_3-6
+  - east_first_round_4-5
+  - east_second_round_A
+  - east_second_round_B
+  - east_conference_finals
+  - west_first_round_1-8
+  - west_first_round_2-7
+  - west_first_round_3-6
+  - west_first_round_4-5
+  - west_second_round_A
+  - west_second_round_B
+  - west_conference_finals
+  - finals
