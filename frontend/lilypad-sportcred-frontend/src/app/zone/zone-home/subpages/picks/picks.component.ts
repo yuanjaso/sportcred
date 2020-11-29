@@ -14,7 +14,7 @@ import { selectPredictions } from './store/picks.selectors';
 })
 export class PicksComponent implements OnInit {
   // ! DEMO PURPOSES
-  protected predictions$: Observable<Predictions>;
+  predictions$: Observable<Predictions>;
 
   constructor(private store: Store<AppState>) {}
 
