@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PredictionResults } from '../picks.types';
+import { PredictionResults, Predictions } from '../picks.types';
 
 // get the saved predictions for the given user
 export const getPredictions = createAction(
@@ -13,6 +13,7 @@ export const setPredictions = createAction(
   props<{ predictions: Predictions }>()
 );
 
+// as an admin, set the outcome of the predictions
 export const lockInResults = createAction(
   '[Picks] Lock In Results',
   props<{ results: PredictionResults }>()
