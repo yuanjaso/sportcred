@@ -11,10 +11,18 @@ import {
   DebateState,
 } from '../zone/zone-home/subpages/debate/store/debate.reducer';
 import {
+  picksFeatureKey,
+  PicksState,
+} from '../zone/zone-home/subpages/picks/store/picks.reducer';
+import {
   triviaFeatureKey,
   TriviaState,
 } from '../zone/zone-home/subpages/trivia/store/trivia.reducer';
 import { AppState } from './reducer';
+
+export const selectFeaturePicks = createFeatureSelector<AppState, PicksState>(
+  picksFeatureKey
+);
 
 export const selectFeatureTrivia = createFeatureSelector<AppState, TriviaState>(
   triviaFeatureKey

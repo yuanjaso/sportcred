@@ -11,11 +11,16 @@ import {
   DebateState,
 } from '../zone/zone-home/subpages/debate/store/debate.reducer';
 import {
+  picksReducer,
+  PicksState,
+} from '../zone/zone-home/subpages/picks/store/picks.reducer';
+import {
   triviaReducer,
   TriviaState,
 } from '../zone/zone-home/subpages/trivia/store/trivia.reducer';
 
 export interface AppState {
+  picks: PicksState;
   trivia: TriviaState;
   debate: DebateState;
   auth: AuthState;
@@ -25,6 +30,7 @@ export interface AppState {
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
+  picks: picksReducer,
   trivia: triviaReducer,
   debate: debateReducer,
   auth: authReducer,
