@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
-import { PredictionResults } from './picks.types';
+import { PredictionResults, Predictions } from './picks.types';
 
 @Injectable()
 export class PicksSerivce {
