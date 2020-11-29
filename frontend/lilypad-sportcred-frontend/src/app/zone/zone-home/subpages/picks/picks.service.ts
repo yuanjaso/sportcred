@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
-import { PredictionResults, Predictions } from './picks.types';
+import { Predictions, UpdatePredictionPayload } from './picks.types';
 
 @Injectable()
 export class PicksSerivce {
@@ -137,7 +137,7 @@ export class PicksSerivce {
     // return this.httpClient.get('predictions', { user_id, year });
   }
 
-  lockInPicks(results: PredictionResults): Observable<{}> {
+  lockInPicks(results: UpdatePredictionPayload): Observable<{}> {
     return this.httpClient.put('predictions/admin', results);
   }
 }

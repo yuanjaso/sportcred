@@ -1,10 +1,20 @@
-export type PredictionResults = {
+// this is the payload that comes from the backend when the frontend asks for what the user already predicted
+export type Predictions = {
   year: number;
-  // ! hardcoded for obvious purposes
-  sport: 'Basketball';
-  playoff?: { id: number; team: number }[];
-  mvp?: { id: number; player: number };
-  rookie?: { id: number; player: number };
+  sport: string;
+  playoff: PlayoffPrediction[];
+  mvp: AwardPrediction;
+  rookie: AwardPrediction;
+};
+
+export type PlayoffPrediction = {
+  id: number;
+  title: PlayoffRound;
+  is_locked: boolean;
+  // this is the id of the team that the user selected, null if not selected yet
+  team: number | null;
+  // updated by the admin when the outcome is available
+  correct_team: number | null;
 };
 
 export type PlayoffRound =
@@ -24,18 +34,8 @@ export type PlayoffRound =
   | 'west_conference_finals'
   | 'finals';
 
-export type PlayoffPrediction = {
-  id: number;
-  title: PlayoffRound;
-  is_locked: boolean;
-  // this is the id of the team that the user selected, null if not selected yet
-  team: number | null;
-  // updated by the admin when the outcome is available
-  correct_team: number | null;
-};
-
 // ? left this as an interface as this might be something worth extending later
-export interface Award {
+export interface AwardPrediction {
   id: number;
   title: string;
   is_locked: boolean;
@@ -43,10 +43,12 @@ export interface Award {
   correct_player: null | number;
 }
 
-export type Predictions = {
+// this is the payload that the user/admin will send to the backend to update their predictions
+export type UpdatePredictionPayload = {
   year: number;
-  sport: string;
-  playoff: PlayoffPrediction[];
-  mvp: Award;
-  rookie: Award;
+  // ! hardcoded for obvious purposes
+  sport: 'Basketball';
+  playoff?: { id: number; team: number }[];
+  mvp?: { id: number; player: number };
+  rookie?: { id: number; player: number };
 };
