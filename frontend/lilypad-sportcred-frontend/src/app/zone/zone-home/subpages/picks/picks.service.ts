@@ -8,6 +8,6 @@ export class PicksSerivce {
   constructor(private httpClient: HttpClientWrapper) {}
 
   lockInPicks(results: PredictionResults): Observable<{}> {
-    return this.httpClient.put('picks', results);
+    return this.httpClient.put('predictions/admin', results);
   }
 }
