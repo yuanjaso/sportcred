@@ -28,7 +28,7 @@ const apiRequirements: API[] = [
       requestURL: "/api/v1/predictions/",
       requestMethod: "GET",
       body: {},
-      queryParams: { year: "2020", user_id: 1 },
+      queryParams: { year: 2020, user_id: 1 },
     },
     response: {
       statusCode: 200,
