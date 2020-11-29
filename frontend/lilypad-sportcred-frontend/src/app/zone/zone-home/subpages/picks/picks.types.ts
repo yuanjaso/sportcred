@@ -1,4 +1,5 @@
-// this is the payload that comes from the backend when the frontend asks for what the user already predicted
+// this is the payload that comes from the backend when the user for when the user already predicted
+// same the payload that comes from the backend when the admin for when the admin wants to see what the outcomes are
 export type Predictions = {
   year: number;
   sport: string;
