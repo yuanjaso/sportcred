@@ -33,7 +33,7 @@ const apiRequirements: API[] = [
     response: {
       statusCode: 200,
       response: {
-        year: "2020",
+        year: 2020,
         sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
@@ -67,7 +67,7 @@ const apiRequirements: API[] = [
       requestURL: "/api/v1/predictions/",
       requestMethod: "PUT",
       body: {
-        year: "2020",
+        year: 2020,
         sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
@@ -89,7 +89,7 @@ const apiRequirements: API[] = [
     response: {
       statusCode: 200,
       response: {
-        year: "2020",
+        year: 2020,
         sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
@@ -124,7 +124,7 @@ const apiRequirements: API[] = [
       requestMethod: "PUT",
       // its the same reqs as prev endpoint
       body: {
-        year: "2020",
+        year: 2020,
         sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
