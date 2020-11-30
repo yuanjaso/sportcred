@@ -97,6 +97,8 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
 
   // ! HARDCODED
   private exampleSubmit(): void {
+    this.mvp = 1;
+    this.rookie = 2;
     this.submit(this.year, this.sport, this.mvp, this.rookie);
   }
 }

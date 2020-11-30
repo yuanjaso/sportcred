@@ -122,7 +122,7 @@ export class PicksSerivce {
       mvp: {
         id: 1,
         correct_player: null,
-        player: null,
+        player: 1,
         title: '',
         is_locked: false,
       },
