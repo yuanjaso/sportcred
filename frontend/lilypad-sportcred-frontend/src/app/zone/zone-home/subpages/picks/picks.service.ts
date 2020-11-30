@@ -160,10 +160,10 @@ export class PicksSerivce {
       },
       rookie: {
         id: 1,
-        correct_player: null,
         correct_player: 1,
         correct_player_name: 'lebron james',
         player: 1,
+        player_name: 'lebron james',
         title: '',
         is_locked: false,
       },
