@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Action, ActionCreator, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { selectUserInfo } from '../../../../auth/store/selectors';
@@ -9,7 +9,7 @@ import { Predictions } from './picks.types';
 import {
   getPredictions,
   lockInResults,
-  updateUserPredictions,
+  updateUserPredictions
 } from './store/picks.actions';
 import { selectPredictions } from './store/picks.selectors';
 @Component({

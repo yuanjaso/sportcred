@@ -1,0 +1,55 @@
+@import "../../../../../../global/fonts.scss";
+
+.picks-container {
+  background: $darkgrey;
+  height: 100vw;
+  width: 50vw;
+  margin: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-grid-list {
+  background: $white;
+  margin: 1.5rem;
+  height: 10rem;
+  width: 50vw;
+}
+
+.mat-card {
+  height: 20rem;
+  width: 20rem;
+  transition: 0.5s;
+  opacity: 1;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  background: $orange;
+  margin: 2rem;
+}
+
+.mat-card:hover {
+  opacity: 0.5;
+}
+
+.mat-card-content {
+  @extend .font-secondary;
+  @extend .white-font;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 5px 5px 5px black;
+}
+
+@media only screen and (max-width: 1000px) {
+  .picks-container {
+    display: inline-block;
+    height: 150vw;
+  }
+
+  .mat-card {
+    height: 10rem;
+    width: 10rem;
+  }
+}
