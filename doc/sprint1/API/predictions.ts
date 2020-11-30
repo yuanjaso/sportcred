@@ -1,4 +1,4 @@
-import { API } from "./restapi";
+import { API } from './restapi';
 
 const apiRequirements: API[] = [
   // Based on https://piazza.com/class/keswqh47g2bm?cid=233
@@ -23,10 +23,10 @@ const apiRequirements: API[] = [
   // the otherto B
 
   {
-    description: "Get Prediction information",
+    description: 'Get Prediction information',
     request: {
-      requestURL: "/api/v1/predictions/",
-      requestMethod: "GET",
+      requestURL: '/api/v1/predictions/',
+      requestMethod: 'GET',
       body: {},
       queryParams: { year: 2020, user_id: 1 },
     },
@@ -34,41 +34,47 @@ const apiRequirements: API[] = [
       statusCode: 200,
       response: {
         year: 2020,
-        sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
             id: 1,
-            title: "east_first_round_1-8",
+            title: 'east_first_round_1-8',
             is_locked: false,
             team: null, /// none, # this is the users prediction, it will default to None if it doesn't exist yet
+            team_name: 'raptors',
             correct_team: null, // updated by admin eventually
+            correct_team_name: 'celtics',
           },
         ],
         mvp: {
           id: 3,
-          title: "2020 MVP",
+          title: '2020 MVP',
           is_locked: false,
           player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
           correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
         },
         rookie: {
           id: 4,
-          title: "2020 ROTY",
+          title: '2020 ROTY',
           is_locked: false,
-          player: null, /// none # this is the users prediction, will default to none if it doesn't exist backend checks if this is a rookie
-          correct_player: null, // # updated by admin eventually
+          player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
+          correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
         },
       },
     },
   },
   {
-    description: "Set your predictions",
+    description: 'Set your predictions',
     request: {
-      requestURL: "/api/v1/predictions/",
-      requestMethod: "PUT",
+      requestURL: '/api/v1/predictions/',
+      requestMethod: 'PUT',
       body: {
         year: 2020,
-        sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
             id: 1,
@@ -90,42 +96,48 @@ const apiRequirements: API[] = [
       statusCode: 200,
       response: {
         year: 2020,
-        sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
             id: 1,
-            title: "east_first_round_1-8",
+            title: 'east_first_round_1-8',
             is_locked: false,
-            team: "lakers", /// none, # this is the users prediction, it will default to None if it doesn't exist yet
+            team: null, /// none, # this is the users prediction, it will default to None if it doesn't exist yet
+            team_name: 'raptors',
             correct_team: null, // updated by admin eventually
+            correct_team_name: 'celtics',
           },
         ],
         mvp: {
           id: 3,
-          title: "2020 MVP",
+          title: '2020 MVP',
           is_locked: false,
-          player: "lebron", // none # this is the users prediction, will default to none if it doesn't exist
+          player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
           correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
         },
         rookie: {
           id: 4,
-          title: "2020 ROTY",
+          title: '2020 ROTY',
           is_locked: false,
-          player: "lebronon", /// none # this is the users prediction, will default to none if it doesn't exist backend checks if this is a rookie
-          correct_player: null, // # updated by admin eventually
+          player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
+          correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
         },
       },
     },
   },
   {
-    description: "Admin Lock in results",
+    description: 'Admin Lock in results',
     request: {
-      requestURL: "/api/v1/predictions/admin",
-      requestMethod: "PUT",
+      requestURL: '/api/v1/predictions/admin',
+      requestMethod: 'PUT',
       // its the same reqs as prev endpoint
       body: {
         year: 2020,
-        sport: "basketball", //we're just gonna hard code basketball so u dont need to check tbh
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
         playoff: [
           {
             id: 1,
