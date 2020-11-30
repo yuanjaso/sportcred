@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { Action, ActionCreator, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { selectUserInfo } from '../../../../auth/store/selectors';
@@ -20,12 +21,17 @@ export class PicksComponent implements OnInit {
   // ! DEMO PURPOSES
   predictions$: Observable<Predictions>;
 
-  constructor(private store: Store<AppState>) {}
+  isAdmin: boolean;
+
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     this.exampleGetPredictions();
     this.updateUserPredictions();
     this.lockInPredictions();
+
+    // this flag determines which endpoint we use for submitting the picks/prediction results
+    this.isAdmin = this.router.url.includes('admin');
   }
 
   private exampleGetPredictions(): void {
