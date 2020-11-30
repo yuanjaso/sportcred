@@ -30,4 +30,5 @@ class PlayerFilter(FilterSet):
         fields = {
             "first_name": ["icontains", "exact"],
             "last_name": ["icontains", "exact"],
+            "is_rookie": ["exact"],
         }
