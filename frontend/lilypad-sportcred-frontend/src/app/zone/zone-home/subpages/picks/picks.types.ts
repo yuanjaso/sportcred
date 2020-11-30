@@ -2,7 +2,7 @@
 // same the payload that comes from the backend when the admin for when the admin wants to see what the outcomes are
 export type Predictions = {
   year: number;
-  sport: string;
+  sport: 'Basketball';
   playoff: PlayoffPrediction[];
   mvp: AwardPrediction;
   rookie: AwardPrediction;
@@ -53,3 +53,10 @@ export type UpdatePredictionPayload = {
   mvp?: { id: number; player: number };
   rookie?: { id: number; player: number };
 };
+
+export interface PredictionFeature {
+  isAdmin: boolean;
+  predictions: Predictions;
+
+  submit: (year: number, sport: 'Basketball', ...args: any[]) => void;
+}
