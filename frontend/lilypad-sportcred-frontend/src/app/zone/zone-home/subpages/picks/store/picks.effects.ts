@@ -5,7 +5,7 @@ import { PicksSerivce } from '../picks.service';
 import * as PicksActions from './picks.actions';
 
 @Injectable()
-export class TriviaEffects {
+export class PicksEffects {
   getPredictions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PicksActions.getPredictions),

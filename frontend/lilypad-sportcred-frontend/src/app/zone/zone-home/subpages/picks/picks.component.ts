@@ -5,7 +5,11 @@ import { first, tap } from 'rxjs/operators';
 import { selectUserInfo } from '../../../../auth/store/selectors';
 import { AppState } from '../../../../store/reducer';
 import { Predictions } from './picks.types';
-import { getPredictions } from './store/picks.actions';
+import {
+  getPredictions,
+  lockInResults,
+  updateUserPredictions,
+} from './store/picks.actions';
 import { selectPredictions } from './store/picks.selectors';
 @Component({
   selector: 'app-picks',
@@ -20,6 +24,8 @@ export class PicksComponent implements OnInit {
 
   ngOnInit(): void {
     this.exampleGetPredictions();
+    this.updateUserPredictions();
+    this.lockInPredictions();
   }
 
   private exampleGetPredictions(): void {
@@ -37,5 +43,33 @@ export class PicksComponent implements OnInit {
     this.predictions$ = this.store
       .select(selectPredictions)
       .pipe(tap(console.log));
+  }
+
+  private updateUserPredictions(): void {
+    this.store.dispatch(
+      updateUserPredictions({
+        predictions: {
+          sport: 'Basketball',
+          year: 2020,
+          mvp: { id: 1, player: 2 },
+          rookie: { id: 4, player: 5 },
+          playoff: [],
+        },
+      })
+    );
+  }
+
+  private lockInPredictions(): void {
+    this.store.dispatch(
+      lockInResults({
+        results: {
+          sport: 'Basketball',
+          year: 2020,
+          mvp: { id: 1, player: 2 },
+          rookie: { id: 4, player: 5 },
+          playoff: [],
+        },
+      })
+    );
   }
 }
