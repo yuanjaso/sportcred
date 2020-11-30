@@ -6,15 +6,6 @@ import * as PicksActions from './picks.actions';
 
 @Injectable()
 export class TriviaEffects {
-  lockInResults$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(PicksActions.lockInResults),
-        mergeMap(({ results }) => this.picksService.lockInPicks(results))
-      ),
-    { dispatch: false }
-  );
-
   getPredictions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PicksActions.getPredictions),
@@ -23,6 +14,26 @@ export class TriviaEffects {
       ),
       map((predictions) => PicksActions.setPredictions({ predictions }))
     )
+  );
+
+  updateUserPredictions$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PicksActions.updateUserPredictions),
+        mergeMap(({ predictions }) =>
+          this.picksService.updateUserPredictions(predictions)
+        )
+      ),
+    { dispatch: false }
+  );
+
+  lockInResults$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PicksActions.lockInResults),
+        mergeMap(({ results }) => this.picksService.lockInPicks(results))
+      ),
+    { dispatch: false }
   );
 
   constructor(private actions$: Actions, private picksService: PicksSerivce) {}

@@ -137,6 +137,10 @@ export class PicksSerivce {
     // return this.httpClient.get('predictions', { user_id, year });
   }
 
+  updateUserPredictions(predictions: UpdatePredictionPayload): Observable<{}> {
+    return this.httpClient.put('predictions', predictions);
+  }
+
   lockInPicks(results: UpdatePredictionPayload): Observable<{}> {
     return this.httpClient.put('predictions/admin', results);
   }

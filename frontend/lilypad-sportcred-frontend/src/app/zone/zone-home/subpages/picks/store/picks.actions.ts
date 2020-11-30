@@ -13,6 +13,12 @@ export const setPredictions = createAction(
   props<{ predictions: Predictions }>()
 );
 
+// save the user predictions onto the backend
+export const updateUserPredictions = createAction(
+  '[Picks] Update User Predictions',
+  props<{ predictions: UpdatePredictionPayload }>()
+);
+
 // as an admin, set the outcome of the predictions
 export const lockInResults = createAction(
   '[Picks] Lock In Results',
