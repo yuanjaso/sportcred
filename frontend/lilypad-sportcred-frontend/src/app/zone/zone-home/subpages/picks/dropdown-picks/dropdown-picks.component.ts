@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 import { Observable } from 'rxjs';
@@ -36,6 +37,11 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
   // two cases
   // if admin page, don't display the current result
   // if not admin page, display the current result if exists
+
+  form: FormGroup = new FormGroup({
+    mvp: new FormControl(''),
+    rookie: new FormControl('')
+  });
 
   constructor(private store: Store<AppState>) {}
 
@@ -102,6 +108,12 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
   private exampleSubmit(): void {
     this.mvp = 1;
     this.rookie = 2;
+    this.submit(this.year, this.sport, this.mvp, this.rookie);
+  }
+
+  submitPicks(): void {
+    this.mvp = this.form.controls.mvp.value
+    this.rookie = this.form.controls.rookie.value
     this.submit(this.year, this.sport, this.mvp, this.rookie);
   }
 }
