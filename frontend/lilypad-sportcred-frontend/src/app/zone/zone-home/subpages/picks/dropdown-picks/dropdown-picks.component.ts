@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { cloneDeep } from 'lodash';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AppState } from '../../../../../store/reducer';
 import { getAllPlayers } from '../../../../store/actions';
 import { selectPlayers } from '../../../../store/selectors';
@@ -75,13 +76,15 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
     this.store
       .select(selectPredictions)
       .pipe(
-        tap(({ year, sport, mvp, rookie }) => {
-          this.year = year;
-          this.sport = sport;
+        map(cloneDeep),
+        tap((predictions) => {
+          this.year = predictions.year;
+          this.sport = predictions.sport;
+          this.predictions = predictions;
 
           if (!this.isAdmin) {
-            this.mvp = mvp.player;
-            this.rookie = rookie.player;
+            this.mvp = predictions.mvp.player;
+            this.rookie = predictions.rookie.player;
           }
         })
       )

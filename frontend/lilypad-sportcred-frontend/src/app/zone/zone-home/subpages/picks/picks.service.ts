@@ -151,7 +151,7 @@ export class PicksSerivce {
       ],
       mvp: {
         id: 1,
-        correct_player: null,
+        correct_player: 1,
         correct_player_name: 'lebron james',
         player: 1,
         player_name: 'lebron james',
