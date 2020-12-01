@@ -40,17 +40,17 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
 
   form: FormGroup = new FormGroup({
     mvp: new FormControl(''),
-    rookie: new FormControl('')
+    rookie: new FormControl(''),
   });
+  // Previous predictions for non admin users
+  prevMvp;
+  prevRookie;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.setVariables();
     this.grabDataForDropdowns();
-
-    // ! HARDCODED MOCK FOR DEMO
-    this.exampleSubmit();
   }
 
   /**
@@ -102,18 +102,40 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
     this.store.dispatch(getAllPlayers({ rookies: true }));
     this.players$ = this.store.select(selectPlayers);
     this.rookies$ = this.store.select(selectPlayers);
+
+    this.showPrevPredictions();
   }
 
-  // ! HARDCODED
-  private exampleSubmit(): void {
-    this.mvp = 1;
-    this.rookie = 2;
-    this.submit(this.year, this.sport, this.mvp, this.rookie);
+  /**
+   * Non admin users will have their previous predictions shown
+   */
+  private showPrevPredictions(): void {
+    if (!this.isAdmin) {
+      // TODO: Check if prev preditions exist
+
+      // MVP
+      this.players$.subscribe((data) => {
+        if (data) {
+          // Set value of form to prev mvp
+          this.prevMvp = data.find((mvp) => mvp.id === this.mvp);
+          this.form.get('mvp').setValue(this.prevMvp.id);
+        }
+      });
+
+      // Rookie
+      this.rookies$.subscribe((data) => {
+        if (data) {
+          // Set value of form to prev rookie
+          this.prevRookie = data.find((rookie) => rookie.id === this.rookie);
+          this.form.get('rookie').setValue(this.prevRookie.id);
+        }
+      });
+    }
   }
 
   submitPicks(): void {
-    this.mvp = this.form.controls.mvp.value
-    this.rookie = this.form.controls.rookie.value
+    this.mvp = Number(this.form.controls.mvp.value);
+    this.rookie = Number(this.form.controls.rookie.value);
     this.submit(this.year, this.sport, this.mvp, this.rookie);
   }
 }

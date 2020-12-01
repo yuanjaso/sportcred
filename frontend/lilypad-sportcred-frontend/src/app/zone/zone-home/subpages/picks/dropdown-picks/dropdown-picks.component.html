@@ -2,9 +2,9 @@
   <p class="picks-container">
     <mat-form-field appearance="outline">
       <mat-label>MVP (MOST VALUABLE PERSON)</mat-label>
-      <mat-select formControlName="mvp">
-        <div *ngFor="let mvp of players$ | async">
-          <mat-option value="{{ mvp.id }}"
+      <mat-select formControlName="mvp" [(ngModel)] = "prevMvp">
+        <div *ngFor="let mvp of players$ | async" [value]="mvp">
+          <mat-option [value]="mvp.id"
             >{{ mvp.first_name }} {{ mvp.last_name }}</mat-option
           >
         </div>
@@ -12,9 +12,9 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>ROOKIE OF THE YEAR</mat-label>
-      <mat-select formControlName="rookie">
+      <mat-select formControlName="rookie" [(ngModel)] = "prevRookie">
         <div *ngFor="let rookie of rookies$ | async">
-          <mat-option value="{{ rookie.id }}"
+          <mat-option [value]="rookie.id"
             >{{ rookie.first_name }} {{ rookie.last_name }}</mat-option
           >
         </div>
