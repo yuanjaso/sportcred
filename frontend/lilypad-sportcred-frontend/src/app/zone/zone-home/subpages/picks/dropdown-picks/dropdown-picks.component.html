@@ -1,10 +1,17 @@
 <p class="picks-container">
-  <mat-card>
-    <mat-card-content> MVP </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-content> ROTY </mat-card-content>
-  </mat-card>
+  <mat-form-field appearance="outline">
+    <mat-label>MVP (MOST VALUABLE PERSON)</mat-label>
+    <select matNativeControl required>
+      <option value="test">test</option>
+    </select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>ROOKIE OF THE YEAR</mat-label>
+    <select matNativeControl required>
+      <option value="test">test</option>
+    </select>
+  </mat-form-field>
+  <button mat-raised-button color="accent" class="saveBtn">SAVE</button>
 </p>
 
 <!-- <p>Players{{ players$ | async | json }}</p>
