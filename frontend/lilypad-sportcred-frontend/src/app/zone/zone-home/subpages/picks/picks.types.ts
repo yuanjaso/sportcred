@@ -14,8 +14,10 @@ export type PlayoffPrediction = {
   is_locked: boolean;
   // this is the id of the team that the user selected, null if not selected yet
   team: number | null;
+  team_name: string | null;
   // updated by the admin when the outcome is available
   correct_team: number | null;
+  correct_team_name: string | null;
 };
 
 export type PlayoffRound =
@@ -41,7 +43,9 @@ export interface AwardPrediction {
   title: string;
   is_locked: boolean;
   player: null | number;
+  player_name: null | string;
   correct_player: null | number;
+  correct_player_name: null | string;
 }
 
 // this is the payload that the user/admin will send to the backend to update their predictions
