@@ -10,7 +10,7 @@ import { Player } from '../../../../zone.types';
 import {
   PredictionFeature,
   Predictions,
-  UpdatePredictionPayload,
+  UpdatePredictionPayload
 } from '../picks.types';
 import { lockInResults, updateUserPredictions } from '../store/picks.actions';
 import { selectPredictions } from '../store/picks.selectors';

@@ -1,22 +1,26 @@
 <p class="picks-container">
   <mat-form-field appearance="outline">
     <mat-label>MVP (MOST VALUABLE PERSON)</mat-label>
-    <select matNativeControl required>
-      <option value="test">test</option>
-    </select>
+    <mat-select formControlName="mvp">
+      <div *ngFor="let mvp of players$ | async">
+        <mat-option value="{{ mvp.id }}">{{ mvp.first_name }} {{ mvp.last_name }}</mat-option>
+      </div>
+    </mat-select>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>ROOKIE OF THE YEAR</mat-label>
-    <select matNativeControl required>
-      <option value="test">test</option>
-    </select>
+    <mat-select formControlName="rookie">
+      <div *ngFor="let rookie of rookies$ | async">
+        <mat-option value="{{ rookie.id }}">{{ rookie.first_name }} {{ rookie.last_name }}</mat-option>
+      </div>
+    </mat-select>
   </mat-form-field>
   <button mat-raised-button color="accent" class="saveBtn">SAVE</button>
 </p>
 
 <!-- <p>Players{{ players$ | async | json }}</p>
-<p>Rookies{{ rookies$ | async | json }}</p> -->
-<!-- <p>year: {{ year }}</p>
+<p>Rookies{{ rookies$ | async | json }}</p>
+<p>year: {{ year }}</p>
 <p>sport: {{ sport }}</p>
 <p>mvp id {{ mvp }}</p>
 <p>mvp name {{ predictions?.mvp.player_name }}</p>
