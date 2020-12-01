@@ -328,3 +328,129 @@ def test_get_3(token):  # No year - Status 400
 
     assert res.status_code == 400
 
+
+def test_admin_answers_no_permission(token):  #  no permission - Status 403
+    url = URL + "predictions/admin/"
+    res = auth_user("user", ".")
+    token2 = res.json()["token"]
+
+    res = requests.put(
+        url,
+        headers={
+            "Authorization": "Token " + token2,
+            "Content-Type": "application/json",
+        },
+        data=json.dumps(
+            {
+                "year": 2020,
+                "sport": "Basketball",
+                "mvp": {"id": 1, "player": 3},
+                "rookie": {"id": 2, "player": 5},
+                "playoff": [{"id": 3, "team": 1}, {"id": 4, "team": 2}],
+            }
+        ),
+        verify=False,
+    )
+    assert res.status_code == 403
+
+
+def test_playoff_super_user_bad_data(token):  #  bad data   - Status 403
+    url = URL + "predictions/admin/"
+    res = requests.put(
+        url,
+        headers={
+            "Authorization": "Token " + token,
+            "Content-Type": "application/json",
+        },
+        data=json.dumps(
+            {
+                "year": 2020,
+                "mvp": {"id": 1, "player": 3},
+                "playoff": [{"id": 3, "team": 1}, {"id": 4, "team": 2}],
+            }
+        ),
+        verify=False,
+    )
+    assert res.status_code == 400
+
+
+def test_admin_add_answer_correct_answer(
+    token,
+):  #  working change in acs by 4*ACS_Delta- Status 200
+    url = URL + "predictions/admin/"
+    res = requests.get(
+        URL + "profile/",
+        params={"user_id": 1},
+        headers={"Authorization": "Token " + token},
+    )
+    prev = res.json()["ACS"]["Basketball"]
+    print(res.json()["ACS"])
+    res = requests.put(
+        url,
+        headers={
+            "Authorization": "Token " + token,
+            "Content-Type": "application/json",
+        },
+        data=json.dumps(
+            {
+                "year": 2020,
+                "sport": "Basketball",
+                "mvp": {"id": 1, "player": 3},
+                "rookie": {"id": 2, "player": 5},
+                "playoff": [{"id": 3, "team": 1}, {"id": 4, "team": 2}],
+            }
+        ),
+        verify=False,
+    )
+    assert res.status_code == 200
+    url = URL + "predictions/admin/"
+    res = requests.get(
+        URL + "profile/",
+        params={"user_id": 1},
+        headers={"Authorization": "Token " + token},
+    )
+    # check ACS after
+    print(res.json()["ACS"])
+    assert res.status_code == 200
+    assert prev + 80 == res.json()["ACS"]["Basketball"]
+
+
+def test_admin_add_answer_correct_answer_repeat(
+    token,
+):  #  working - Status 200
+    url = URL + "predictions/admin/"
+    res = requests.get(
+        URL + "profile/",
+        params={"user_id": 1},
+        headers={"Authorization": "Token " + token},
+    )
+    prev = res.json()["ACS"]["Basketball"]
+    print(res.json()["ACS"])
+    res = requests.put(
+        url,
+        headers={
+            "Authorization": "Token " + token,
+            "Content-Type": "application/json",
+        },
+        data=json.dumps(
+            {
+                "year": 2020,
+                "sport": "Basketball",
+                "mvp": {"id": 1, "player": 3},
+                "rookie": {"id": 2, "player": 5},
+                "playoff": [{"id": 3, "team": 1}, {"id": 4, "team": 2}],
+            }
+        ),
+        verify=False,
+    )
+    assert res.status_code == 200
+    url = URL + "predictions/admin/"
+    res = requests.get(
+        URL + "profile/",
+        params={"user_id": 1},
+        headers={"Authorization": "Token " + token},
+    )
+    # check ACS after no change in ACS
+    print(res.json()["ACS"])
+    assert res.status_code == 200
+    assert prev == res.json()["ACS"]["Basketball"]

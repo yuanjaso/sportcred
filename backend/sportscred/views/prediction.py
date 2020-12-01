@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseBadRequest
-from sportscred.permissions import DebateSuper
+from sportscred.permissions import PredictionsSuper
 from django.db.models import Count
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -17,12 +17,19 @@ from sportscred.models import (
     MvpPrediction,
     RotyPrediction,
     PlayOffPrediction,
+    BaseAcsHistory,
+    PredictionAcsHistory,
+    Sport,
     Team,
 )
 
+ACS_DELTA = 20
+SPORT = "Basketball"
+
 
 class PredictionViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated, DebateSuper]
+
+    permission_classes = [IsAuthenticated, PredictionsSuper]
 
     def list(self, request):
 
@@ -258,3 +265,90 @@ class PredictionViewSet(viewsets.ViewSet):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+    @action(detail=False, methods=["put"])
+    def admin(self, request):
+        # Checks if the year and user_id are both given.
+        # Checks if the year and user_id are both given.
+        keys = list(request.data.keys())
+
+        # Checks if year is in the keys given.
+        wanted_keys = ["year", "sport"]
+        for x in wanted_keys:
+            if x not in keys:
+                return Response(
+                    {"details": "Invalid data given"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        # initial data validated
+        try:
+            # sport_name = request.data["sport"]
+            sport = Sport.objects.get(name=SPORT)  # hardcoded for basketball
+            if "playoff" in keys:
+                # set play off outcomes
+                for outcome in request.data["playoff"]:
+                    playoff = PlayOffPrediction.objects.get(pk=outcome["id"])
+                    if playoff.is_locked:
+                        print("locked?")
+                        continue
+                    team = Team.objects.get(pk=outcome["team"])
+                    playoff.correct_team = team
+                    playoff.is_locked = True
+                    playoff.save()
+                    # Distribute ACS for all users with this prediction
+                    prediction_choices = PlayOffPredictionChoice.objects.filter(
+                        predicting_for_id=outcome["id"]
+                    )
+                    for choice in prediction_choices:
+                        print (playoff.correct_team.id)
+                        print (choice.team.id)
+                        if playoff.correct_team == choice.team:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+            # set mvp
+            if "mvp" in keys:
+                outcome = request.data["mvp"]
+                mvp = MvpPrediction.objects.get(pk=request.data["mvp"]["id"])
+                if not mvp.is_locked:
+                    player = Player.objects.get(pk=outcome["player"])
+                    mvp.correct_player = player
+                    mvp.is_locked = True
+                    mvp.save()
+                    prediction_choices = MvpPredictionChoice.objects.filter(
+                        predicting_for_id=outcome["id"]
+                    )
+                    for choice in prediction_choices:
+                        if mvp.correct_player == choice.player:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+
+            # set rookie of the year
+            if "rookie" in keys:
+                outcome = request.data["rookie"]
+                roy = RotyPrediction.objects.get(pk=outcome["id"])
+                if not roy.is_locked:
+                    player = Player.objects.get(pk=outcome["player"])
+                    roy.correct_player = player
+                    roy.is_locked = True
+                    roy.save()
+                    # distribute ACS
+                    prediction_choices = RookiePredictionChoice.objects.filter(
+                        predicting_for_id=outcome["id"]
+                    )
+                    for choice in prediction_choices:
+                        if roy.correct_player == choice.player:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+
+            return Response()
+        except Exception as e:
+            print(e)
+            return Response(
+                {"details": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
