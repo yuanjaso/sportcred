@@ -1,12 +1,11 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseBadRequest
+from sportscred.permissions import DebateSuper
+from django.db.models import Count
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from sportscred.permissions import DebateSuper
-from django.db.models import Count
-
 from sportscred.models import (
     Prediction,
     PredictionChoice,
@@ -46,6 +45,11 @@ class PredictionViewSet(viewsets.ViewSet):
             )
 
         item = Prediction.prediction_response(year, user_id)
+        if item == 400:
+            return Response(
+                {"details": "The inputted year is not in the database."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         return Response(item)
 
     def update(self, request):
@@ -211,6 +215,11 @@ class PredictionViewSet(viewsets.ViewSet):
                     get_parent_id.update(team_id=team)
 
         item = Prediction.prediction_response(year, request.user.id)
+        if item == 400:
+            return Response(
+                {"details": "The inputted year is not in the database."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         return Response(item)
 
     def check_player(self, player_id):

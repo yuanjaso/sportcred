@@ -325,6 +325,10 @@ class Prediction(models.Model):
         # This should be a dictionary of the json response
         result = {}
         result["year"] = year
+        # Check if year is in the db or not.
+        given_year = Prediction.objects.filter(year=year)
+        if len(given_year) == 0:
+            return 400
         result["sport"] = "Basketball"
         mvp = {}
         roty = {}
@@ -332,23 +336,23 @@ class Prediction(models.Model):
 
         # Gets MVP information
         mvp_id = MvpPrediction.objects.filter(year=year).values()
-        for item in mvp_id:
-            mvp["title"] = item["title"]
-            mvp["id"] = item["id"]
-            mvp["is_locked"] = item["is_locked"]
-            mvp["correct_player"] = item["correct_player_id"]
-            if mvp["correct_player"] is None:
-                mvp["correct_player_name"] = None
-            else:
-                mvp["corect_player_name"] = (
-                    Player.objects.filter(id=mvp["correct_player"]).values()[0][
-                        "first_name"
-                    ]
-                    + " "
-                    + Player.objects.filter(id=mvp["correct_player"]).values()[0][
-                        "last_name"
-                    ]
-                )
+        print(mvp_id)
+        mvp["title"] = mvp_id[0]["title"]
+        mvp["id"] = mvp_id[0]["id"]
+        mvp["is_locked"] = mvp_id[0]["is_locked"]
+        mvp["correct_player"] = mvp_id[0]["correct_player_id"]
+        if mvp["correct_player"] is None:
+            mvp["correct_player_name"] = None
+        else:
+            mvp["corect_player_name"] = (
+                Player.objects.filter(id=mvp["correct_player"]).values()[0][
+                    "first_name"
+                ]
+                + " "
+                + Player.objects.filter(id=mvp["correct_player"]).values()[0][
+                    "last_name"
+                ]
+            )
 
         if (
             len(
@@ -374,23 +378,22 @@ class Prediction(models.Model):
 
         # Gets Rookie information
         rookie_id = RotyPrediction.objects.filter(year=year).values()
-        for item in rookie_id:
-            roty["title"] = item["title"]
-            roty["id"] = item["id"]
-            roty["is_locked"] = item["is_locked"]
-            roty["correct_player"] = item["correct_player_id"]
-            if roty["correct_player"] is None:
-                roty["correct_player_name"] = None
-            else:
-                roty["corect_player_name"] = (
-                    Player.objects.filter(id=roty["correct_player"]).values()[0][
-                        "first_name"
-                    ]
-                    + " "
-                    + Player.objects.filter(id=roty["correct_player"]).values()[0][
-                        "last_name"
-                    ]
-                )
+        roty["title"] = rookie_id[0]["title"]
+        roty["id"] = rookie_id[0]["id"]
+        roty["is_locked"] = rookie_id[0]["is_locked"]
+        roty["correct_player"] = rookie_id[0]["correct_player_id"]
+        if roty["correct_player"] is None:
+            roty["correct_player_name"] = None
+        else:
+            roty["corect_player_name"] = (
+                Player.objects.filter(id=roty["correct_player"]).values()[0][
+                    "first_name"
+                ]
+                + " "
+                + Player.objects.filter(id=roty["correct_player"]).values()[0][
+                    "last_name"
+                ]
+            )
 
         if (
             len(

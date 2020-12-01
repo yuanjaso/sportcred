@@ -269,6 +269,29 @@ def test_put_16(token):  # Nothing Wrong - Status 200
     assert res.status_code == 200
 
 
+def test_put_17(token):  # Year is not in db - Error 400
+    url = URL + "predictions/"
+    res = requests.put(
+        url,
+        headers={"Authorization": "Token " + token, "Content-Type": "application/json"},
+        data=json.dumps(
+            {
+                "year": 20232323320,
+                "sport": "basketball",
+                "mvp": {"id": 1, "player": 3},
+                "rookie": {"id": 2, "player": 5},
+                "playoff": [
+                    {"id": 3, "team": 1},
+                    {"id": 4, "team": 2},
+                    {"id": 5, "team": 3},
+                ],
+            }
+        ),
+        verify=False,
+    )
+    assert res.status_code == 400
+
+
 def test_get_1(token):  # Nothing Wrong - Status 200
     url = URL + "predictions/"
     res = requests.get(
