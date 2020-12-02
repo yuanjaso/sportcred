@@ -11,7 +11,9 @@ export class PicksSerivce {
     return this.httpClient.get('predictions', { user_id, year });
   }
 
-  updateUserPredictions(predictions: UpdatePredictionPayload): Observable<Predictions> {
+  updateUserPredictions(
+    predictions: UpdatePredictionPayload
+  ): Observable<Predictions> {
     return this.httpClient.put('predictions', predictions);
   }
 

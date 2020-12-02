@@ -47,6 +47,11 @@ export const selectPlayers = createSelector(
   }
 );
 
+export const selectRookies = createSelector(
+  selectFeatureZone,
+  (state) => state.rookies
+);
+
 export const selectSports = createSelector(
   selectFeatureZone,
   (state: ZoneState) => {
