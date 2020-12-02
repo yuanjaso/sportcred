@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { AppState } from '../../../../../store/reducer';
 import { getAllPlayers } from '../../../../store/actions';
-import { selectPlayers } from '../../../../store/selectors';
+import { selectPlayers, selectRookies } from '../../../../store/selectors';
 import { Player } from '../../../../zone.types';
 import {
   PredictionFeature,
@@ -102,7 +102,7 @@ export class DropdownPicksComponent
     // the players list is already retrieved when the app loads so we just need to grab rookies
     this.store.dispatch(getAllPlayers({ rookies: true }));
     this.players$ = this.store.select(selectPlayers);
-    this.rookies$ = this.store.select(selectPlayers);
+    this.rookies$ = this.store.select(selectRookies);
   }
 
   // ! HARDCODED
