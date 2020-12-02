@@ -11,11 +11,11 @@ export class PicksSerivce {
     return this.httpClient.get('predictions', { user_id, year });
   }
 
-  updateUserPredictions(predictions: UpdatePredictionPayload): Observable<{}> {
+  updateUserPredictions(predictions: UpdatePredictionPayload): Observable<Predictions> {
     return this.httpClient.put('predictions', predictions);
   }
 
-  lockInPicks(results: UpdatePredictionPayload): Observable<{}> {
+  lockInPicks(results: UpdatePredictionPayload): Observable<Predictions> {
     return this.httpClient.put('predictions/admin', results);
   }
 }
