@@ -54,8 +54,8 @@ export class DropdownPicksComponent
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.setVariables();
     this.grabDataForDropdowns();
+    this.setVariables();
   }
 
   ngOnDestroy(): void {
@@ -125,24 +125,30 @@ export class DropdownPicksComponent
 
       if (this.mvp) {
         // MVP
-        this.players$.subscribe((data) => {
-          if (data) {
-            // Set value of form to prev mvp
-            this.prevMvp = data.find((mvp) => mvp.id === this.mvp);
-            this.form.get('mvp').setValue(this.prevMvp.id);
-          }
-        });
+        this.subscription.add(
+          this.players$.subscribe((data) => {
+            if (data) {
+              // Set value of form to prev mvp
+              this.prevMvp = data.find((mvp) => mvp.id === this.mvp);
+              this.form.get('mvp').setValue(this.prevMvp.id);
+            }
+          })
+        );
       }
 
       if (this.rookie) {
         // Rookie
-        this.rookies$.subscribe((data) => {
-          if (data) {
-            // Set value of form to prev rookie
-            this.prevRookie = data.find((rookie) => rookie.id === this.rookie);
-            this.form.get('rookie').setValue(this.prevRookie.id);
-          }
-        });
+        this.subscription.add(
+          this.rookies$.subscribe((data) => {
+            if (data) {
+              // Set value of form to prev rookie
+              this.prevRookie = data.find(
+                (rookie) => rookie.id === this.rookie
+              );
+              this.form.get('rookie').setValue(this.prevRookie.id);
+            }
+          })
+        );
       }
     }
   }
@@ -153,5 +159,9 @@ export class DropdownPicksComponent
     this.submit(this.year, this.sport, this.mvp, this.rookie);
 
     console.log('Submitted');
+    if (this.mvp && this.rookie) {
+      // Update view
+      this.isMissingPicks = false;
+    }
   }
 }
