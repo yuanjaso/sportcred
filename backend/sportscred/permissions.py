@@ -36,3 +36,10 @@ class DebateSuper(BasePermission):
         if view.action == "create":
             return request.user.is_superuser
         return True
+
+
+class PredictionsSuper(BasePermission):
+    def has_permission(self, request, view):
+        if view.action == "admin":
+            return request.user.is_superuser
+        return True
