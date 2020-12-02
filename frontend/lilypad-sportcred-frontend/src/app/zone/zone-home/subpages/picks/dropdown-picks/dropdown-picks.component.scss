@@ -2,7 +2,7 @@
 
 .picks-container {
   background: $darkgrey;
-  height: 100vw;
+  height: 200vw;
   width: 50vw;
   margin: 1.5rem;
   display: block;
@@ -32,4 +32,32 @@ mat-form-field mat-label {
 
 .saveBtn:hover {
   opacity: 0.8;
+}
+
+.unsaved-indicator {
+  font-size: 30px;
+  margin: 3rem 3rem 0rem 3rem;
+  color: $accent;
+  border-color: $accent;
+  border-style: outset;
+  border-width: 2px;
+  padding: 0.5rem;
+  width: 30%;
+  text-align: center;
+  line-height: 30px;
+}
+
+.material-icons {
+  font-size: 30px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 700px) {
+  mat-form-field mat-label {
+    font-size: 20px;
+  }
+  .unsaved-indicator {
+    width: 50%;
+    font-size: 20px;
+  }
 }

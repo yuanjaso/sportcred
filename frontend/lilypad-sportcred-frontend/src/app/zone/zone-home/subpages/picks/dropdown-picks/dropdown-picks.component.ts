@@ -49,6 +49,7 @@ export class DropdownPicksComponent
   // Previous predictions for non admin users
   prevMvp;
   prevRookie;
+  isMissingPicks: boolean = false;
 
   constructor(private store: Store<AppState>) {}
 
@@ -99,6 +100,7 @@ export class DropdownPicksComponent
           this.mvp = predictions.mvp.player;
           this.rookie = predictions.rookie.player;
         }
+        this.showPrevPredictions();
       })
     );
     this.subscription.add(sub$.subscribe());
@@ -109,8 +111,6 @@ export class DropdownPicksComponent
     this.store.dispatch(getAllPlayers({ rookies: true }));
     this.players$ = this.store.select(selectPlayers);
     this.rookies$ = this.store.select(selectRookies);
-
-    this.showPrevPredictions();
   }
 
   /**
@@ -118,25 +118,32 @@ export class DropdownPicksComponent
    */
   private showPrevPredictions(): void {
     if (!this.isAdmin) {
-      // TODO: Check if prev preditions exist
+      if (!this.mvp || !this.rookie) {
+        // prev preditions do not exist or are not completed
+        this.isMissingPicks = true;
+      }
 
-      // MVP
-      this.players$.subscribe((data) => {
-        if (data) {
-          // Set value of form to prev mvp
-          this.prevMvp = data.find((mvp) => mvp.id === this.mvp);
-          this.form.get('mvp').setValue(this.prevMvp.id);
-        }
-      });
+      if (this.mvp) {
+        // MVP
+        this.players$.subscribe((data) => {
+          if (data) {
+            // Set value of form to prev mvp
+            this.prevMvp = data.find((mvp) => mvp.id === this.mvp);
+            this.form.get('mvp').setValue(this.prevMvp.id);
+          }
+        });
+      }
 
-      // Rookie
-      this.rookies$.subscribe((data) => {
-        if (data) {
-          // Set value of form to prev rookie
-          this.prevRookie = data.find((rookie) => rookie.id === this.rookie);
-          this.form.get('rookie').setValue(this.prevRookie.id);
-        }
-      });
+      if (this.rookie) {
+        // Rookie
+        this.rookies$.subscribe((data) => {
+          if (data) {
+            // Set value of form to prev rookie
+            this.prevRookie = data.find((rookie) => rookie.id === this.rookie);
+            this.form.get('rookie').setValue(this.prevRookie.id);
+          }
+        });
+      }
     }
   }
 
@@ -144,5 +151,7 @@ export class DropdownPicksComponent
     this.mvp = Number(this.form.controls.mvp.value);
     this.rookie = Number(this.form.controls.rookie.value);
     this.submit(this.year, this.sport, this.mvp, this.rookie);
+
+    console.log('Submitted');
   }
 }
