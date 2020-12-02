@@ -60,6 +60,9 @@ export class DropdownPicksComponent
   ngOnInit(): void {
     this.grabDataForDropdowns();
     this.setVariables();
+    
+    // TODO: Disable SAVE button if it is past the time to LOCK IN
+  
   }
 
   ngOnDestroy(): void {
@@ -162,7 +165,6 @@ export class DropdownPicksComponent
     this.rookie = Number(this.form.controls.rookie.value);
     this.submit(this.year, this.sport, this.mvp, this.rookie);
 
-    console.log('Submitted');
     // Update view
     if (this.mvp && this.rookie) {
       this.isMissingPicks = false;
