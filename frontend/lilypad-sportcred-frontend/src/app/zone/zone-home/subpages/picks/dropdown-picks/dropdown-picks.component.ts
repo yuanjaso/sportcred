@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
@@ -51,7 +52,10 @@ export class DropdownPicksComponent
   prevRookie;
   isMissingPicks: boolean = false;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private updateSnackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.grabDataForDropdowns();
@@ -159,9 +163,17 @@ export class DropdownPicksComponent
     this.submit(this.year, this.sport, this.mvp, this.rookie);
 
     console.log('Submitted');
+    // Update view
     if (this.mvp && this.rookie) {
-      // Update view
       this.isMissingPicks = false;
     }
+    this.showUpdateSnackBar();
+  }
+
+  showUpdateSnackBar(): void {
+    this.updateSnackBar.open('Successfully Updated', 'Close', {
+      duration: 2000,
+      verticalPosition: 'top',
+    });
   }
 }
