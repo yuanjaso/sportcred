@@ -17,6 +17,7 @@ import { TreePicksComponent } from './tree-picks/tree-picks.component';
     MaterialModule,
     EffectsModule.forFeature([PicksEffects]),
   ],
+  exports: [PicksComponent],
   providers: [PicksSerivce],
 })
 export class PicksModule {}
