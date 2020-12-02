@@ -39,14 +39,26 @@ export class TreePicksComponent implements OnInit, PredictionFeature {
   } = {};
   // use this to determine who is on the first round , it is mocked but fine for the minimum viable product
   firstRound: { [round in PlayoffRound]?: { home: string; away: string } } = {
-    'east_first_round-1-8': { home: 'Toronto Raptors', away: 'Boston Celtics' },
-    'east_first_round-2-7': { home: 'Toronto Raptors', away: 'Boston Celtics' },
-    'east_first_round-3-6': { home: 'Toronto Raptors', away: 'Boston Celtics' },
-    'east_first_round-4-5': { home: 'Toronto Raptors', away: 'Boston Celtics' },
-    'west_first_round-1-8': { home: 'Toronto Raptors', away: 'Boston Celtics' },
-    'west_first_round-2-7': { home: 'Toronto Raptors', away: 'Boston Celtics' },
-    'west_first_round-3-6': { home: 'Toronto Raptors', away: 'Boston Celtics' },
-    'west_first_round-4-5': { home: 'Toronto Raptors', away: 'Boston Celtics' },
+    'east_first_round-1-8': { home: 'Milwaukee Bucks', away: 'Orlando Magic' },
+    'east_first_round-2-7': { home: 'Toronto Raptors', away: 'Brooklyn Nets' },
+    'east_first_round-3-6': {
+      home: 'Boston Celtics',
+      away: 'Philadelphia 76ers',
+    },
+    'east_first_round-4-5': { home: 'Indiana Pacers', away: 'Miami Heat' },
+    'west_first_round-1-8': {
+      home: 'Los Angeles Lakers',
+      away: 'Portland Trailblazers',
+    },
+    'west_first_round-2-7': {
+      home: 'Los Angeles Clippers',
+      away: 'Dallas Mavericks',
+    },
+    'west_first_round-3-6': { home: 'Denver Nuggets', away: 'Utah Jazz' },
+    'west_first_round-4-5': {
+      home: 'Houston Rockets',
+      away: 'Oklahoma City Thunder',
+    },
   };
 
   constructor(private store: Store<AppState>) {}

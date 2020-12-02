@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import { AppState } from '../../../../../store/reducer';
 import { getAllPlayers } from '../../../../store/actions';
 import { selectPlayers } from '../../../../store/selectors';
@@ -21,7 +21,8 @@ import { selectPredictions } from '../store/picks.selectors';
   templateUrl: './dropdown-picks.component.html',
   styleUrls: ['./dropdown-picks.component.scss'],
 })
-export class DropdownPicksComponent implements OnInit, PredictionFeature {
+export class DropdownPicksComponent
+  implements OnInit, OnDestroy, PredictionFeature {
   // for dropdown lists
   players$: Observable<Player[]>;
   rookies$: Observable<Player[]>;
@@ -33,10 +34,13 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
   rookie: number;
 
   predictions: Predictions;
-  @Input() isAdmin: boolean;
+
   // two cases
   // if admin page, don't display the current result
   // if not admin page, display the current result if exists
+  @Input() isAdmin: boolean;
+
+  private subscription = new Subscription();
 
   form: FormGroup = new FormGroup({
     mvp: new FormControl(''),
@@ -51,6 +55,10 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
   ngOnInit(): void {
     this.setVariables();
     this.grabDataForDropdowns();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -79,22 +87,21 @@ export class DropdownPicksComponent implements OnInit, PredictionFeature {
   }
 
   private setVariables(): void {
-    this.store
-      .select(selectPredictions)
-      .pipe(
-        map(cloneDeep),
-        tap((predictions) => {
-          this.year = predictions.year;
-          this.sport = predictions.sport;
-          this.predictions = predictions;
+    const sub$ = this.store.select(selectPredictions).pipe(
+      filter((data) => data !== undefined),
+      map(cloneDeep),
+      tap((predictions) => {
+        this.year = predictions.year;
+        this.sport = predictions.sport;
+        this.predictions = predictions;
 
-          if (!this.isAdmin) {
-            this.mvp = predictions.mvp.player;
-            this.rookie = predictions.rookie.player;
-          }
-        })
-      )
-      .subscribe();
+        if (!this.isAdmin) {
+          this.mvp = predictions.mvp.player;
+          this.rookie = predictions.rookie.player;
+        }
+      })
+    );
+    this.subscription.add(sub$.subscribe());
   }
 
   private grabDataForDropdowns(): void {

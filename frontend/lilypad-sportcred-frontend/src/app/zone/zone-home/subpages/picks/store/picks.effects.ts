@@ -16,24 +16,22 @@ export class PicksEffects {
     )
   );
 
-  updateUserPredictions$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(PicksActions.updateUserPredictions),
-        mergeMap(({ predictions }) =>
-          this.picksService.updateUserPredictions(predictions)
-        )
+  updateUserPredictions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PicksActions.updateUserPredictions),
+      mergeMap(({ predictions }) =>
+        this.picksService.updateUserPredictions(predictions)
       ),
-    { dispatch: false }
+      map((predictions) => PicksActions.setPredictions({ predictions }))
+    )
   );
 
-  lockInResults$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(PicksActions.lockInResults),
-        mergeMap(({ results }) => this.picksService.lockInPicks(results))
-      ),
-    { dispatch: false }
+  lockInResults$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PicksActions.lockInResults),
+      mergeMap(({ results }) => this.picksService.lockInPicks(results)),
+      map((predictions) => PicksActions.setPredictions({ predictions }))
+    )
   );
 
   constructor(private actions$: Actions, private picksService: PicksSerivce) {}
