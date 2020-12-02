@@ -6,3 +6,7 @@
 <p>west conf {{ existingPlayoffPredictions.west_conference_finals | json }}</p>
 
 <p>east conf {{ existingPlayoffPredictions.east_conference_finals | json }}</p>
+
+<button mat-raised-button (click)="submit(year, sport, [{ id: 1, team: 1 }])">
+  Submit
+</button>
