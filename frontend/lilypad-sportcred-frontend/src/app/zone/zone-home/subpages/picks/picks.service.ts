@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClientWrapper } from '../../../../http/http-client-wrapper';
 import { Predictions, UpdatePredictionPayload } from './picks.types';
 
