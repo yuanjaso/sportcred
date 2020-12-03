@@ -30,8 +30,8 @@
     <ul class="bracket bracket-2">
       <li class="team-item" *ngFor='let li of [].constructor(8); let i = index'
       [ngClass]=" this.existingPlayoffPredictions[RoundNames[i]].correct_team 
-      === this.existingPlayoffPredictions[RoundNames[i]].team && !isAdmin
-       ? 'matched' : 'notmatched'">
+      !== this.existingPlayoffPredictions[RoundNames[i]].team && !isAdmin
+       ? 'notmatched' : 'matched'">
         <mat-form-field appearance="fill"
        >
           <mat-label>Team</mat-label>
@@ -46,8 +46,8 @@
     <ul class="bracket bracket-3">
       <li class="team-item" *ngFor='let li of  [].constructor(4); let i = index' 
       [ngClass]=" this.existingPlayoffPredictions[RoundNames[i + 8]].correct_team 
-      === this.existingPlayoffPredictions[RoundNames[i + 8]].team && !isAdmin
-       ? 'matched' : 'notmatched'">
+      !== this.existingPlayoffPredictions[RoundNames[i + 8]].team && !isAdmin
+       ? 'notmatched' : 'matched'">
         <mat-form-field appearance="fill">
           <mat-label>Team</mat-label>
           <mat-select  [formControlName]="RoundNames[i + 8]">
@@ -61,8 +61,8 @@
     <ul class="bracket bracket-4">
       <li class="team-item" *ngFor='let li of [].constructor(2); let i = index' 
       [ngClass]=" this.existingPlayoffPredictions[RoundNames[i + 12]].correct_team 
-      === this.existingPlayoffPredictions[RoundNames[i + 12]].team && !isAdmin
-       ? 'matched' : 'notmatched'"
+      !== this.existingPlayoffPredictions[RoundNames[i + 12]].team && !isAdmin
+       ? 'notmatched' : 'matched'"
          >
         
         <mat-form-field appearance="fill" >
@@ -78,8 +78,8 @@
 
     <ul class="bracket bracket-5">
       <li class="team-item"[ngClass]=" this.existingPlayoffPredictions[RoundNames[14]].correct_team 
-      === this.existingPlayoffPredictions[RoundNames[14]].team && !isAdmin
-       ? 'matched' : 'notmatched'"
+      !== this.existingPlayoffPredictions[RoundNames[14]].team && !isAdmin
+       ? 'notmatched' : 'matched'"
       >
         <mat-form-field appearance="fill">
           <mat-label>Team</mat-label>
@@ -96,14 +96,11 @@
     <div>year: {{ year }}</div>
     <div>sport: {{ sport }}</div>
 
-    <!-- if admin mode, disable submit button till all fields are filled -->
     <!-- if user mode, disable submit buttom when its locked -->
     <button 
     mat-raised-button type="submit"
     
-    [disabled]=" 
-    isAdmin && this.form.status === 'INVALID' || !isAdmin
-    && this.existingPlayoffPredictions['finals'].is_locked"
+    [disabled]=" !isAdmin && this.existingPlayoffPredictions['finals'].is_locked"
     >
       {{ isAdmin? 'Lock In Results' : 'Submit'}}
     </button>
