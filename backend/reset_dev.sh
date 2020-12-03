@@ -30,6 +30,7 @@
     echo "importing prediction"
     python3 manage.py import_prediction database_files/predictions.yaml
 
+
     if [ $# -gt 0 ]  
         then
         echo "importing trivia"

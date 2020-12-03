@@ -147,3 +147,89 @@ As a user, I want to be able to see the average rating for a debate so that I ca
 When looking at debates I should see a number next to it
 
 **Priority** Low | **Estimate** 3
+
+## Picks and Predictions
+
+### User Story
+
+As a sports fan, I want to be able to make some picks and predictions for how the season will go so that I can raise my ACS score and show others my credibility
+
+### Acceptance Criteria
+
+When in picks and predictions, I should be able to see a list of events that will happen in the future.
+
+When choosing what to pick, I want to be able to make predictions on match outcomes, MVPs, and rookie of the year
+
+When an outcome is finalized, my ACS score should automatically raise if I am correct.
+
+**Priority** Lowest | **Estimate** 8
+
+### User Story
+
+As a analyst, I want others to be able to see my picks and prediction history so that I can show off my credibility
+
+### Acceptance Criteria
+
+When on a profile, there should be a button to see their past and current picks and predictions.
+
+## **Priority** Lowest | **Estimate** 8
+
+### User Story
+
+As a user, I want to be able to select my MVP predictions for the current season, so that I can gain acs points
+
+### Acceptance Criteria
+
+given that i am on the picks and predictions page and logged in, I should be able to choose a player I predict will be the MVP of the season in a predetermined time period
+
+**Priority** Lowest | **Estimate** 3
+
+### User Story
+
+As a user, I want to be able to select my rookie predictions for the current season, so that I can gain acs points
+
+### Acceptance Criteria
+
+given that i am on the picks and predictions page and logged in, I should be able to choose a player I predict will be the rookie of the season in a predetermined time period
+
+**Priority** Lowest | **Estimate** 4
+
+### User Story
+
+As an admin, I want to be able to go back on predictions and set the final outcome, so users can know if their predictions were correct
+
+### Acceptance Criteria
+
+Given that I am an admin and on the admin dashboard page, I should be able to edit previous predictions and mark it with a final outcome.
+
+**Priority** Lowest | **Estimate** 8
+
+### User Story
+
+As a user, I want to be able to select my playoff predictions in a tree-like format, so that I can gain acs points
+
+### Acceptance Criteria
+
+given that i am on the picks and predictions page and logged in, I should be able to choose the playoff order that I believe will happen
+
+**Priority** Lowest | **Estimate** 8
+
+### User Story
+
+As an admin, After I lock in a prediction result, no user should be able to modify their past prediction so that results are valid
+
+### Acceptance Criteria
+
+given that I am and admin and on the admin dashboard, I should be able to open and edit a prediction topic to set a final result.
+
+**Priority** Lowest | **Estimate** 5
+
+### User Story
+
+As an admin, I want to be able to create new prediction topics, to better engage my audience with predictions
+
+### Acceptance Criteria
+
+given that i am an admin and on the admin dashboard, I should be able to create a new prediction topic by entering its title, description
+
+**Priority** Lowest | **Estimate** 5

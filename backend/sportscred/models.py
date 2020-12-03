@@ -219,7 +219,6 @@ class DebateAcsHistory(BaseAcsHistory):
         "DebateComment", on_delete=models.CASCADE, null=True
     )
 
-
 class PredictionAcsHistory(BaseAcsHistory):
     source_type = "P"
     prediction = models.ForeignKey("Prediction", on_delete=models.CASCADE, null=True)
