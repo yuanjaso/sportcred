@@ -1,4 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +12,7 @@ import { Player } from '../../../../zone.types';
 import {
   PredictionFeature,
   Predictions,
-  UpdatePredictionPayload,
+  UpdatePredictionPayload
 } from '../picks.types';
 import { lockInResults, updateUserPredictions } from '../store/picks.actions';
 import { selectPredictions } from '../store/picks.selectors';
@@ -41,14 +43,23 @@ export class DropdownPicksComponent
 
   private subscription = new Subscription();
 
-  constructor(private store: Store<AppState>) {}
+  form: FormGroup = new FormGroup({
+    mvp: new FormControl(''),
+    rookie: new FormControl(''),
+  });
+  // Previous predictions for non admin users
+  prevMvp;
+  prevRookie;
+  isMissingPicks: boolean = false;
+
+  constructor(
+    private store: Store<AppState>,
+    private updateSnackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.setVariables();
     this.grabDataForDropdowns();
-
-    // ! HARDCODED MOCK FOR DEMO
-    this.exampleSubmit();
+    this.setVariables();
   }
 
   ngOnDestroy(): void {
@@ -93,6 +104,7 @@ export class DropdownPicksComponent
           this.mvp = predictions.mvp.player;
           this.rookie = predictions.rookie.player;
         }
+        this.showPrevPredictions();
       })
     );
     this.subscription.add(sub$.subscribe());
@@ -105,10 +117,68 @@ export class DropdownPicksComponent
     this.rookies$ = this.store.select(selectRookies);
   }
 
-  // ! HARDCODED
-  private exampleSubmit(): void {
-    this.mvp = 1;
-    this.rookie = 2;
-    this.submit(this.year, this.sport, this.mvp, this.rookie);
+  /**
+   * Non admin users will have their previous predictions shown
+   */
+  private showPrevPredictions(): void {
+    if (!this.isAdmin) {
+      if (!this.mvp || !this.rookie) {
+        // prev preditions do not exist or are not completed
+        this.isMissingPicks = true;
+      }
+
+      if (this.mvp) {
+        // MVP
+        this.subscription.add(
+          this.players$.subscribe((data) => {
+            if (data) {
+              // Set value of form to prev mvp
+              this.prevMvp = data.find((mvp) => mvp.id === this.mvp);
+              this.form.get('mvp').setValue(this.prevMvp.id);
+            }
+          })
+        );
+      }
+
+      if (this.rookie) {
+        // Rookie
+        this.subscription.add(
+          this.rookies$.subscribe((data) => {
+            if (data) {
+              // Set value of form to prev rookie
+              this.prevRookie = data.find(
+                (rookie) => rookie.id === this.rookie
+              );
+              this.form.get('rookie').setValue(this.prevRookie.id);
+            }
+          })
+        );
+      }
+    }
+  }
+
+  submitPicks(): void {
+    if (!this.predictions.mvp.is_locked && !this.predictions.rookie.is_locked) {
+      this.mvp = Number(this.form.controls.mvp.value);
+      this.rookie = Number(this.form.controls.rookie.value);
+      this.submit(this.year, this.sport, this.mvp, this.rookie);
+
+      // Update view
+      if (this.mvp && this.rookie) {
+        this.isMissingPicks = false;
+      }
+
+      this.showUpdateSnackBar('Successfully Updated');
+    } else {
+      // Cannot lock in
+      this.showUpdateSnackBar('Lock In Time Over');
+    }
+  }
+
+  showUpdateSnackBar(message: string): void {
+    this.updateSnackBar.open(message, 'Close', {
+      duration: 2000,
+      verticalPosition: 'top',
+    });
   }
 }

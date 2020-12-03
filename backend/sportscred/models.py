@@ -336,7 +336,6 @@ class Prediction(models.Model):
 
         # Gets MVP information
         mvp_id = MvpPrediction.objects.filter(year=year).values()
-        print(mvp_id)
         mvp["title"] = mvp_id[0]["title"]
         mvp["id"] = mvp_id[0]["id"]
         mvp["is_locked"] = mvp_id[0]["is_locked"]
@@ -357,7 +356,7 @@ class Prediction(models.Model):
         if (
             len(
                 MvpPredictionChoice.objects.filter(
-                    predicter=user, predictionchoice_ptr_id=mvp_id[0]["id"]
+                    predicter=user, predicting_for_id=mvp_id[0]["id"]
                 )
             )
             == 0
@@ -365,8 +364,13 @@ class Prediction(models.Model):
             mvp["player"] = None
             mvp["player_name"] = None
         else:
+            print(
+                MvpPredictionChoice.objects.filter(
+                    predicter=user, predicting_for_id=mvp_id[0]["id"]
+                ).values()
+            )
             mvp["player"] = MvpPredictionChoice.objects.filter(
-                predicter=user, predictionchoice_ptr_id=mvp_id[0]["id"]
+                predicter=user, predicting_for_id=mvp_id[0]["id"]
             ).values()[0]["player_id"]
             mvp["player_name"] = (
                 Player.objects.filter(id=mvp["player"]).values()[0]["first_name"]
@@ -398,7 +402,7 @@ class Prediction(models.Model):
         if (
             len(
                 RookiePredictionChoice.objects.filter(
-                    predicter=user, predictionchoice_ptr_id=rookie_id[0]["id"]
+                    predicter=user, predicting_for_id=rookie_id[0]["id"]
                 )
             )
             == 0
@@ -407,7 +411,7 @@ class Prediction(models.Model):
             roty["player_name"] = None
         else:
             roty["player"] = RookiePredictionChoice.objects.filter(
-                predicter=user, predictionchoice_ptr_id=rookie_id[0]["id"]
+                predicter=user, predicting_for_id=rookie_id[0]["id"]
             ).values()[0]["player_id"]
             roty["player_name"] = (
                 Player.objects.filter(id=roty["player"]).values()[0]["first_name"]
@@ -434,7 +438,7 @@ class Prediction(models.Model):
             if (
                 len(
                     PlayOffPredictionChoice.objects.filter(
-                        predicter=user, predictionchoice_ptr_id=item["id"]
+                        predicter=user, predicting_for_id=item["id"]
                     ).values()
                 )
                 == 0
@@ -443,7 +447,7 @@ class Prediction(models.Model):
                 individual_playoff["team_name"] = None
             else:
                 individual_playoff["team"] = PlayOffPredictionChoice.objects.filter(
-                    predicter=user, predictionchoice_ptr_id=item["id"]
+                    predicter=user, predicting_for_id=item["id"]
                 ).values()[0]["team_id"]
                 individual_playoff["team_name"] = Team.objects.filter(
                     id=individual_playoff["team"]
