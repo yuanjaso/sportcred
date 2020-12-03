@@ -60,9 +60,6 @@ export class DropdownPicksComponent
   ngOnInit(): void {
     this.grabDataForDropdowns();
     this.setVariables();
-    
-    // TODO: Disable SAVE button if it is past the time to LOCK IN
-  
   }
 
   ngOnDestroy(): void {
@@ -161,19 +158,25 @@ export class DropdownPicksComponent
   }
 
   submitPicks(): void {
-    this.mvp = Number(this.form.controls.mvp.value);
-    this.rookie = Number(this.form.controls.rookie.value);
-    this.submit(this.year, this.sport, this.mvp, this.rookie);
+    if (!this.predictions.mvp.is_locked && !this.predictions.rookie.is_locked) {
+      this.mvp = Number(this.form.controls.mvp.value);
+      this.rookie = Number(this.form.controls.rookie.value);
+      this.submit(this.year, this.sport, this.mvp, this.rookie);
 
-    // Update view
-    if (this.mvp && this.rookie) {
-      this.isMissingPicks = false;
+      // Update view
+      if (this.mvp && this.rookie) {
+        this.isMissingPicks = false;
+      }
+
+      this.showUpdateSnackBar('Successfully Updated');
+    } else {
+      // Cannot lock in
+      this.showUpdateSnackBar('Lock In Time Over');
     }
-    this.showUpdateSnackBar();
   }
 
-  showUpdateSnackBar(): void {
-    this.updateSnackBar.open('Successfully Updated', 'Close', {
+  showUpdateSnackBar(message: string): void {
+    this.updateSnackBar.open(message, 'Close', {
       duration: 2000,
       verticalPosition: 'top',
     });
