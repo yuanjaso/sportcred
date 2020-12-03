@@ -157,15 +157,23 @@ export class TreePicksComponent
         });
 
         //set the saved predictions into tree
-        for (let key of Object.keys(this.existingPlayoffPredictions)) {
-          this.form.controls[key].setValue(
-            this.existingPlayoffPredictions[key].team
-          );
-          if (this.existingPlayoffPredictions[key].is_locked)
-            this.form.controls[key].disable();
+        if (!this.isAdmin) {
+          this.setPrevSelections();
         }
       })
     );
     this.subscription.add(sub$.subscribe());
+  }
+
+  //sets the previous saved selections if the user has any
+  // not applicable for admin page
+  private setPrevSelections() {
+    for (let key of Object.keys(this.existingPlayoffPredictions)) {
+      this.form.controls[key].setValue(
+        this.existingPlayoffPredictions[key].team
+      );
+      if (!this.isAdmin && this.existingPlayoffPredictions[key].is_locked)
+        this.form.controls[key].disable();
+    }
   }
 }

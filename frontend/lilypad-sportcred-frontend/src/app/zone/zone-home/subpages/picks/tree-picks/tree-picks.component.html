@@ -81,9 +81,11 @@
   <div class="bubble">
     <div>year: {{ year }}</div>
     <div>sport: {{ sport }}</div>
-    <button mat-raised-button type="submit"
+    <button 
+    mat-raised-button type="submit"
+    [disabled]="isAdmin && this.form.status === 'INVALID'"
     >
-      Submit
+      {{ isAdmin? 'Lock In Results' : 'Submit'}}
     </button>
   </div>
 </form>
