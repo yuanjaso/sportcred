@@ -117,7 +117,11 @@ export class TreePicksComponent
       year: this.year,
       sport: this.sport,
       playoff: Object.keys(this.form.controls).reduce((acc, key) => {
-        if (this.form.controls[key].value === "") return acc;
+        if (
+          this.form.controls[key].value === '' ||
+          this.form.controls[key].value === null
+        )
+          return acc;
         let payload = {
           id: this.existingPlayoffPredictions[key].id,
           team: this.form.controls[key].value,
