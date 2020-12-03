@@ -1,0 +1,40 @@
+<div class="final-results" *ngIf="correctMvp && correctRookie && !isAdmin">
+  <p class="final-reulst-title">FINAL RESULTS</p>
+  <p>MVP: {{ correctMvp }}</p>
+  <p>ROOKIE OF THE YEAR: {{ correctRookie }}</p>
+</div>
+
+<div *ngIf="isMissingPicks">
+  <p class="unsaved-indicator">
+    <i class="material-icons">warning</i>
+    You Have Unsaved Picks!
+  </p>
+</div>
+
+<form class="picks-form" [formGroup]="form" (ngSubmit)="submitPicks()">
+  <p class="picks-container">
+    <mat-form-field appearance="outline">
+      <mat-label>MVP (MOST VALUABLE PLAYER)</mat-label>
+      <mat-select formControlName="mvp" [(ngModel)]="prevMvp">
+        <div *ngFor="let mvp of players$ | async" [value]="mvp">
+          <mat-option [value]="mvp.id"
+            >{{ mvp.first_name }} {{ mvp.last_name }}</mat-option
+          >
+        </div>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>ROOKIE OF THE YEAR</mat-label>
+      <mat-select formControlName="rookie" [(ngModel)]="prevRookie">
+        <div *ngFor="let rookie of rookies$ | async">
+          <mat-option [value]="rookie.id"
+            >{{ rookie.first_name }} {{ rookie.last_name }}</mat-option
+          >
+        </div>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="accent" class="saveBtn" type="submit">
+      SAVE
+    </button>
+  </p>
+</form>

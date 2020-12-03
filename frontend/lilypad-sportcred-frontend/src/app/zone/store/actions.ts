@@ -7,11 +7,18 @@ export const setAllSportsTeams = createAction(
   props<{ teams: Team[] }>()
 );
 
-export const getAllPlayers = createAction('[Zone] Get All Players');
+export const getAllPlayers = createAction(
+  '[Zone] Get All Players',
+  props<{ rookies?: boolean }>()
+);
 
 export const setAllPlayers = createAction(
   '[Zone] Set All Players',
   props<{ players: Player[] }>()
+);
+export const setRookies = createAction(
+  '[Zone] Set Rookies',
+  props<{ rookies: Player[] }>()
 );
 
 export const getAllSports = createAction('[Zone] Get All Sports');

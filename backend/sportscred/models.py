@@ -219,6 +219,10 @@ class DebateAcsHistory(BaseAcsHistory):
         "DebateComment", on_delete=models.CASCADE, null=True
     )
 
+class PredictionAcsHistory(BaseAcsHistory):
+    source_type = "P"
+    prediction = models.ForeignKey("Prediction", on_delete=models.CASCADE, null=True)
+
 
 class Sport(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
@@ -283,33 +287,201 @@ class QuestionaireUserResponse(models.Model):
         unique_together = ["user", "question"]
 
 
-class PredictChoice(models.Model):
-    # TODO:
-    # Need to make sure this pulls from the database later and isnt a random string
+class PredictionChoice(models.Model):
     predicter = models.ForeignKey("Profile", on_delete=models.CASCADE)
     predicting_for = models.ForeignKey("Prediction", on_delete=models.CASCADE)
-    content = models.CharField(max_length=100, blank=True)
 
     class Meta:
         unique_together = ["predicter", "predicting_for"]
 
 
+class MvpPredictionChoice(PredictionChoice):
+    player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class RookiePredictionChoice(PredictionChoice):
+    player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class PlayOffPredictionChoice(PredictionChoice):
+    team = models.ForeignKey("Team", on_delete=models.CASCADE, null=True, blank=True)
+
+
 class Prediction(models.Model):
     title = models.CharField(max_length=100, blank=True)
-    type = models.CharField(max_length=100, blank=True)
-    # TODO: Change this enumerator and CharField
-    deadline = models.DateTimeField(auto_now_add=False, blank=True)
-    depends_on = models.ManyToManyField("Prediction")
-    relates_to = models.ManyToManyField("Sport")
+    relates_to = models.ForeignKey("Sport", on_delete=models.CASCADE)
+    year = models.CharField(
+        max_length=4
+    )  # this is the year in YYYY format. so 2020 for example
+    is_locked = models.BooleanField(default=False)
 
-    class Meta:
-        constraints = [models.UniqueConstraint(fields=["title"], name="unique_name")]
+    @staticmethod
+    def prediction_response(year, user):
+        # This should be a dictionary of the json response
+        result = {}
+        result["year"] = year
+        # Check if year is in the db or not.
+        given_year = Prediction.objects.filter(year=year)
+        if len(given_year) == 0:
+            return 400
+        result["sport"] = "Basketball"
+        mvp = {}
+        roty = {}
+        playoff = []
+
+        # Gets MVP information
+        mvp_id = MvpPrediction.objects.filter(year=year).values()
+        mvp["title"] = mvp_id[0]["title"]
+        mvp["id"] = mvp_id[0]["id"]
+        mvp["is_locked"] = mvp_id[0]["is_locked"]
+        mvp["correct_player"] = mvp_id[0]["correct_player_id"]
+        if mvp["correct_player"] is None:
+            mvp["correct_player_name"] = None
+        else:
+            mvp["correct_player_name"] = (
+                Player.objects.filter(id=mvp["correct_player"]).values()[0][
+                    "first_name"
+                ]
+                + " "
+                + Player.objects.filter(id=mvp["correct_player"]).values()[0][
+                    "last_name"
+                ]
+            )
+
+        if (
+            len(
+                MvpPredictionChoice.objects.filter(
+                    predicter=user, predicting_for_id=mvp_id[0]["id"]
+                )
+            )
+            == 0
+        ):
+            mvp["player"] = None
+            mvp["player_name"] = None
+        else:
+            print(
+                MvpPredictionChoice.objects.filter(
+                    predicter=user, predicting_for_id=mvp_id[0]["id"]
+                ).values()
+            )
+            mvp["player"] = MvpPredictionChoice.objects.filter(
+                predicter=user, predicting_for_id=mvp_id[0]["id"]
+            ).values()[0]["player_id"]
+            mvp["player_name"] = (
+                Player.objects.filter(id=mvp["player"]).values()[0]["first_name"]
+                + " "
+                + Player.objects.filter(id=mvp["player"]).values()[0]["last_name"]
+            )
+
+        result["mvp"] = mvp
+
+        # Gets Rookie information
+        rookie_id = RotyPrediction.objects.filter(year=year).values()
+        roty["title"] = rookie_id[0]["title"]
+        roty["id"] = rookie_id[0]["id"]
+        roty["is_locked"] = rookie_id[0]["is_locked"]
+        roty["correct_player"] = rookie_id[0]["correct_player_id"]
+        if roty["correct_player"] is None:
+            roty["correct_player_name"] = None
+        else:
+            roty["correct_player_name"] = (
+                Player.objects.filter(id=roty["correct_player"]).values()[0][
+                    "first_name"
+                ]
+                + " "
+                + Player.objects.filter(id=roty["correct_player"]).values()[0][
+                    "last_name"
+                ]
+            )
+
+        if (
+            len(
+                RookiePredictionChoice.objects.filter(
+                    predicter=user, predicting_for_id=rookie_id[0]["id"]
+                )
+            )
+            == 0
+        ):
+            roty["player"] = None
+            roty["player_name"] = None
+        else:
+            roty["player"] = RookiePredictionChoice.objects.filter(
+                predicter=user, predicting_for_id=rookie_id[0]["id"]
+            ).values()[0]["player_id"]
+            roty["player_name"] = (
+                Player.objects.filter(id=roty["player"]).values()[0]["first_name"]
+                + " "
+                + Player.objects.filter(id=roty["player"]).values()[0]["last_name"]
+            )
+        result["rookie"] = roty
+
+        # Gets the playoff information.
+        playoff_id = PlayOffPrediction.objects.filter(year=year).values()
+        for item in playoff_id:
+            individual_playoff = {}
+            individual_playoff["title"] = item["title"]
+            individual_playoff["id"] = item["id"]
+            individual_playoff["is_locked"] = item["is_locked"]
+            individual_playoff["correct_team"] = item["correct_team_id"]
+            if individual_playoff["correct_team"] is None:
+                individual_playoff["correct_team_name"] = None
+            else:
+                individual_playoff["correct_team_name"] = Team.objects.filter(
+                    id=individual_playoff["correct_team"]
+                ).values()[0]["full_name"]
+
+            if (
+                len(
+                    PlayOffPredictionChoice.objects.filter(
+                        predicter=user, predicting_for_id=item["id"]
+                    ).values()
+                )
+                == 0
+            ):
+                individual_playoff["team"] = None
+                individual_playoff["team_name"] = None
+            else:
+                individual_playoff["team"] = PlayOffPredictionChoice.objects.filter(
+                    predicter=user, predicting_for_id=item["id"]
+                ).values()[0]["team_id"]
+                individual_playoff["team_name"] = Team.objects.filter(
+                    id=individual_playoff["team"]
+                ).values()[0]["full_name"]
+            playoff.append(individual_playoff)
+
+        result["playoff"] = playoff
+        return result
+
+
+class MvpPrediction(Prediction):
+    type = "mvp"  # don't know if we'll need this
+    correct_player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class RotyPrediction(Prediction):
+    type = "rookie"  # don't know if we'll need this
+    correct_player = models.ForeignKey(
+        "Player", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+
+class PlayOffPrediction(Prediction):
+    correct_team = models.ForeignKey(
+        "Team", on_delete=models.CASCADE, null=True, blank=True
+    )
 
 
 class Player(models.Model):
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, blank=False)
     plays_on = models.ManyToManyField("Team", through="PlaysOn")
+    is_rookie = models.BooleanField(default=False)
 
 
 class PlaysOn(models.Model):

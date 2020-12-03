@@ -3,432 +3,163 @@ import { API } from './restapi';
 const apiRequirements: API[] = [
   // Based on https://piazza.com/class/keswqh47g2bm?cid=233
   // and NBA playoff bracket info on wikipedia
+  // we don't have dates to determine the end date to predict
+  // some admin user will just lock in a result, once they lock it in no one will be able to update
+
+  //originally, the knockout bracket would be represented in a graph for  flexibility
+  // since we're hard coding for basketball we're going to go off key words
+  // you can expect the play_off prediction titles to have these titless
+  // east_first_round_1-8
+  // east_first_round_2-7
+  // east_first_round_3-6
+  // east_first_round_4-5
+  // east_second_round_A
+  // east_second_round_B
+  // east_conference_finals
+  // Finals
+
+  // mirror for west
+  // The winner of the 1-8 and the 4-5 will go to A
+  // the otherto B
+
   {
-    description: 'Get set of all players for picks',
+    description: 'Get Prediction information',
     request: {
-      requestURL: '/api/v1/predictions/player-set',
+      requestURL: '/api/v1/predictions/',
       requestMethod: 'GET',
       body: {},
-      queryParams: {},
+      queryParams: { year: 2020, user_id: 1 },
     },
     response: {
       statusCode: 200,
       response: {
-        playerSet: [
-          { playerId: 1, playerName: 'Giannis Antetokounmpo' },
-          { playerId: 2, playerName: 'Anthony Davis' },
-        ]
-      },
-    },
-  },
-  {
-    description: 'Get set of all teams for picks',
-    request: {
-      requestURL: '/api/v1/predictions/team-set',
-      requestMethod: 'GET',
-      body: {},
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: {
-        teamSet: [
-          { teamId: 1, teamName: 'Toronto Raptors', conference: 'EAST' },
-          { teamId: 2, teamName: 'Boston Celtics', conference: 'EAST' },
-        ]
-      },
-    },
-  },
-  {
-    description: 'Get Pre-season Predictions',
-    request: {
-      requestURL: '/api/v1/predictions/pre-season',
-      requestMethod: 'GET',
-      body: {},
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: {
-        categories: [
+        year: 2020,
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
+        playoff: [
           {
-            categoryType: 'MVP',
-            categoryName: 'Most Valuable Player',
-          },
-          {
-            categoryType: 'DPOY',
-            categoryName: 'Defensive Player of the Year',
-          },
-          {
-            categoryType: 'ROTY',
-            categoryName: 'Rookie of the Year',
-          },
-          {
-            categoryType: 'MIP',
-            categoryName: 'Most Improved Player',
-          },
-          {
-            categoryType: 'SMA',
-            categoryName: 'Sixth Man Award',
-          },
-          {
-            categoryType: 'COTY',
-            categoryName: 'Coach of the Year',
-          },
-          {
-            categoryType: 'ANFT',
-            categoryName: 'All-NBA First Team',
-          },
-          {
-            categoryType: 'ANDFT',
-            categoryName: 'All-NBA Defensive First Team',
-          },
-          {
-            categoryType: 'ANRFT',
-            categoryName: 'All-NBA Rookie First Team',
-          },
-          {
-            categoryType: 'ECS',
-            categoryName: 'Eastern Conference Seeding',
-          },
-          {
-            categoryType: 'WCS',
-            categoryName: 'Western Conference Seeding',
+            id: 1,
+            title: 'east_first_round_1-8',
+            is_locked: false,
+            team: null, /// none, # this is the users prediction, it will default to None if it doesn't exist yet
+            team_name: 'raptors',
+            correct_team: null, // updated by admin eventually
+            correct_team_name: 'celtics',
           },
         ],
+        mvp: {
+          id: 3,
+          title: '2020 MVP',
+          is_locked: false,
+          player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
+          correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
+        },
+        rookie: {
+          id: 4,
+          title: '2020 ROTY',
+          is_locked: false,
+          player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
+          correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
+        },
       },
     },
   },
   {
-    description: 'Update Pre-season Predictions',
+    description: 'Set your predictions',
     request: {
-      requestURL: '/api/v1/predictions/pre-season',
+      requestURL: '/api/v1/predictions/',
       requestMethod: 'PUT',
       body: {
-        picks: [
-          { categoryType: 'MVP', playerId: 1 },
-          { categoryType: 'DPOY', playerId: 1 },
-          // ... etc
-          { categoryType: 'WCS', teamId: 3 },
+        year: 2020,
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
+        playoff: [
+          {
+            id: 1,
+            team: 1,
+          },
         ],
+        mvp: {
+          id: 1,
+          player: 4,
+        },
+        rookie: {
+          id: 1,
+          player: 4,
+        },
       },
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: {},
-    },
-  },
-  {
-    description: 'Get Regular Season Predictions / Daily Picks',
-    request: {
-      requestURL: '/api/v1/predictions/regular-season',
-      requestMethod: 'GET',
-      body: {},
       queryParams: {},
     },
     response: {
       statusCode: 200,
       response: {
-        matches: [
-          { 
-            matchId: 1,
-            conference: 'EAST',
-            homeTeam: {
-              teamId: 1,
-              teamName: 'Toronto Raptors'
-            },
-            awayTeam: {
-              teamId: 2, 
-              teamName: 'Boston Celtics'
-            }
-          },
+        year: 2020,
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
+        playoff: [
           {
-            matchId: 2,
-            conference: 'WEST',
-            homeTeam: {
-              teamId: 3,
-              teamName: 'Los Angeles Lakers'
-            },
-            awayTeam: {
-              teamId: 4, 
-              teamName: 'Houston Rockets'
-            }
-          }
-        ]
+            id: 1,
+            title: 'east_first_round_1-8',
+            is_locked: false,
+            team: null, /// none, # this is the users prediction, it will default to None if it doesn't exist yet
+            team_name: 'raptors',
+            correct_team: null, // updated by admin eventually
+            correct_team_name: 'celtics',
+          },
+        ],
+        mvp: {
+          id: 3,
+          title: '2020 MVP',
+          is_locked: false,
+          player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
+          correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
+        },
+        rookie: {
+          id: 4,
+          title: '2020 ROTY',
+          is_locked: false,
+          player: null, // none # this is the users prediction, will default to none if it doesn't exist
+          player_name: 'Michael jordan',
+          correct_player: null, // updated by admin eventually
+          correct_player_name: 'lebron james',
+        },
       },
     },
   },
   {
-    description: 'Update Regular Season Predictions / Daily Picks',
+    description: 'Admin Lock in results',
     request: {
-      requestURL: '/api/v1/predictions/regular-season',
+      requestURL: '/api/v1/predictions/admin',
       requestMethod: 'PUT',
+      // its the same reqs as prev endpoint
       body: {
-        dailyPicks: [
-          { matchId: 1, teamId: 1 },
-          { matchId: 2, teamId: 3 },
-        ],
-      },
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: {},
-    },
-  },
-  {
-    description: 'Get Playoffs series picks',
-    request: {
-      requestURL: '/api/v1/predictions/playoffs/series',
-      requestMethod: 'GET',
-      body: {},
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: {
-        firstRound: {
-          eastA: {
-            // A series is a best of 7
-            seriesId: 1,
-            teams: [
-              { teamId: 1, teamName: 'Toronto Raptors' },
-              { teamId: 2, teamName: 'Boston Celtics' },
-            ],
-            prediction: '4:1',
-            // game start date/time
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          eastB: {
-            seriesId: 2,
-            teams: [
-              { teamId: 5, teamName: 'Miami Heat' },
-              { teamId: 6, teamName: 'Indiana Pacers' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          eastC: {
-            seriesId: 3,
-            teams: [
-              { teamId: 5, teamName: 'Miami Heat' },
-              { teamId: 6, teamName: 'Indiana Pacers' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          eastD: {
-            seriesId: 4,
-            teams: [
-              { teamId: 5, teamName: 'Miami Heat' },
-              { teamId: 6, teamName: 'Indiana Pacers' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          westA: {
-            seriesId: 5,
-            teams: [
-              { teamId: 7, teamName: 'Denver Nuggets' },
-              { teamId: 4, teamName: 'Houston Rockets' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          westB: {
-            seriesId: 6,
-            teams: [
-              { teamId: 8, teamName: 'OKC Thunder' },
-              { teamId: 4, teamName: ' Houston Rockets' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          westC: {
-            seriesId: 7,
-            teams: [
-              { teamId: 8, teamName: 'OKC Thunder' },
-              { teamId: 4, teamName: ' Houston Rockets' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          westD: {
-            seriesId: 8,
-            teams: [
-              { teamId: 8, teamName: 'OKC Thunder' },
-              { teamId: 4, teamName: ' Houston Rockets' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-        },
-        semiFinals: {
-          eastA: {
-            seriesId: 9,
-            teams: [
-              { teamId: 1, teamName: 'Toronto Raptors' },
-              { teamId: 2, teamName: 'Boston Celtics' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          eastB: {
-            seriesId: 10,
-            teams: [
-              { teamId: 5, teamName: 'Miami Heat' },
-              { teamId: 6, teamName: 'Indiana Pacers' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          westA: {
-            seriesId: 11,
-            teams: [
-              { teamId: 7, teamName: 'Denver Nuggets' },
-              { teamId: 4, teamName: 'Houston Rockets' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          westB: {
-            seriesId: 12,
-            teams: [
-              { teamId: 8, teamName: 'OKC Thunder' },
-              { teamId: 4, teamName: ' Houston Rockets' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-        },
-        conferenceFinals: {
-          eastA: {
-            seriesId: 13,
-            teams: [
-              { teamId: 1, teamName: 'Toronto Raptors' },
-              { teamId: 2, teamName: 'Boston Celtics' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-          westA: {
-            seriesId: 14,
-            teams: [
-              { teamId: 8, teamName: 'OKC Thunder' },
-              { teamId: 4, teamName: ' Houston Rockets' },
-            ],
-            prediction: '4:1',
-            lockInTime: 'dd-mmm-yyyy hh:mm',
-          },
-        },
-        finals: {
-          seriesId: 15,
-          teams: [
-            { teamId: 1, teamName: 'Toronto Raptors' },
-            { teamId: 4, teamName: ' Houston Rockets' },
-          ],
-          prediction: '4:1',
-          lockInTime: 'dd-mmm-yyyy hh:mm',
-        },
-      },
-    },
-  },
-  {
-    description: 'Update Playoffs series picks',
-    request: {
-      requestURL: '/api/v1/predictions/playoffs/series',
-      requestMethod: 'PUT',
-      body: {
-        firstRound: [
-          { seriesId: 1, teamId: 1, conference: 'EAST', prediction: '4:1' },
-          { seriesId: 2, teamId: 1, conference: 'EAST', prediction: '4:1' },
-          { seriesId: 3, teamId: 1, conference: 'EAST', prediction: '4:1' },
-          { seriesId: 4, teamId: 1, conference: 'EAST', prediction: '4:1' },
-          { seriesId: 5, teamId: 4, conference: 'WEST', prediction: '4:1' },
-          { seriesId: 6, teamId: 4, conference: 'WEST', prediction: '4:1' },
-          { seriesId: 7, teamId: 4, conference: 'WEST', prediction: '4:1' },
-          { seriesId: 8, teamId: 4, conference: 'WEST', prediction: '4:1' },
-        ],
-        semiFinals: [
-          { seriesId: 9, teamId: 1, conference: 'EAST', prediction: '4:1' },
-          { seriesId: 10, teamId: 1, conference: 'EAST', prediction: '4:1' },
-          { seriesId: 11, teamId: 4, conference: 'WEST', prediction: '4:1' },
-          { seriesId: 12, teamId: 4, conference: 'WEST', prediction: '4:1' },
-        ],
-        conferenceFinals: [
-          { seriesId: 13, teamId: 1, conference: 'EAST', prediction: '4:1' },
-          { seriesId: 14, teamId: 4, conference: 'WEST', prediction: '4:1' },
-        ],
-        finals: {
-          seriesId: 15,
-          teamId: 1,
-          prediction: '4:1',
-        },
-      },
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: {},
-    },
-  },
-  {
-    description: 'Get Playoffs Daily picks',
-    request: {
-      requestURL: '/api/v1/predictions/playoffs/daily',
-      requestMethod: 'GET',
-      body: {},
-      queryParams: {},
-    },
-    response: {
-      statusCode: 200,
-      response: {
-        homeTeam: [
+        year: 2020,
+        sport: 'basketball', //we're just gonna hard code basketball so u dont need to check tbh
+        playoff: [
           {
-            matchId: 1,
-            teamId: 1,
-            teamName: 'Toronto Raptors',
-            conference: 'EAST',
-          },
-          {
-            matchId: 2,
-            teamId: 3,
-            teamName: 'Los Angeles Lakers',
-            conference: 'WEST',
+            id: 1,
+            team: 1,
           },
         ],
-        awayTeam: [
-          {
-            matchId: 1,
-            teamId: 2,
-            teamName: 'Boston Celtics',
-            conference: 'EAST',
-          },
-          {
-            matchId: 2,
-            teamId: 4,
-            teamName: 'Houston Rockets',
-            conference: 'WEST',
-          },
-        ],
-      },
-    },
-  },
-  {
-    description: 'Update Playoffs Daily picks',
-    request: {
-      requestURL: '/api/v1/predictions/playoffs/daily',
-      requestMethod: 'PUT',
-      body: {
-        dailyPicks: [
-          { matchId: 1, teamId: 1 },
-          { matchId: 2, teamId: 3 },
-        ],
+        mvp: {
+          id: 1,
+          player: 4,
+        },
+        rookie: {
+          id: 1,
+          player: 4,
+        },
       },
       queryParams: {},
     },
     response: {
+      // response is empty but bacjend updates everyones ACS score
+      // maybe + 20 for every correct prediction
+      // no drop if its wrong
+      // also set every prediction modified to is_locked:true
       statusCode: 200,
       response: {},
     },

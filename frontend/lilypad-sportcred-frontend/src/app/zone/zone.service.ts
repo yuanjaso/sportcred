@@ -3,7 +3,7 @@ import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { playersURL, sportsURL, teamsURL } from '../../global/api.types';
 import { HttpClientWrapper } from '../http/http-client-wrapper';
-import { PostSearch, SearchResults, UserSearch } from './zone.types';
+import { Player, PostSearch, SearchResults, UserSearch } from './zone.types';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,8 +14,8 @@ export class ZoneService {
   constructor(private http: HttpClientWrapper) {}
 
   /* HTTP REQUESTS*/
-  getAllPlayers() {
-    return this.http.get(playersURL);
+  getAllPlayers(is_rookie: boolean): Observable<Player[]> {
+    return this.http.get(playersURL, { is_rookie });
   }
   getAllTeams() {
     return this.http.get(teamsURL);

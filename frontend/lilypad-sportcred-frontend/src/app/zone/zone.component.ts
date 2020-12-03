@@ -55,7 +55,7 @@ export class ZoneComponent implements OnInit {
       .pipe(first((players) => players === undefined))
       .subscribe(() => {
         console.log('fetching players');
-        this.store.dispatch(actions.getAllPlayers());
+        this.store.dispatch(actions.getAllPlayers({ rookies: false }));
       });
     this.store
       .select(selectors.selectTeams)

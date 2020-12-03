@@ -1,0 +1,18 @@
+@import "../../../../../global/fonts";
+div.host {
+  background-color: $darkgrey;
+  height: 100%;
+}
+.mat-tab-group {
+  height: 100%;
+}
+::ng-deep .mat-tab-body-wrapper {
+  height: 100%;
+  background-color: $darkgrey;
+}
+.prediction-body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
