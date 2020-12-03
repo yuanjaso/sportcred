@@ -5,9 +5,7 @@ import { first, tap } from 'rxjs/operators';
 import { selectUserInfo } from '../../../../auth/store/selectors';
 import { AppState } from '../../../../store/reducer';
 import {
-  getPredictions,
-  lockInResults,
-  updateUserPredictions,
+  getPredictions
 } from './store/picks.actions';
 @Component({
   selector: 'app-picks',
