@@ -108,24 +108,17 @@ class PredictionViewSet(viewsets.ViewSet):
                 )
 
             # Saves the prediction in the database.
-            if len(MvpPrediction.objects.filter(pk=id).values()) == 0:
-                return Response(
-                    {
-                        "details": "The question id you gave for mvp is not in the database."
-                    },
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            get_parent_id = MvpPredictionChoice.objects.filter(
-                predicter=request.user.id, predicting_for_id=id
+            prediction = MvpPredictionChoice.objects.filter(
+                predicter=request.user.profile,
+                predicting_for_id=MvpPrediction.objects.get(pk=id),
             )
-            if len(get_parent_id) == 0:
+            if len(prediction) == 0:
                 mvp_prediction = MvpPredictionChoice.objects.create(
                     player_id=player, predicter_id=request.user.id, predicting_for_id=id
                 )
                 mvp_prediction.save()
             else:
-                get_parent_id.update(player_id=player)
+                prediction.update(player_id=player)
 
         # Checks if the user passed in information for rookie.
         if "rookie" in keys:
