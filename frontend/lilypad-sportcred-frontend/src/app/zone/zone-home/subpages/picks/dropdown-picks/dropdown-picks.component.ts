@@ -51,6 +51,9 @@ export class DropdownPicksComponent
   prevMvp;
   prevRookie;
   isMissingPicks: boolean = false;
+  // Outcome Picks
+  correctMvp: string;
+  correctRookie: string;
 
   constructor(
     private store: Store<AppState>,
@@ -99,6 +102,8 @@ export class DropdownPicksComponent
         this.year = predictions.year;
         this.sport = predictions.sport;
         this.predictions = predictions;
+        this.correctMvp = this.predictions.mvp.correct_player_name;
+        this.correctRookie = this.predictions.rookie.correct_player_name;
 
         if (!this.isAdmin) {
           this.mvp = predictions.mvp.player;
@@ -154,6 +159,40 @@ export class DropdownPicksComponent
           })
         );
       }
+    } else {
+      this.showPrevAdminLockIn();
+    }
+  }
+
+  showPrevAdminLockIn(): void {
+    if (this.correctMvp) {
+      // MVP
+      this.subscription.add(
+        this.players$.subscribe((data) => {
+          if (data) {
+            // Set value of form to prev mvp
+            this.prevMvp = data.find(
+              (mvp) => mvp.id === this.predictions.mvp.correct_player
+            );
+            this.form.get('mvp').setValue(this.prevMvp.id);
+          }
+        })
+      );
+    }
+
+    if (this.correctRookie) {
+      // Rookie
+      this.subscription.add(
+        this.rookies$.subscribe((data) => {
+          if (data) {
+            // Set value of form to prev rookie
+            this.prevRookie = data.find(
+              (rookie) => rookie.id === this.predictions.rookie.correct_player
+            );
+            this.form.get('rookie').setValue(this.prevRookie.id);
+          }
+        })
+      );
     }
   }
 
@@ -171,7 +210,11 @@ export class DropdownPicksComponent
       this.showUpdateSnackBar('Successfully Updated');
     } else {
       // Cannot lock in
-      this.showUpdateSnackBar('Lock In Time Over');
+      if (!this.isAdmin) {
+        this.showUpdateSnackBar('Lock In Time Over');
+      } else {
+        this.showUpdateSnackBar('Cannot Change Results After Lock In');
+      }
     }
   }
 

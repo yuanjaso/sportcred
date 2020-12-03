@@ -343,7 +343,7 @@ class Prediction(models.Model):
         if mvp["correct_player"] is None:
             mvp["correct_player_name"] = None
         else:
-            mvp["corect_player_name"] = (
+            mvp["correct_player_name"] = (
                 Player.objects.filter(id=mvp["correct_player"]).values()[0][
                     "first_name"
                 ]
@@ -389,7 +389,7 @@ class Prediction(models.Model):
         if roty["correct_player"] is None:
             roty["correct_player_name"] = None
         else:
-            roty["corect_player_name"] = (
+            roty["correct_player_name"] = (
                 Player.objects.filter(id=roty["correct_player"]).values()[0][
                     "first_name"
                 ]

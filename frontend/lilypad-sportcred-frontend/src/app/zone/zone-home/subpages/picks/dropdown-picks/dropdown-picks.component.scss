@@ -9,6 +9,15 @@
   justify-content: center;
 }
 
+.final-results {
+  margin: 3rem 3rem 0rem 3rem;
+  color: white;
+  .final-reulst-title {
+    font-size: 25px;
+    text-decoration: underline;
+  }
+}
+
 .mat-form-field {
   background: $white;
   margin: 1.5rem;
