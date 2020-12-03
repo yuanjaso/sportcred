@@ -1,3 +1,9 @@
+<div class="final-results" *ngIf="correctMvp && correctRookie && !isAdmin">
+  <p>FINAL RESULTS</p>
+  <p>MVP: {{ correctMvp }}</p>
+  <p>ROOKIE OF THE YEAR: {{ correctRookie }}</p>
+</div>
+
 <div *ngIf="isMissingPicks">
   <p class="unsaved-indicator">
     <i class="material-icons">warning</i>
