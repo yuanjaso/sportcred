@@ -66,6 +66,12 @@
     width: 100%;
     margin-bottom: -1.34375em !important;
   }
+  &.matched {
+    border: 1px solid green;
+  }
+  &.notmatched {
+    border: 1px solid red;
+  }
 }
 .team-item:after {
   content: "";

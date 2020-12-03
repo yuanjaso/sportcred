@@ -44,7 +44,7 @@ export class TreePicksComponent
   // this will give all you need to get the user's picks from the past
   existingPlayoffPredictions: {
     [round in PlayoffRound]?: PlayoffPrediction;
-  } = {};
+  } = undefined;
   // use this to determine who is on the first round , it is mocked but fine for the minimum viable product
   firstRound: {
     [round in PlayoffRound]?: {
@@ -117,7 +117,11 @@ export class TreePicksComponent
       year: this.year,
       sport: this.sport,
       playoff: Object.keys(this.form.controls).reduce((acc, key) => {
-        if (this.form.controls[key].value === null) return acc;
+        if (
+          this.form.controls[key].value === '' ||
+          this.form.controls[key].value === null
+        )
+          return acc;
         let payload = {
           id: this.existingPlayoffPredictions[key].id,
           team: this.form.controls[key].value,
@@ -141,6 +145,18 @@ export class TreePicksComponent
     }
   }
 
+  // not applicable for regular page
+  private setLockedInOutcomes(): void {
+    for (const key of Object.keys(this.existingPlayoffPredictions)) {
+      this.form.controls[key].setValue(
+        this.existingPlayoffPredictions[key].correct_team
+      );
+      if (this.existingPlayoffPredictions[key].is_locked) {
+        this.form.controls[key].disable();
+      }
+    }
+  }
+
   private setPreviousPrediction(): void {
     const sub$ = this.store.select(selectPredictions).pipe(
       filter((data) => data !== undefined),
@@ -156,16 +172,28 @@ export class TreePicksComponent
           this.existingPlayoffPredictions[round.title] = round;
         });
 
-        //set the saved predictions into tree
-        for (let key of Object.keys(this.existingPlayoffPredictions)) {
-          this.form.controls[key].setValue(
-            this.existingPlayoffPredictions[key].team
-          );
-          if (this.existingPlayoffPredictions[key].is_locked)
-            this.form.controls[key].disable();
+        console.log(this.existingPlayoffPredictions);
+        // set the saved predictions into tree
+        if (!this.isAdmin) {
+          this.setPrevSelections();
+        } else {
+          this.setLockedInOutcomes();
         }
       })
     );
     this.subscription.add(sub$.subscribe());
+  }
+
+  // sets the previous saved selections if the user has any
+  // not applicable for admin page
+  private setPrevSelections(): void {
+    for (const key of Object.keys(this.existingPlayoffPredictions)) {
+      this.form.controls[key].setValue(
+        this.existingPlayoffPredictions[key].team
+      );
+      if (this.existingPlayoffPredictions[key].is_locked) {
+        this.form.controls[key].disable();
+      }
+    }
   }
 }

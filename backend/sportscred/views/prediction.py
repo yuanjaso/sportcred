@@ -314,6 +314,11 @@ class PredictionViewSet(viewsets.ViewSet):
                             profile = choice.predicter
                             print("added to" + profile.user.username)
                             PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+                        else:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(-ACS_DELTA, profile, sport)
             # set mvp
             if "mvp" in keys:
                 outcome = request.data["mvp"]
@@ -332,6 +337,11 @@ class PredictionViewSet(viewsets.ViewSet):
                             profile = choice.predicter
                             print("added to" + profile.user.username)
                             PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+                        else:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(-ACS_DELTA, profile, sport)
 
             # set rookie of the year
             if "rookie" in keys:
@@ -352,6 +362,11 @@ class PredictionViewSet(viewsets.ViewSet):
                             profile = choice.predicter
                             print("added to" + profile.user.username)
                             PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+                        else:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(-ACS_DELTA, profile, sport)
 
             return Response()
         except Exception as e:
