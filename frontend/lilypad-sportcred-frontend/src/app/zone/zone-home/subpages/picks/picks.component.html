@@ -1,14 +1,15 @@
+<!-- {{ predictions$ | async | json }} -->
 <div class="host">
-    <mat-tab-group>
-        <mat-tab  label="Playoff Prediction">
-            <section class="prediction-body">
-                <app-tree-picks></app-tree-picks>
-            </section>
-        </mat-tab>
-        <mat-tab  label="Individual Prediction">
-            <section class="prediction-body">
-                <app-dropdown-picks></app-dropdown-picks>
-            </section>
-        </mat-tab>
-    </mat-tab-group> 
+  <mat-tab-group>
+    <mat-tab label="Playoff Prediction">
+      <section class="prediction-body">
+        <app-tree-picks [isAdmin]="isAdmin"></app-tree-picks>
+      </section>
+    </mat-tab>
+    <mat-tab label="Individual Prediction">
+      <section class="prediction-body">
+        <app-dropdown-picks [isAdmin]="isAdmin"></app-dropdown-picks>
+      </section>
+    </mat-tab>
+  </mat-tab-group>
 </div>

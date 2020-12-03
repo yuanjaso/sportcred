@@ -1,0 +1,72 @@
+@import "../../../../../../global/fonts.scss";
+
+.picks-container {
+  background: $darkgrey;
+  height: 30rem;
+  width: 50vw;
+  margin: 1.5rem;
+  display: block;
+  justify-content: center;
+}
+
+.final-results {
+  margin: 3rem 3rem 0rem 3rem;
+  color: white;
+  .final-reulst-title {
+    font-size: 25px;
+    text-decoration: underline;
+  }
+}
+
+.mat-form-field {
+  background: $white;
+  margin: 1.5rem;
+  height: 4rem;
+  width: 50vw;
+  padding: 0.5rem;
+  border-radius: 15px;
+}
+
+mat-form-field mat-label {
+  font-size: 40px;
+}
+
+.saveBtn {
+  @extend .font-secondary;
+  width: 100px;
+  margin: 1.5rem;
+  transition: 0.5s;
+  opacity: 1;
+}
+
+.saveBtn:hover {
+  opacity: 0.8;
+}
+
+.unsaved-indicator {
+  font-size: 30px;
+  margin: 3rem 3rem 0rem 3rem;
+  color: $accent;
+  border-color: $accent;
+  border-style: outset;
+  border-width: 2px;
+  padding: 0.5rem;
+  width: 30%;
+  text-align: center;
+  line-height: 30px;
+}
+
+.material-icons {
+  font-size: 30px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 700px) {
+  mat-form-field mat-label {
+    font-size: 20px;
+  }
+  .unsaved-indicator {
+    width: 50%;
+    font-size: 20px;
+  }
+}

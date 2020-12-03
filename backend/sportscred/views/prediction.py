@@ -108,19 +108,17 @@ class PredictionViewSet(viewsets.ViewSet):
                 )
 
             # Saves the prediction in the database.
-            get_parent_id = MvpPredictionChoice.objects.filter(
-                predictionchoice_ptr_id=id
+            prediction = MvpPredictionChoice.objects.filter(
+                predicter=request.user.profile,
+                predicting_for_id=MvpPrediction.objects.get(pk=id),
             )
-            if len(get_parent_id) == 0:
+            if len(prediction) == 0:
                 mvp_prediction = MvpPredictionChoice.objects.create(
-                    predictionchoice_ptr_id=id,
-                    player_id=player,
-                    predicter_id=request.user.id,
-                    predicting_for_id=id,
+                    player_id=player, predicter_id=request.user.id, predicting_for_id=id
                 )
                 mvp_prediction.save()
             else:
-                get_parent_id.update(player_id=player)
+                prediction.update(player_id=player)
 
         # Checks if the user passed in information for rookie.
         if "rookie" in keys:
@@ -159,16 +157,21 @@ class PredictionViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+            if len(RotyPrediction.objects.filter(pk=id).values()) == 0:
+                return Response(
+                    {
+                        "details": "The question id you gave for rookie is not in the database."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
             # Saves the prediction in the database.
             get_parent_id = RookiePredictionChoice.objects.filter(
-                predictionchoice_ptr_id=id
+                predicter=request.user.id, predicting_for_id=id
             )
             if len(get_parent_id) == 0:
                 rookie_prediction = RookiePredictionChoice.objects.create(
-                    predictionchoice_ptr_id=id,
-                    player_id=player,
-                    predicter_id=request.user.id,
-                    predicting_for_id=id,
+                    player_id=player, predicter_id=request.user.id, predicting_for_id=id
                 )
                 rookie_prediction.save()
             else:
@@ -206,16 +209,21 @@ class PredictionViewSet(viewsets.ViewSet):
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 
+                if len(PlayOffPrediction.objects.filter(pk=id).values()) == 0:
+                    return Response(
+                        {
+                            "details": "The question id you gave for playoff is not in the database."
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
                 # Saves the prediction in the database.
                 get_parent_id = PlayOffPredictionChoice.objects.filter(
-                    predictionchoice_ptr_id=id
+                    predicter=request.user.id, predicting_for_id=id
                 )
                 if len(get_parent_id) == 0:
                     playoff_prediction = PlayOffPredictionChoice.objects.create(
-                        predictionchoice_ptr_id=id,
-                        team_id=team,
-                        predicter_id=request.user.id,
-                        predicting_for_id=id,
+                        team_id=team, predicter_id=request.user.id, predicting_for_id=id
                     )
                     playoff_prediction.save()
                 else:
@@ -299,13 +307,18 @@ class PredictionViewSet(viewsets.ViewSet):
                         predicting_for_id=outcome["id"]
                     )
                     for choice in prediction_choices:
-                        print (playoff.correct_team.id)
-                        print (choice.team.id)
+                        print(playoff.correct_team.id)
+                        print(choice.team.id)
                         if playoff.correct_team == choice.team:
                             # add acs to appropriate user
                             profile = choice.predicter
                             print("added to" + profile.user.username)
                             PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+                        else:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(-ACS_DELTA, profile, sport)
             # set mvp
             if "mvp" in keys:
                 outcome = request.data["mvp"]
@@ -324,6 +337,11 @@ class PredictionViewSet(viewsets.ViewSet):
                             profile = choice.predicter
                             print("added to" + profile.user.username)
                             PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+                        else:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(-ACS_DELTA, profile, sport)
 
             # set rookie of the year
             if "rookie" in keys:
@@ -344,11 +362,14 @@ class PredictionViewSet(viewsets.ViewSet):
                             profile = choice.predicter
                             print("added to" + profile.user.username)
                             PredictionAcsHistory.create(ACS_DELTA, profile, sport)
+                        else:
+                            # add acs to appropriate user
+                            profile = choice.predicter
+                            print("added to" + profile.user.username)
+                            PredictionAcsHistory.create(-ACS_DELTA, profile, sport)
 
             return Response()
         except Exception as e:
             print(e)
-            return Response(
-                {"details": str(e)},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return Response({"details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+

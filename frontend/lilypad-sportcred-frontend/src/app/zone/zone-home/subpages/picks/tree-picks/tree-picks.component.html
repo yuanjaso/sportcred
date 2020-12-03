@@ -1,1 +1,108 @@
-<p>tree-picks works!</p>
+<!-- <p>year: {{ year }}</p>
+<p>sport: {{ sport }}</p>
+
+<p>finals {{ existingPlayoffPredictions.finals | json }}</p>
+
+<p>west conf {{ existingPlayoffPredictions.west_conference_finals | json }}</p>
+
+<p>east conf {{ existingPlayoffPredictions.east_conference_finals | json }}</p> -->
+
+<form class="tournament-container" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="tournament-headers">
+    <p>Round of 16</p>
+    <p>Quarter-Finals</p>
+    <p>Semi-Finals</p>
+    <p>Final</p>
+    <p>Winner</p>
+  </div>
+
+  <div class="tournament-brackets" *ngIf="form != undefined && this.existingPlayoffPredictions != undefined">
+    <ul class="bracket bracket-1">
+      <ng-container *ngFor='let round of firstRound | keyvalue; let i=index;' >
+        <li class="team-item" >
+          <p>{{round.value.home.name}}</p>
+        </li>
+        <li class="team-item">
+          <p>{{round.value.away.name}}</p>
+        </li>
+      </ng-container>
+    </ul>  
+    <ul class="bracket bracket-2">
+      <li class="team-item" *ngFor='let li of [].constructor(8); let i = index'
+      [ngClass]=" this.existingPlayoffPredictions[RoundNames[i]].correct_team 
+      !== this.existingPlayoffPredictions[RoundNames[i]].team && !isAdmin
+       ? 'notmatched' : 'matched'">
+        <mat-form-field appearance="fill"
+       >
+          <mat-label>Team</mat-label>
+          <mat-select  [formControlName]="RoundNames[i]" >
+            <mat-option *ngFor="let team of competingTeams; let i=index; "[value]="team.id">
+              {{team.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </li>   
+    </ul>  
+    <ul class="bracket bracket-3">
+      <li class="team-item" *ngFor='let li of  [].constructor(4); let i = index' 
+      [ngClass]=" this.existingPlayoffPredictions[RoundNames[i + 8]].correct_team 
+      !== this.existingPlayoffPredictions[RoundNames[i + 8]].team && !isAdmin
+       ? 'notmatched' : 'matched'">
+        <mat-form-field appearance="fill">
+          <mat-label>Team</mat-label>
+          <mat-select  [formControlName]="RoundNames[i + 8]">
+            <mat-option *ngFor="let team of competingTeams; let i=index; "[value]="team.id">
+              {{team.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </li>  
+    </ul>  
+    <ul class="bracket bracket-4">
+      <li class="team-item" *ngFor='let li of [].constructor(2); let i = index' 
+      [ngClass]=" this.existingPlayoffPredictions[RoundNames[i + 12]].correct_team 
+      !== this.existingPlayoffPredictions[RoundNames[i + 12]].team && !isAdmin
+       ? 'notmatched' : 'matched'"
+         >
+        
+        <mat-form-field appearance="fill" >
+          <mat-label>Team</mat-label>
+          <mat-select [formControlName]="RoundNames[i + 12]">
+            <mat-option *ngFor="let team of competingTeams; let i=index; "[value]="team.id">
+              {{team.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </li>  
+    </ul>  
+
+    <ul class="bracket bracket-5">
+      <li class="team-item"[ngClass]=" this.existingPlayoffPredictions[RoundNames[14]].correct_team 
+      !== this.existingPlayoffPredictions[RoundNames[14]].team && !isAdmin
+       ? 'notmatched' : 'matched'"
+      >
+        <mat-form-field appearance="fill">
+          <mat-label>Team</mat-label>
+          <mat-select  [formControlName]="RoundNames[14]">
+            <mat-option *ngFor="let team of competingTeams; let i=index; "[value]="team.id">
+              {{team.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </li>  
+    </ul>  
+  </div>
+  <div class="bubble">
+    <div>year: {{ year }}</div>
+    <div>sport: {{ sport }}</div>
+
+    <!-- if user mode, disable submit buttom when its locked -->
+    <button 
+    mat-raised-button type="submit"
+    
+    [disabled]=" !isAdmin && this.existingPlayoffPredictions['finals'].is_locked"
+    >
+      {{ isAdmin? 'Lock In Results' : 'Submit'}}
+    </button>
+  </div>
+</form>

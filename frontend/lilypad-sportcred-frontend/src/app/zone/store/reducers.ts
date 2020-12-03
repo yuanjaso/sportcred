@@ -6,11 +6,13 @@ export interface ZoneState {
   allTeams: types.Team[];
   allPlayers: types.Player[];
   allSports: types.Sport[];
+  rookies: types.Player[];
 }
 export const initialState: ZoneState = {
   allTeams: undefined,
   allPlayers: undefined,
   allSports: undefined,
+  rookies: undefined,
 };
 
 const reducer = createReducer<ZoneState>(
@@ -24,12 +26,16 @@ const reducer = createReducer<ZoneState>(
   on(actions.setAllSports, (state, { sports }) => {
     return { ...state, allSports: sports };
   }),
+  on(actions.setRookies, (state, { rookies }) => {
+    return { ...state, rookies };
+  }),
   on(actions.clearAllZoneData, (state) => {
     return {
       ...state,
       allTeams: undefined,
       allplayers: undefined,
       allSports: undefined,
+      rookies: undefined,
     };
   })
 );

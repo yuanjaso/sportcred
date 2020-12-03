@@ -7,7 +7,7 @@ import {
   map,
   mergeMap,
   switchMap,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { ZoneService } from '../zone.service';
 import { Player, Sport, Team } from '../zone.types';
@@ -50,14 +50,13 @@ export class ZoneEffects {
   getAllPlayers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.getAllPlayers),
-      mergeMap(() =>
-        this.zoneService.getAllPlayers().pipe(
+      mergeMap(({ rookies }) =>
+        this.zoneService.getAllPlayers(rookies).pipe(
           first(),
           map((players: Player[]) => {
-            return {
-              type: actions.setAllPlayers.type,
-              players,
-            };
+            return rookies
+              ? actions.setRookies({ rookies: players })
+              : actions.setAllPlayers({ players });
           }),
           catchError(() => {
             return EMPTY;

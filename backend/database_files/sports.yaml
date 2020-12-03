@@ -21,16 +21,68 @@ Sports:
     name: "Hockey"
 Teams:
   -
-    full_name: "Los Angeles Lakers"
-    short_name: "Lakers"
+    full_name: "Milwaukee Bucks"
+    short_name: "bucks"
+    sport: "Basketball"
+  - 
+    full_name: "Orlando Magic"
+    short_name: "magic"
     sport: "Basketball"
   - 
     full_name: "Toronto Raptors"
-    short_name: "Raptors"
+    short_name: "raptors"
     sport: "Basketball"
   - 
-    full_name: "Golden State Warriors"
-    short_name: "Warriors"
+    full_name: "Brooklyn Nets"
+    short_name: "nets"
+    sport: "Basketball"
+  - 
+    full_name: "Boston Celtics"
+    short_name: "celtics"
+    sport: "Basketball"
+  - 
+    full_name: "Philadelphia 76ers"
+    short_name: "76ers"
+    sport: "Basketball"
+  - 
+    full_name: "Indiana Pacers"
+    short_name: "pacers"
+    sport: "Basketball"
+  - 
+    full_name: "Miami Heat"
+    short_name: "heat"
+    sport: "Basketball"
+  - 
+    full_name: "Los Angeles Lakers"
+    short_name: "lakers"
+    sport: "Basketball"
+  - 
+    full_name: "Portland Trailblazers"
+    short_name: "trailblazers"
+    sport: "Basketball"
+  - 
+    full_name: "Los Angeles Clippers"
+    short_name: "clippers"
+    sport: "Basketball"
+  - 
+    full_name: "Dallas Mavericks"
+    short_name: "mavericks"
+    sport: "Basketball"
+  - 
+    full_name: "Denver nuggets"
+    short_name: "nuggets"
+    sport: "Basketball"
+  - 
+    full_name: "Utah Jazz"
+    short_name: "jazz"
+    sport: "Basketball"
+  - 
+    full_name: "Houston Rockets"
+    short_name: "rockets"
+    sport: "Basketball"
+  - 
+    full_name: "Oklahoma City Thunder"
+    short_name: "rockets"
     sport: "Basketball"
   - 
     full_name: "Toronto Blue Jays"
@@ -53,9 +105,6 @@ Players:
     first_name: "Kyle"
     last_name: "Lowry"
     team: "Toronto Raptors"
-  -
-    first_name: "Kyle"
-    last_name: "Lowry"
-    team: "Toronto Maple Leafs"
+
 
     
