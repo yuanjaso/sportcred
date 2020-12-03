@@ -30,4 +30,19 @@ Best/Worst Moments:
 - it was great seeing stuff we planned at the start of the semester finally show up
 
 Unfinished tasks:
-TODO:
+
+We finished everything we aimed to achieve for this sprint but we still have several tasks in our backlog
+
+- LIL-93 (bug)Make sure the trivia questions/answers pairs are correct
+- LIL-100 Move viewing Profile to Dialog
+- LIL-65 Zone Search Bar
+- LIL-68 create a view (frontend for the zone)
+- LIL-25 Create posts (the zone)
+- LIL-26 Comment section for the zone
+- LIL-27 Agree or disagree with posts
+- LIL-18 Implement history page for picks and predictions
+- LIL-91 Improve UI/UX of user/zone search functionality
+- LIL-118 Add acs history for debates
+- LIL-119 add rival acs to multiplayer trivia 
+- LIL-114 implement an admin view to create a new prediction topics
+

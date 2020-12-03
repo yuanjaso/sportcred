@@ -35,6 +35,8 @@ Admin users should be able to lock in a prediction result and that should automa
 | LIL-127 (Front-end ROTY Predictions)                                                  | Maggie Dang   |
 | LIL-128 (Fix a bug when second user can't save their prediction)                      | Qing Yu Lan   |
 | LIL-129 (docs for sprint4)                                                            | Michael Do    |
+| LIL-130 (Front-end Views)                                                             | Michael Do    |
+| LIL-131 (tree like frontend view)                                                     | Jason Yuan    |
 
 
 <b>Team Capacity:</b><br>
