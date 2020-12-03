@@ -44,7 +44,7 @@ export class TreePicksComponent
   // this will give all you need to get the user's picks from the past
   existingPlayoffPredictions: {
     [round in PlayoffRound]?: PlayoffPrediction;
-  } = {};
+  } = undefined;
   // use this to determine who is on the first round , it is mocked but fine for the minimum viable product
   firstRound: {
     [round in PlayoffRound]?: {
@@ -156,6 +156,7 @@ export class TreePicksComponent
           this.existingPlayoffPredictions[round.title] = round;
         });
 
+        console.log(this.existingPlayoffPredictions);
         //set the saved predictions into tree
         if (!this.isAdmin) {
           this.setPrevSelections();
