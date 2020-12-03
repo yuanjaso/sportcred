@@ -197,7 +197,6 @@ export class DropdownPicksComponent
   }
 
   submitPicks(): void {
-    console.log(this.predictions);
     if (!this.predictions.mvp.is_locked && !this.predictions.rookie.is_locked) {
       this.mvp = Number(this.form.controls.mvp.value);
       this.rookie = Number(this.form.controls.rookie.value);
@@ -216,7 +215,6 @@ export class DropdownPicksComponent
       } else {
         this.showUpdateSnackBar('Cannot Change Results After Lock In');
       }
-      
     }
   }
 
