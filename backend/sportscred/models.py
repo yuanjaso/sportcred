@@ -336,7 +336,6 @@ class Prediction(models.Model):
 
         # Gets MVP information
         mvp_id = MvpPrediction.objects.filter(year=year).values()
-        print(mvp_id)
         mvp["title"] = mvp_id[0]["title"]
         mvp["id"] = mvp_id[0]["id"]
         mvp["is_locked"] = mvp_id[0]["is_locked"]
