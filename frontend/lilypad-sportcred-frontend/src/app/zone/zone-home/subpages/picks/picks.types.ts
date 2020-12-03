@@ -20,23 +20,24 @@ export type PlayoffPrediction = {
   correct_team_name: string | null;
 };
 
-export type PlayoffRound =
-  | 'east_first_round-1-8'
-  | 'east_first_round-2-7'
-  | 'east_first_round-3-6'
-  | 'east_first_round-4-5'
-  | 'west_first_round-1-8'
-  | 'west_first_round-2-7'
-  | 'west_first_round-3-6'
-  | 'west_first_round-4-5'
-  | 'east_second_round_A'
-  | 'east_second_round_B'
-  | 'west_second_round_A'
-  | 'west_second_round_B'
-  | 'east_conference_finals'
-  | 'west_conference_finals'
-  | 'finals';
-
+export type PlayoffRound = typeof RoundNames[number];
+export const RoundNames = [
+  'east_first_round_1-8',
+  'east_first_round_2-7',
+  'east_first_round_3-6',
+  'east_first_round_4-5',
+  'west_first_round_1-8',
+  'west_first_round_2-7',
+  'west_first_round_3-6',
+  'west_first_round_4-5',
+  'east_second_round_A',
+  'east_second_round_B',
+  'west_second_round_A',
+  'west_second_round_B',
+  'east_conference_finals',
+  'west_conference_finals',
+  'finals',
+];
 // ? left this as an interface as this might be something worth extending later
 export interface AwardPrediction {
   id: number;
