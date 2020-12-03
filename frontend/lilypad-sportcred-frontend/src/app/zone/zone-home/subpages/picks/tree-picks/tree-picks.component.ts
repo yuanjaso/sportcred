@@ -145,6 +145,18 @@ export class TreePicksComponent
     }
   }
 
+  // not applicable for regular page
+  private setLockedInOutcomes(): void {
+    for (const key of Object.keys(this.existingPlayoffPredictions)) {
+      this.form.controls[key].setValue(
+        this.existingPlayoffPredictions[key].correct_team
+      );
+      if (this.existingPlayoffPredictions[key].is_locked) {
+        this.form.controls[key].disable();
+      }
+    }
+  }
+
   private setPreviousPrediction(): void {
     const sub$ = this.store.select(selectPredictions).pipe(
       filter((data) => data !== undefined),
@@ -161,24 +173,27 @@ export class TreePicksComponent
         });
 
         console.log(this.existingPlayoffPredictions);
-        //set the saved predictions into tree
+        // set the saved predictions into tree
         if (!this.isAdmin) {
           this.setPrevSelections();
+        } else {
+          this.setLockedInOutcomes();
         }
       })
     );
     this.subscription.add(sub$.subscribe());
   }
 
-  //sets the previous saved selections if the user has any
+  // sets the previous saved selections if the user has any
   // not applicable for admin page
-  private setPrevSelections() {
-    for (let key of Object.keys(this.existingPlayoffPredictions)) {
+  private setPrevSelections(): void {
+    for (const key of Object.keys(this.existingPlayoffPredictions)) {
       this.form.controls[key].setValue(
         this.existingPlayoffPredictions[key].team
       );
-      if (!this.isAdmin && this.existingPlayoffPredictions[key].is_locked)
+      if (this.existingPlayoffPredictions[key].is_locked) {
         this.form.controls[key].disable();
+      }
     }
   }
 }
