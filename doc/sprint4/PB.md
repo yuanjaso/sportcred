@@ -73,7 +73,7 @@ As a analyst, I want others to be able to see my picks and prediction history so
 
 When on a profile, there should be a button to see their past and current picks and predictions.
 
-## **Priority** Lowest | **Estimate** 8
+**Priority** Lowest | **Estimate** 8
 
 
 ### User Story
