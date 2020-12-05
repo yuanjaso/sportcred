@@ -94,3 +94,13 @@ given that i am an admin and on the admin dashboard, I should be able to create 
 
 **Priority** Lowest | **Estimate** 5
 
+
+### User Story
+
+As a user I want to be able to search for ANYTHING when I'm on the zone so that I can search for anything in a centralized location
+
+ ### Acceptance Criteria
+
+Given that I am on the zone, When I search for something, then I should see results from everywhere, including but not limited to; social posts, debates and people.
+
+**Priority** Medium | **Estimate** 4
