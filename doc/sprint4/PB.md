@@ -63,8 +63,6 @@ Given that I'm looking at a post, when I click agree, then the number of agreed 
 
 As a user, I want to be able to make a variety of picks and predictions regarding multiple areas of the sport
 
-**Priority** Lowest | **Estimate** 8
-
 ### User Story
 
 As a analyst, I want others to be able to see my picks and prediction history so that I can show off my credibility
