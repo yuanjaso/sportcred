@@ -61,15 +61,7 @@ Given that I'm looking at a post, when I click agree, then the number of agreed 
 
 ### Epic
 
-As a sports fan, I want to be able to make some picks and predictions for how the season will go so that I can raise my ACS score and show others my credibility
-
-### Acceptance Criteria
-
-When in picks and predictions, I should be able to see a list of events that will happen in the future.
-
-When choosing what to pick, I want to be able to make predictions on match outcomes, MVPs, and rookie of the year
-
-When an outcome is finalized, my ACS score should automatically raise if I am correct.
+As a user, I want to be able to make a variety of picks and predictions regarding multiple areas of the sport
 
 **Priority** Lowest | **Estimate** 8
 
